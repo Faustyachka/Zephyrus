@@ -1,0 +1,76 @@
+package com.zephyrus.wind;
+
+import java.io.IOException;
+
+import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.annotation.WebServlet;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import com.zephyrus.wind.commands.interfaces.Command;
+import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.managers.CommandManager;
+import com.zephyrus.wind.managers.MessageManager;
+
+// The Main entry point
+
+@WebServlet("/MainServlet")
+public class MainServlet extends HttpServlet {
+	private static final long serialVersionUID = 1L;
+
+    public MainServlet() {
+        super();
+    }
+
+
+    // for initial parameters 
+	public void init(ServletConfig config) throws ServletException {
+		
+	}
+
+	private void processRequest(HttpServletRequest request, HttpServletResponse response)
+		    throws ServletException, IOException {
+		        String page = null;
+		        try{
+		            //defining the command from jsp page
+		        	CommandManager commandManager = new CommandManager();
+		            Command command=commandManager.getCommand(request);
+		            
+		            //calling execute() on Command, method returns the answer page
+		            page = command.execute(request,response);    
+		            
+		        }catch (ServletException e){
+		            e.printStackTrace();
+		            //generating error message
+		            request.setAttribute("errorMessage", MessageManager.SERVLET_EXCEPTION_ERROR_MESSAGE);
+		            //calling error-jsp
+		            request.setAttribute("title", MessageManager.ERROR);
+		            page = Pages.MESSAGE_PAGE.getValue();
+		        }catch(IOException e){
+		            e.printStackTrace();
+		            request.setAttribute("errorMessage", MessageManager.IO_EXCEPTION_ERROR_MESSAGE);
+		            request.setAttribute("title", MessageManager.ERROR);
+		            page = Pages.MESSAGE_PAGE.getValue();
+		        }catch(Exception e){
+		        	e.printStackTrace();
+			        request.setAttribute("errorMessage", e.getMessage());
+			        request.setAttribute("title", MessageManager.ERROR);
+			        page = Pages.MESSAGE_PAGE.getValue();
+		        }
+		        //forwarding to answer page
+		        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
+		        dispatcher.forward(request, response);
+		    }
+
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		processRequest(request, response);
+	}
+
+}
