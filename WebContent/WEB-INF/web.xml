@@ -5,26 +5,26 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <filter>
-        <filter-name>SessionTimeOutFilter</filter-name>
-        <filter-class>com.zephyrus.wind.filters.SessionTimeOutFilter</filter-class>
-    </filter>
-    <filter-mapping>
-        <filter-name>SessionTimeOutFilter</filter-name>
-        <servlet-name>controller</servlet-name>
-    </filter-mapping>
-    <servlet>
-        <servlet-name>controller</servlet-name>
-        <servlet-class>com.zephyrus.wind.MainServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    <servlet-mapping>
-        <servlet-name>controller</servlet-name>
-        <url-pattern>/</url-pattern>
-        <url-pattern>/register</url-pattern>
-        <url-pattern>/order</url-pattern>
-        <url-pattern>/home</url-pattern>
-    </servlet-mapping>
-    <session-config>
-        <session-timeout>10</session-timeout>
-    </session-config>
+    <filter-name>SessionTimeOutFilter</filter-name>
+    <filter-class>com.zephyrus.wind.filters.SessionTimeOutFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionTimeOutFilter</filter-name>
+    <servlet-name>controller</servlet-name>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>controller</servlet-name>
+    <servlet-class>com.zephyrus.wind.MainServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>controller</servlet-name>
+    <url-pattern>/controller</url-pattern>
+    <url-pattern>/register</url-pattern>
+    <url-pattern>/order</url-pattern>
+    <url-pattern>/home</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>10</session-timeout>
+  </session-config>
 </web-app>

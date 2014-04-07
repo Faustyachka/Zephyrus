@@ -1,6 +1,8 @@
 package com.zephyrus.wind;
 
 import java.io.IOException;
+import java.util.LinkedHashMap;
+import java.util.Map;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletConfig;
@@ -10,6 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.google.gson.Gson;
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.managers.CommandManager;
@@ -17,7 +20,7 @@ import com.zephyrus.wind.managers.MessageManager;
 
 // The Main entry point
 
-@WebServlet("/MainServlet")
+
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -66,7 +69,15 @@ public class MainServlet extends HttpServlet {
 		    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+		Map<String, String> options = new LinkedHashMap<String, String>();
+	    options.put("value1", "label1");
+	    options.put("value2", "label2");
+	    options.put("value3", "label3");
+	    String json = new Gson().toJson(options);
+
+	    response.setContentType("application/json");
+	    response.setCharacterEncoding("UTF-8");
+	    response.getWriter().write(json);
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
