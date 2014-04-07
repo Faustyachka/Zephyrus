@@ -4,9 +4,9 @@ import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.zephyrus.commands.nosql.HomeCommand;
-import com.zephyrus.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.interfaces.Command;
+import com.zephyrus.wind.commands.nosql.HomeCommand;
+import com.zephyrus.wind.commands.nosql.NoCommand;
 
 public class CommandManager {
 
