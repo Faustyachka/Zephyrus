@@ -1,4 +1,4 @@
-package com.zephyrus.commands.nosql;
+package com.zephyrus.wind.commands.nosql;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;

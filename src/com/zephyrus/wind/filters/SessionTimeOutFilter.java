@@ -8,15 +8,12 @@ import javax.servlet.FilterConfig;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
-import javax.servlet.annotation.WebFilter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.managers.MessageManager;
 
-
-@WebFilter("/*")
 public class SessionTimeOutFilter implements Filter {
 
 FilterConfig fc = null;

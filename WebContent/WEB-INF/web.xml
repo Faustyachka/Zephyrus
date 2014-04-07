@@ -5,6 +5,7 @@
     <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <filter>
+
         <filter-name>SessionTimeOutFilter</filter-name>
         <filter-class>com.zephyrus.wind.filters.SessionTimeOutFilter</filter-class>
     </filter>
@@ -19,7 +20,8 @@
     </servlet>
     <servlet-mapping>
         <servlet-name>controller</servlet-name>
-        <url-pattern>/</url-pattern>
+<!--         <url-pattern>/</url-pattern> -->
+		<url-pattern>/controller</url-pattern>
         <url-pattern>/register</url-pattern>
         <url-pattern>/order</url-pattern>
         <url-pattern>/home</url-pattern>
@@ -27,4 +29,5 @@
     <session-config>
         <session-timeout>10</session-timeout>
     </session-config>
+
 </web-app>
