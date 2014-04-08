@@ -8,6 +8,7 @@ public class ProviderLocation {
 	    private double radius;
 	    private String name;
 
+	    
 	    public int getId() {
 	        return id;
 	    }

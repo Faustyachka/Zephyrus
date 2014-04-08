@@ -65,6 +65,7 @@ $(document).ready(function() {                           // When the HTML DOM is
         }
 
 
+        
         google.maps.event.addDomListener(window, 'load', initialize);
     </script>
         <script>

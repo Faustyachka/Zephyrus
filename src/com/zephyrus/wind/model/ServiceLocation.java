@@ -5,6 +5,7 @@ public class ServiceLocation {
 	    private String coordinates;
 	    private double latitude;
 	    private double longitude;
+	    
 
 	    public double getLongitude() {
 	        return longitude;

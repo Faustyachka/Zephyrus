@@ -10,7 +10,7 @@ public class DistanceCalculator {
 	public double calculateDistance(ProviderLocation providerLocation, ServiceLocation serviceLocation){
 
 
-        // –ассчитываем рассто€ние между точками
+        // Calculate the distance between points
         final double dlng = deg2rad(providerLocation.getLongitude() - serviceLocation.getLongitude());
         final double dlat = deg2rad(providerLocation.getLatitude() - serviceLocation.getLatitude());
         final double a = sin(dlat / 2) * sin(dlat / 2) + cos(deg2rad(serviceLocation.getLatitude()))

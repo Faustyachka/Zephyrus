@@ -37,6 +37,7 @@ public class MapingServlet extends HttpServlet {
         String latitude = null;
         String dainfor = null;
 
+        
         longitude = request.getParameter("longitude");
         latitude = request.getParameter("latitude");
 
