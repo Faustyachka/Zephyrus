@@ -8,18 +8,7 @@
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Mapping request</title>
-<script>
-$(document).ready(function() {                           // When the HTML DOM is ready loading, then execute the following function...
-    $('#somebutton').click(function() {                  // Locate HTML DOM element with ID "somebutton" and assign the following function to its "click" event...
-        $.get('home', function(responseJson) {    // Execute Ajax GET request on URL of "someservlet" and execute the following function with Ajax response JSON...
-            var $ul = $('<ul>').appendTo($('#somediv')); // Create HTML <ul> element and append it to HTML DOM element with ID "somediv".
-            $.each(responseJson, function(index, item) { // Iterate over the JSON array.
-                $('<li>').text(item).appendTo($ul);      // Create HTML <li> element, set its text content with currently iterated item and append it to the <ul>.
-            });
-        });
-    });
-});
-</script>
+
 
     <script>
         var map;
@@ -85,8 +74,7 @@ $(document).ready(function() {                           // When the HTML DOM is
     </script>
 </head>
 <body>
-<button id="somebutton">press here</button>
-        <div id="somediv"></div>
+
         
  <form id="myform" method="post">
     <table border="2" bordercolor="black">
