@@ -6,6 +6,7 @@
   </welcome-file-list>
   
   <filter>
+
         <filter-name>SessionTimeOutFilter</filter-name>
         <filter-class>com.zephyrus.wind.filters.SessionTimeOutFilter</filter-class>
     </filter>
