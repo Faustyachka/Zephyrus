@@ -1,5 +1,7 @@
 package com.zephyrus.wind.model;
 
+import java.util.HashMap;
+
 public class ProviderLocation {
 	 private int id;
 	    private String coordinates;
@@ -7,9 +9,18 @@ public class ProviderLocation {
 	    private double longitude;
 	    private double radius;
 	    private String name;
+	    private HashMap<Integer, ProductCatalog> productCatalogs;
 
 	    
-	    public int getId() {
+	    public HashMap<Integer, ProductCatalog> getProductCatalogs() {
+			return productCatalogs;
+		}
+
+		public void setProductCatalogs(HashMap<Integer, ProductCatalog> productCatalogs) {
+			this.productCatalogs = productCatalogs;
+		}
+
+		public int getId() {
 	        return id;
 	    }
 

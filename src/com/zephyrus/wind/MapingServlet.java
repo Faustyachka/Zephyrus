@@ -1,11 +1,20 @@
 package com.zephyrus.wind;
 
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import com.google.gson.Gson;
+import com.zephyrus.wind.model.ProductCatalog;
+import com.zephyrus.wind.model.ServiceLocation;
 
 /**
  * Servlet implementation class MapingServlet
@@ -41,18 +50,33 @@ public class MapingServlet extends HttpServlet {
         longitude = request.getParameter("longitude");
         latitude = request.getParameter("latitude");
 
-        if (request.getParameter("longitude").toString().equals("")) {
-        	longitude = "Uncle Sam";
-        }
-
-        if (request.getParameter("latitude").toString().equals("")) {
-        	latitude = "Hello Worrrrld!";
+//        if (request.getParameter("longitude").toString().equals("")) {
+//        	longitude = "Uncle Sam";
+//        }
+//
+//        if (request.getParameter("latitude").toString().equals("")) {
+//        	latitude = "Hello Worrrrld!";
+//        }
+        double longi = Double.parseDouble(longitude);
+        double lati = Double.parseDouble(latitude);
+     
+        ServiceLocation sl = new ServiceLocation();
+        sl.setLongitude(longi);
+        sl.setLatitude(lati);
+        
+        DistanceCalculator dc = new DistanceCalculator();
+        ArrayList <String> servicesNames = new ArrayList<String>();
+        HashMap<Integer, ProductCatalog> services = dc.getNearestProvidersServices(sl);
+        for (Map.Entry<Integer, ProductCatalog> entry : services.entrySet()) {
+        	servicesNames.add(entry.getValue().getProductName());
         }
         
-        dainfor = "Longitude: " + longitude + "; Latitude: " + latitude;
-        response.setContentType("text/plain");
+       
+        String json = new Gson().toJson(servicesNames);
+
+        response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
-        response.getWriter().write(dainfor);
+        response.getWriter().write(json);
 	}
 
 }
