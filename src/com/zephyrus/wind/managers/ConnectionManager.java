@@ -34,7 +34,7 @@ public class ConnectionManager {
         if (cxt == null) {
             throw new Exception("Context Error! ");
         }
-        ds = (DataSource) cxt.lookup("java:/comp/env/jdbc/carrentdb");
+        ds = (DataSource) cxt.lookup("jdbc/zephyrus");
         if (ds == null) {
             throw new Exception("Data source missing!");
         }

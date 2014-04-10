@@ -11,8 +11,6 @@
 
     <p class="error">Invalid username or password.</p>
 
-    <p>Return to <strong><a href="view/login.jsp">login page</a></strong>.</p>
-
 </div>
 </body>
 </html>

@@ -29,6 +29,8 @@
         <url-pattern>/register</url-pattern>
         <url-pattern>/order</url-pattern>
         <url-pattern>/home</url-pattern>
+        <url-pattern>/admin</url-pattern>
+        <url-pattern>/logout</url-pattern>
     </servlet-mapping>
     
     <session-config>
@@ -37,7 +39,7 @@
     
     <login-config>
     <auth-method>FORM</auth-method>
-    <realm-name>jdbcRealm</realm-name>
+    <realm-name>JDBCRealm</realm-name>
     <form-login-config>
       <form-login-page>/view/login.jsp</form-login-page>
       <form-error-page>/view/loginError.jsp</form-error-page>
@@ -48,6 +50,7 @@
     <web-resource-collection>
       <web-resource-name>Administrator</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
+      <url-pattern>/admin</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -145,4 +148,11 @@
   <role-name>CUSTOMER</role-name>
   </security-role> 
   
+  <resource-ref>
+    <res-ref-name>jdbc/zephyrus</res-ref-name>
+    <res-type>javax.sql.ConnectionPoolDataSource</res-type>
+    <res-auth>Container</res-auth>
+    <res-sharing-scope>Shareable</res-sharing-scope>
+</resource-ref>
+
 </web-app>
