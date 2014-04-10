@@ -16,9 +16,6 @@ import com.google.gson.Gson;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceLocation;
 
-/**
- * Servlet implementation class MapingServlet
- */
 @WebServlet("/MapingServlet")
 public class MapingServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;

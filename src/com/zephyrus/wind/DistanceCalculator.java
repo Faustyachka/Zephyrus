@@ -14,7 +14,6 @@ public class DistanceCalculator {
 	
 	public double calculateDistance(ProviderLocation providerLocation, ServiceLocation serviceLocation){
 
-
         // Calculate the distance between points
         final double dlng = deg2rad(providerLocation.getLongitude() - serviceLocation.getLongitude());
         final double dlat = deg2rad(providerLocation.getLatitude() - serviceLocation.getLatitude());
