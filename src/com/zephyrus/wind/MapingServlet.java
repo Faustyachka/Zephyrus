@@ -44,19 +44,10 @@ public class MapingServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		String longitude = null;
         String latitude = null;
-        String dainfor = null;
-
-        
+               
         longitude = request.getParameter("longitude");
         latitude = request.getParameter("latitude");
 
-//        if (request.getParameter("longitude").toString().equals("")) {
-//        	longitude = "Uncle Sam";
-//        }
-//
-//        if (request.getParameter("latitude").toString().equals("")) {
-//        	latitude = "Hello Worrrrld!";
-//        }
         double longi = Double.parseDouble(longitude);
         double lati = Double.parseDouble(latitude);
      
@@ -65,15 +56,11 @@ public class MapingServlet extends HttpServlet {
         sl.setLatitude(lati);
         
         DistanceCalculator dc = new DistanceCalculator();
-        ArrayList <String> servicesNames = new ArrayList<String>();
-        HashMap<Integer, ProductCatalog> services = dc.getNearestProvidersServices(sl);
-        for (Map.Entry<Integer, ProductCatalog> entry : services.entrySet()) {
-        	servicesNames.add(entry.getValue().getProductName());
-        }
-        
-       
-        String json = new Gson().toJson(servicesNames);
 
+        HashMap<Integer, ProductCatalog> services = dc.getNearestProvidersServices(sl);
+      
+       
+        String json = new Gson().toJson(services);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);

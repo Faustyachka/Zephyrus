@@ -30,16 +30,22 @@ public class DistanceCalculator {
 	
 	public HashMap<Integer, ProductCatalog> getNearestProvidersServices(ServiceLocation sl) {
 		ProductCatalog pc1 = new ProductCatalog();
+		pc1.setId(1);
 		pc1.setProductName("Red Internet");
 		ProductCatalog pc2 = new ProductCatalog();
+		pc2.setId(2);
 		pc2.setProductName("Blue Internet");
 		ProductCatalog pc3 = new ProductCatalog();
 		pc3.setProductName("Black Internet");
+		pc3.setId(3);
 		ProductCatalog pc4 = new ProductCatalog();
 		pc4.setProductName("Yellow Internet");
+		pc4.setId(4);
 		ProductCatalog pc5 = new ProductCatalog();
+		pc5.setId(5);
 		pc5.setProductName("Orange Internet");
 		ProductCatalog pc6 = new ProductCatalog();
+		pc6.setId(6);
 		pc6.setProductName("Green Internet");
 		ProviderLocation pl1 = new ProviderLocation();
 		pl1.setId(1);

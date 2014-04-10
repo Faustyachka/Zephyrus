@@ -94,6 +94,7 @@ function placeMarker(location) {
     });
 }
 
+
 google.maps.event.addDomListener(window, 'load', initialize);
 
     </script>
@@ -103,11 +104,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 var latituded = $('#latitude').val();
                 var longituded = $('#longitude').val();
                 $.post('MapingServlet',{latitude:latituded,longitude:longituded},function(rsp){
-                	var $ul = $('<ul>').appendTo($('#somediv')); // Create HTML <ul> element and append it to HTML DOM element with ID "somediv".
-                    $.each(rsp, function(index, item) { 
-                    	$("#somediv").append("<input type='radio' id='myRadio"+item+"'> "+ item+" ");
-                    	
-                          
+                	//var $ul = $('<ul>').appendTo($('#somediv')); // Create HTML <ul> element and append it to HTML DOM element with ID "somediv".
+                    $("#somediv").empty();
+                	$.each(rsp, function(key, productcatalog) { 
+                    	$("#somediv").append("<input type='radio' name='services' id='"+key+"' value = '"+key+"'> "+ productcatalog.productName+" <br>");
+                    	                         
                     });
 
                 });
@@ -122,22 +123,33 @@ google.maps.event.addDomListener(window, 'load', initialize);
               codeAddress();
             });
         }); 
+        $().ready(function(){
+            $("#proceed").click(function(){       
+                  if( $(":radio[name=services]").filter(":checked").val()) {
+                	  alert($('input[name=services]:checked').val());
+                  } else {
+                	  alert("Check the service");
+                  }        
+           
+        });
+        });
     </script>
   </head>
   <body>
     <table border="2" bordercolor="black">
         <tr>
             <td><div id="map-canvas" style="width:500px;height:380px;"></div></td>
-           <td>
+           <td>         
                Your desired location:
-                <input type="text" name="address" id="address" size="66"/>
-                <input type="button" value="Accept" id="submit"/>
+                <input type="text" name="address" id="address" size="66"/>               
+                <input type="button" value="Accept" id="submit"/>                
+                <div id="somediv"></div>                
+                <input type="button" value="Proceed to order" id="proceed"/>              
            </td>
         </tr>
-
     </table>
     <input type="hidden" name="latitude" id="latitude" size="66"/>
     <input type="hidden" name="longitude" id="longitude" size="66"/>
-     <div id="somediv"></div>
+     
   </body>
 </html>
