@@ -6,6 +6,7 @@ public class ServiceLocation {
 	    private double latitude;
 	    private double longitude;
 	    
+	    
 
 	    public double getLongitude() {
 	        return longitude;

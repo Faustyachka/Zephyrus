@@ -10,6 +10,7 @@ public class ProviderLocation {
 	    private double radius;
 	    private String name;
 	    private HashMap<Integer, ProductCatalog> productCatalogs;
+	    
 
 	    
 	    public HashMap<Integer, ProductCatalog> getProductCatalogs() {

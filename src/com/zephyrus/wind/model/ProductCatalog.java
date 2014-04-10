@@ -5,6 +5,7 @@ public class ProductCatalog {
 	private String productName;
 	private double price;
 	private ProviderLocation providerLocation;
+	
 	public int getId() {
 		return id;
 	}
