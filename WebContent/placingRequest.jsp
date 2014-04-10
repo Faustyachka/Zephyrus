@@ -148,7 +148,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
         </tr>
     </table>
     <input type="hidden" name="latitude" id="latitude" size="66"/>
-    <input type="hidden" name="longitude" id="longitude" size="66"/>
-     
+    <input type="hidden" name="longitude" id="longitude" size="66"/>     
   </body>
 </html>
