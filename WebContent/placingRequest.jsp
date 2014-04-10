@@ -130,7 +130,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
                   } else {
                 	  alert("Check the service");
                   }        
-           
         });
         });
     </script>
