@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.commands.nosql.HomeCommand;
 import com.zephyrus.wind.commands.nosql.LogoutCommand;
+import com.zephyrus.wind.commands.nosql.MappingCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
 
@@ -17,6 +18,7 @@ public class CommandManager {
 	private static final String HOME_COMMAND = "home";
 	private static final String ADMIN_COMMAND = "admin";
 	private static final String LOGOUT_COMMAND = "logout";
+	private static final String MAPPING_COMMAND = "mapping";
 
 	public CommandManager() {
 
@@ -24,6 +26,7 @@ public class CommandManager {
 		commands.put(HOME_COMMAND, new HomeCommand());
 		commands.put(ADMIN_COMMAND, new AdminCommand());
 		commands.put(LOGOUT_COMMAND, new LogoutCommand());
+		commands.put(MAPPING_COMMAND, new MappingCommand());
 
 	}
 

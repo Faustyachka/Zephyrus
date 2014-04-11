@@ -103,7 +103,7 @@ google.maps.event.addDomListener(window, 'load', initialize);
             $('#submit').click(function(){
                 var latituded = $('#latitude').val();
                 var longituded = $('#longitude').val();
-                $.post('MapingServlet',{latitude:latituded,longitude:longituded},function(rsp){
+                $.post('mapping',{latitude:latituded,longitude:longituded},function(rsp){
                 	//var $ul = $('<ul>').appendTo($('#somediv')); // Create HTML <ul> element and append it to HTML DOM element with ID "somediv".
                     $("#somediv").empty();
                 	$.each(rsp, function(key, productcatalog) { 

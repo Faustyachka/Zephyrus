@@ -3,6 +3,8 @@ package com.zephyrus.wind.dao.factory;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.interfaces.IUsersDAO;
+import com.zephyrus.wind.dao.oracleImp.OracleUserDAO;
 import com.zephyrus.wind.managers.ConnectionManager;
 
 public class OracleDAOFactory implements IDAOFactory {
@@ -47,5 +49,10 @@ public class OracleDAOFactory implements IDAOFactory {
             connection.setAutoCommit(true);
         }
     }
+
+	@Override
+	public IUsersDAO getUserDAO() throws Exception {
+		return new OracleUserDAO(connection);
+	}
     
 }

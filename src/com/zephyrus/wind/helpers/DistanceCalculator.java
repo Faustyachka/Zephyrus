@@ -1,4 +1,4 @@
-package com.zephyrus.wind;
+package com.zephyrus.wind.helpers;
 
 import java.util.HashMap;
 import java.util.Map;
