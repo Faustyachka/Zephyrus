@@ -1,44 +1,22 @@
-package com.zephyrus.wind;
+package com.zephyrus.wind.commands.nosql;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
+import com.zephyrus.wind.commands.interfaces.Command;
+import com.zephyrus.wind.helpers.DistanceCalculator;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceLocation;
 
-@WebServlet("/MapingServlet")
-public class MapingServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public MapingServlet() {
-        super();
-        // TODO Auto-generated constructor stub
-    }
+public class MappingCommand implements Command{
 
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	@Override
+	public String execute(HttpServletRequest request,
+			HttpServletResponse response) throws Exception {
+		
 		String longitude = null;
         String latitude = null;
                
@@ -61,6 +39,7 @@ public class MapingServlet extends HttpServlet {
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
+		return null;
 	}
 
 }
