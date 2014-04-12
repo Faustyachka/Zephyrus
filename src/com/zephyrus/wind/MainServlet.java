@@ -59,9 +59,11 @@ public class MainServlet extends HttpServlet {
 			        request.setAttribute("title", MessageManager.ERROR);
 			        page = Pages.MESSAGE_PAGE.getValue();
 		        }
+		        if(page != null){
 		        //forwarding to answer page
 		        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		        dispatcher.forward(request, response);
+		        }
 		    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
