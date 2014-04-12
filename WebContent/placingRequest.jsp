@@ -12,7 +12,7 @@
 var geocoder;
 var map;
 var marker;
-
+//
 
 function initialize() {
 			var input = document.getElementById('address');
