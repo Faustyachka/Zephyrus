@@ -7,19 +7,17 @@
     <meta charset="utf-8">
     <title>Placing request</title>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&sensor=false&language=en"></script>
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
 var geocoder;
 var map;
 var marker;
-function initialize() {
-//	var defaultBounds = new google.maps.LatLngBounds(
-	//		  new google.maps.LatLng(-33.8902, 151.1759),
-		//	  new google.maps.LatLng(-33.8474, 151.2631));
 
+
+function initialize() {
 			var input = document.getElementById('address');
 			var options = {
-					types: ['(cities)'],    // streets etc
+					types: ['(cities)'],
 					  componentRestrictions: {country: 'ua'}
 			};
 
