@@ -2,13 +2,9 @@ package test;
 
 import java.io.File;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
- 
-
-
-
-
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -18,22 +14,14 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExelExport {
-	public static void writeListToFile(String fileName, List<String> textList) throws Exception{
-        Workbook workbook = null;
+	public static Workbook writeListToFile(ArrayList<String> textList) throws Exception{
+        Workbook workbook = new HSSFWorkbook();
          
-        if(fileName.endsWith("xlsx")){
-            workbook = new XSSFWorkbook();
-        }else if(fileName.endsWith("xls")){
-            workbook = new HSSFWorkbook();
-        }else{
-            throw new Exception("invalid file name, should be xls or xlsx");
-        }
          
         Sheet sheet = workbook.createSheet("FirstSheet");
-         
+        
         Iterator<String> iterator = textList.iterator();
          
         int rowIndex = 0;
@@ -58,13 +46,14 @@ public class ExelExport {
         sheet.autoSizeColumn(1);
          
         //write to file
-        File exelFile = new File(fileName);
-        if(!exelFile.exists()) {
-            exelFile.createNewFile();
-        } 
-        FileOutputStream fos = new FileOutputStream(exelFile);
-        workbook.write(fos);
-        fos.close();
+//        File exelFile = new File(fileName);
+//        if(!exelFile.exists()) {
+//            exelFile.createNewFile();
+//        } 
+//        FileOutputStream fos = new FileOutputStream(exelFile);
+//        workbook.write(fos);
+//        fos.close();
+		return workbook;
     }
 
 }
