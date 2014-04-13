@@ -1,34 +1,55 @@
 package com.zephyrus.wind.model;
 
 import java.io.Serializable;
-import javax.persistence.*;
-import java.util.List;
 
+import java.math.BigDecimal;
+import java.util.Date;
+
+
+/**
+ * The persistent class for the USERS database table.
+ * 
+ */
 
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private long userId;
+	private long id;
+
+	private String email;
+
 
 	private String firstName;
 
 	private String lastName;
 
-	private String middleName;
-
 	private String password;
 
-	private String username;
+
+	private Date registrationData;
+
+
+	private BigDecimal roleId;
+
+	private BigDecimal status;
 
 	public User() {
 	}
 
-	public long getUserId() {
-		return this.userId;
+	public long getId() {
+		return this.id;
 	}
 
-	public void setUserId(long userId) {
-		this.userId = userId;
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getEmail() {
+		return this.email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
 	}
 
 	public String getFirstName() {
@@ -47,14 +68,6 @@ public class User implements Serializable {
 		this.lastName = lastName;
 	}
 
-	public String getMiddleName() {
-		return this.middleName;
-	}
-
-	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
-	}
-
 	public String getPassword() {
 		return this.password;
 	}
@@ -63,12 +76,28 @@ public class User implements Serializable {
 		this.password = password;
 	}
 
-	public String getUsername() {
-		return this.username;
+	public Date getRegistrationData() {
+		return this.registrationData;
 	}
 
-	public void setUsername(String username) {
-		this.username = username;
+	public void setRegistrationData(Date registrationData) {
+		this.registrationData = registrationData;
+	}
+
+	public BigDecimal getRoleId() {
+		return this.roleId;
+	}
+
+	public void setRoleId(BigDecimal roleId) {
+		this.roleId = roleId;
+	}
+
+	public BigDecimal getStatus() {
+		return this.status;
+	}
+
+	public void setStatus(BigDecimal status) {
+		this.status = status;
 	}
 
 }
