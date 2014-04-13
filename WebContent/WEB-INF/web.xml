@@ -4,50 +4,41 @@
   <welcome-file-list>
     <welcome-file>index.html</welcome-file>
   </welcome-file-list>
-  
   <filter>
-
-        <filter-name>SessionTimeOutFilter</filter-name>
-        <filter-class>com.zephyrus.wind.filters.SessionTimeOutFilter</filter-class>
-    </filter>
-    
-    <filter-mapping>
-        <filter-name>SessionTimeOutFilter</filter-name>
-        <servlet-name>controller</servlet-name>
-    </filter-mapping>
-    
-    <servlet>
-        <servlet-name>controller</servlet-name>
-        <servlet-class>com.zephyrus.wind.MainServlet</servlet-class>
-        <load-on-startup>1</load-on-startup>
-    </servlet>
-    
-    <servlet-mapping>
-        <servlet-name>controller</servlet-name>
-<!--         <url-pattern>/</url-pattern> -->
-		<url-pattern>/controller</url-pattern>
-        <url-pattern>/register</url-pattern>
-        <url-pattern>/order</url-pattern>
-        <url-pattern>/home</url-pattern>
-        <url-pattern>/admin</url-pattern>
-        <url-pattern>/logout</url-pattern>
-        <url-pattern>/mapping</url-pattern>
-    </servlet-mapping>
-    
-    <session-config>
-        <session-timeout>10</session-timeout>
-    </session-config>
-    
-    <login-config>
+    <filter-name>SessionTimeOutFilter</filter-name>
+    <filter-class>com.zephyrus.wind.filters.SessionTimeOutFilter</filter-class>
+  </filter>
+  <filter-mapping>
+    <filter-name>SessionTimeOutFilter</filter-name>
+    <servlet-name>controller</servlet-name>
+  </filter-mapping>
+  <servlet>
+    <servlet-name>controller</servlet-name>
+    <servlet-class>com.zephyrus.wind.MainServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  <servlet-mapping>
+    <servlet-name>controller</servlet-name>
+    <url-pattern>/controller</url-pattern>
+    <url-pattern>/register</url-pattern>
+    <url-pattern>/order</url-pattern>
+    <url-pattern>/home</url-pattern>
+    <url-pattern>/admin</url-pattern>
+    <url-pattern>/logout</url-pattern>
+    <url-pattern>/mapping</url-pattern>
+  </servlet-mapping>
+  <session-config>
+    <session-timeout>10</session-timeout>
+  </session-config>
+  <login-config>
     <auth-method>FORM</auth-method>
     <realm-name>JDBCRealm</realm-name>
     <form-login-config>
       <form-login-page>/view/login.jsp</form-login-page>
       <form-error-page>/view/loginError.jsp</form-error-page>
     </form-login-config>
-    </login-config>
-    
-    <security-constraint>
+  </login-config>
+  <security-constraint>
     <web-resource-collection>
       <web-resource-name>Administrator</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
@@ -59,7 +50,6 @@
       <role-name>ADMIN</role-name>
     </auth-constraint>
   </security-constraint>
-   
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>SupportEngineer</web-resource-name>
@@ -72,7 +62,6 @@
       <role-name>SUPPORT</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>ProvisionEngineer</web-resource-name>
@@ -85,7 +74,6 @@
       <role-name>PROVISION</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>InstallationEngineer</web-resource-name>
@@ -98,7 +86,6 @@
       <role-name>INSTALLATION</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>Customer</web-resource-name>
@@ -111,7 +98,6 @@
       <role-name>CUSTOMER</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>General</web-resource-name>
@@ -123,37 +109,30 @@
       <role-name>*</role-name>
     </auth-constraint>
   </security-constraint>
-  
   <security-role>
-  <description>Administrator</description>
-  <role-name>ADMIN</role-name>
-  </security-role>  
-  
-    <security-role>
-  <description>SupportEngineer</description>
-  <role-name>SUPPORT</role-name>
-  </security-role>  
-  
-    <security-role>
-  <description>ProvisionEngineer</description>
-  <role-name>PROVISION</role-name>
-  </security-role>  
-  
-    <security-role>
-  <description>InstallationEngineer</description>
-  <role-name>INSTALLATION</role-name>
-  </security-role>  
-  
+    <description>Administrator</description>
+    <role-name>ADMIN</role-name>
+  </security-role>
   <security-role>
-  <description>Customer</description>
-  <role-name>CUSTOMER</role-name>
-  </security-role> 
-  
+    <description>SupportEngineer</description>
+    <role-name>SUPPORT</role-name>
+  </security-role>
+  <security-role>
+    <description>ProvisionEngineer</description>
+    <role-name>PROVISION</role-name>
+  </security-role>
+  <security-role>
+    <description>InstallationEngineer</description>
+    <role-name>INSTALLATION</role-name>
+  </security-role>
+  <security-role>
+    <description>Customer</description>
+    <role-name>CUSTOMER</role-name>
+  </security-role>
   <resource-ref>
     <res-ref-name>jdbc/zephyrus</res-ref-name>
     <res-type>javax.sql.ConnectionPoolDataSource</res-type>
     <res-auth>Container</res-auth>
     <res-sharing-scope>Shareable</res-sharing-scope>
-</resource-ref>
-
+  </resource-ref>
 </web-app>
