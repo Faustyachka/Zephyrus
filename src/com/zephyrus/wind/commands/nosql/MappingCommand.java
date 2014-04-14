@@ -27,8 +27,11 @@ public class MappingCommand implements Command{
         double lati = Double.parseDouble(latitude);
      
         ServiceLocation sl = new ServiceLocation();
-        sl.setLongitude(longi);
-        sl.setLatitude(lati);
+        String s = longitude+","+latitude;
+        sl.setServiceLocationCoord(s);
+//        FIXME нету такого класса, проверь все ли файлы вошли в коммит
+//        sl.setLongitude(longi);
+//        sl.setLatitude(lati);
         
         DistanceCalculator dc = new DistanceCalculator();
 

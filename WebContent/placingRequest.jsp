@@ -6,37 +6,15 @@
     <meta name="viewport" content="initial-scale=1.0, user-scalable=no">
     <meta charset="utf-8">
     <title>Placing request</title>
-    <style>
-      html, body, #map-canvas {
-        height: 100%;
-        margin: 0px;
-        padding: 0px
-      }
-      #panel {
-        position: absolute;
-        top: 5px;
-        left: 50%;
-        margin-left: -180px;
-        z-index: 5;
-        background-color: #fff;
-        padding: 5px;
-        border: 1px solid #999;
-      }
-    </style>
     <script src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&sensor=false&language=en"></script>
-    <script src="http://code.jquery.com/jquery-latest.min.js"></script>
 <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
     <script>
 var geocoder;
 var map;
 var marker;
-
+//
 
 function initialize() {
-	var defaultBounds = new google.maps.LatLngBounds(
-			  new google.maps.LatLng(-33.8902, 151.1759),
-			  new google.maps.LatLng(-33.8474, 151.2631));
-
 			var input = document.getElementById('address');
 			var options = {
 					types: ['(cities)'],

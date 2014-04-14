@@ -1,72 +1,48 @@
 package com.zephyrus.wind.model;
 
-import java.util.HashMap;
+import java.io.Serializable;
 
-public class ProviderLocation {
-	 private int id;
-	    private String coordinates;
-	    private double latitude;
-	    private double longitude;
-	    private double radius;
-	    private String name;
-	    private HashMap<Integer, ProductCatalog> productCatalogs;
-	    
 
-	    
-	    public HashMap<Integer, ProductCatalog> getProductCatalogs() {
-			return productCatalogs;
-		}
 
-		public void setProductCatalogs(HashMap<Integer, ProductCatalog> productCatalogs) {
-			this.productCatalogs = productCatalogs;
-		}
+/**
+ * The persistent class for the PROVIDER_LOCATIONS database table.
+ * 
+ */
 
-		public int getId() {
-	        return id;
-	    }
+public class ProviderLocation implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	    public void setId(int id) {
-	        this.id = id;
-	    }
+	private long id;
 
-	    public String getCoordinates() {
-	        return coordinates;
-	    }
+	private String locationCoord;
 
-	    public void setCoordinates(String coordinates) {
-	        this.coordinates = coordinates;
-	    }
+	private String locationName;
 
-	    public double getLatitude() {
-	        return latitude;
-	    }
+	public ProviderLocation() {
+	}
 
-	    public void setLatitude(double latitude) {
-	        this.latitude = latitude;
-	    }
+	public long getId() {
+		return this.id;
+	}
 
-	    public double getLongitude() {
-	        return longitude;
-	    }
+	public void setId(long id) {
+		this.id = id;
+	}
 
-	    public void setLongitude(double longitude) {
-	        this.longitude = longitude;
-	    }
+	public String getLocationCoord() {
+		return this.locationCoord;
+	}
 
-	    public double getRadius() {
-	        return radius;
-	    }
+	public void setLocationCoord(String locationCoord) {
+		this.locationCoord = locationCoord;
+	}
 
-	    public void setRadius(double radius) {
-	        this.radius = radius;
-	    }
+	public String getLocationName() {
+		return this.locationName;
+	}
 
-	    public String getName() {
-	        return name;
-	    }
-
-	    public void setName(String name) {
-	        this.name = name;
-	    }
+	public void setLocationName(String locationName) {
+		this.locationName = locationName;
+	}
 
 }

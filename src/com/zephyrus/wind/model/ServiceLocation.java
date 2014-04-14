@@ -1,45 +1,48 @@
 package com.zephyrus.wind.model;
 
-public class ServiceLocation {
-	 private int id;
-	    private String coordinates;
-	    private double latitude;
-	    private double longitude;
-	    
-	    
+import java.io.Serializable;
 
-	    public double getLongitude() {
-	        return longitude;
-	    }
 
-	    public void setLongitude(double longitude) {
-	        this.longitude = longitude;
-	    }
 
-	    public double getLatitude() {
-	        return latitude;
-	    }
+/**
+ * The persistent class for the SERVICE_LOCATIONS database table.
+ * 
+ */
 
-	    public void setLatitude(double latitude) {
-	        this.latitude = latitude;
-	    }
+public class ServiceLocation implements Serializable {
+	private static final long serialVersionUID = 1L;
 
-	    public String getCoordinates() {
-	        return coordinates;
-	    }
+	private long id;
 
-	    public void setCoordinates(String coordinates) {
-	        this.coordinates = coordinates;
-	    }
+	private String serviceLocationCoord;
 
-	    public int getId() {
-	        return id;
-	    }
+	private java.math.BigDecimal userId;
 
-	    public void setId(int id) {
-	        this.id = id;
-	    }
+	public ServiceLocation() {
+	}
 
-	    
+	public long getId() {
+		return this.id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public String getServiceLocationCoord() {
+		return this.serviceLocationCoord;
+	}
+
+	public void setServiceLocationCoord(String serviceLocationCoord) {
+		this.serviceLocationCoord = serviceLocationCoord;
+	}
+
+	public java.math.BigDecimal getUserId() {
+		return this.userId;
+	}
+
+	public void setUserId(java.math.BigDecimal userId) {
+		this.userId = userId;
+	}
 
 }

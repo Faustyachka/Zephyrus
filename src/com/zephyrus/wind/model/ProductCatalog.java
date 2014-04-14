@@ -1,36 +1,71 @@
 package com.zephyrus.wind.model;
 
-public class ProductCatalog {
-	private int id;
+import java.io.Serializable;
+
+import java.math.BigDecimal;
+
+
+/**
+ * The persistent class for the PRODUCT_CATALOG database table.
+ * 
+ */
+
+public class ProductCatalog implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+
+	private long id;
+
+	private BigDecimal price;
+
 	private String productName;
-	private double price;
-	private ProviderLocation providerLocation;
+
 	
-	public int getId() {
-		return id;
+	private BigDecimal providerLocId;
+
+	private BigDecimal serviceTypeId;
+
+	public ProductCatalog() {
 	}
-	public void setId(int id) {
+
+	public long getId() {
+		return this.id;
+	}
+
+	public void setId(long id) {
 		this.id = id;
 	}
-	public String getProductName() {
-		return productName;
+
+	public BigDecimal getPrice() {
+		return this.price;
 	}
+
+	public void setPrice(BigDecimal price) {
+		this.price = price;
+	}
+
+	public String getProductName() {
+		return this.productName;
+	}
+
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
-	public double getPrice() {
-		return price;
+
+	public BigDecimal getProviderLocId() {
+		return this.providerLocId;
 	}
-	public void setPrice(double price) {
-		this.price = price;
+
+	public void setProviderLocId(BigDecimal providerLocId) {
+		this.providerLocId = providerLocId;
 	}
-	public ProviderLocation getProviderLocation() {
-		return providerLocation;
+
+	public BigDecimal getServiceTypeId() {
+		return this.serviceTypeId;
 	}
-	public void setProviderLocation(ProviderLocation providerLocation) {
-		this.providerLocation = providerLocation;
+
+	public void setServiceTypeId(BigDecimal serviceTypeId) {
+		this.serviceTypeId = serviceTypeId;
 	}
-	
-	
 
 }
