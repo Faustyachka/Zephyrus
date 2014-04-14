@@ -60,6 +60,7 @@ public class ExelReports extends HttpServlet {
 			File exelFile = new File(path + fileName);
 			FileOutputStream outFile = new FileOutputStream(exelFile);
 			out.println("<a href=\"reports/" + fileName + "\">Download</a>");
+			XLStoCSV.convert(workbook);
 			workbook.write(outFile);
 			outFile.close();
 		} catch (Exception e) {
