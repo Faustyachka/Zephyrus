@@ -6,10 +6,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.commands.nosql.HomeCommand;
+import com.zephyrus.wind.commands.nosql.LoginCommand;
 import com.zephyrus.wind.commands.nosql.LogoutCommand;
 import com.zephyrus.wind.commands.nosql.MappingCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
+import com.zephyrus.wind.commands.sql.RegisterCommand;
 
 public class CommandManager {
 
@@ -17,16 +19,20 @@ public class CommandManager {
 
 	private static final String HOME_COMMAND = "home";
 	private static final String ADMIN_COMMAND = "admin";
+	private static final String LOGIN_COMMAND = "login";
 	private static final String LOGOUT_COMMAND = "logout";
 	private static final String MAPPING_COMMAND = "mapping";
+	private static final String REGISTER_COMMAND = "register";
 
 	public CommandManager() {
 
 		// filling the table with commands
 		commands.put(HOME_COMMAND, new HomeCommand());
 		commands.put(ADMIN_COMMAND, new AdminCommand());
+		commands.put(LOGIN_COMMAND, new LoginCommand());
 		commands.put(LOGOUT_COMMAND, new LogoutCommand());
 		commands.put(MAPPING_COMMAND, new MappingCommand());
+		commands.put(REGISTER_COMMAND, new RegisterCommand());
 
 	}
 

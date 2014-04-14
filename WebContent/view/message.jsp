@@ -4,9 +4,12 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
+<title>Message Page</title>
 </head>
 <body>
-
+${errorMessage}
+${message}
+<br>
+<a href="/Zephyrus/index.jsp">return to main page</a>
 </body>
 </html>
