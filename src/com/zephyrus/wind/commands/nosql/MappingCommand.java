@@ -23,15 +23,10 @@ public class MappingCommand implements Command{
         longitude = request.getParameter("longitude");
         latitude = request.getParameter("latitude");
 
-        double longi = Double.parseDouble(longitude);
-        double lati = Double.parseDouble(latitude);
      
         ServiceLocation sl = new ServiceLocation();
         String s = longitude+","+latitude;
         sl.setServiceLocationCoord(s);
-//        FIXME нету такого класса, проверь все ли файлы вошли в коммит
-//        sl.setLongitude(longi);
-//        sl.setLatitude(lati);
         
         DistanceCalculator dc = new DistanceCalculator();
 

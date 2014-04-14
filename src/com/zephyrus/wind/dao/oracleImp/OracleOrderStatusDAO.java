@@ -9,19 +9,19 @@ import com.zephyrus.wind.model.OrderStatus;
 
 public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrderStatusDAO {
 	
-	private final String TABLE_NAME = "ORDER_STATUS";
-    private final String SQL_SELECT = "SELECT ID, ORDER_STATUS_VALUE " + 
+	private static final String TABLE_NAME = "ORDER_STATUS";
+    private static final String SQL_SELECT = "SELECT ID, ORDER_STATUS_VALUE " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET ORDER_STATUS_VALUE = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (ORDER_STATUS_VALUE) " + 
                                       
                                       "VALUES (?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_ORDER_STATUS_VALUE = 2;

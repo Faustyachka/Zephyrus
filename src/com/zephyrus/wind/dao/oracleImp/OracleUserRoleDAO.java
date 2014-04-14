@@ -8,19 +8,19 @@ import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.model.UserRole;
 
 public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleDAO{
-	private final String TABLE_NAME = "USER_ROLES";
+	private static final String TABLE_NAME = "USER_ROLES";
     private final String SQL_SELECT = "SELECT ID, ROLE_NAME " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET ROLE_NAME = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (ROLE_NAME) " + 
                                       
                                       "VALUES (?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_ROLE_NAME = 2;
