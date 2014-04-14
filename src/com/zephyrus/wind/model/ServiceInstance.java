@@ -1,6 +1,7 @@
 package com.zephyrus.wind.model;
 
 import java.io.Serializable;
+import java.util.Date;
 
 
 
@@ -18,8 +19,18 @@ public class ServiceInstance implements Serializable {
 	private java.math.BigDecimal circuitId;
 
 	private java.math.BigDecimal productCatalogId;
+	
+	private Date startDate;
 
 	
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
 	private java.math.BigDecimal servInstanceStatusId;
 
 

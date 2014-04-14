@@ -18,6 +18,14 @@ public class Port implements Serializable {
 
 	private BigDecimal deviceId;
 
+	private BigDecimal portOn;
+	public BigDecimal getPortOn() {
+		return portOn;
+	}
+
+	public void setPortOn(BigDecimal portOn) {
+		this.portOn = portOn;
+	}
 
 	private BigDecimal portNumber;
 
