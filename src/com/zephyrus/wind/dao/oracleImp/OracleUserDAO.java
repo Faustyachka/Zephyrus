@@ -8,19 +8,19 @@ import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.model.User;
 
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
-	private final String TABLE_NAME = "USERS";
-    private final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
+	private static final String TABLE_NAME = "USERS";
+    private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
                                       "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET FIRST_NAME= ?, LAST_NAME = ?, " + 
                                       "EMAIL = ?, PASSWORD = ?, REGISTRATION_DATA = ?, STATUS = ?, ROLE_ID = ? WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (FIRST_NAME, LAST_NAME, " + 
                                       "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID) " +
                                       "VALUES (?,?,?,?,?,?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_FIRST_NAME = 2;

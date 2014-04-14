@@ -8,19 +8,19 @@ import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.model.ProviderLocation;
 
 public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> implements IProviderLocationDAO{
-	private final String TABLE_NAME = "PROVIDER_LOCATIONS";
-    private final String SQL_SELECT = "SELECT ID, LOCATION_NAME, LOCATION_COORD " + 
+	private static final String TABLE_NAME = "PROVIDER_LOCATIONS";
+    private static final String SQL_SELECT = "SELECT ID, LOCATION_NAME, LOCATION_COORD " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET LOCATION_NAME = ?, LOCATION_COORD = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (LOCATION_NAME, LOCATION_COORD) " + 
                                       
                                       "VALUES (?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_LOCATION_NAME = 2;

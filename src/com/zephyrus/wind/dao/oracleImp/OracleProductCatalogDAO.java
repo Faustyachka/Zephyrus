@@ -9,19 +9,19 @@ import com.zephyrus.wind.model.ProductCatalog;
 
 public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implements IProductCatalogDAO {
 
-	private final String TABLE_NAME = "PRODUCT_CATALOG";
-    private final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_ID, PROVIDER_LOC_ID, " + 
+	private static final String TABLE_NAME = "PRODUCT_CATALOG";
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_ID, PROVIDER_LOC_ID, " + 
                                       "PRODUCT_NAME, PRICE FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERVICE_TYPE_ID = ?, PROVIDER_LOC_ID = ?, " + 
                                       "PRODUCT_NAME = ?, PRICE = ? WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (SERVICE_TYPE_ID, PROVIDER_LOC_ID, " + 
                                       "PRODUCT_NAME, PRICE) " +
                                       "VALUES (?,?,?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_TYPE_ID = 2;

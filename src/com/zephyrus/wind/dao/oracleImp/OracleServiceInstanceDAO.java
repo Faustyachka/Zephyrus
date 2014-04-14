@@ -9,20 +9,20 @@ import com.zephyrus.wind.model.ServiceInstance;
 
 public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> implements IServiceInstanceDAO {
 	
-	private final String TABLE_NAME = "SERVICE_INSTANCES";
-    private final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_ID, USER_ID, " + 
+	private static final String TABLE_NAME = "SERVICE_INSTANCES";
+    private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_ID, USER_ID, " + 
     								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE" +
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERV_INSTANCE_STATUS_ID = ?, USER_ID = ?, " + 
                                       " PRODUCT_CATALOG_ID = ?, CIRCUIT_ID = ?, START_DATE = ? WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (SERV_INSTANCE_STATUS_ID, USER_ID, " + 
     								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE) " +                                      
                                       "VALUES (?,?,?,?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERV_INSTANCE_STATUS_ID = 2;

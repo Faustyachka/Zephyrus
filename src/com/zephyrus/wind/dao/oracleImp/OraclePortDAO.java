@@ -9,19 +9,19 @@ import com.zephyrus.wind.model.Port;
 
 public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
-	private final String TABLE_NAME = "PORTS";
-    private final String SQL_SELECT = "SELECT ID, DEVICE_ID, PORT_NUMBER, PORT_ON " + 
+	private static final String TABLE_NAME = "PORTS";
+    private static final String SQL_SELECT = "SELECT ID, DEVICE_ID, PORT_NUMBER, PORT_ON " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET DEVICE_ID = ?, PORT_NUMBER = ?, PORT_ON = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (DEVICE_ID, PORT_NUMBER, PORT_ON) " + 
                                       
                                       "VALUES (?,?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_DEVICE_ID = 2;
