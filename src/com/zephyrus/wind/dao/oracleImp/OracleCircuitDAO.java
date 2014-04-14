@@ -9,19 +9,19 @@ import com.zephyrus.wind.model.Circuit;
 
 public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	
-	private final String TABLE_NAME = "CIRCUITS";
-    private final String SQL_SELECT = "SELECT ID, PORT_ID, STATUS " + 
+	private static final String TABLE_NAME = "CIRCUITS";
+    private static final String SQL_SELECT = "SELECT ID, PORT_ID, STATUS " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET PORT_ID = ?, STATUS = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (PORT_ID, STATUS) " + 
                                       
                                       "VALUES (?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_PORT_ID = 2;

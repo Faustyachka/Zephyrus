@@ -8,19 +8,19 @@ import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
 import com.zephyrus.wind.model.ServiceLocation;
 
 public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> implements IServiceLocationDAO {
-	private final String TABLE_NAME = "SERVICE_LOCATIONS";
-    private final String SQL_SELECT = "SELECT ID, SERVICE_LOCATION_COORD, USER_ID " + 
+	private static final String TABLE_NAME = "SERVICE_LOCATIONS";
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_LOCATION_COORD, USER_ID " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERVICE_LOCATION_COORD = ?, USER_ID = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (SERVICE_LOCATION_COORD, USER_ID) " + 
                                       
                                       "VALUES (?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_LOCATION_COORD = 2;

@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Zephyrus</display-name>
   <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
   </welcome-file-list>
   <filter>
     <filter-name>SessionTimeOutFilter</filter-name>
@@ -54,6 +54,7 @@
     <web-resource-collection>
       <web-resource-name>SupportEngineer</web-resource-name>
       <url-pattern>/support</url-pattern>
+      <url-pattern>/support/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -66,6 +67,7 @@
     <web-resource-collection>
       <web-resource-name>ProvisionEngineer</web-resource-name>
       <url-pattern>/provision</url-pattern>
+      <url-pattern>/provision/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -78,6 +80,7 @@
     <web-resource-collection>
       <web-resource-name>InstallationEngineer</web-resource-name>
       <url-pattern>/installation</url-pattern>
+      <url-pattern>/installation/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -90,6 +93,7 @@
     <web-resource-collection>
       <web-resource-name>Customer</web-resource-name>
       <url-pattern>/customer</url-pattern>
+      <url-pattern>/customer/*</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -98,6 +102,22 @@
       <role-name>CUSTOMER</role-name>
     </auth-constraint>
   </security-constraint>
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>Customer</web-resource-name>
+      <url-pattern>/login</url-pattern>
+      <http-method>GET</http-method>
+      <http-method>POST</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>ADMIN</role-name>
+      <role-name>SUPPORT</role-name>
+      <role-name>PROVISION</role-name>
+      <role-name>INSTALLATION</role-name>
+      <role-name>CUSTOMER</role-name>
+    </auth-constraint>
+    </security-constraint>
+  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>General</web-resource-name>

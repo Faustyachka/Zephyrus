@@ -9,19 +9,19 @@ import com.zephyrus.wind.model.Device;
 
 public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	
-	private final String TABLE_NAME = "DEVICES";
-    private final String SQL_SELECT = "SELECT ID, SERIAL_NUM " + 
+	private static final String TABLE_NAME = "DEVICES";
+    private static final String SQL_SELECT = "SELECT ID, SERIAL_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERIAL_NUM = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (SERIAL_NUM) " + 
                                       
                                       "VALUES (?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERIAL_NUM = 2;

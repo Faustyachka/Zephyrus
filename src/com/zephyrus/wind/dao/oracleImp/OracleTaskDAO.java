@@ -8,20 +8,20 @@ import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.model.Task;
 
 public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
-	private final String TABLE_NAME = "TASKS";
-    private final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, TASK_VALUE, " + 
+	private static final String TABLE_NAME = "TASKS";
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, TASK_VALUE, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID" +
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERVICE_ORDER_ID = ?, TASK_VALUE = ?, " + 
                                       " USER_ID = ?, TASK_STATUS_ID = ?, ROLE_ID = ? WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (SERVICE_ORDER_ID, TASK_VALUE, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID) " +                                      
                                       "VALUES (?,?,?,?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_ORDER_ID = 2;

@@ -9,22 +9,22 @@ import com.zephyrus.wind.model.OrderType;
 
 public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTypeDAO {
 	
-	private final String TABLE_NAME = "ORDER_TYPE";
-    private final String SQL_SELECT = "SELECT ID, ORDER_TYPE " + 
+	private static final String TABLE_NAME = "ORDER_TYPE";
+    private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_VALUE " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET ORDER_TYPE = ? " + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+                                      " SET ORDER_TYPE_VALUE = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (ORDER_TYPE) " + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+                                      " (ORDER_TYPE_VALUE) " + 
                                       
                                       "VALUES (?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
-    private static final int COLUMN_ORDER_TYPE = 2;
+    private static final int COLUMN_ORDER_TYPE_VALUE = 2;
 
 	public OracleOrderTypeDAO( Connection connection)
 			throws Exception {
@@ -36,7 +36,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 	@Override
 	public void update(OrderType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_ORDER_TYPE, record.getOrderType());  	
+    	stmt.setString(COLUMN_ORDER_TYPE_VALUE, record.getOrderType());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
 		
@@ -45,7 +45,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 	@Override
 	public int insert(OrderType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(COLUMN_ORDER_TYPE, record.getOrderType());    	
+    	stmt.setString(COLUMN_ORDER_TYPE_VALUE, record.getOrderType());    	
         stmt.executeUpdate();		
 		return stmt.executeUpdate();
 	}
@@ -58,7 +58,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 	@Override
 	protected void fillItem(OrderType item, ResultSet rs) throws SQLException {
 		item.setId(rs.getLong(COLUMN_ID));
-    	item.setOrderType(rs.getString(COLUMN_ORDER_TYPE));
+    	item.setOrderType(rs.getString(COLUMN_ORDER_TYPE_VALUE));
 		
 	}
 

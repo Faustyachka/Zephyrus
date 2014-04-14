@@ -8,18 +8,18 @@ import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
 import com.zephyrus.wind.model.TaskStatus;
 
 public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskStatusDAO {
-	private final String TABLE_NAME = "TASK_STATUS";
-    private final String SQL_SELECT = "SELECT ID, TASK_STATUS_VALUE " + 
+	private static final String TABLE_NAME = "TASK_STATUS";
+    private static final String SQL_SELECT = "SELECT ID, TASK_STATUS_VALUE " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET TASK_STATUS_VALUE = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (TASK_STATUS_VALUE) " +                                      
                                       "VALUES (?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_TASK_STATUS_VALUE = 2;

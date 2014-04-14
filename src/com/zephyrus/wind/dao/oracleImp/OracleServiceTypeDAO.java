@@ -8,19 +8,19 @@ import com.zephyrus.wind.dao.interfaces.IServiceTypeDAO;
 import com.zephyrus.wind.model.ServiceType;
 
 public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements IServiceTypeDAO {
-	private final String TABLE_NAME = "SERVICE_TYPE";
-    private final String SQL_SELECT = "SELECT ID, SERVICE_TYPE " + 
+	private static final String TABLE_NAME = "SERVICE_TYPE";
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_VALUE " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET SERVICE_TYPE = ? " + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+                                      " SET SERVICE_TYPE_VALUE = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (SERVICE_TYPE) " + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+                                      " (SERVICE_TYPE_VALUE) " + 
                                       
                                       "VALUES (?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_TYPE = 2;

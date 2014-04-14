@@ -9,19 +9,19 @@ import com.zephyrus.wind.model.Cable;
 
 public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	
-	private final String TABLE_NAME = "CABLES";
-    private final String SQL_SELECT = "SELECT ID, PORT_ID, SERVICE_LOCATION_ID " + 
+	private static final String TABLE_NAME = "CABLES";
+    private static final String SQL_SELECT = "SELECT ID, PORT_ID, SERVICE_LOCATION_ID " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
-    private final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET PORT_ID = ?, SERVICE_LOCATION_ID = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
                                       " (PORT_ID, SERVICE_LOCATION_ID) " + 
                                       
                                       "VALUES (?,?)";
-    private final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_PORT_ID = 2;

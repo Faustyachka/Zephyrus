@@ -10,7 +10,11 @@ import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.helpers.DistanceCalculator;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceLocation;
-
+/**
+ * 
+ * @author Alexandra Beskorovaynaya
+ *
+ */
 public class MappingCommand implements Command{
 
 	@Override
@@ -23,13 +27,10 @@ public class MappingCommand implements Command{
         longitude = request.getParameter("longitude");
         latitude = request.getParameter("latitude");
 
-        double longi = Double.parseDouble(longitude);
-        double lati = Double.parseDouble(latitude);
      
         ServiceLocation sl = new ServiceLocation();
-//        FIXME нету такого класса, проверь все ли файлы вошли в коммит
-//        sl.setLongitude(longi);
-//        sl.setLatitude(lati);
+        String s = longitude+","+latitude;
+        sl.setServiceLocationCoord(s);
         
         DistanceCalculator dc = new DistanceCalculator();
 

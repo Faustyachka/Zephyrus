@@ -1,29 +1,39 @@
 package com.zephyrus.wind.helpers;
 
+
+import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
+
+
 
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.model.ServiceLocation;
-
-import static java.lang.Math.*;
-
+/**
+ * 
+ * @author Alexandra Beskorovaynaya
+ *
+ */
 public class DistanceCalculator {
 	private static final double EARTH_RADIUS = 6371.;
 	
 	public double calculateDistance(ProviderLocation providerLocation, ServiceLocation serviceLocation){
-		return 0;
+		
 
         // Calculate the distance between points
-//		FIXME нет таких методов, проверте все ли файлы ушли в гит
-		
-//        final double dlng = deg2rad(providerLocation.getLongitude() - serviceLocation.getLongitude());
-//        final double dlat = deg2rad(providerLocation.getLatitude() - serviceLocation.getLatitude());
-//        final double a = sin(dlat / 2) * sin(dlat / 2) + cos(deg2rad(serviceLocation.getLatitude()))
-//                * cos(deg2rad(providerLocation.getLatitude())) * sin(dlng / 2) * sin(dlng / 2);
-//        final double c = 2 * atan2(sqrt(a), sqrt(1 - a))*EARTH_RADIUS;
-//        return c;
+		String[] prCoords = providerLocation.getLocationCoord().split(",");
+		double providerLongitude = Double.parseDouble(prCoords[0]);
+		double providerLatitude = Double.parseDouble(prCoords[1]);
+		String[] serCoords = serviceLocation.getServiceLocationCoord().split(",");
+		double servLongitude = Double.parseDouble(serCoords[0]);
+		double servLatitude = Double.parseDouble(serCoords[1]);
+       final double dlng = deg2rad(providerLongitude - servLongitude);
+        final double dlat = deg2rad(providerLatitude - servLatitude);
+       final double a = java.lang.Math.sin(dlat / 2) * java.lang.Math.sin(dlat / 2) + java.lang.Math.cos(deg2rad(servLatitude))
+               * java.lang.Math.cos(deg2rad(providerLatitude)) * java.lang.Math.sin(dlng / 2) * java.lang.Math.sin(dlng / 2);
+       final double c = 2 * java.lang.Math.atan2(java.lang.Math.sqrt(a), java.lang.Math.sqrt(1 - a))*EARTH_RADIUS;
+       return c;
     }
 	
 	private static double deg2rad(final double degree) {
@@ -34,70 +44,74 @@ public class DistanceCalculator {
 		ProductCatalog pc1 = new ProductCatalog();
 		pc1.setId(1);
 		pc1.setProductName("Red Internet");
+		pc1.setProviderLocId(new BigDecimal(1));
 		ProductCatalog pc2 = new ProductCatalog();
 		pc2.setId(2);
 		pc2.setProductName("Blue Internet");
+		pc2.setProviderLocId(new BigDecimal(1));
 		ProductCatalog pc3 = new ProductCatalog();
 		pc3.setProductName("Black Internet");
 		pc3.setId(3);
+		pc3.setProviderLocId(new BigDecimal(2));
 		ProductCatalog pc4 = new ProductCatalog();
 		pc4.setProductName("Yellow Internet");
 		pc4.setId(4);
+		pc4.setProviderLocId(new BigDecimal(2));
 		ProductCatalog pc5 = new ProductCatalog();
 		pc5.setId(5);
 		pc5.setProductName("Orange Internet");
+		pc5.setProviderLocId(new BigDecimal(3));
 		ProductCatalog pc6 = new ProductCatalog();
 		pc6.setId(6);
 		pc6.setProductName("Green Internet");
+		pc6.setProviderLocId(new BigDecimal(3));
 		ProviderLocation pl1 = new ProviderLocation();
 		pl1.setId(1);
-//		pl1.setLatitude(40.1254655);
-//		pl1.setLongitude(20.3655445);
-//		pl1.setName("Provider Location 1");
-		HashMap<Integer, ProductCatalog> prc1 = new HashMap<>();
-		prc1.put(1, pc1);
-		prc1.put(2, pc2);
-		prc1.put(3, pc3);
-//		pl1.setProductCatalogs(prc1);
+		pl1.setLocationCoord("50.25445454,30.54484145");
+		pl1.setLocationName("Provider Location 1");
 		ProviderLocation pl2 = new ProviderLocation();
-		HashMap<Integer, ProductCatalog> prc2 = new HashMap<>();
 		pl2.setId(2);
-//		pl2.setLatitude(50.1254655);
-//		pl2.setLongitude(30.45778889);
-//		pl2.setName("Provider Location 2");
-		prc2.put(3, pc3);
-		prc2.put(4, pc4);
-		prc2.put(5, pc5);
-//		pl2.setProductCatalogs(prc2);
+		pl2.setLocationCoord("14.546464546,52.326454545");
+		pl2.setLocationName("Provider Location 2");
 		ProviderLocation pl3 = new ProviderLocation();
-		HashMap<Integer, ProductCatalog> prc3 = new HashMap<>();
 		pl3.setId(3);
-//		pl3.setLatitude(-96.5411);
-//		pl3.setLongitude(74.4545111);
-//		pl3.setName("Provider Location 3");
-		prc3.put(5, pc5);
-		prc3.put(6, pc6);
-		prc3.put(3, pc3);
-		prc3.put(4, pc4);
-//		pl3.setProductCatalogs(prc3);
+		pl3.setLocationCoord("-14.5544545,47.5454545");
+		pl3.setLocationName("Provider Location 3");
+		ArrayList<ProviderLocation> providerLocs= new ArrayList<>();
+		providerLocs.add(pl1);
+		providerLocs.add(pl2);
+		providerLocs.add(pl3);
+		ArrayList<ProductCatalog> productCatalogs = new ArrayList<>();
+		productCatalogs.add(pc1);
+		productCatalogs.add(pc2);
+		productCatalogs.add(pc3);
+		productCatalogs.add(pc4);
+		productCatalogs.add(pc5);
+		productCatalogs.add(pc6);
+		HashMap<Integer, ProductCatalog> result = null;
 		
-		HashMap<Integer, ProviderLocation> prLocs = new HashMap<>();
-//		prLocs.put(pl1.getId(), pl1);
-//		prLocs.put(pl2.getId(), pl2);
-//		prLocs.put(pl3.getId(), pl3);
-		HashMap<Integer, ProductCatalog> result = new HashMap<>();
+		double minimalDistance = calculateDistance(providerLocs.get(1), sl);
 		
-		double minimalDistance = calculateDistance(prLocs.get(1), sl);
-		
-		for (Map.Entry<Integer, ProviderLocation> entry: prLocs.entrySet()) {
-			double distance = calculateDistance(entry.getValue(), sl);
+		for (ProviderLocation entry: providerLocs) {
+			double distance = calculateDistance(entry, sl);
 			if (distance< minimalDistance) {
-//				result = entry.getValue().getProductCatalogs();
-			} else {
-//				result = prLocs.get(1).getProductCatalogs();
+				result= new HashMap<>();
+				for(ProductCatalog pc: productCatalogs) {
+					if(pc.getProviderLocId().setScale( 0, BigDecimal.ROUND_HALF_UP ).longValue()==entry.getId()) {
+						result.put((int)pc.getId(), pc);
+					}
+				}
 			}
 			
 		}
+		 if (result==null) {
+			 result =  new HashMap<>();
+				for(ProductCatalog pc: productCatalogs) {
+					if(pc.getProviderLocId().setScale( 0, BigDecimal.ROUND_HALF_UP ).longValue()==providerLocs.get(1).getId()) {
+						result.put((int)pc.getId(), pc);
+					}
+				}
+			}
 		return result;
 	}
 }

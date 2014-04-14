@@ -10,6 +10,9 @@
 <div id="loginBox">
 
     <p class="error">Invalid username or password.</p>
+    <a href="/Zephyrus/login">return to login page</a>
+    <br>
+    <a href="/Zephyrus/index.jsp">return to main page</a>
 
 </div>
 </body>
