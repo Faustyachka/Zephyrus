@@ -4,14 +4,17 @@ package com.zephyrus.wind.helpers;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 
 
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.model.ServiceLocation;
-
+/**
+ * 
+ * @author Alexandra Beskorovaynaya
+ *
+ */
 public class DistanceCalculator {
 	private static final double EARTH_RADIUS = 6371.;
 	
@@ -85,28 +88,30 @@ public class DistanceCalculator {
 		productCatalogs.add(pc4);
 		productCatalogs.add(pc5);
 		productCatalogs.add(pc6);
-		HashMap<Integer, ProductCatalog> result = new HashMap<>();
+		HashMap<Integer, ProductCatalog> result = null;
 		
 		double minimalDistance = calculateDistance(providerLocs.get(1), sl);
 		
 		for (ProviderLocation entry: providerLocs) {
 			double distance = calculateDistance(entry, sl);
 			if (distance< minimalDistance) {
-				result.clear();
+				result= new HashMap<>();
 				for(ProductCatalog pc: productCatalogs) {
 					if(pc.getProviderLocId().setScale( 0, BigDecimal.ROUND_HALF_UP ).longValue()==entry.getId()) {
-						result.put((int)pc.getId(), pc);
-					}
-				}
-			} else {
-				for(ProductCatalog pc: productCatalogs) {
-					if(pc.getProviderLocId().setScale( 0, BigDecimal.ROUND_HALF_UP ).longValue()==providerLocs.get(1).getId()) {
 						result.put((int)pc.getId(), pc);
 					}
 				}
 			}
 			
 		}
+		 if (result==null) {
+			 result =  new HashMap<>();
+				for(ProductCatalog pc: productCatalogs) {
+					if(pc.getProviderLocId().setScale( 0, BigDecimal.ROUND_HALF_UP ).longValue()==providerLocs.get(1).getId()) {
+						result.put((int)pc.getId(), pc);
+					}
+				}
+			}
 		return result;
 	}
 }

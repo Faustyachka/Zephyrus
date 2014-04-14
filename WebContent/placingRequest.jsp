@@ -16,25 +16,20 @@ var marker;
 
 function initialize() {
 			var input = document.getElementById('address');
-			var options = {
-					types: ['(cities)'],
-					  componentRestrictions: {country: 'ua'}
-			};
-
 			
   geocoder = new google.maps.Geocoder();
   var latlng = new google.maps.LatLng(50.4020355, 30.5326905);
   var mapOptions = {
     zoom: 8,
     center: latlng
-  }
+  };
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
   
   google.maps.event.addListener(map, 'click', function (event) {
       placeMarker(event.latLng);
   });
 
-  autocomplete = new google.maps.places.Autocomplete(input, options);
+  autocomplete = new google.maps.places.Autocomplete(input);
   
 }
 
@@ -82,7 +77,6 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 var latituded = $('#latitude').val();
                 var longituded = $('#longitude').val();
                 $.post('mapping',{latitude:latituded,longitude:longituded},function(rsp){
-                	//var $ul = $('<ul>').appendTo($('#somediv')); // Create HTML <ul> element and append it to HTML DOM element with ID "somediv".
                     $("#somediv").empty();
                 	$.each(rsp, function(key, productcatalog) { 
                     	$("#somediv").append("<input type='radio' name='services' id='"+key+"' value = '"+key+"'> "+ productcatalog.productName+" <br>");

@@ -10,7 +10,11 @@ import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.helpers.DistanceCalculator;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceLocation;
-
+/**
+ * 
+ * @author Alexandra Beskorovaynaya
+ *
+ */
 public class MappingCommand implements Command{
 
 	@Override
