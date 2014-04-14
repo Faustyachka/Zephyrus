@@ -21,7 +21,7 @@ public class RegisterCommand extends SQLCommand {
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String SHApassword = SHAHashing.getHash(password);
-		Connection conn = ConnectionManager.getInstance().getConnection();
+		Connection conn = ConnectionManager.INSTANCE.getConnection();
 		PreparedStatement stmt = conn.prepareStatement("INSERT INTO MISTERDAN.USERS (EMAIL, PASSWORD, ROLE_ID) VALUES(?,?,?)");
 		stmt.setString(1, username);
 		stmt.setString(2, SHApassword);

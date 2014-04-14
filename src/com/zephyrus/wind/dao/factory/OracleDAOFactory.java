@@ -42,25 +42,27 @@ import com.zephyrus.wind.managers.ConnectionManager;
 public class OracleDAOFactory implements IDAOFactory {
 	
 	private Connection connection = null;
-    private static OracleDAOFactory instance;
+    private volatile static OracleDAOFactory instance;
     
     private OracleDAOFactory(){
-        
     }
     
     public static OracleDAOFactory getInstance(){
         if (instance == null)
-            instance = new OracleDAOFactory();
+        	synchronized (OracleDAOFactory.class) {
+        		if (instance == null)
+        			instance = new OracleDAOFactory();
+			}
         return instance;
     }
     
     public void beginConnection() throws SQLException{
-        connection = ConnectionManager.getInstance().getConnection();
+        connection = ConnectionManager.INSTANCE.getConnection();
     }
     
     public void endConnection() throws SQLException{
         if(connection != null)
-            ConnectionManager.getInstance().closeConnection(connection);
+            connection.close();
     }
     
     public void beginTransaction() throws SQLException{
@@ -165,7 +167,6 @@ public class OracleDAOFactory implements IDAOFactory {
 
 	@Override
 	public IUserRoleDAO getUserRoleDAO() throws Exception {
-		// TODO Auto-generated method stub
 		return new OracleUserRoleDAO(connection);
 	}
 	

@@ -18,7 +18,7 @@ public class AdminCommand extends SQLCommand  {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		Connection conn = ConnectionManager.getInstance().getConnection();
+		Connection conn = ConnectionManager.INSTANCE.getConnection();
 		PreparedStatement stmt = conn.prepareStatement("SELECT * FROM MISTERDAN.USERS");
 	    ResultSet rs = stmt.executeQuery();
 	    ArrayList<String> logins = new ArrayList<String>();
