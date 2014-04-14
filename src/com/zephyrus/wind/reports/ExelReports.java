@@ -1,6 +1,7 @@
-package test;
+package com.zephyrus.wind.reports;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -33,40 +34,37 @@ import com.sun.xml.bind.v2.schemagen.xmlschema.List;
 @WebServlet("/ExelReports")
 public class ExelReports extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public ExelReports() {
-        super();
-
-    }
 
 	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#HttpServlet()
 	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	public ExelReports() {
+		super();
+
+	}
+
+	/**
+	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
+	 *      response)
+	 */
+	protected void doGet(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		out.println("12312313");
-		ArrayList<String> list =  new ArrayList<String>();
+		// out.println("12312313");
+		ArrayList<String> list = new ArrayList<String>();
 		list.add("Fist");
 		list.add("Second");
 		list.add("Last");
 		try {
-//			Workbook workbook = new HSSFWorkbook();//ExelExport.writeListToFile(list);
-			  
+			String path = "E:\\reports\\";
+			Workbook workbook = ExelExport.getRouterUtilizationReport(list);
 			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
-	        String fileName = "report"+sdf.format(new Date())+".xls";
-	        File exelFile = new File(getServletContext().getRealPath("/")
-                    + File.separator + "reportsXLS" + File.separator
-                    + fileName);
-	        if(!exelFile.exists()) {
-	            exelFile.createNewFile();
-	        } 
-	        FileOutputStream outFile = new FileOutputStream(exelFile);
-	        out.println("<a href=\"reportsXLS/" + fileName + "\">Download</a>");
-//	        workbook.write(outFile);
-	        outFile.close();
+			String fileName = "report" + sdf.format(new Date()) + ".xls";
+			File exelFile = new File(path + fileName);
+			FileOutputStream outFile = new FileOutputStream(exelFile);
+			out.println("<a href=\"reports/" + fileName + "\">Download</a>");
+			workbook.write(outFile);
+			outFile.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -74,9 +72,11 @@ public class ExelReports extends HttpServlet {
 	}
 
 	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
+	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
+	 *      response)
 	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request,
+			HttpServletResponse response) throws ServletException, IOException {
 		// TODO Auto-generated method stub
 	}
 
