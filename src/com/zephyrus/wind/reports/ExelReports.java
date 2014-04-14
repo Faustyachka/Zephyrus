@@ -50,14 +50,11 @@ public class ExelReports extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		// out.println("12312313");
-		ArrayList<String> list = new ArrayList<String>();
-		list.add("Fist");
-		list.add("Second");
-		list.add("Last");
+		out.println("12312313");
 		try {
 			String path = "E:\\reports\\";
-			Workbook workbook = ExelExport.getRouterUtilizationReport(list);
+			ArrayList <ProfitabilityByMonth> list = new ArrayList<ProfitabilityByMonth>();
+			Workbook workbook = ProfitabilityByMonth.convertToExel(list);
 			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
 			String fileName = "report" + sdf.format(new Date()) + ".xls";
 			File exelFile = new File(path + fileName);
