@@ -22,15 +22,15 @@ import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 
 public class ExelExport {
 	public static void writeListToFile(String fileName, List<String> textList) throws Exception{
-        Workbook workbook = null;
+        Workbook workbook = new HSSFWorkbook();
          
-        if(fileName.endsWith("xlsx")){
-            workbook = new XSSFWorkbook();
-        }else if(fileName.endsWith("xls")){
-            workbook = new HSSFWorkbook();
-        }else{
-            throw new Exception("invalid file name, should be xls or xlsx");
-        }
+//        if(fileName.endsWith("xlsx")){
+//            workbook = new XSSFWorkbook();
+//        }else if(fileName.endsWith("xls")){
+//            workbook = new HSSFWorkbook();
+//        }else{
+//            throw new Exception("invalid file name, should be xls or xlsx");
+//        }
          
         Sheet sheet = workbook.createSheet("FirstSheet");
          
