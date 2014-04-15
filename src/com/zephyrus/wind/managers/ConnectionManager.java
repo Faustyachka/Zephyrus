@@ -2,58 +2,42 @@ package com.zephyrus.wind.managers;
 
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 
 import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
 
-public class ConnectionManager {
+public enum ConnectionManager {
+	INSTANCE;
 	
-	private DataSource ds;
-    private Context cxt;
-    private static ConnectionManager connManager;
+	private DataSource ds = null;
+	private Lock connectionLock = new ReentrantLock();
 
-    private ConnectionManager() {
-        try{
-        prepare();
-        } catch(Exception ex){
-            ex.printStackTrace();
-        }
-    }
+    ConnectionManager() {
+    	try {
+            final Context ctx = new InitialContext();
+            ds = (DataSource) ctx.lookup("jdbc/zephyrus");
+         } catch (NamingException e) {
+            e.printStackTrace();
+         }
 
-    public static ConnectionManager getInstance() {
-        if (connManager == null) {
-            connManager = new ConnectionManager();
-        }
-        return connManager;
     }
+    
+    public Connection getConnection() throws SQLException {
+        if(ds == null) return null;
 
-    private void prepare() throws NamingException, Exception {
-        cxt = new InitialContext();
-        if (cxt == null) {
-            throw new Exception("Context Error! ");
+        Connection conn = null;
+        connectionLock.lock();
+        try {
+            conn = ds.getConnection();
+        } finally {
+            connectionLock.unlock();
         }
-        ds = (DataSource) cxt.lookup("jdbc/zephyrus");
-        if (ds == null) {
-            throw new Exception("Data source missing!");
-        }
-    }
 
-    public Connection getConnection() throws SQLException{
-        try{
-        return ds.getConnection();
-        } catch(SQLException ex){
-            throw new SQLException("Can't get connection!", ex);
-        }
-    }
-
-    public void closeConnection(Connection conn) throws SQLException {
-       try{
-         conn.close();
-        } catch(SQLException ex){
-        	throw new SQLException("Can't close connection!", ex);
-        }
-    }
+        return conn;
+     }
 
 }

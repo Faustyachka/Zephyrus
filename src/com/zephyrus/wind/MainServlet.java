@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.helpers.MailSend;
 import com.zephyrus.wind.managers.CommandManager;
 import com.zephyrus.wind.managers.MessageManager;
 
@@ -59,13 +60,20 @@ public class MainServlet extends HttpServlet {
 			        request.setAttribute("title", MessageManager.ERROR);
 			        page = Pages.MESSAGE_PAGE.getValue();
 		        }
+		        if(page != null){
 		        //forwarding to answer page
 		        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		        dispatcher.forward(request, response);
+		        }
 		    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		processRequest(request, response);
+//		processRequest(request, response);
+		try{
+		MailSend.send("The letter1", new String[]{"misterdan@bigmir.net"},"Hello, Bogdan!");
+		} catch(Exception ex){
+			ex.printStackTrace();
+		}
 	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

@@ -12,6 +12,7 @@ public class LogoutCommand implements Command {
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		request.logout();
+		request.getSession().setAttribute("username", null);
 		return Pages.HOME_PAGE.getValue();
 	}
 
