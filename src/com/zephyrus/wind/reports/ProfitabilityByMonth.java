@@ -3,8 +3,11 @@ package com.zephyrus.wind.reports;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -38,7 +41,7 @@ public class ProfitabilityByMonth {
 //		TODO add work with DAO
 		return list;
 	}
-	public static Workbook convertToExel (ArrayList<ProfitabilityByMonth> list) throws IOException
+	public static String convertToExel (ArrayList<ProfitabilityByMonth> list) throws IOException
 	{
 		Workbook workbook = null;
 		Row row = null;
@@ -76,6 +79,12 @@ public class ProfitabilityByMonth {
 			cell.setCellValue("=SUMM(B2:B"+rowIndex);
 			sheet.autoSizeColumn(0);
 			sheet.autoSizeColumn(1);
-			return workbook;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
+			String fileName = "ProfitabilityByMonth" + sdf.format(new Date()) + ".xls";
+			File exelFile = new File(path + fileName);
+			FileOutputStream outFile = new FileOutputStream(exelFile);
+			workbook.write(outFile);
+			outFile.close();
+			return path+fileName;
 	}
 }

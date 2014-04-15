@@ -3,8 +3,11 @@ package com.zephyrus.wind.reports;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -44,7 +47,7 @@ public class RouterUtil {
 		return list;
 		
 	}
-	public static Workbook convertToExel (ArrayList<RouterUtil> list) throws IOException
+	public static String convertToExel (ArrayList<RouterUtil> list) throws IOException
 	{
 		Workbook workbook = null;
 		Row row = null;
@@ -75,7 +78,14 @@ public class RouterUtil {
 			sheet.autoSizeColumn(0);
 			sheet.autoSizeColumn(1);
 			sheet.autoSizeColumn(2);
-			return workbook;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
+			String fileName = "RouterUtil" + sdf.format(new Date()) + ".xls";
+			File exelFile = new File(path + fileName);
+			FileOutputStream outFile = new FileOutputStream(exelFile);
+			workbook.write(outFile);
+			outFile.close();
+			return path+fileName;
 	}
+
 	
 }
