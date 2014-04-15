@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ICircuitDAO;
 import com.zephyrus.wind.model.Circuit;
 
@@ -27,11 +28,9 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
     private static final int COLUMN_PORT_ID = 2;
     private static final int COLUMN_STATUS = 3;    
 
-	public OracleCircuitDAO(Connection connection)
+	public OracleCircuitDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(Circuit.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(Circuit.class, connection, daoFactory);
 	}
 
 	@Override
@@ -64,6 +63,16 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
     	item.setPortId(rs.getBigDecimal(COLUMN_PORT_ID));
     	item.setStatus(rs.getBigDecimal(COLUMN_STATUS));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

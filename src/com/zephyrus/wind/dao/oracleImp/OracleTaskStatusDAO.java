@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
 import com.zephyrus.wind.model.TaskStatus;
 
@@ -24,10 +25,8 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_TASK_STATUS_VALUE = 2;
 
-	public OracleTaskStatusDAO(Connection connection) throws Exception {
-		super(TaskStatus.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+	public OracleTaskStatusDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(TaskStatus.class, connection, daoFactory);
 	}
 
 	@Override
@@ -57,6 +56,16 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
 		item.setId(rs.getLong(COLUMN_ID));
     	item.setTaskStatusValue(rs.getString(COLUMN_TASK_STATUS_VALUE));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

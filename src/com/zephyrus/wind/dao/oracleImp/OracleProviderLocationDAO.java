@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.model.ProviderLocation;
 
@@ -26,10 +27,8 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
     private static final int COLUMN_LOCATION_NAME = 2;
     private static final int COLUMN_LOCATION_COORD = 3;  
 
-	public OracleProviderLocationDAO(Connection connection) throws Exception {
-		super(ProviderLocation.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+	public OracleProviderLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(ProviderLocation.class, connection, daoFactory);
 	}
 
 	@Override
@@ -62,6 +61,16 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
 		item.setLocationName(rs.getString(COLUMN_LOCATION_NAME));
 		item.setLocationCoord(rs.getString(COLUMN_LOCATION_COORD));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

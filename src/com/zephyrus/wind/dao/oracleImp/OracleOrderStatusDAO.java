@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
 import com.zephyrus.wind.model.OrderStatus;
 
@@ -26,11 +27,8 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_ORDER_STATUS_VALUE = 2;
 
-	public OracleOrderStatusDAO(
-			Connection connection) throws Exception {
-		super(OrderStatus.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+	public OracleOrderStatusDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(OrderStatus.class, connection, daoFactory);
 	}
 
 	@Override
@@ -59,6 +57,16 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 		item.setId(rs.getLong(COLUMN_ID));
     	item.setOrderStatusValue(rs.getString(COLUMN_ORDER_STATUS_VALUE));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

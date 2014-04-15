@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.model.Task;
 
@@ -30,11 +31,9 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
     private static final int COLUMN_TASK_STATUS_ID = 5;  
     private static final int COLUMN_ROLE_ID = 6;  
 
-	public OracleTaskDAO(Connection connection)
+	public OracleTaskDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(Task.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(Task.class, connection, daoFactory);
 	}
 
 	@Override
@@ -75,6 +74,16 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 		item.setTaskValue(rs.getString(COLUMN_TASK_VALUE));
 		item.setUserId(rs.getBigDecimal(COLUMN_USER_ID));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

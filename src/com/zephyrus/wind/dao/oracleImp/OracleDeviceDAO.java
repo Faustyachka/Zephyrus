@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.model.Device;
 
@@ -26,11 +27,9 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERIAL_NUM = 2;
 
-	public OracleDeviceDAO(Connection connection)
+	public OracleDeviceDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(Device.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(Device.class, connection, daoFactory);
 	}
 
 	@Override
@@ -59,6 +58,16 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	protected void fillItem(Device item, ResultSet rs) throws SQLException {
 		item.setId(rs.getLong(COLUMN_ID));
     	item.setSerialNum(rs.getString(COLUMN_SERIAL_NUM));  		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

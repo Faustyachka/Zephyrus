@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.model.UserRole;
 
@@ -25,11 +26,9 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_ROLE_NAME = 2;
     
-	public OracleUserRoleDAO(Connection connection)
+	public OracleUserRoleDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(UserRole.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(UserRole.class, connection, daoFactory);
 	}
 
 	@Override
@@ -60,6 +59,16 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
     	item.setRoleName(rs.getString(COLUMN_ROLE_NAME));
 		
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

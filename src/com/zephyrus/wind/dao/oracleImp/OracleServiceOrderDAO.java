@@ -5,6 +5,9 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 
+
+
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.model.ServiceOrder;
 
@@ -33,10 +36,8 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     private static final int COLUMN_PRODUCT_CATALOG_ID = 5;  
     private static final int COLUMN_SERVICE_LOCATION_ID = 6;  
     private static final int COLUMN_SERVICE_INSTANCE_ID = 7;  
-	public OracleServiceOrderDAO(Connection connection) throws Exception {
-		super(ServiceOrder.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+	public OracleServiceOrderDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(ServiceOrder.class, connection, daoFactory);
 	}
 
 	@Override
@@ -81,6 +82,16 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		item.setServiceInstanceId(rs.getBigDecimal(COLUMN_SERVICE_INSTANCE_ID));
 		item.setServiceLocationId(rs.getBigDecimal(COLUMN_SERVICE_LOCATION_ID));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

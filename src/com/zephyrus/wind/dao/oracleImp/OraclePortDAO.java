@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.model.Port;
 
@@ -28,11 +29,9 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
     private static final int COLUMN_PORT_NUMBER = 3;   
     private static final int COLUMN_PORT_ON = 4;  
 
-	public OraclePortDAO( Connection connection)
+	public OraclePortDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(Port.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(Port.class, connection, daoFactory);
 	}
 
 	@Override
@@ -67,6 +66,16 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
     	item.setPortNumber(rs.getBigDecimal(COLUMN_PORT_NUMBER));
     	item.setPortOn(rs.getBigDecimal(COLUMN_PORT_ON));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

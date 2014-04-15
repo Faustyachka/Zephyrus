@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.model.ServiceInstance;
 
@@ -31,10 +32,8 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
     private static final int COLUMN_CIRCUIT_ID = 5;  
     private static final int COLUMN_START_DATE = 6;  
 
-	public OracleServiceInstanceDAO(Connection connection) throws Exception {
-		super(ServiceInstance.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+	public OracleServiceInstanceDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(ServiceInstance.class, connection, daoFactory);
 	}
 
 	@Override
@@ -76,6 +75,16 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 		item.setUserId(rs.getBigDecimal(COLUMN_USER_ID));
 		item.setStartDate(rs.getDate(COLUMN_START_DATE));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

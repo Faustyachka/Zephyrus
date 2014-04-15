@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.model.User;
 
@@ -31,11 +32,9 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     private static final int COLUMN_STATUS = 5;
     private static final int COLUMN_ROLE_ID = 5;
 
-	public OracleUserDAO( Connection connection)
+	public OracleUserDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(User.class, connection);
-		  select = SQL_SELECT;
-	      remove = SQL_REMOVE;
+		super(User.class, connection, daoFactory);
 	}
 
 	@Override
@@ -82,6 +81,16 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		item.setStatus(rs.getBigDecimal(COLUMN_STATUS));
 		item.setRoleId(rs.getBigDecimal(COLUMN_ROLE_ID));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

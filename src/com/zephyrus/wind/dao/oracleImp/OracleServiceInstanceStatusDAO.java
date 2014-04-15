@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
 
@@ -27,11 +28,9 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
     private static final int COLUMN_SERV_INSTANCE_STATUS_VALUE = 2;
 
 
-	public OracleServiceInstanceStatusDAO(Connection connection)
+	public OracleServiceInstanceStatusDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(ServiceInstanceStatus.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(ServiceInstanceStatus.class, connection, daoFactory);
 	}
 
 	@Override
@@ -62,6 +61,16 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
 		item.setId(rs.getLong(COLUMN_ID));
     	item.setServInstanceStatusValue(rs.getString(COLUMN_SERV_INSTANCE_STATUS_VALUE));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

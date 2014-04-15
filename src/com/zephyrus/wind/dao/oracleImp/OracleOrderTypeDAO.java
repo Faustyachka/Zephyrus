@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.model.OrderType;
 
@@ -26,11 +27,9 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_ORDER_TYPE_VALUE = 2;
 
-	public OracleOrderTypeDAO( Connection connection)
+	public OracleOrderTypeDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(OrderType.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(OrderType.class, connection, daoFactory);
 	}
 
 	@Override
@@ -60,6 +59,16 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 		item.setId(rs.getLong(COLUMN_ID));
     	item.setOrderType(rs.getString(COLUMN_ORDER_TYPE_VALUE));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

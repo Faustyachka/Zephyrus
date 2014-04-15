@@ -13,7 +13,7 @@ public abstract class SQLCommand implements Command {
 	protected OracleDAOFactory oracleDaoFactory;
 
   public SQLCommand() {
-	  oracleDaoFactory = OracleDAOFactory.getInstance();
+	  oracleDaoFactory = new OracleDAOFactory();
   }
 
   public String execute(HttpServletRequest request, HttpServletResponse response)

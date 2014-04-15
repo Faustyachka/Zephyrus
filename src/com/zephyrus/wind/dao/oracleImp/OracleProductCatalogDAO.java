@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.model.ProductCatalog;
 
@@ -29,10 +30,8 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
     private static final int COLUMN_PRODUCT_NAME = 4;
     private static final int COLUMN_PRICE = 5;
     
-	public OracleProductCatalogDAO(Connection connection) throws Exception {
-		super(ProductCatalog.class, connection);
-		  select = SQL_SELECT;
-	        remove = SQL_REMOVE;
+	public OracleProductCatalogDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(ProductCatalog.class, connection, daoFactory);
 	}
 
 	@Override
@@ -72,6 +71,16 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
     	item.setProviderLocId(rs.getBigDecimal(COLUMN_PROVIDER_LOC_ID));
     
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

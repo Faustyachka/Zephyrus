@@ -42,18 +42,8 @@ import com.zephyrus.wind.managers.ConnectionManager;
 public class OracleDAOFactory implements IDAOFactory {
 	
 	private Connection connection = null;
-    private volatile static OracleDAOFactory instance;
     
-    private OracleDAOFactory(){
-    }
-    
-    public static OracleDAOFactory getInstance(){
-        if (instance == null)
-        	synchronized (OracleDAOFactory.class) {
-        		if (instance == null)
-        			instance = new OracleDAOFactory();
-			}
-        return instance;
+    public OracleDAOFactory(){
     }
     
     public void beginConnection() throws SQLException{
@@ -86,88 +76,88 @@ public class OracleDAOFactory implements IDAOFactory {
 
 	@Override
 	public ICableDAO getCableDAO() throws Exception {
-		return new OracleCableDAO(connection);
+		return new OracleCableDAO(connection, this);
 	}
 
 	@Override
 	public ICircuitDAO getCircuitDAO() throws Exception {
-		return new OracleCircuitDAO(connection);
+		return new OracleCircuitDAO(connection, this);
 	}
 
 	@Override
 	public IDeviceDAO getDeviceDAO() throws Exception {
-		return new OracleDeviceDAO(connection);
+		return new OracleDeviceDAO(connection, this);
 	}
 
 	@Override
 	public IOrderStatusDAO getOrderStatusDAO() throws Exception {
-		return new OracleOrderStatusDAO(connection);
+		return new OracleOrderStatusDAO(connection, this);
 	}
 
 	@Override
 	public IOrderTypeDAO getOrderTypeDAO() throws Exception {
-		return new OracleOrderTypeDAO(connection);
+		return new OracleOrderTypeDAO(connection, this);
 	}
 
 	@Override
 	public IPortDAO getPortDAO() throws Exception {
-		return new OraclePortDAO(connection);
+		return new OraclePortDAO(connection, this);
 	}
 
 	@Override
 	public IProductCatalogDAO getProductCatalogDAO() throws Exception {
-		return new OracleProductCatalogDAO(connection);
+		return new OracleProductCatalogDAO(connection, this);
 	}
 
 	@Override
 	public IProviderLocationDAO getProviderLocationDAO() throws Exception {
-		return new OracleProviderLocationDAO(connection);
+		return new OracleProviderLocationDAO(connection, this);
 	}
 
 	@Override
 	public IServiceInstanceDAO getServiceInstanceDAO() throws Exception {
-		return new OracleServiceInstanceDAO(connection);
+		return new OracleServiceInstanceDAO(connection, this);
 	}
 
 	@Override
 	public IServiceInstanceStatusDAO getServiceInstanceStatusDAO()
 			throws Exception {
-		return new OracleServiceInstanceStatusDAO(connection);
+		return new OracleServiceInstanceStatusDAO(connection, this);
 	}
 
 	@Override
 	public IServiceLocationDAO getServiceLocationDAO() throws Exception {
-		return new OracleServiceLocationDAO(connection);
+		return new OracleServiceLocationDAO(connection, this);
 	}
 
 	@Override
 	public IServiceOrderDAO getServiceOrderDAO() throws Exception {
-		return new OracleServiceOrderDAO(connection);
+		return new OracleServiceOrderDAO(connection, this);
 	}
 
 	@Override
 	public IServiceTypeDAO getServiceTypeDAO() throws Exception {
-		return new OracleServiceTypeDAO(connection);
+		return new OracleServiceTypeDAO(connection, this);
 	}
 
 	@Override
 	public ITaskDAO getTaskDAO() throws Exception {
-		return new OracleTaskDAO(connection);
+		return new OracleTaskDAO(connection, this);
 	}
 
 	@Override
 	public ITaskStatusDAO getTaskStatusDAO() throws Exception {
-		return new OracleTaskStatusDAO(connection);
+		return new OracleTaskStatusDAO(connection, this);
 	}
 
 	@Override
 	public IUserDAO getUserDAO() throws Exception {
-		return new OracleUserDAO(connection);
+		return new OracleUserDAO(connection, this);
 	}
 
 	@Override
 	public IUserRoleDAO getUserRoleDAO() throws Exception {
-		return new OracleUserRoleDAO(connection);
+		return new OracleUserRoleDAO(connection, this);
 	}
 	
 	

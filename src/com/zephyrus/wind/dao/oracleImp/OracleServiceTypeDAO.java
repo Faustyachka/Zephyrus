@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceTypeDAO;
 import com.zephyrus.wind.model.ServiceType;
 
@@ -25,10 +26,8 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_TYPE = 2;
 
-	public OracleServiceTypeDAO(Connection connection) throws Exception {
-		super(ServiceType.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+	public OracleServiceTypeDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(ServiceType.class, connection, daoFactory);
 	}
 
 	@Override
@@ -58,6 +57,16 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
 		item.setId(rs.getLong(COLUMN_ID));
     	item.setServiceType(rs.getString(COLUMN_SERVICE_TYPE));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

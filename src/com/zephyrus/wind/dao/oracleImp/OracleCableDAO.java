@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.model.Cable;
 
@@ -27,11 +28,9 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
     private static final int COLUMN_PORT_ID = 2;
     private static final int COLUMN_SERVICE_LOCATION_ID = 3;    
 
-	public OracleCableDAO(Connection connection)
+	public OracleCableDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
-		super(Cable.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+		super(Cable.class, connection, daoFactory);
 	}
 
 	@Override
@@ -64,6 +63,16 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
     	item.setPortId(rs.getBigDecimal(COLUMN_PORT_ID));
     	item.setServiceLocationId(rs.getBigDecimal(COLUMN_SERVICE_LOCATION_ID));
 		
+	}
+
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }

@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
 import com.zephyrus.wind.model.ServiceLocation;
 
@@ -25,10 +26,8 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_LOCATION_COORD = 2;
     private static final int COLUMN_USER_ID = 3;  
-	public OracleServiceLocationDAO(Connection connection) throws Exception {
-		super(ServiceLocation.class, connection);
-		select = SQL_SELECT;
-        remove = SQL_REMOVE;
+	public OracleServiceLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+		super(ServiceLocation.class, connection, daoFactory);
 	}
 
 	@Override
@@ -60,6 +59,16 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 		item.setServiceLocationCoord(rs.getString(COLUMN_SERVICE_LOCATION_COORD));
 		item.setUserId(rs.getBigDecimal(COLUMN_USER_ID));
 		
+	}
+	
+	@Override
+	protected String getSelect() {
+		return SQL_SELECT;
+	}
+
+	@Override
+	protected String getDelete() {
+		return SQL_REMOVE;
 	}
 
 }
