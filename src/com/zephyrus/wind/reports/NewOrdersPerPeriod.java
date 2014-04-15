@@ -3,7 +3,9 @@ package com.zephyrus.wind.reports;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
@@ -72,7 +74,7 @@ public class NewOrdersPerPeriod {
 //		TODO add work with DAO
 		return list;
 	}
-	public static Workbook convertToExel (ArrayList<NewOrdersPerPeriod> list) throws IOException
+	public static String convertToExel (ArrayList<NewOrdersPerPeriod> list) throws IOException
 	{
 		Workbook workbook = null;
 		Row row = null;
@@ -115,6 +117,12 @@ public class NewOrdersPerPeriod {
 			sheet.autoSizeColumn(2);
 			sheet.autoSizeColumn(3);
 			sheet.autoSizeColumn(4);
-			return workbook;
+			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
+			String fileName = "NewOrdersPerPeriod" + sdf.format(new Date()) + ".xls";
+			File exelFile = new File(path + fileName);
+			FileOutputStream outFile = new FileOutputStream(exelFile);
+			workbook.write(outFile);
+			outFile.close();
+			return path+fileName;
 	}
 }

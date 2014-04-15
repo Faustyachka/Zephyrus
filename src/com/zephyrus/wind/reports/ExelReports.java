@@ -52,17 +52,17 @@ public class ExelReports extends HttpServlet {
 		PrintWriter out = response.getWriter();
 		out.println("12312313");
 		try {
-			String path = "E:\\reports\\";
-			ArrayList <ProfitabilityByMonth> list = new ArrayList<ProfitabilityByMonth>();
-			Workbook workbook = ProfitabilityByMonth.convertToExel(list);
-			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
-			String fileName = "report" + sdf.format(new Date()) + ".xls";
-			File exelFile = new File(path + fileName);
-			FileOutputStream outFile = new FileOutputStream(exelFile);
-			out.println("<a href=\"reports/" + fileName + "\">Download</a>");
-			XLStoCSV.convert(workbook);
-			workbook.write(outFile);
-			outFile.close();
+//			String path = "E:\\reports\\";
+//			ArrayList <ProfitabilityByMonth> list = new ArrayList<ProfitabilityByMonth>();
+//			Workbook workbook = ProfitabilityByMonth.convertToExel(list);
+//			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
+//			String fileName = "report" + sdf.format(new Date()) + ".xls";
+//			File exelFile = new File(path + fileName);
+//			FileOutputStream outFile = new FileOutputStream(exelFile);
+//			out.println("<a href=\"reports/" + fileName + "\">Download</a>");
+//			XLStoCSV.convert(workbook);
+//			workbook.write(outFile);
+//			outFile.close();
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
