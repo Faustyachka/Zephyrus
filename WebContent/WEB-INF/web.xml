@@ -24,8 +24,10 @@
     <url-pattern>/order</url-pattern>
     <url-pattern>/home</url-pattern>
     <url-pattern>/admin</url-pattern>
+    <url-pattern>/login</url-pattern>
     <url-pattern>/logout</url-pattern>
     <url-pattern>/mapping</url-pattern>
+    <url-pattern>/generateReport</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>
@@ -59,7 +61,6 @@
       <http-method>POST</http-method>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>ADMIN</role-name>
       <role-name>SUPPORT</role-name>
     </auth-constraint>
   </security-constraint>
@@ -72,7 +73,6 @@
       <http-method>POST</http-method>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>ADMIN</role-name>
       <role-name>PROVISION</role-name>
     </auth-constraint>
   </security-constraint>
@@ -85,7 +85,6 @@
       <http-method>POST</http-method>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>ADMIN</role-name>
       <role-name>INSTALLATION</role-name>
     </auth-constraint>
   </security-constraint>
@@ -98,13 +97,12 @@
       <http-method>POST</http-method>
     </web-resource-collection>
     <auth-constraint>
-      <role-name>ADMIN</role-name>
       <role-name>CUSTOMER</role-name>
     </auth-constraint>
   </security-constraint>
   <security-constraint>
     <web-resource-collection>
-      <web-resource-name>Customer</web-resource-name>
+      <web-resource-name>Login</web-resource-name>
       <url-pattern>/login</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
