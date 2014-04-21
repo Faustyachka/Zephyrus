@@ -93,6 +93,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	protected String getDelete() {
 		return SQL_REMOVE;
 	}
+	
 
 	@Override
 	public ArrayList<User> getUsersByRoleId(int roleId) throws SQLException, InstantiationException, IllegalAccessException {

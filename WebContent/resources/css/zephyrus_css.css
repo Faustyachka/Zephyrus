@@ -1,35 +1,83 @@
-body {
-	margin: 0;
-	padding: 0;
-	line-height: 1.5em;
-	font-family: Arial, Helvetica, sans-serif;
-	font-size: 11px;
-	color: #ffffff;
-	background: #ffffff url(../images/templatemo_main_bg.jpg) repeat-x;
-}
-
-a:link, a:visited { color: #FFFF66; text-decoration: none; font-weight: bold; } 
-a:active, a:hover { color: #99FF00; text-decoration: underline; } 
-
-p {
-	margin: 0px;
-	padding: 0px;
-}
-
-img {
-	margin: 0px;
-	padding: 0px;
-	border: none;
-}
-
-.cleaner { clear: both; width: 100%; height: 0px; font-size: 0px;  }
-
-#templatemo_container {
+.container {
+	height: 675px;
 	width: 1000px;
+	border:solid;
 	margin: 0 auto;
 }
+.header {
+	float: left;
+	height: 100px;
+	width: 1000px;
+	border-bottom:solid;
+}
+.navigation {
+	float: left;
+	height: 550px;
+	width: 190px;
+	border-right:solid;
+}
 
-#templatemo_footer a{
-	color: #000;
-	font-weight: normal;
+.main {
+	float: left;
+	height: 550px;
+	width: 800px;
+	overflow:auto;
+}
+
+.footer {
+	float: left;
+	height: 25px;
+	width: 1000px;
+	border-top:solid;
+}
+
+.button {
+	height: 30px;
+	width: 150px;
+}
+
+#login_link {
+	float:right;
+	margin-right:10px;
+	margin-bottom:10px;
+	margin-top:70px;
+}
+
+#map-canvas {
+	width:700px;
+	height:380px;
+	margin-left:50px;
+	margin-right:50px;
+	margin-bottom:10px;
+	margin-top:10px;
+}
+
+#location {
+	margin-left:50px;
+	float:left;
+}
+
+#services {
+	margin-top:10px;
+	margin-bottom:5px;
+}
+
+#loginBox {
+	text-align:center;
+	margin:10px;	
+}
+
+#registerBox {
+	text-align:center;
+	margin:10px;	
+}
+
+#main_link {
+	float:left;
+	margin-left:10px;
+	margin-top:70px;
+}
+
+#chooseReportBox {
+	margin:20px;
 }
