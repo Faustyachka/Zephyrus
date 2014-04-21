@@ -21,6 +21,7 @@
 	float: left;
 	height: 550px;
 	width: 800px;
+	overflow:auto;
 }
 
 .footer {
@@ -28,6 +29,11 @@
 	height: 25px;
 	width: 1000px;
 	border-top:solid;
+}
+
+.button {
+	height: 30px;
+	width: 150px;
 }
 
 #login_link {
