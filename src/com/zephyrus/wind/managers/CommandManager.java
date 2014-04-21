@@ -11,6 +11,7 @@ import com.zephyrus.wind.commands.nosql.LogoutCommand;
 import com.zephyrus.wind.commands.nosql.MappingCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
+import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 
 public class CommandManager {
@@ -23,6 +24,7 @@ public class CommandManager {
 	private static final String LOGOUT_COMMAND = "logout";
 	private static final String MAPPING_COMMAND = "mapping";
 	private static final String REGISTER_COMMAND = "register";
+	private static final String GENERATEREPORT_COMMAND = "generateReport";
 
 	public CommandManager() {
 
@@ -33,6 +35,7 @@ public class CommandManager {
 		commands.put(LOGOUT_COMMAND, new LogoutCommand());
 		commands.put(MAPPING_COMMAND, new MappingCommand());
 		commands.put(REGISTER_COMMAND, new RegisterCommand());
+		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
 
 	}
 

@@ -92,5 +92,6 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	protected String getDelete() {
 		return SQL_REMOVE;
 	}
+	
 
 }

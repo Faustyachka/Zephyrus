@@ -1,22 +1,69 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Login page</title>
-</head>
-<body>
-<form action="j_security_check" method=post>
+<jsp:include page="../WEB-INF/jsphf/header.jsp" />
+
+<div class="navigation">
+  <form action="j_security_check" method=post>
     <div id="loginBox">
-        <p><strong>username:</strong>
-            <input type="text" size="20" name="j_username"></p>
+          <h3> Login: </h3>
+            <input type="text" size="20" name="j_username">
 
-        <p><strong>password:</strong>
-            <input type="password" size="20" name="j_password"></p>
+          <h3> Password: </h3>
+            <input type="password" size="20" name="j_password">
 
-        <p><input type="submit" value="submit"></p>
+        <p><input type="submit" value="Log in"></p>
     </div>
 </form>
-</body>
-</html>
+  </div>
+  <div class="main"> 
+  <div id="registerBox">
+            <h3> Registration </h3>
+            <form action="Zephyrus/view/register" method="post">
+            <table align="center" id="registerTable" >
+            <tr>
+            <td>
+            First name:
+            </td>
+            <td>
+            <input type="text" name="fname"/>
+            </td>
+            </tr>
+            <tr>
+            <td>
+            Last name:
+            </td>
+            <td>
+            <input type="text" name="lname"/>
+            </td>
+            </tr>
+            <tr>
+            <td>
+            E-mail:
+            </td>
+            <td>
+            <input type="text" name="email"/>
+            </td>
+            </tr>
+            <tr>
+            <td>
+            Password:
+            </td>
+            <td>
+            <input type="text" name="password"/>
+            </td>
+            </tr>
+            <tr>
+            <td>
+            Confirm password:
+            </td>
+            <td>
+            <input type="text" name="cpassword"/>
+            </td>
+            </tr>
+            </table>
+            <br>
+            <input type="submit" value="Create an account" />
+            </form>
+            
+  </div>   
+  </div>
+  
+  <jsp:include page="../WEB-INF/jsphf/footer.jsp" />
