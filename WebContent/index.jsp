@@ -5,11 +5,13 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Ziphyrus</title>
+<title>Zephyrus</title>
     </head>
     <body>
 Main index page
 <a href="/Zephyrus/view/register.jsp">register</a>
+<a href="/Zephyrus/admin">admin</a>
+<a href="/Zephyrus/customersupport">support</a>
 <br>
 <c:choose>
 <c:when test="${username != null}">

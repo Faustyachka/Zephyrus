@@ -68,9 +68,9 @@ public class MainServlet extends HttpServlet {
 		    }
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//		processRequest(request, response);
+		processRequest(request, response);
 		try{
-		MailSend.send("The letter1", new String[]{"misterdan@bigmir.net"},"Hello, Bogdan!");
+//		MailSend.send("The letter1", new String[]{"misterdan@bigmir.net"},"Hello, Bogdan!");
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}
