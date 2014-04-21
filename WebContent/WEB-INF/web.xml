@@ -116,8 +116,7 @@
       <role-name>INSTALLATION</role-name>
       <role-name>CUSTOMER</role-name>
     </auth-constraint>
-    </security-constraint>
-  
+  </security-constraint>
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>General</web-resource-name>
