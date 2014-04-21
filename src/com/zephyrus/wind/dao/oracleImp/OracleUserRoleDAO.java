@@ -9,7 +9,7 @@ import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.model.UserRole;
 
 public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleDAO{
-	private static final String TABLE_NAME = "USER_ROLES";
+	private static final String TABLE_NAME = "MISTERDAN.USER_ROLES";
     private final String SQL_SELECT = "SELECT ID, ROLE_NAME " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";

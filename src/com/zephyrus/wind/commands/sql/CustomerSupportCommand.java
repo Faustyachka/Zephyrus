@@ -13,46 +13,42 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
+import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.model.User;
+
 /**
  * 
  * @author Alexandra Beskorovaynaya
  *
  */
-public class AdminCommand extends SQLCommand  {
+
+public class CustomerSupportCommand extends SQLCommand {
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+//		IUserDAO dao = oracleDaoFactory.getUserDAO();
+//		ArrayList<User> users = dao.findAll();
+//		request.getSession().setAttribute("users", users);
+//		return Pages.SUPPORT_PAGE.getValue();
+		
 		Gson gson = new Gson();
 		String action=(String)request.getParameter("action");
 		response.setContentType("application/json");
 		if(action==null) {
-			return Pages.ADMIN_PAGE.getValue();
+			return Pages.SUPPORT_PAGE.getValue();
 		} else {
 		if (action.equals("list")) {
 		try{     
-			IDAO<User> dao = oracleDaoFactory.getUserDAO();
-			    //Fetch Data from User Table
-			
-			    ArrayList<User> lstUser=dao.findAll(); 
-			
-			    //Convert Java Object to Json   
-			
-			    JsonElement element = gson.toJsonTree(lstUser, new TypeToken<List<User>>() {}.getType());
-			
-			    JsonArray jsonArray = element.getAsJsonArray();
-			
-			    String listData=jsonArray.toString();   
-			
-			    //Return Json in the format required by jTable plugin
-			
-			    listData="{\"Result\":\"OK\",\"Records\":"+listData+"}";  
-			
+			IUserDAO dao = oracleDaoFactory.getUserDAO();			
+			    ArrayList<User> lstUser=dao.getUsersByRoleId(2);			
+			    JsonElement element = gson.toJsonTree(lstUser, new TypeToken<List<User>>() {}.getType());			
+			    JsonArray jsonArray = element.getAsJsonArray();			
+			    String listData=jsonArray.toString();   						
+			    listData="{\"Result\":\"OK\",\"Records\":"+listData+"}";  		
 			    response.getWriter().print(listData);
-			    return null;
-			
+			    return null;			
 			    }catch(Exception ex){
 			
 			     String error="{\"Result\":\"ERROR\",\"Message\":"+ex.getMessage()+"}";
@@ -64,8 +60,7 @@ public class AdminCommand extends SQLCommand  {
 			    }
 		} }	
 		
-		return Pages.ADMIN_PAGE.getValue();
+		return Pages.SUPPORT_PAGE.getValue();
 	}
-
 
 }

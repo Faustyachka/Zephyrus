@@ -3,13 +3,14 @@ package com.zephyrus.wind.dao.oracleImp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.model.User;
 
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
-	private static final String TABLE_NAME = "USERS";
+	private static final String TABLE_NAME = "MISTERDAN.USERS";
     private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
                                       "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID FROM " + 
                                        TABLE_NAME + " ";
@@ -28,9 +29,9 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     private static final int COLUMN_LAST_NAME= 3;
     private static final int COLUMN_EMAIL = 4;
     private static final int COLUMN_PASSWORD = 5;
-    private static final int COLUMN_REGISTRATION_DATA = 5;
-    private static final int COLUMN_STATUS = 5;
-    private static final int COLUMN_ROLE_ID = 5;
+    private static final int COLUMN_REGISTRATION_DATA = 6;
+    private static final int COLUMN_STATUS = 7;
+    private static final int COLUMN_ROLE_ID = 8;
 
 	public OracleUserDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -40,14 +41,14 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	@Override
 	public void update(User record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_FIRST_NAME, record.getFirstName());
-    	stmt.setString(COLUMN_LAST_NAME, record.getLastName());
-    	stmt.setString(COLUMN_EMAIL, record.getEmail());
-    	stmt.setString(COLUMN_PASSWORD, record.getPassword());
-    	stmt.setDate(COLUMN_REGISTRATION_DATA, (java.sql.Date)record.getRegistrationData());
-    	stmt.setBigDecimal(COLUMN_STATUS, record.getStatus());
-    	stmt.setBigDecimal(COLUMN_ROLE_ID, record.getRoleId());
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getFirstName());
+    	stmt.setString(2, record.getLastName());
+    	stmt.setString(3, record.getEmail());
+    	stmt.setString(4, record.getPassword());
+    	stmt.setDate(5, record.getRegistrationData());
+    	stmt.setBigDecimal(6, record.getStatus());
+    	stmt.setBigDecimal(7, record.getRoleId());
+    	stmt.setLong(8, record.getId());
         stmt.executeUpdate();
 		
 	}
@@ -55,13 +56,13 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	@Override
 	public int insert(User record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(COLUMN_FIRST_NAME, record.getFirstName());
-    	stmt.setString(COLUMN_LAST_NAME, record.getLastName());
-    	stmt.setString(COLUMN_EMAIL, record.getEmail());
-    	stmt.setString(COLUMN_PASSWORD, record.getPassword());
-    	stmt.setDate(COLUMN_REGISTRATION_DATA, (java.sql.Date)record.getRegistrationData());
-    	stmt.setBigDecimal(COLUMN_STATUS, record.getStatus());
-    	stmt.setBigDecimal(COLUMN_ROLE_ID, record.getRoleId());
+    	stmt.setString(1, record.getFirstName());
+    	stmt.setString(2, record.getLastName());
+    	stmt.setString(3, record.getEmail());
+    	stmt.setString(4, record.getPassword());
+    	stmt.setDate(5, record.getRegistrationData());
+    	stmt.setBigDecimal(6, record.getStatus());
+    	stmt.setBigDecimal(7, record.getRoleId());
 		return stmt.executeUpdate();
 	}
 
@@ -93,5 +94,13 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		return SQL_REMOVE;
 	}
 	
+
+	@Override
+	public ArrayList<User> getUsersByRoleId(int roleId) throws SQLException, InstantiationException, IllegalAccessException {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
+		stmt.setInt(1, roleId);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
+	}
 
 }

@@ -20,6 +20,8 @@ import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
+import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
+import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleCableDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleCircuitDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleDeviceDAO;
@@ -37,6 +39,8 @@ import com.zephyrus.wind.dao.oracleImp.OracleTaskDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleTaskStatusDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleUserDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleUserRoleDAO;
+import com.zephyrus.wind.dao.oracleImp.OracleVSupportInstanceDAO;
+import com.zephyrus.wind.dao.oracleImp.OracleVSupportOrderDAO;
 import com.zephyrus.wind.managers.ConnectionManager;
 
 public class OracleDAOFactory implements IDAOFactory {
@@ -158,6 +162,17 @@ public class OracleDAOFactory implements IDAOFactory {
 	@Override
 	public IUserRoleDAO getUserRoleDAO() throws Exception {
 		return new OracleUserRoleDAO(connection, this);
+	}
+
+	@Override
+	public IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception {	
+		return new OracleVSupportInstanceDAO(connection, this);
+	}
+
+	@Override
+	public IVSupportOrderDAO getVSupportOrderDAO() throws Exception {
+		
+		return new OracleVSupportOrderDAO(connection, this);
 	}
 	
 	

@@ -8,8 +8,13 @@ public enum Pages {
     PROVISION_PAGE("provision/index.jsp"),
     INSTALLATION_PAGE("installation/index.jsp"),
     CUSTOMER_PAGE("customer/index.jsp"),
+
     REGISTER_PAGE("view/register.jsp"),
+
+
+
     REPORT_PAGE("view/report.jsp");
+
     
     String value;
     Pages(String page){

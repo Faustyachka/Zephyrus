@@ -18,6 +18,8 @@ import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
+import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
+import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
 
 public interface IDAOFactory {
 
@@ -38,4 +40,6 @@ public interface IDAOFactory {
    ITaskStatusDAO getTaskStatusDAO() throws Exception;
    IUserDAO getUserDAO() throws Exception;
    IUserRoleDAO getUserRoleDAO() throws Exception;
+   IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception;
+   IVSupportOrderDAO getVSupportOrderDAO() throws Exception;
 }
