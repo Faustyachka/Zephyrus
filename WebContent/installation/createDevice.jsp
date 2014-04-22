@@ -13,7 +13,7 @@
   <center>
     <h2>Create a Device</h2></center>
   <form id="createdevice" name="form3" method="post" action="">
-    <label>Device ID:	</label><input type="text" name="password" id="textfield" />
+    <label>Device ID:	</label><input type="text" name="serialID" id="textfield" />
 <br />
 <br />
   <input type="submit" name="button" id="button" value="Create a Device" class="button"/>
