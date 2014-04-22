@@ -12,7 +12,7 @@
   <div class="main">
   <center>
     <h2>Create a Device</h2></center>
-  <form id="createdevice" name="form3" method="post" action="">
+  <form id="createdevice" name="createdevice" method="post" action="">
     <label>Device ID:	</label><input type="text" name="serialID" id="textfield" />
 <br />
 <br />
