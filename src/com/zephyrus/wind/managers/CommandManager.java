@@ -41,6 +41,7 @@ public class CommandManager {
 	private static final String CREATE_NEW_PASSWORD_COMMAND = "createnewpass";
 	private static final String REVIEW_USER_COMMAND = "review";
 	private static final String CUSTOMER_SUPPORT_COMMAND = "customersupport";
+	private static final String CREATE_DEVICE_COMMAND = "createdevice";
 	
 	
 
@@ -63,7 +64,7 @@ public class CommandManager {
 		commands.put(CREATE_NEW_PASSWORD_COMMAND, new CreateNewPassComand());
 		commands.put(REVIEW_USER_COMMAND, new ReviewUserCommand());
 		commands.put(CUSTOMER_SUPPORT_COMMAND, new CustomerSupportCommand());
-		
+		commands.put(CREATE_DEVICE_COMMAND,  new CreateDeviceCommand());
 
 		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
 
