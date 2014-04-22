@@ -16,14 +16,14 @@
   <div class="main"> 
   <div id="registerBox">
             <h3> Registration </h3>
-            <form action="Zephyrus/view/register" method="post">
+            <form action="Zephyrus/register" method="post">
             <table align="center" id="registerTable" >
             <tr>
             <td>
             First name:
             </td>
             <td>
-            <input type="text" name="fname"/>
+            <input type="text" name="fname" id="fname" value="${firstname}" />
             </td>
             </tr>
             <tr>
@@ -31,7 +31,7 @@
             Last name:
             </td>
             <td>
-            <input type="text" name="lname"/>
+            <input type="text" name="lname" id="sname" value="${lastname}" />
             </td>
             </tr>
             <tr>
@@ -39,7 +39,7 @@
             E-mail:
             </td>
             <td>
-            <input type="text" name="email"/>
+            <input type="text" name="email" id="email"/><span id="valid"></span>
             </td>
             </tr>
             <tr>
@@ -47,7 +47,7 @@
             Password:
             </td>
             <td>
-            <input type="text" name="password"/>
+            <input type="text" name="password" id="pass"/>
             </td>
             </tr>
             <tr>
@@ -55,7 +55,7 @@
             Confirm password:
             </td>
             <td>
-            <input type="text" name="cpassword"/>
+            <input type="text" name="cpassword" id="confirmpass" /><span id="validpass"></span>
             </td>
             </tr>
             </table>

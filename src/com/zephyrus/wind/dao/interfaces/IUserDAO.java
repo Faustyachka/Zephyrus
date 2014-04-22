@@ -7,5 +7,6 @@ import com.zephyrus.wind.model.User;
 public interface IUserDAO extends IDAO<User> {
 
 		 ArrayList<User> getUsersByRoleId(int roleId) throws Exception;
+		 User findByEmail(String email) throws Exception;
 
 }

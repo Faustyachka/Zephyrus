@@ -1,5 +1,11 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
+<link rel="stylesheet" href="../resources/css/jquery-ui-1.10.4.min.css">
+<link rel="stylesheet" href="../resources/css/jtable.css">
+<script src="../resources/javascript/jquery-ui-1.10.4.min.js"></script>
+<script src="../resources/javascript/jquery.jtable.min.js"></script>
+<script src="../resources/javascript/blockingjTable.js"></script>
+
 <div class="navigation">
 <center>
 <input name="tasks" type="button" value="Tasks" class="button" />
@@ -12,75 +18,10 @@
   </center>
 </div>
 <div class="main">
-<form id="createdevice" name="form3" method="post" action="">
-  <p>
-    <label>Group Users by:	</label>
-    <select name="usersparameter">
-      <option value="1">Parameter1</option>
-      <option value="2">Parameter2</option>
-    </select>
-  </p>
-  
-  <table>
-    <tr><td><label>Blocked users</label></td>
-  <td><label>User's name</label></td></tr>
-  <tr>
-  <td>
-    <label>
-      <input type="checkbox" name="CheckboxGroup1" value="user1" id="CheckboxGroup1_0" />
-    </label></td>
-    <td>
-    <label>User1</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user2" id="CheckboxGroup1_1" /></label></td>
-    <td>
-    <label>User2</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user3" id="CheckboxGroup1_2" /></label></td>
-    <td>
-    <label>User3</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user4" id="CheckboxGroup1_3" /></label></td>
-    <td>
-    <label>User4</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user5" id="CheckboxGroup1_4" /></label></td>
-    <td>
-    <label>User5</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user6" id="CheckboxGroup1_5" checked="checked"/></label></td>
-    <td>
-    <label>User6</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user7" id="CheckboxGroup1_6" /></label></td>
-    <td>
-    <label>User7</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user8" id="CheckboxGroup1_7" checked="checked"/></label></td>
-    <td>
-    <label>User8</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user9" id="CheckboxGroup1_8" checked="checked"/></label></td>
-    <td>
-    <label>User9</label></td></tr>
-    <tr>
-    <td><label>
-      <input type="checkbox" name="CheckboxGroup1" value="user10" id="CheckboxGroup1_9" /></label>
-      <td>
-    <label>User10</label></td></tr></table>
-   <input type="submit" name="button" value="Save changes" class="button"/>
-   <br>
-   <br>
+<div id="PersonTableContainer"></div>
+<a href="Zephyrus/createEngineerAccount">
    <input type="button" value="Create account" class="button"/>
-</form>
+   </a>
 </div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />
