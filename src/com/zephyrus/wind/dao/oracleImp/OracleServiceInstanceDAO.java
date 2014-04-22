@@ -3,10 +3,12 @@ package com.zephyrus.wind.dao.oracleImp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.model.ServiceInstance;
+import com.zephyrus.wind.model.ServiceOrder;
 
 public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> implements IServiceInstanceDAO {
 	
@@ -85,6 +87,13 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	@Override
 	protected String getDelete() {
 		return SQL_REMOVE;
+	}
+	@Override
+	public ArrayList<ServiceInstance> getServiceInstancesByUserId(int id) throws SQLException, InstantiationException, IllegalAccessException {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
+		stmt.setInt(1, id);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
 	}
 
 }

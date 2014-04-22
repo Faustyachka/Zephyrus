@@ -12,12 +12,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.enums.Pages;
-import com.zephyrus.wind.model.VSupportOrder;
+import com.zephyrus.wind.model.ServiceInstance;
+import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.User;
 
-public class GetUsersSO extends SQLCommand {
-
+public class GetUsersSI extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -30,10 +32,10 @@ public class GetUsersSO extends SQLCommand {
 		} else {
 		if (action.equals("list")) {
 		try{     
-				IVSupportOrderDAO dao = oracleDaoFactory.getVSupportOrderDAO();	
+				IServiceInstanceDAO dao = oracleDaoFactory.getServiceInstanceDAO();	
 				int id = Integer.parseInt(request.getParameter("id"));
-				ArrayList<VSupportOrder> SO = dao.getOrdersByUserId(id);
-			    JsonElement element = gson.toJsonTree(SO, new TypeToken<List<VSupportOrder>>() {}.getType());			
+				ArrayList<ServiceInstance> SO = dao.getServiceInstancesByUserId(id);	
+			    JsonElement element = gson.toJsonTree(SO, new TypeToken<List<ServiceInstance>>() {}.getType());			
 			    JsonArray jsonArray = element.getAsJsonArray();			
 			    String listData=jsonArray.toString();   						
 			    listData="{\"Result\":\"OK\",\"Records\":"+listData+"}";  		
@@ -49,7 +51,6 @@ public class GetUsersSO extends SQLCommand {
 			
 			    }
 		} }	
-		return Pages.SUPPORT_VIEW_SO_PAGE.getValue();
-	}
-
+		return Pages.SUPPORT_VIEW_SI_PAGE.getValue();
+}
 }
