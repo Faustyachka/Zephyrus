@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Zephyrus</display-name>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>view/index.jsp</welcome-file>
   </welcome-file-list>
   <filter>
     <filter-name>SessionTimeOutFilter</filter-name>
@@ -58,9 +58,9 @@
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
- <!--    <auth-constraint>
+    <auth-constraint>
       <role-name>ADMIN</role-name>
-    </auth-constraint> -->
+    </auth-constraint> 
   </security-constraint> 
   <security-constraint>
     <web-resource-collection>
@@ -71,10 +71,10 @@
       <http-method>POST</http-method>
     </web-resource-collection>
 
-<!--     <auth-constraint>
+     <auth-constraint>
       <role-name>ADMIN</role-name>
       <role-name>SUPPORT</role-name> 
-    </auth-constraint>  -->
+    </auth-constraint>  
   </security-constraint>  
 
 

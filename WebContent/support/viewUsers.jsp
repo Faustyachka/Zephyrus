@@ -1,10 +1,10 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-<link rel="stylesheet" href="../resources/css/jquery-ui-1.10.4.min.css">
-<link rel="stylesheet" href="../resources/css/jtable.css">
-<script src="../resources/javascript/jquery-ui-1.10.4.min.js"></script>
-<script src="../resources/javascript/jquery.jtable.min.js"></script>
-<script src="../resources/javascript/usersjTable.js"></script>
+<link rel="stylesheet" href="resources/css/jquery-ui-1.10.4.min.css">
+<link rel="stylesheet" href="resources/css/jtable.css">
+<script src="resources/javascript/jquery-ui-1.10.4.min.js"></script>
+<script src="resources/javascript/jquery.jtable.min.js"></script>
+<script src="resources/javascript/usersjTable.js"></script>
 
 <div class="navigation">
 <center>
