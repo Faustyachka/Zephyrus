@@ -11,6 +11,7 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.enums.UserStatus;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 
@@ -41,9 +42,13 @@ public class RegisterCommand extends SQLCommand {
 		user.setEmail(email);
 		user.setPassword(password);
 		user.setRegistrationData(s);
-		user.setStatus(new BigDecimal(0));
-		user.setRoleId(new BigDecimal(ROLE.CUSTOMER.getId()));
+		user.setStatus(UserStatus.ACTIVE.geValue());
+		user.setRoleId(ROLE.CUSTOMER.getId());
 		userDAO.insert(user);
+
+		if(request.getSession().getAttribute("service") != null){
+			return Pages.ORDERDETAIL_PAGE.getValue();
+		}
 		
 	    request.setAttribute("message", "You have successfully registered!");
 		return Pages.MESSAGE_PAGE.getValue();

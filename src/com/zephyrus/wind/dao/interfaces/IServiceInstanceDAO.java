@@ -8,6 +8,6 @@ import com.zephyrus.wind.model.ServiceInstance;
 public interface IServiceInstanceDAO extends IDAO<ServiceInstance> {
 
 	ArrayList<ServiceInstance> getServiceInstancesByUserId(int id)
-			throws SQLException, InstantiationException, IllegalAccessException;
+			throws Exception;
 
 }

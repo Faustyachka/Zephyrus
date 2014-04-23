@@ -41,10 +41,10 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	@Override
 	public void update(ServiceInstance record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setBigDecimal(COLUMN_SERV_INSTANCE_STATUS_ID, record.getServInstanceStatusId());   
-    	stmt.setBigDecimal(COLUMN_USER_ID, record.getUserId());  
-    	stmt.setBigDecimal(COLUMN_PRODUCT_CATALOG_ID, record.getProductCatalogId());  
-    	stmt.setBigDecimal(COLUMN_CIRCUIT_ID, record.getCircuitId());  
+    	stmt.setInt(COLUMN_SERV_INSTANCE_STATUS_ID, record.getServInstanceStatusId());   
+    	stmt.setInt(COLUMN_USER_ID, record.getUserId());  
+    	stmt.setInt(COLUMN_PRODUCT_CATALOG_ID, record.getProductCatalogId());  
+    	stmt.setInt(COLUMN_CIRCUIT_ID, record.getCircuitId());  
     	stmt.setDate(COLUMN_START_DATE, (java.sql.Date)record.getStartDate());
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
@@ -52,14 +52,15 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	}
 
 	@Override
-	public int insert(ServiceInstance record) throws Exception {
+	public ServiceInstance insert(ServiceInstance record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setBigDecimal(COLUMN_SERV_INSTANCE_STATUS_ID, record.getServInstanceStatusId());   
-    	stmt.setBigDecimal(COLUMN_USER_ID, record.getUserId());  
-    	stmt.setBigDecimal(COLUMN_PRODUCT_CATALOG_ID, record.getProductCatalogId());  
-    	stmt.setBigDecimal(COLUMN_CIRCUIT_ID, record.getCircuitId());  
+    	stmt.setInt(COLUMN_SERV_INSTANCE_STATUS_ID, record.getServInstanceStatusId());   
+    	stmt.setInt(COLUMN_USER_ID, record.getUserId());  
+    	stmt.setInt(COLUMN_PRODUCT_CATALOG_ID, record.getProductCatalogId());  
+    	stmt.setInt(COLUMN_CIRCUIT_ID, record.getCircuitId());  
     	stmt.setDate(COLUMN_START_DATE, (java.sql.Date)record.getStartDate());
-    	return stmt.executeUpdate();
+    	stmt.executeUpdate();
+    	return null;
 	}
 
 	@Override
@@ -70,11 +71,11 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	@Override
 	protected void fillItem(ServiceInstance item, ResultSet rs)
 			throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
-		item.setCircuitId(rs.getBigDecimal(COLUMN_CIRCUIT_ID));
-		item.setProductCatalogId(rs.getBigDecimal(COLUMN_PRODUCT_CATALOG_ID));
-		item.setServInstanceStatusId(rs.getBigDecimal(COLUMN_SERV_INSTANCE_STATUS_ID));
-		item.setUserId(rs.getBigDecimal(COLUMN_USER_ID));
+		item.setId(rs.getInt(COLUMN_ID));
+		item.setCircuitId(rs.getInt(COLUMN_CIRCUIT_ID));
+		item.setProductCatalogId(rs.getInt(COLUMN_PRODUCT_CATALOG_ID));
+		item.setServInstanceStatusId(rs.getInt(COLUMN_SERV_INSTANCE_STATUS_ID));
+		item.setUserId(rs.getInt(COLUMN_USER_ID));
 		item.setStartDate(rs.getDate(COLUMN_START_DATE));
 		
 	}
@@ -89,7 +90,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 		return SQL_REMOVE;
 	}
 	@Override
-	public ArrayList<ServiceInstance> getServiceInstancesByUserId(int id) throws SQLException, InstantiationException, IllegalAccessException {
+	public ArrayList<ServiceInstance> getServiceInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
 		rs = stmt.executeQuery();		

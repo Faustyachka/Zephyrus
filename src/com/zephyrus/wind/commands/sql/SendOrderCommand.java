@@ -1,6 +1,5 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 
@@ -10,7 +9,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.enums.OrderStatus;
-import com.zephyrus.wind.enums.OrderType;
 import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.model.ServiceOrder;
 
@@ -34,7 +32,7 @@ public class SendOrderCommand extends SQLCommand {
 			request.setAttribute("error", "No order to send!");
 			return Pages.MESSAGE_PAGE.getValue();
 		}
-		order.setOrderStatusId(new BigDecimal(OrderStatus.PROCESSING.getId()));
+		order.setOrderStatusId(OrderStatus.PROCESSING.getId());
 		order.setOrderDate(s);
 		if(isSaved)
 			orderDAO.update(order);

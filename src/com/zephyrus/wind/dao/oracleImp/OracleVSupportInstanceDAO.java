@@ -31,20 +31,20 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
 	@Override
 	public void update(VSupportInstance record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setBigDecimal(2, record.getSiId());
+    	stmt.setInt(2, record.getSiId());
     	stmt.setDate(3, record.getSiStardDate());
     	stmt.setString(4, record.getService());
-    	stmt.setBigDecimal(5, record.getPrice());
+    	stmt.setInt(5, record.getPrice());
     	stmt.setString(6, record.getSiStatus());
-    	stmt.setBigDecimal(1, record.getUserId());
+    	stmt.setInt(1, record.getUserId());
         stmt.executeUpdate();
 		
 	}
 
 	@Override
-	public int insert(VSupportInstance record) throws Exception {
+	public VSupportInstance insert(VSupportInstance record) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
@@ -56,11 +56,11 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
 	@Override
 	protected void fillItem(VSupportInstance item, ResultSet rs)
 			throws SQLException {
-		item.setUserId(rs.getBigDecimal(1));
-		item.setSiId(rs.getBigDecimal(2));
+		item.setUserId(rs.getInt(1));
+		item.setSiId(rs.getInt(2));
 		item.setSiStardDate(rs.getDate(3));
 		item.setService(rs.getString(4));
-		item.setPrice(rs.getBigDecimal(5));
+		item.setPrice(rs.getInt(5));
 		item.setSiStatus(rs.getString(6));
 
 		
@@ -77,7 +77,7 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
 	}
 
 	@Override
-	public ArrayList<VSupportInstance> getInstancesByUserId(int id) throws SQLException, InstantiationException, IllegalAccessException {
+	public ArrayList<VSupportInstance> getInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
 		rs = stmt.executeQuery();		

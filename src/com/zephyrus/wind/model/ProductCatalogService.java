@@ -13,28 +13,28 @@ public class ProductCatalogService implements Serializable {
 	private static final long serialVersionUID = 1L;
 	
 	
-	private long id;
+	private Integer id;
 
-	private BigDecimal price;
+	private Integer price;
 
 	private String serviceName;
 	
 	public ProductCatalogService(){
 	}
 
-	public long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public BigDecimal getPrice() {
+	public Integer getPrice() {
 		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 

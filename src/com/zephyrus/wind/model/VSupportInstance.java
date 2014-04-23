@@ -14,13 +14,13 @@ import java.sql.Date;
 public class VSupportInstance implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private BigDecimal price;
+	private Integer price;
 
 
 	private String service;
 
 
-	private BigDecimal siId;
+	private Integer siId;
 
 
 
@@ -30,16 +30,16 @@ public class VSupportInstance implements Serializable {
 	private String siStatus;
 
 
-	private BigDecimal userId;
+	private Integer userId;
 
 	public VSupportInstance() {
 	}
 
-	public BigDecimal getPrice() {
+	public Integer getPrice() {
 		return this.price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
@@ -51,11 +51,11 @@ public class VSupportInstance implements Serializable {
 		this.service = service;
 	}
 
-	public BigDecimal getSiId() {
+	public Integer getSiId() {
 		return this.siId;
 	}
 
-	public void setSiId(BigDecimal siId) {
+	public void setSiId(Integer siId) {
 		this.siId = siId;
 	}
 
@@ -75,11 +75,11 @@ public class VSupportInstance implements Serializable {
 		this.siStatus = siStatus;
 	}
 
-	public BigDecimal getUserId() {
+	public Integer getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(BigDecimal userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 

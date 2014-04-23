@@ -8,6 +8,6 @@ import com.zephyrus.wind.model.ServiceOrder;
 public interface IServiceOrderDAO extends IDAO<ServiceOrder> {
 
 	ArrayList<ServiceOrder> getServiceOrdersByUserId(int id)
-			throws SQLException, InstantiationException, IllegalAccessException;
+			throws Exception;
 
 }

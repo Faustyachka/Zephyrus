@@ -39,11 +39,11 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
 	}
 
 	@Override
-	public int insert(TaskStatus record) throws Exception {
+	public TaskStatus insert(TaskStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(COLUMN_TASK_STATUS_VALUE, record.getTaskStatusValue());    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -53,7 +53,7 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
 
 	@Override
 	protected void fillItem(TaskStatus item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
     	item.setTaskStatusValue(rs.getString(COLUMN_TASK_STATUS_VALUE));
 		
 	}

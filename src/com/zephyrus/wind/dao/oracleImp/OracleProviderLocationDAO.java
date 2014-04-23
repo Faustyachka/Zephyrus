@@ -42,11 +42,12 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
 	}
 
 	@Override
-	public int insert(ProviderLocation record) throws Exception {
+	public ProviderLocation insert(ProviderLocation record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(COLUMN_LOCATION_NAME, record.getLocationName());
     	stmt.setString(COLUMN_LOCATION_COORD, record.getLocationCoord()); 
-    	return stmt.executeUpdate();
+    	stmt.executeUpdate();
+    	return null;
 	}
 
 	@Override
@@ -57,7 +58,7 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
 	@Override
 	protected void fillItem(ProviderLocation item, ResultSet rs)
 			throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
 		item.setLocationName(rs.getString(COLUMN_LOCATION_NAME));
 		item.setLocationCoord(rs.getString(COLUMN_LOCATION_COORD));
 		

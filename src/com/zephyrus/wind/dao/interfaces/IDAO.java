@@ -10,8 +10,9 @@ import java.util.ArrayList;
 public interface IDAO<T> {
     ArrayList<T> findAll() throws Exception;
     T findById(int id) throws Exception;
+    T findByRowId(String id) throws Exception;
     void update(T record) throws Exception;
-    int insert(T record) throws Exception;
+    T insert(T record) throws Exception;
     int remove(T record) throws Exception;
     int removeById(int id) throws Exception;
 }

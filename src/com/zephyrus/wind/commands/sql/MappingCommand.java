@@ -1,4 +1,4 @@
-package com.zephyrus.wind.commands.nosql;
+package com.zephyrus.wind.commands.sql;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -28,19 +28,22 @@ public class MappingCommand extends SQLCommand{
 		
 		String longitude = null;
         String latitude = null;
+        String address = null;
                
         longitude = request.getParameter("longitude");
         latitude = request.getParameter("latitude");
-
+        address = request.getParameter("address");
      
         ServiceLocation sl = new ServiceLocation();
         String s = longitude+","+latitude;
         sl.setServiceLocationCoord(s);
+        sl.setAddress(address);
+        request.getSession().setAttribute("serviceLocation", sl);
         
         DistanceCalculator dc = new DistanceCalculator();
         
         ArrayList<ProductCatalogService> services = dc.getNearestProvidersServices(sl, oracleDaoFactory);
-      
+        request.getSession().setAttribute("products", services);
        
         String json = new Gson().toJson(services);
         response.setContentType("application/json");

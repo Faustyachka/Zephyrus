@@ -1,6 +1,6 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-<script type="text/javascript" src="resources/javascript/dataValidation.js" > </script>
+<script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
 	<script>
 	 $().ready(function(){
 	     $('#submitt').click(function(){

@@ -12,71 +12,73 @@ public class Task implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private long id;
+	private Integer id;
 
 	
-	private java.math.BigDecimal roleId;
+	private Integer roleId;
 
 
-	private java.math.BigDecimal serviceOrderId;
+	private Integer serviceOrderId;
 
 	
-	private java.math.BigDecimal taskStatusId;
+	private Integer taskStatusId;
 
 	private String taskValue;
 
 
-	private java.math.BigDecimal userId;
+	private Integer userId;
 
 	public Task() {
 	}
 
-	public long getId() {
-		return this.id;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public java.math.BigDecimal getRoleId() {
-		return this.roleId;
+	public Integer getRoleId() {
+		return roleId;
 	}
 
-	public void setRoleId(java.math.BigDecimal roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 
-	public java.math.BigDecimal getServiceOrderId() {
-		return this.serviceOrderId;
+	public Integer getServiceOrderId() {
+		return serviceOrderId;
 	}
 
-	public void setServiceOrderId(java.math.BigDecimal serviceOrderId) {
+	public void setServiceOrderId(Integer serviceOrderId) {
 		this.serviceOrderId = serviceOrderId;
 	}
 
-	public java.math.BigDecimal getTaskStatusId() {
-		return this.taskStatusId;
+	public Integer getTaskStatusId() {
+		return taskStatusId;
 	}
 
-	public void setTaskStatusId(java.math.BigDecimal taskStatusId) {
+	public void setTaskStatusId(Integer taskStatusId) {
 		this.taskStatusId = taskStatusId;
 	}
 
 	public String getTaskValue() {
-		return this.taskValue;
+		return taskValue;
 	}
 
 	public void setTaskValue(String taskValue) {
 		this.taskValue = taskValue;
 	}
 
-	public java.math.BigDecimal getUserId() {
-		return this.userId;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUserId(java.math.BigDecimal userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
+
+	
 
 }

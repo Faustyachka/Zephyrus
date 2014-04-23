@@ -14,58 +14,60 @@ public class ProductCatalog implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private long id;
+	private Integer id;
 
-	private BigDecimal price;
+	private Integer price;
 
 	private String productName;
 
 	
-	private BigDecimal providerLocId;
+	private Integer providerLocId;
 
-	private BigDecimal serviceTypeId;
+	private Integer serviceTypeId;
 
 	public ProductCatalog() {
 	}
 
-	public long getId() {
-		return this.id;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public BigDecimal getPrice() {
-		return this.price;
+	public Integer getPrice() {
+		return price;
 	}
 
-	public void setPrice(BigDecimal price) {
+	public void setPrice(Integer price) {
 		this.price = price;
 	}
 
 	public String getProductName() {
-		return this.productName;
+		return productName;
 	}
 
 	public void setProductName(String productName) {
 		this.productName = productName;
 	}
 
-	public BigDecimal getProviderLocId() {
-		return this.providerLocId;
+	public Integer getProviderLocId() {
+		return providerLocId;
 	}
 
-	public void setProviderLocId(BigDecimal providerLocId) {
+	public void setProviderLocId(Integer providerLocId) {
 		this.providerLocId = providerLocId;
 	}
 
-	public BigDecimal getServiceTypeId() {
-		return this.serviceTypeId;
+	public Integer getServiceTypeId() {
+		return serviceTypeId;
 	}
 
-	public void setServiceTypeId(BigDecimal serviceTypeId) {
+	public void setServiceTypeId(Integer serviceTypeId) {
 		this.serviceTypeId = serviceTypeId;
 	}
+
+	
 
 }

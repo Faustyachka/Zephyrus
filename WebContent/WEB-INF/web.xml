@@ -21,13 +21,15 @@
     <servlet-name>controller</servlet-name>
     <url-pattern>/controller</url-pattern>
     <url-pattern>/register</url-pattern>
+    <url-pattern>/registerPage</url-pattern>
     <url-pattern>/order</url-pattern>
     <url-pattern>/home</url-pattern>
     <url-pattern>/admin</url-pattern>
     <url-pattern>/login</url-pattern>
     <url-pattern>/logout</url-pattern>
     <url-pattern>/mapping</url-pattern>
-
+    <url-pattern>/proceedOrder</url-pattern>
+	<url-pattern>/saveOrder</url-pattern>
     <url-pattern>/createaccount</url-pattern>
     <url-pattern>/blocking</url-pattern>
    <url-pattern>/reassign</url-pattern>

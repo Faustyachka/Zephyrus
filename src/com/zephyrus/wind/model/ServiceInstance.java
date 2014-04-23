@@ -13,16 +13,45 @@ import java.util.Date;
 public class ServiceInstance implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private long id;
+	private Integer id;
 
+	private Integer circuitId;
 
-	private java.math.BigDecimal circuitId;
-
-	private java.math.BigDecimal productCatalogId;
+	private Integer productCatalogId;
 	
 	private Date startDate;
 
-	
+	private Integer servInstanceStatusId;
+
+	private Integer userId;
+
+	public ServiceInstance() {
+	}
+
+	public Integer getId() {
+		return id;
+	}
+
+	public void setId(Integer id) {
+		this.id = id;
+	}
+
+	public Integer getCircuitId() {
+		return circuitId;
+	}
+
+	public void setCircuitId(Integer circuitId) {
+		this.circuitId = circuitId;
+	}
+
+	public Integer getProductCatalogId() {
+		return productCatalogId;
+	}
+
+	public void setProductCatalogId(Integer productCatalogId) {
+		this.productCatalogId = productCatalogId;
+	}
+
 	public Date getStartDate() {
 		return startDate;
 	}
@@ -31,52 +60,21 @@ public class ServiceInstance implements Serializable {
 		this.startDate = startDate;
 	}
 
-	private java.math.BigDecimal servInstanceStatusId;
-
-
-	private java.math.BigDecimal userId;
-
-	public ServiceInstance() {
+	public Integer getServInstanceStatusId() {
+		return servInstanceStatusId;
 	}
 
-	public long getId() {
-		return this.id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public java.math.BigDecimal getCircuitId() {
-		return this.circuitId;
-	}
-
-	public void setCircuitId(java.math.BigDecimal circuitId) {
-		this.circuitId = circuitId;
-	}
-
-	public java.math.BigDecimal getProductCatalogId() {
-		return this.productCatalogId;
-	}
-
-	public void setProductCatalogId(java.math.BigDecimal productCatalogId) {
-		this.productCatalogId = productCatalogId;
-	}
-
-	public java.math.BigDecimal getServInstanceStatusId() {
-		return this.servInstanceStatusId;
-	}
-
-	public void setServInstanceStatusId(java.math.BigDecimal servInstanceStatusId) {
+	public void setServInstanceStatusId(Integer servInstanceStatusId) {
 		this.servInstanceStatusId = servInstanceStatusId;
 	}
 
-	public java.math.BigDecimal getUserId() {
-		return this.userId;
+	public Integer getUserId() {
+		return userId;
 	}
 
-	public void setUserId(java.math.BigDecimal userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
+	
 }

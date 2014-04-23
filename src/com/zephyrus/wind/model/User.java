@@ -14,7 +14,7 @@ import java.sql.Date;
 public class User implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private long id;
+	private Integer id;
 
 	private String email;
 
@@ -29,18 +29,18 @@ public class User implements Serializable {
 	private Date registrationData;
 
 
-	private BigDecimal roleId;
+	private Integer roleId;
 
-	private BigDecimal status;
+	private Integer status;
 
 	public User() {
 	}
 
-	public long getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
@@ -84,19 +84,19 @@ public class User implements Serializable {
 		this.registrationData = registrationData;
 	}
 
-	public BigDecimal getRoleId() {
+	public Integer getRoleId() {
 		return this.roleId;
 	}
 
-	public void setRoleId(BigDecimal roleId) {
+	public void setRoleId(Integer roleId) {
 		this.roleId = roleId;
 	}
 
-	public BigDecimal getStatus() {
+	public Integer getStatus() {
 		return this.status;
 	}
 
-	public void setStatus(BigDecimal status) {
+	public void setStatus(Integer status) {
 		this.status = status;
 	}
 

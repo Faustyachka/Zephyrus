@@ -36,21 +36,22 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 	@Override
 	public void update(ProductCatalog record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setBigDecimal(COLUMN_SERVICE_TYPE_ID, record.getServiceTypeId());
-    	stmt.setBigDecimal(COLUMN_PROVIDER_LOC_ID, record.getProviderLocId());
-    	stmt.setBigDecimal(COLUMN_PRICE, record.getPrice());
+    	stmt.setInt(COLUMN_SERVICE_TYPE_ID, record.getServiceTypeId());
+    	stmt.setInt(COLUMN_PROVIDER_LOC_ID, record.getProviderLocId());
+    	stmt.setInt(COLUMN_PRICE, record.getPrice());
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
 		
 	}
 
 	@Override
-	public int insert(ProductCatalog record) throws Exception {
+	public ProductCatalog insert(ProductCatalog record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setBigDecimal(COLUMN_SERVICE_TYPE_ID, record.getServiceTypeId());
-    	stmt.setBigDecimal(COLUMN_PROVIDER_LOC_ID, record.getProviderLocId());
-    	stmt.setBigDecimal(COLUMN_PRICE, record.getPrice());
-    	return stmt.executeUpdate();
+    	stmt.setInt(COLUMN_SERVICE_TYPE_ID, record.getServiceTypeId());
+    	stmt.setInt(COLUMN_PROVIDER_LOC_ID, record.getProviderLocId());
+    	stmt.setInt(COLUMN_PRICE, record.getPrice());
+    	stmt.executeUpdate();
+    	return null;
 	}
 
 	@Override
@@ -61,10 +62,10 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 	@Override
 	protected void fillItem(ProductCatalog item, ResultSet rs)
 			throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
-    	item.setServiceTypeId(rs.getBigDecimal(COLUMN_SERVICE_TYPE_ID));
-    	item.setPrice(rs.getBigDecimal(COLUMN_PRICE));
-    	item.setProviderLocId(rs.getBigDecimal(COLUMN_PROVIDER_LOC_ID));
+		item.setId(rs.getInt(COLUMN_ID));
+    	item.setServiceTypeId(rs.getInt(COLUMN_SERVICE_TYPE_ID));
+    	item.setPrice(rs.getInt(COLUMN_PRICE));
+    	item.setProviderLocId(rs.getInt(COLUMN_PROVIDER_LOC_ID));
     
 		
 	}

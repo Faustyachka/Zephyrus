@@ -42,11 +42,11 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 	}
 
 	@Override
-	public int insert(OrderType record) throws Exception {
+	public OrderType insert(OrderType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(COLUMN_ORDER_TYPE_VALUE, record.getOrderType());    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 
 	@Override
 	protected void fillItem(OrderType item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
     	item.setOrderType(rs.getString(COLUMN_ORDER_TYPE_VALUE));
 		
 	}

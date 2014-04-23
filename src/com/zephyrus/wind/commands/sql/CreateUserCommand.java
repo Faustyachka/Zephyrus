@@ -10,10 +10,13 @@ import java.util.regex.Pattern;
 
 
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.enums.UserStatus;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 
@@ -35,7 +38,6 @@ public class CreateUserCommand extends SQLCommand {
 		String email = request.getParameter("email");
 		String password = request.getParameter("pass");
 		String confPassord = request.getParameter("confirmpass");
-		BigDecimal status = new BigDecimal(1);
 		int roleId = Integer.parseInt(request.getParameter("engtype"));
 		oud = oracleDaoFactory.getUserDAO();
 		Date s = new Date(new java.util.Date().getTime());
@@ -89,8 +91,8 @@ public class CreateUserCommand extends SQLCommand {
 			user.setLastName(sname);
 			user.setEmail(email);		
 			user.setPassword(SHAHashing.getHash(password));
-			user.setStatus(status);
-			user.setRoleId(new BigDecimal(roleId));
+			user.setStatus(UserStatus.ACTIVE.geValue());
+			user.setRoleId(roleId);
 			user.setRegistrationData(s);			
 			oud.insert(user);			
 			response.setContentType("text/plain");  

@@ -40,11 +40,11 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 	}
 
 	@Override
-	public int insert(OrderStatus record) throws Exception {
+	public OrderStatus insert(OrderStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(COLUMN_ORDER_STATUS_VALUE, record.getOrderStatusValue());    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 
 	@Override
 	protected void fillItem(OrderStatus item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
     	item.setOrderStatusValue(rs.getString(COLUMN_ORDER_STATUS_VALUE));
 		
 	}

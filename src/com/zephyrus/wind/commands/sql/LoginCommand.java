@@ -21,13 +21,17 @@ public class LoginCommand extends SQLCommand {
 		User user = userDAO.findByEmail(userName);
 		if(user != null){
 			if(user.getStatus().equals(new BigDecimal(1))){
+				request.logout();
 				request.setAttribute("message", "Your account " + userName + "is blocked!");
 				return Pages.MESSAGE_PAGE.getValue();
 			} else {
+				if(request.getSession().getAttribute("user") == null)
+					request.getSession().setAttribute("user", user);
+				if(request.getSession().getAttribute("service") != null){
+					return Pages.ORDERDETAIL_PAGE.getValue();
+				}
 				for(ROLE role : ROLE.values()){
 					if(user.getRoleId().equals(new BigDecimal(role.getId()))){
-						if(request.getSession().getAttribute("user") == null)
-							request.getSession().setAttribute("user", user);
 						return role.getHome();
 					}
 				}

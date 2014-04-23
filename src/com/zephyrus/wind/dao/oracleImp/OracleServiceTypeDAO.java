@@ -40,11 +40,11 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
 	}
 
 	@Override
-	public int insert(ServiceType record) throws Exception {
+	public ServiceType insert(ServiceType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(COLUMN_SERVICE_TYPE, record.getServiceType());    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -54,7 +54,7 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
 
 	@Override
 	protected void fillItem(ServiceType item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
     	item.setServiceType(rs.getString(COLUMN_SERVICE_TYPE));
 		
 	}

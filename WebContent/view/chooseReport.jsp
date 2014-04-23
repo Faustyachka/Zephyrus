@@ -1,8 +1,8 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-<link rel="stylesheet" href="resources/css/jquery-ui-1.10.4.min.css">
-<script src="resources/javascript/jquery-ui-1.10.4.min.js"></script>
-<script src="resources/javascript/datePicker.js"></script>
+<link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
+<script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
+<script src="/Zephyrus/resources/javascript/datePicker.js"></script>
 
 <div class="navigation">
 <a href="Zephyrus/view/chooseReport" class="current">

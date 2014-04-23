@@ -11,17 +11,17 @@ import com.zephyrus.wind.model.Circuit;
 public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	
 	private static final String TABLE_NAME = "CIRCUITS";
-    private static final String SQL_SELECT = "SELECT ID, PORT_ID, STATUS " + 
+    private static final String SQL_SELECT = "SELECT ID, PORT_ID " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET PORT_ID = ?, STATUS = ? " + 
+                                      " SET PORT_ID = ?" + 
                                       " WHERE " + 
                                       " ID = ?";
     private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (PORT_ID, STATUS) " + 
+                                      " (PORT_ID) " + 
                                       
-                                      "VALUES (?,?)";
+                                      "VALUES (?)";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -36,20 +36,18 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	@Override
 	public void update(Circuit record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setBigDecimal(COLUMN_PORT_ID, record.getPortId());
-    	stmt.setBigDecimal(COLUMN_STATUS, record.getStatus());    	
+    	stmt.setInt(COLUMN_PORT_ID, record.getPortId());
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
 		
 	}
 
 	@Override
-	public int insert(Circuit record) throws Exception {
+	public Circuit insert(Circuit record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setBigDecimal(COLUMN_PORT_ID, record.getPortId());
-    	stmt.setBigDecimal(COLUMN_STATUS, record.getStatus());    	    	
+    	stmt.setInt(COLUMN_PORT_ID, record.getPortId());
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -59,9 +57,8 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 
 	@Override
 	protected void fillItem(Circuit item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
-    	item.setPortId(rs.getBigDecimal(COLUMN_PORT_ID));
-    	item.setStatus(rs.getBigDecimal(COLUMN_STATUS));
+		item.setId(rs.getInt(COLUMN_ID));
+    	item.setPortId(rs.getInt(COLUMN_PORT_ID));
 		
 	}
 	

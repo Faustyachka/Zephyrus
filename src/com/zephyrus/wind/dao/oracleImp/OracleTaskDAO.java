@@ -39,25 +39,26 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	public void update(Task record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setBigDecimal(COLUMN_SERVICE_ORDER_ID, record.getServiceOrderId());   
+    	stmt.setInt(COLUMN_SERVICE_ORDER_ID, record.getServiceOrderId());   
     	stmt.setString(COLUMN_TASK_VALUE, record.getTaskValue());  
-    	stmt.setBigDecimal(COLUMN_USER_ID, record.getUserId());  
-    	stmt.setBigDecimal(COLUMN_TASK_STATUS_ID, record.getTaskStatusId());  
-    	stmt.setBigDecimal(COLUMN_ROLE_ID, record.getRoleId());
+    	stmt.setInt(COLUMN_USER_ID, record.getUserId());  
+    	stmt.setInt(COLUMN_TASK_STATUS_ID, record.getTaskStatusId());  
+    	stmt.setInt(COLUMN_ROLE_ID, record.getRoleId());
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
 		
 	}
 
 	@Override
-	public int insert(Task record) throws Exception {
+	public Task insert(Task record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setBigDecimal(COLUMN_SERVICE_ORDER_ID, record.getServiceOrderId());   
+    	stmt.setInt(COLUMN_SERVICE_ORDER_ID, record.getServiceOrderId());   
     	stmt.setString(COLUMN_TASK_VALUE, record.getTaskValue());  
-    	stmt.setBigDecimal(COLUMN_USER_ID, record.getUserId());  
-    	stmt.setBigDecimal(COLUMN_TASK_STATUS_ID, record.getTaskStatusId());  
-    	stmt.setBigDecimal(COLUMN_ROLE_ID, record.getRoleId());
-		return stmt.executeUpdate();
+    	stmt.setInt(COLUMN_USER_ID, record.getUserId());  
+    	stmt.setInt(COLUMN_TASK_STATUS_ID, record.getTaskStatusId());  
+    	stmt.setInt(COLUMN_ROLE_ID, record.getRoleId());
+    	stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -67,12 +68,12 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 
 	@Override
 	protected void fillItem(Task item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
-		item.setRoleId(rs.getBigDecimal(COLUMN_ROLE_ID));
-		item.setServiceOrderId(rs.getBigDecimal(COLUMN_SERVICE_ORDER_ID));
-		item.setTaskStatusId(rs.getBigDecimal(COLUMN_TASK_STATUS_ID));
+		item.setId(rs.getInt(COLUMN_ID));
+		item.setRoleId(rs.getInt(COLUMN_ROLE_ID));
+		item.setServiceOrderId(rs.getInt(COLUMN_SERVICE_ORDER_ID));
+		item.setTaskStatusId(rs.getInt(COLUMN_TASK_STATUS_ID));
 		item.setTaskValue(rs.getString(COLUMN_TASK_VALUE));
-		item.setUserId(rs.getBigDecimal(COLUMN_USER_ID));
+		item.setUserId(rs.getInt(COLUMN_USER_ID));
 		
 	}
 	

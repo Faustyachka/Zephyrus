@@ -14,24 +14,24 @@
   <div class="header">
   <c:choose>
 <c:when test="${user != null}">
-<div id="login_link">
+<div id="logout_link">
 Hello, ${user.email}
 <br>
-<a href="/Zephyrus/logout">logout</a>
+<a href="logout">logout</a>
 </div>
 </c:when>
 <c:otherwise>
-<a href="Zephyrus/login" id="login_link">
+<a href="login" id="login_link">
       <input type="button" value="Log in" />
 </a>
-<a href="Zephyrus/view/register.jsp" id="register_link">register</a>
+<a href="registerPage" id="register_link">register</a>
 </c:otherwise>
 </c:choose> 
-  <a href="Zephyrus/view/index.jsp" id="main_link">
+  <a href="home" id="main_link">
   <input type="button" value="Main">
   </a>
   <c:if test="${user != null }">
-   <a href="Zephyrus/login" id="homeButton">
+   <a href="login" id="home_link">
   <input type="button" value="Home">
   </a>
   </c:if>

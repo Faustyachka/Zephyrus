@@ -2,7 +2,6 @@ package com.zephyrus.wind.model;
 
 import java.io.Serializable;
 
-import java.math.BigDecimal;
 
 
 /**
@@ -14,45 +13,36 @@ public class Port implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private long id;
+	private Integer id;
 
-	private BigDecimal deviceId;
+	private Integer deviceId;
 
-	private BigDecimal portOn;
-	public BigDecimal getPortOn() {
-		return portOn;
-	}
-
-	public void setPortOn(BigDecimal portOn) {
-		this.portOn = portOn;
-	}
-
-	private BigDecimal portNumber;
+	private Integer portNumber;
 
 	public Port() {
 	}
 
-	public long getId() {
-		return this.id;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public BigDecimal getDeviceId() {
-		return this.deviceId;
+	public Integer getDeviceId() {
+		return deviceId;
 	}
 
-	public void setDeviceId(BigDecimal deviceId) {
+	public void setDeviceId(Integer deviceId) {
 		this.deviceId = deviceId;
 	}
 
-	public BigDecimal getPortNumber() {
-		return this.portNumber;
+	public Integer getPortNumber() {
+		return portNumber;
 	}
 
-	public void setPortNumber(BigDecimal portNumber) {
+	public void setPortNumber(Integer portNumber) {
 		this.portNumber = portNumber;
 	}
 

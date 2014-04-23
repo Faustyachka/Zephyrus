@@ -12,37 +12,57 @@ import java.io.Serializable;
 public class ServiceLocation implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private long id;
+	private Integer id;
 
 	private String serviceLocationCoord;
-
-	private java.math.BigDecimal userId;
+	
+	private String address;
+	
+	private User user;
 
 	public ServiceLocation() {
 	}
 
-	public long getId() {
-		return this.id;
+
+	public Integer getId() {
+		return id;
 	}
 
-	public void setId(long id) {
+
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
+
 	public String getServiceLocationCoord() {
-		return this.serviceLocationCoord;
+		return serviceLocationCoord;
 	}
+
 
 	public void setServiceLocationCoord(String serviceLocationCoord) {
 		this.serviceLocationCoord = serviceLocationCoord;
 	}
 
-	public java.math.BigDecimal getUserId() {
-		return this.userId;
+
+	public String getAddress() {
+		return address;
 	}
 
-	public void setUserId(java.math.BigDecimal userId) {
-		this.userId = userId;
+
+	public void setAddress(String address) {
+		this.address = address;
 	}
+
+
+	public User getUser() {
+		return user;
+	}
+
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
 
 }

@@ -12,7 +12,7 @@ public class ServiceType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private long id;
+	private Integer id;
 
 
 	private String serviceType;
@@ -20,11 +20,11 @@ public class ServiceType implements Serializable {
 	public ServiceType() {
 	}
 
-	public long getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

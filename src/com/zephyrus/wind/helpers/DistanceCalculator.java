@@ -66,7 +66,7 @@ public class DistanceCalculator {
 			if (distance < minimalDistance) {
 				result= new ArrayList<>();
 				for(ProductCatalog pc: productCatalogs) {
-					if(pc.getProviderLocId().setScale( 0, BigDecimal.ROUND_HALF_UP ).longValue()==entry.getId()) {
+					if(pc.getProviderLocId() == entry.getId()) {
 						ProductCatalogService serviceData = createProductCatalogService(pc, oracleFactory);
 						result.add(serviceData);
 					}
@@ -77,7 +77,7 @@ public class DistanceCalculator {
 		if (result==null) {
 			result =  new ArrayList<>();
 			for(ProductCatalog pc: productCatalogs) {
-				if(pc.getProviderLocId().setScale( 0, BigDecimal.ROUND_HALF_UP ).longValue()==providerLocs.get(1).getId()) {
+				if(pc.getProviderLocId() == providerLocs.get(1).getId()) {
 					ProductCatalogService serviceData = createProductCatalogService(pc, oracleFactory);
 					result.add(serviceData);
 				}
