@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.model.UserRole;
@@ -17,10 +19,9 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
                                       " SET ROLE_NAME = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (ROLE_NAME) " + 
-                                      
-                                      "VALUES (?)";
+    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
+                                      " (ROLE_NAME) " +                                       
+                                      "VALUES (?) " + "RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -42,10 +43,12 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
 
 	@Override
 	public UserRole insert(UserRole record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(COLUMN_ROLE_NAME, record.getRoleName());    	
-        stmt.executeUpdate();		
-		return null;
+		cs = connection.prepareCall(SQL_INSERT);
+    	stmt.setString(1, record.getRoleName());    	
+    	cs.registerOutParameter(2, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(2);
+		return findByRowId(rowId);
 	}
 
 	@Override

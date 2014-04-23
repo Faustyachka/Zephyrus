@@ -22,7 +22,7 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
                                       " WHERE " + 
                                       " ID = ?";
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
-    								"(SERVICE_LOCATION_COORD, USER_ID) VALUES(?,?)" +
+    								"(SERVICE_LOCATION_COORD, USER_ID) VALUES(?,?) " +
     								"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     

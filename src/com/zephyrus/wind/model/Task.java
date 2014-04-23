@@ -15,18 +15,18 @@ public class Task implements Serializable {
 	private Integer id;
 
 	
-	private Integer roleId;
+	private UserRole role;
 
 
-	private Integer serviceOrderId;
+	private ServiceOrder serviceOrder;
 
 	
-	private Integer taskStatusId;
+	private TaskStatus taskStatus;
 
 	private String taskValue;
 
 
-	private Integer userId;
+	private User user;
 
 	public Task() {
 	}
@@ -39,29 +39,7 @@ public class Task implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getRoleId() {
-		return roleId;
-	}
-
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
-	}
-
-	public Integer getServiceOrderId() {
-		return serviceOrderId;
-	}
-
-	public void setServiceOrderId(Integer serviceOrderId) {
-		this.serviceOrderId = serviceOrderId;
-	}
-
-	public Integer getTaskStatusId() {
-		return taskStatusId;
-	}
-
-	public void setTaskStatusId(Integer taskStatusId) {
-		this.taskStatusId = taskStatusId;
-	}
+	
 
 	public String getTaskValue() {
 		return taskValue;
@@ -71,13 +49,39 @@ public class Task implements Serializable {
 		this.taskValue = taskValue;
 	}
 
-	public Integer getUserId() {
-		return userId;
+	public UserRole getRole() {
+		return role;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
+
+	public ServiceOrder getServiceOrder() {
+		return serviceOrder;
+	}
+
+	public void setServiceOrder(ServiceOrder serviceOrder) {
+		this.serviceOrder = serviceOrder;
+	}
+
+	public TaskStatus getTaskStatus() {
+		return taskStatus;
+	}
+
+	public void setTaskStatus(TaskStatus taskStatus) {
+		this.taskStatus = taskStatus;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	
 
 	
 

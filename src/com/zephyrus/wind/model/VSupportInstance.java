@@ -2,7 +2,6 @@ package com.zephyrus.wind.model;
 
 import java.io.Serializable;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 
 
@@ -20,7 +19,7 @@ public class VSupportInstance implements Serializable {
 	private String service;
 
 
-	private Integer siId;
+	private ServiceInstance si;
 
 
 
@@ -30,7 +29,7 @@ public class VSupportInstance implements Serializable {
 	private String siStatus;
 
 
-	private Integer userId;
+	private User user;
 
 	public VSupportInstance() {
 	}
@@ -51,13 +50,7 @@ public class VSupportInstance implements Serializable {
 		this.service = service;
 	}
 
-	public Integer getSiId() {
-		return this.siId;
-	}
 
-	public void setSiId(Integer siId) {
-		this.siId = siId;
-	}
 
 	public Date getSiStardDate() {
 		return this.siStardDate;
@@ -75,12 +68,21 @@ public class VSupportInstance implements Serializable {
 		this.siStatus = siStatus;
 	}
 
-	public Integer getUserId() {
-		return this.userId;
+	public ServiceInstance getSi() {
+		return si;
 	}
 
-	public void setUserId(Integer userId) {
-		this.userId = userId;
+	public void setSi(ServiceInstance si) {
+		this.si = si;
 	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 
 }

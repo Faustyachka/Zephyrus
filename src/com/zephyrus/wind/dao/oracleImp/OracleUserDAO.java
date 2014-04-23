@@ -2,12 +2,14 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
+
+import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.model.User;
+import com.zephyrus.wind.model.UserRole;
 
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	private static final String TABLE_NAME = "MISTERDAN.USERS";
@@ -18,10 +20,11 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
                                       " SET FIRST_NAME= ?, LAST_NAME = ?, " + 
                                       "EMAIL = ?, PASSWORD = ?, REGISTRATION_DATA = ?, STATUS = ?, ROLE_ID = ? WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
                                       " (FIRST_NAME, LAST_NAME, " + 
                                       "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID) " +
-                                      "VALUES (?,?,?,?,?,?,?)";
+                                      "VALUES (?,?,?,?,?,?,?) " + 
+                                      "RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -47,7 +50,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     	stmt.setString(4, record.getPassword());
     	stmt.setDate(5, record.getRegistrationData());
     	stmt.setInt(6, record.getStatus());
-    	stmt.setInt(7, record.getRoleId());
+    	stmt.setInt(7, record.getRole().getId());
     	stmt.setLong(8, record.getId());
         stmt.executeUpdate();
 		
@@ -55,16 +58,18 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 
 	@Override
 	public User insert(User record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(1, record.getFirstName());
-    	stmt.setString(2, record.getLastName());
-    	stmt.setString(3, record.getEmail());
-    	stmt.setString(4, record.getPassword());
-    	stmt.setDate(5, record.getRegistrationData());
-    	stmt.setInt(6, record.getStatus());
-    	stmt.setInt(7, record.getRoleId());
-    	stmt.executeUpdate();
-		return null;
+		cs = connection.prepareCall(SQL_INSERT);
+    	cs.setString(1, record.getFirstName());
+    	cs.setString(2, record.getLastName());
+    	cs.setString(3, record.getEmail());
+    	cs.setString(4, record.getPassword());
+    	cs.setDate(5, record.getRegistrationData());
+    	cs.setInt(6, record.getStatus());
+    	cs.setInt(7, record.getRole().getId());
+    	cs.registerOutParameter(8, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(8);
+		return findByRowId(rowId);
 	}
 
 	@Override
@@ -73,7 +78,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	}
 
 	@Override
-	protected void fillItem(User item, ResultSet rs) throws SQLException {
+	protected void fillItem(User item, ResultSet rs) throws Exception {
 		item.setId(rs.getInt(COLUMN_ID));
 		item.setFirstName(rs.getString(COLUMN_FIRST_NAME));
 		item.setLastName(rs.getString(COLUMN_LAST_NAME));
@@ -81,7 +86,8 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		item.setPassword(rs.getString(COLUMN_PASSWORD));
 		item.setRegistrationData(rs.getDate(COLUMN_REGISTRATION_DATA));
 		item.setStatus(rs.getInt(COLUMN_STATUS));
-		item.setRoleId(rs.getInt(COLUMN_ROLE_ID));
+		UserRole role = daoFactory.getUserRoleDAO().findById(rs.getInt(COLUMN_ROLE_ID));
+		item.setRole(role);
 		
 	}
 	

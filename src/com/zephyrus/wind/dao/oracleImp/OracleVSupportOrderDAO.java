@@ -2,11 +2,12 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
+import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.VSupportOrder;
 
 public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements IVSupportOrderDAO{
@@ -44,9 +45,11 @@ public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements 
 
 	@Override
 	protected void fillItem(VSupportOrder item, ResultSet rs)
-			throws SQLException {
-		item.setUserId(rs.getInt(1));
-		item.setSoId(rs.getInt(2));
+			throws Exception {
+		User user = daoFactory.getUserDAO().findById(rs.getInt(1));
+		item.setUser(user);
+		ServiceOrder so = daoFactory.getServiceOrderDAO().findById(rs.getInt(2));
+		item.setSo(so);
 		item.setSlCoord(rs.getString(3));
 		item.setService(rs.getString(4));
 		item.setSoDate(rs.getDate(5));

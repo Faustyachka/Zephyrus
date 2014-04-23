@@ -2,11 +2,12 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
+import com.zephyrus.wind.model.ServiceInstance;
+import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.VSupportInstance;
 
 public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> implements IVSupportInstanceDAO{
@@ -14,11 +15,7 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
     private static final String SQL_SELECT = "SELECT USER_ID, SI_ID, SI_STARD_DATE, " + 
                                       "SERVICE, PRICE, SI_STATUS FROM " + 
                                        TABLE_NAME + " ";
-    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET SI_ID= ?, SI_STARD_DATE = ?, " + 
-                                      "SERVICE = ?,  PRICE = ?, SI_STATUS = ? WHERE " + 
-                                      " USER_ID = ?";
- 
+
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
 
 	public OracleVSupportInstanceDAO(
@@ -30,15 +27,7 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
 
 	@Override
 	public void update(VSupportInstance record) throws Exception {
-		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(2, record.getSiId());
-    	stmt.setDate(3, record.getSiStardDate());
-    	stmt.setString(4, record.getService());
-    	stmt.setInt(5, record.getPrice());
-    	stmt.setString(6, record.getSiStatus());
-    	stmt.setInt(1, record.getUserId());
-        stmt.executeUpdate();
-		
+				
 	}
 
 	@Override
@@ -55,9 +44,11 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
 
 	@Override
 	protected void fillItem(VSupportInstance item, ResultSet rs)
-			throws SQLException {
-		item.setUserId(rs.getInt(1));
-		item.setSiId(rs.getInt(2));
+			throws Exception {
+		User user = daoFactory.getUserDAO().findById(rs.getInt(1));
+		item.setUser(user);
+		ServiceInstance si = daoFactory.getServiceInstanceDAO().findById(rs.getInt(2));
+		item.setSi(si);
 		item.setSiStardDate(rs.getDate(3));
 		item.setService(rs.getString(4));
 		item.setPrice(rs.getInt(5));

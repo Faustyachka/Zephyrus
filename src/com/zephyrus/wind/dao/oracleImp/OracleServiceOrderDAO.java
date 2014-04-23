@@ -2,21 +2,25 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
-import java.sql.SQLException;
-
-
 
 
 import java.util.ArrayList;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.model.OrderStatus;
+import com.zephyrus.wind.model.OrderType;
+import com.zephyrus.wind.model.ProductCatalog;
+import com.zephyrus.wind.model.ServiceInstance;
+import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
-import com.zephyrus.wind.model.VSupportInstance;
+
 
 public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {
 
-	private static final String TABLE_NAME = "SERVICE_ORDERS";
+	private static final String TABLE_NAME = "MISTERDAN.SERVICE_ORDERS";
     private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
     								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID" +
                                       "FROM " + 
@@ -26,10 +30,10 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
                                       " ORDER_DATE = ?, PRODUCT_CATALOG_ID = ?, SERVICE_LOCATION_ID = ?, SERVICE_INSTANCE_ID = ?"
                                       + " WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
+    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
                                       " (ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
     								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID) " +                                      
-                                      "VALUES (?,?,?,?,?,?)";
+                                      "VALUES (?,?,?,?,?,?)" + " RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -46,12 +50,12 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	@Override
 	public void update(ServiceOrder record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(1, record.getOrderTypeId());   
-    	stmt.setInt(2, record.getOrderStatusId());  
+    	stmt.setInt(1, record.getOrderType().getId());   
+    	stmt.setInt(2, record.getOrderStatus().getId());  
     	stmt.setDate(3, (java.sql.Date)record.getOrderDate());  
-    	stmt.setInt(4, record.getProductCatalogId()); 
-    	stmt.setInt(5, record.getServiceLocationId());  
-    	stmt.setInt(6, record.getServiceInstanceId());  
+    	stmt.setInt(4, record.getProductCatalog().getId()); 
+    	stmt.setInt(5, record.getServiceLocation().getId());  
+    	stmt.setInt(6, record.getServiceInstance().getId());  
     	stmt.setLong(7, record.getId());
         stmt.executeUpdate();
 		
@@ -59,15 +63,17 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 
 	@Override
 	public ServiceOrder insert(ServiceOrder record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setInt(1, record.getOrderTypeId());   
-    	stmt.setInt(2, record.getOrderStatusId());  
-    	stmt.setDate(3, (java.sql.Date)record.getOrderDate());  
-    	stmt.setInt(4, record.getProductCatalogId()); 
-    	stmt.setInt(5, record.getServiceLocationId());  
-    	stmt.setInt(6, record.getServiceInstanceId());  
-    	stmt.executeUpdate();
-		return null;
+		cs = connection.prepareCall(SQL_INSERT);
+    	cs.setInt(1, record.getOrderType().getId());   
+    	cs.setInt(2, record.getOrderStatus().getId());  
+    	cs.setDate(3, (java.sql.Date)record.getOrderDate());  
+    	cs.setInt(4, record.getProductCatalog().getId()); 
+    	cs.setInt(5, record.getServiceLocation().getId());  
+    	cs.setInt(6, record.getServiceInstance().getId());  
+    	cs.registerOutParameter(7, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(7);
+		return findByRowId(rowId);
 	}
 
 	@Override
@@ -77,14 +83,19 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 
 	@Override
 	protected void fillItem(ServiceOrder item, ResultSet rs)
-			throws SQLException {
+			throws Exception {
 		item.setId(rs.getInt(COLUMN_ID));
 		item.setOrderDate(rs.getDate(COLUMN_ORDER_DATE));
-		item.setOrderStatusId(rs.getInt(COLUMN_ORDER_STATUS_ID));
-		item.setOrderTypeId(rs.getInt(COLUMN_ORDER_TYPE_ID));
-		item.setProductCatalogId(rs.getInt(COLUMN_PRODUCT_CATALOG_ID));
-		item.setServiceInstanceId(rs.getInt(COLUMN_SERVICE_INSTANCE_ID));
-		item.setServiceLocationId(rs.getInt(COLUMN_SERVICE_LOCATION_ID));
+		OrderStatus os = daoFactory.getOrderStatusDAO().findById(rs.getInt(COLUMN_ORDER_STATUS_ID));
+		item.setOrderStatus(os);
+		OrderType ot = daoFactory.getOrderTypeDAO().findById(rs.getInt(COLUMN_ORDER_TYPE_ID));
+		item.setOrderType(ot);
+		ProductCatalog pc = daoFactory.getProductCatalogDAO().findById(rs.getInt(COLUMN_PRODUCT_CATALOG_ID));
+		item.setProductCatalog(pc);
+		ServiceInstance si = daoFactory.getServiceInstanceDAO().findById(rs.getInt(COLUMN_SERVICE_INSTANCE_ID));
+		item.setServiceInstance(si);
+		ServiceLocation sl = daoFactory.getServiceLocationDAO().findById(rs.getInt(COLUMN_SERVICE_LOCATION_ID));
+		item.setServiceLocation(sl);
 		
 	}
 	

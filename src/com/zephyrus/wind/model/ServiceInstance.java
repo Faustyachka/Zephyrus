@@ -15,15 +15,15 @@ public class ServiceInstance implements Serializable {
 
 	private Integer id;
 
-	private Integer circuitId;
+	private Circuit circuit;
 
-	private Integer productCatalogId;
+	private ProductCatalog productCatalog;
 	
 	private Date startDate;
 
-	private Integer servInstanceStatusId;
+	private ServiceInstanceStatus servInstanceStatus;
 
-	private Integer userId;
+	private User user;
 
 	public ServiceInstance() {
 	}
@@ -36,20 +36,38 @@ public class ServiceInstance implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getCircuitId() {
-		return circuitId;
+	
+
+	public Circuit getCircuit() {
+		return circuit;
 	}
 
-	public void setCircuitId(Integer circuitId) {
-		this.circuitId = circuitId;
+	public void setCircuit(Circuit circuit) {
+		this.circuit = circuit;
 	}
 
-	public Integer getProductCatalogId() {
-		return productCatalogId;
+	public ProductCatalog getProductCatalog() {
+		return productCatalog;
 	}
 
-	public void setProductCatalogId(Integer productCatalogId) {
-		this.productCatalogId = productCatalogId;
+	public void setProductCatalog(ProductCatalog productCatalog) {
+		this.productCatalog = productCatalog;
+	}
+
+	public ServiceInstanceStatus getServInstanceStatus() {
+		return servInstanceStatus;
+	}
+
+	public void setServInstanceStatus(ServiceInstanceStatus servInstanceStatus) {
+		this.servInstanceStatus = servInstanceStatus;
+	}
+
+	public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
 	}
 
 	public Date getStartDate() {
@@ -60,21 +78,7 @@ public class ServiceInstance implements Serializable {
 		this.startDate = startDate;
 	}
 
-	public Integer getServInstanceStatusId() {
-		return servInstanceStatusId;
-	}
 
-	public void setServInstanceStatusId(Integer servInstanceStatusId) {
-		this.servInstanceStatusId = servInstanceStatusId;
-	}
-
-	public Integer getUserId() {
-		return userId;
-	}
-
-	public void setUserId(Integer userId) {
-		this.userId = userId;
-	}
 
 	
 }

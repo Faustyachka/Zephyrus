@@ -2,7 +2,6 @@ package com.zephyrus.wind.model;
 
 import java.io.Serializable;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 
 
@@ -29,7 +28,7 @@ public class User implements Serializable {
 	private Date registrationData;
 
 
-	private Integer roleId;
+	private UserRole role;
 
 	private Integer status;
 
@@ -84,12 +83,14 @@ public class User implements Serializable {
 		this.registrationData = registrationData;
 	}
 
-	public Integer getRoleId() {
-		return this.roleId;
+	
+
+	public UserRole getRole() {
+		return role;
 	}
 
-	public void setRoleId(Integer roleId) {
-		this.roleId = roleId;
+	public void setRole(UserRole role) {
+		this.role = role;
 	}
 
 	public Integer getStatus() {

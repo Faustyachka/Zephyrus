@@ -18,18 +18,18 @@ public class ServiceOrder implements Serializable {
 	private Date orderDate;
 
 
-	private Integer orderStatusId;
+	private OrderStatus orderStatus;
 
-	private Integer orderTypeId;
-
-	
-	private Integer productCatalogId;
-
-
-	private Integer serviceInstanceId;
+	private OrderType orderType;
 
 	
-	private Integer serviceLocationId;
+	private ProductCatalog productCatalog;
+
+
+	private ServiceInstance serviceInstance;
+
+	
+	private ServiceLocation serviceLocation;
 
 	public ServiceOrder() {
 	}
@@ -50,46 +50,47 @@ public class ServiceOrder implements Serializable {
 		this.orderDate = orderDate;
 	}
 
-	public Integer getOrderStatusId() {
-		return orderStatusId;
+	public OrderStatus getOrderStatus() {
+		return orderStatus;
 	}
 
-	public void setOrderStatusId(Integer orderStatusId) {
-		this.orderStatusId = orderStatusId;
+	public void setOrderStatus(OrderStatus orderStatus) {
+		this.orderStatus = orderStatus;
 	}
 
-	public Integer getOrderTypeId() {
-		return orderTypeId;
+	public OrderType getOrderType() {
+		return orderType;
 	}
 
-	public void setOrderTypeId(Integer orderTypeId) {
-		this.orderTypeId = orderTypeId;
+	public void setOrderType(OrderType orderType) {
+		this.orderType = orderType;
 	}
 
-	public Integer getProductCatalogId() {
-		return productCatalogId;
+	public ProductCatalog getProductCatalog() {
+		return productCatalog;
 	}
 
-	public void setProductCatalogId(Integer productCatalogId) {
-		this.productCatalogId = productCatalogId;
+	public void setProductCatalog(ProductCatalog productCatalog) {
+		this.productCatalog = productCatalog;
 	}
 
-	public Integer getServiceInstanceId() {
-		return serviceInstanceId;
+	public ServiceInstance getServiceInstance() {
+		return serviceInstance;
 	}
 
-	public void setServiceInstanceId(Integer serviceInstanceId) {
-		this.serviceInstanceId = serviceInstanceId;
+	public void setServiceInstance(ServiceInstance serviceInstance) {
+		this.serviceInstance = serviceInstance;
 	}
 
-	public Integer getServiceLocationId() {
-		return serviceLocationId;
+	public ServiceLocation getServiceLocation() {
+		return serviceLocation;
 	}
 
-	public void setServiceLocationId(Integer serviceLocationId) {
-		this.serviceLocationId = serviceLocationId;
+	public void setServiceLocation(ServiceLocation serviceLocation) {
+		this.serviceLocation = serviceLocation;
 	}
 
+	
 	
 
 }
