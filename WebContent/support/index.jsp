@@ -97,8 +97,10 @@
 					</c:forEach>
 				</p>
 				<br /> --%> 
-				<br /> <input type="button" name="button1" id="button1"
-					value="Orders and Service Instances" /> 
+				<br /> <input type="button" name="view_si" id="view_si"
+					value="Service Instances" /> 
+					 <input type="button" name="view_so" id="view_so"
+					value="Service Orders" /> 
 					<input type="button" name="button" id="changepass" value="Change password" class="button" />
 			</form>
 		</div>
@@ -106,13 +108,23 @@
 	</div>
 
 	<script>
-	$(document).on('click', '#button1', function(){
-		/* $.ajax({
-		    url: "/Zephyrus/admin/accountcreation.jsp",
-		    success:function(result){
-		        document.location.href="/Zephyrus/admin/accountcreation.jsp";
-		    }});*/
-		    alert("dsfd");
+	$(document).on('click', '#view_si', function(){
+		 if( $(":radio[name=radiobutton]").filter(":checked").val()) {
+	       	  var userId=$('input[name=radiobutton]:checked').val();
+	       	  alert(userId);
+	   	   	document.location.href="support/viewUserSI.jsp?id="+userId;	 
+	         } else {
+	       	  alert("Check user");
+	         }   
+	    }); 
+	$(document).on('click', '#view_so', function(){
+		 if( $(":radio[name=radiobutton]").filter(":checked").val()) {
+	       	  var userId=$('input[name=radiobutton]:checked').val();
+	       	  alert(userId);
+	   	   	document.location.href="support/viewUserSO.jsp?id="+userId;	 
+	         } else {
+	       	  alert("Check user");
+	         }   
 	    }); 
 	$(document).on('click', '#changepass', function(){
 		 if( $(":radio[name=radiobutton]").filter(":checked").val()) {

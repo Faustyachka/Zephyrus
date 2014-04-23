@@ -103,4 +103,12 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		return fetchMultiResults(rs);
 	}
 
+	@Override
+	public User findByEmail(String email) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE EMAIL = ?");
+		stmt.setString(1, email);
+		rs = stmt.executeQuery();
+		return fetchSingleResult(rs);
+	}
+
 }

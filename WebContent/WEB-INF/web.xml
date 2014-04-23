@@ -35,7 +35,6 @@
     <url-pattern>/review</url-pattern>
     <url-pattern>/customersupport</url-pattern> 
     <url-pattern>/createdevice</url-pattern> 
-
     <url-pattern>/generateReport</url-pattern>
 
   </servlet-mapping>

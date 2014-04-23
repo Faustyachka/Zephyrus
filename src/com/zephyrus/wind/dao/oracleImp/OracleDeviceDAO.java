@@ -44,7 +44,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	@Override
 	public int insert(Device record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(COLUMN_SERIAL_NUM, record.getSerialNum());	    	
+		stmt.setString(1, record.getSerialNum());	    	
         stmt.executeUpdate();		
 		return stmt.executeUpdate();
 	}

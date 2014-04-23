@@ -7,9 +7,12 @@ import java.sql.SQLException;
 
 
 
+import java.util.ArrayList;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.VSupportInstance;
 
 public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {
 
@@ -92,6 +95,13 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	@Override
 	protected String getDelete() {
 		return SQL_REMOVE;
+	}
+	@Override
+	public ArrayList<ServiceOrder> getServiceOrdersByUserId(int id) throws SQLException, InstantiationException, IllegalAccessException {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
+		stmt.setInt(1, id);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
 	}
 
 }
