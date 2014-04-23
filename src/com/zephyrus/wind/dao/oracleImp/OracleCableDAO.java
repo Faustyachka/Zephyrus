@@ -36,20 +36,20 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	@Override
 	public void update(Cable record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setBigDecimal(COLUMN_PORT_ID, record.getPortId());
-    	stmt.setBigDecimal(COLUMN_SERVICE_LOCATION_ID, record.getServiceLocationId());    	
+    	stmt.setInt(COLUMN_PORT_ID, record.getPortId());
+    	stmt.setInt(COLUMN_SERVICE_LOCATION_ID, record.getServiceLocationId());    	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
 		
 	}
 
 	@Override
-	public int insert(Cable record) throws Exception {
+	public Cable insert(Cable record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setBigDecimal(COLUMN_PORT_ID, record.getPortId());
-    	stmt.setBigDecimal(COLUMN_SERVICE_LOCATION_ID, record.getServiceLocationId());    	    	
+    	stmt.setInt(COLUMN_PORT_ID, record.getPortId());
+    	stmt.setInt(COLUMN_SERVICE_LOCATION_ID, record.getServiceLocationId());    	    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -59,9 +59,9 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
 	@Override
 	protected void fillItem(Cable item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
-    	item.setPortId(rs.getBigDecimal(COLUMN_PORT_ID));
-    	item.setServiceLocationId(rs.getBigDecimal(COLUMN_SERVICE_LOCATION_ID));
+		item.setId(rs.getInt(COLUMN_ID));
+    	item.setPortId(rs.getInt(COLUMN_PORT_ID));
+    	item.setServiceLocationId(rs.getInt(COLUMN_SERVICE_LOCATION_ID));
 		
 	}
 

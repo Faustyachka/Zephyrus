@@ -13,81 +13,83 @@ import java.util.Date;
 public class ServiceOrder implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private long id;
+	private Integer id;
 
 	private Date orderDate;
 
 
-	private java.math.BigDecimal orderStatusId;
+	private Integer orderStatusId;
 
-	private java.math.BigDecimal orderTypeId;
-
-	
-	private java.math.BigDecimal productCatalogId;
-
-
-	private java.math.BigDecimal serviceInstanceId;
+	private Integer orderTypeId;
 
 	
-	private java.math.BigDecimal serviceLocationId;
+	private Integer productCatalogId;
+
+
+	private Integer serviceInstanceId;
+
+	
+	private Integer serviceLocationId;
 
 	public ServiceOrder() {
 	}
 
-	public long getId() {
-		return this.id;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
 	public Date getOrderDate() {
-		return this.orderDate;
+		return orderDate;
 	}
 
 	public void setOrderDate(Date orderDate) {
 		this.orderDate = orderDate;
 	}
 
-	public java.math.BigDecimal getOrderStatusId() {
-		return this.orderStatusId;
+	public Integer getOrderStatusId() {
+		return orderStatusId;
 	}
 
-	public void setOrderStatusId(java.math.BigDecimal orderStatusId) {
+	public void setOrderStatusId(Integer orderStatusId) {
 		this.orderStatusId = orderStatusId;
 	}
 
-	public java.math.BigDecimal getOrderTypeId() {
-		return this.orderTypeId;
+	public Integer getOrderTypeId() {
+		return orderTypeId;
 	}
 
-	public void setOrderTypeId(java.math.BigDecimal orderTypeId) {
+	public void setOrderTypeId(Integer orderTypeId) {
 		this.orderTypeId = orderTypeId;
 	}
 
-	public java.math.BigDecimal getProductCatalogId() {
-		return this.productCatalogId;
+	public Integer getProductCatalogId() {
+		return productCatalogId;
 	}
 
-	public void setProductCatalogId(java.math.BigDecimal productCatalogId) {
+	public void setProductCatalogId(Integer productCatalogId) {
 		this.productCatalogId = productCatalogId;
 	}
 
-	public java.math.BigDecimal getServiceInstanceId() {
-		return this.serviceInstanceId;
+	public Integer getServiceInstanceId() {
+		return serviceInstanceId;
 	}
 
-	public void setServiceInstanceId(java.math.BigDecimal serviceInstanceId) {
+	public void setServiceInstanceId(Integer serviceInstanceId) {
 		this.serviceInstanceId = serviceInstanceId;
 	}
 
-	public java.math.BigDecimal getServiceLocationId() {
-		return this.serviceLocationId;
+	public Integer getServiceLocationId() {
+		return serviceLocationId;
 	}
 
-	public void setServiceLocationId(java.math.BigDecimal serviceLocationId) {
+	public void setServiceLocationId(Integer serviceLocationId) {
 		this.serviceLocationId = serviceLocationId;
 	}
+
+	
 
 }

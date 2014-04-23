@@ -43,11 +43,11 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
 	}
 
 	@Override
-	public int insert(ServiceInstanceStatus record) throws Exception {
+	public ServiceInstanceStatus insert(ServiceInstanceStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(COLUMN_SERV_INSTANCE_STATUS_VALUE, record.getServInstanceStatusValue());    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -58,7 +58,7 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
 	@Override
 	protected void fillItem(ServiceInstanceStatus item, ResultSet rs)
 			throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
     	item.setServInstanceStatusValue(rs.getString(COLUMN_SERV_INSTANCE_STATUS_VALUE));
 		
 	}

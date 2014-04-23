@@ -6,23 +6,20 @@ import javax.servlet.http.HttpServletRequest;
 
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.commands.nosql.HomeCommand;
-import com.zephyrus.wind.commands.nosql.LoginCommand;
 import com.zephyrus.wind.commands.nosql.LogoutCommand;
-import com.zephyrus.wind.commands.nosql.MappingCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
+import com.zephyrus.wind.commands.nosql.RegisterPageCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
-
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
 import com.zephyrus.wind.commands.sql.CreateNewPassComand;
 import com.zephyrus.wind.commands.sql.CreateUserCommand;
 import com.zephyrus.wind.commands.sql.CustomerSupportCommand;
-import com.zephyrus.wind.commands.sql.ReassignCommand;
-
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
-
+import com.zephyrus.wind.commands.sql.LoginCommand;
+import com.zephyrus.wind.commands.sql.MappingCommand;
+import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
-import com.zephyrus.wind.commands.sql.ReviewUserCommand;
-import com.zephyrus.wind.commands.sql.SupportCommand;
+import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 
 public class CommandManager {
 
@@ -34,6 +31,9 @@ public class CommandManager {
 	private static final String LOGOUT_COMMAND = "logout";
 	private static final String MAPPING_COMMAND = "mapping";
 	private static final String REGISTER_COMMAND = "register";
+	private static final String REGISTERPAGE_COMMAND = "registerPage";
+	private static final String PROCEEDORDER_COMMAND = "proceedOrder";
+	private static final String SAVEORDER_COMMAND = "saveOrder";
 
 	private static final String CREATE_ACCOUNT_COMMAND = "createaccount";
 	private static final String BLOCKING_USER_COMMAND = "blocking";
@@ -57,14 +57,14 @@ public class CommandManager {
 		commands.put(LOGOUT_COMMAND, new LogoutCommand());
 		commands.put(MAPPING_COMMAND, new MappingCommand());
 		commands.put(REGISTER_COMMAND, new RegisterCommand());
+		commands.put(REGISTERPAGE_COMMAND, new RegisterPageCommand());
+		commands.put(PROCEEDORDER_COMMAND, new ProceedOrderCommand());
+		commands.put(SAVEORDER_COMMAND, new SaveOrderCommand());
 
 		commands.put(CREATE_ACCOUNT_COMMAND, new CreateUserCommand());
 		commands.put(BLOCKING_USER_COMMAND, new BlockingUserCommand());
-		commands.put(REASSIGN_COMMAND, new ReassignCommand());
 		commands.put(CREATE_NEW_PASSWORD_COMMAND, new CreateNewPassComand());
-		commands.put(REVIEW_USER_COMMAND, new ReviewUserCommand());
 		commands.put(CUSTOMER_SUPPORT_COMMAND, new CustomerSupportCommand());
-		commands.put(CREATE_DEVICE_COMMAND,  new CreateDeviceCommand());
 
 		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
 

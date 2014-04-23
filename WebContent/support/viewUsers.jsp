@@ -1,5 +1,11 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
+<link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
+<link rel="stylesheet" href="/Zephyrus/resources/css/jtable.css">
+<script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
+<script src="/Zephyrus/resources/javascript/jquery.jtable.min.js"></script>
+<script src="/Zephyrus/resources/javascript/usersjTable.js"></script>
+
 <div class="navigation">
 <center>
   <input name="reports" type="button" value="Reports" class="button" />
@@ -9,11 +15,13 @@
   </center>
 </div>
 <div class="main">
-<form id="createdevice" name="form3" method="post" action="">
+<form id="userForm" name="form3" method="post" action="">
+<div id="PersonTableContainer"></div>
   <label>Group Users by:	</label><select name="usersparameter">
   <option value="1">Parameter1</option>
   <option value="2">Parameter2</option>
   </select>
+  <
   <p>
     <label>
       <input type="radio" name="RadioGroup1" value="user1" id="RadioGroup1_0" />

@@ -6,16 +6,33 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Zephyrus</title>
-        <link href="../../resources/css/zephyrus_css.css" type="text/css" rel="stylesheet" />
-		<script src="../../resources/javascript/jquery-1.11.0.min.js"></script>
+        <link href="resources/css/zephyrus_css.css" type="text/css" rel="stylesheet" />
+		<script src="resources/javascript/jquery-1.11.0.min.js"></script>
     </head>
     <body>
         <div class="container">
   <div class="header">
-  <a href="Zephyrus/view/login.jsp" id="login_link">
-      <input type="button" value="Log in / Register" />
-  </a>
-  <a href="Zephyrus/view/index.jsp" id="main_link">
+  <c:choose>
+<c:when test="${user != null}">
+<div id="logout_link">
+Hello, ${user.email}
+<br>
+<a href="logout">logout</a>
+</div>
+</c:when>
+<c:otherwise>
+<a href="login" id="login_link">
+      <input type="button" value="Log in" />
+</a>
+<a href="registerPage" id="register_link">register</a>
+</c:otherwise>
+</c:choose> 
+  <a href="home" id="main_link">
   <input type="button" value="Main">
   </a>
+  <c:if test="${user != null }">
+   <a href="login" id="home_link">
+  <input type="button" value="Home">
+  </a>
+  </c:if>
   </div>

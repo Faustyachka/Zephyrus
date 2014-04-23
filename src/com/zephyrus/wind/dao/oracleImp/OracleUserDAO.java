@@ -46,24 +46,25 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     	stmt.setString(3, record.getEmail());
     	stmt.setString(4, record.getPassword());
     	stmt.setDate(5, record.getRegistrationData());
-    	stmt.setBigDecimal(6, record.getStatus());
-    	stmt.setBigDecimal(7, record.getRoleId());
+    	stmt.setInt(6, record.getStatus());
+    	stmt.setInt(7, record.getRoleId());
     	stmt.setLong(8, record.getId());
         stmt.executeUpdate();
 		
 	}
 
 	@Override
-	public int insert(User record) throws Exception {
+	public User insert(User record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(1, record.getFirstName());
     	stmt.setString(2, record.getLastName());
     	stmt.setString(3, record.getEmail());
     	stmt.setString(4, record.getPassword());
     	stmt.setDate(5, record.getRegistrationData());
-    	stmt.setBigDecimal(6, record.getStatus());
-    	stmt.setBigDecimal(7, record.getRoleId());
-		return stmt.executeUpdate();
+    	stmt.setInt(6, record.getStatus());
+    	stmt.setInt(7, record.getRoleId());
+    	stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -73,14 +74,14 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 
 	@Override
 	protected void fillItem(User item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
 		item.setFirstName(rs.getString(COLUMN_FIRST_NAME));
 		item.setLastName(rs.getString(COLUMN_LAST_NAME));
 		item.setEmail(rs.getString(COLUMN_EMAIL));
 		item.setPassword(rs.getString(COLUMN_PASSWORD));
 		item.setRegistrationData(rs.getDate(COLUMN_REGISTRATION_DATA));
-		item.setStatus(rs.getBigDecimal(COLUMN_STATUS));
-		item.setRoleId(rs.getBigDecimal(COLUMN_ROLE_ID));
+		item.setStatus(rs.getInt(COLUMN_STATUS));
+		item.setRoleId(rs.getInt(COLUMN_ROLE_ID));
 		
 	}
 	
@@ -96,11 +97,19 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	
 
 	@Override
-	public ArrayList<User> getUsersByRoleId(int roleId) throws SQLException, InstantiationException, IllegalAccessException {
+	public ArrayList<User> getUsersByRoleId(int roleId) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
 		stmt.setInt(1, roleId);
 		rs = stmt.executeQuery();		
 		return fetchMultiResults(rs);
+	}
+
+	@Override
+	public User findByEmail(String email) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE EMAIL = ?");
+		stmt.setString(1, email);
+		rs = stmt.executeQuery();
+		return fetchSingleResult(rs);
 	}
 
 }

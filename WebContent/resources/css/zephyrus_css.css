@@ -43,6 +43,20 @@
 	margin-top:70px;
 }
 
+#logout_link {
+	float:right;
+	margin-right:10px;
+	margin-bottom:10px;
+	margin-top:50px;
+}
+
+#register_link{
+	float:right;
+	margin-right:10px;
+	margin-bottom:10px;
+	margin-top:70px;
+}
+
 #map-canvas {
 	width:700px;
 	height:380px;
@@ -73,6 +87,12 @@
 }
 
 #main_link {
+	float:left;
+	margin-left:10px;
+	margin-top:70px;
+}
+
+#home_link {
 	float:left;
 	margin-left:10px;
 	margin-top:70px;

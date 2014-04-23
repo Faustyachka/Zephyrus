@@ -1,5 +1,6 @@
 package com.zephyrus.wind.dao.oracleImp;
 
+import java.sql.CallableStatement;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -13,6 +14,7 @@ public abstract class OracleDAO<T> {
     protected Class<T> itemClass;
     protected Connection connection;
     protected PreparedStatement stmt = null;
+    protected CallableStatement cs = null;
     protected ResultSet rs = null;
     protected OracleDAOFactory daoFactory;
     
@@ -26,7 +28,7 @@ public abstract class OracleDAO<T> {
     protected T fetchSingleResult(ResultSet rs) 
             throws SQLException, 
             InstantiationException,
-            IllegalAccessException{
+            IllegalAccessException, Exception{
         if (rs.next()) {
             T item = itemClass.newInstance();
             fillItem(item, rs);
@@ -40,7 +42,7 @@ public abstract class OracleDAO<T> {
     protected ArrayList<T> fetchMultiResults(ResultSet rs)
             throws SQLException,
             InstantiationException,
-            IllegalAccessException{
+            IllegalAccessException, Exception{
         ArrayList<T> resultList = new ArrayList<T>();
         T item = null;
         while ((item = fetchSingleResult(rs)) != null) 
@@ -49,7 +51,7 @@ public abstract class OracleDAO<T> {
         return resultList;
     }
     
-    protected abstract void fillItem(T item, ResultSet rs) throws SQLException;
+    protected abstract void fillItem(T item, ResultSet rs) throws SQLException, Exception;
     protected abstract String getSelect();
     protected abstract String getDelete();
     
@@ -62,6 +64,13 @@ public abstract class OracleDAO<T> {
     public T findById(int id) throws Exception {
         stmt = connection.prepareStatement(getSelect() + "WHERE ID=?");
         stmt.setInt(1, id);
+        rs = stmt.executeQuery();
+        return fetchSingleResult(rs);
+    }
+    
+    public T findByRowId(String id) throws Exception {
+        stmt = connection.prepareStatement(getSelect() + "WHERE ROWID=?");
+        stmt.setString(1, id);
         rs = stmt.executeQuery();
         return fetchSingleResult(rs);
     }

@@ -41,11 +41,11 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
 	}
 
 	@Override
-	public int insert(UserRole record) throws Exception {
+	public UserRole insert(UserRole record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
     	stmt.setString(COLUMN_ROLE_NAME, record.getRoleName());    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -55,7 +55,7 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
 
 	@Override
 	protected void fillItem(UserRole item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
     	item.setRoleName(rs.getString(COLUMN_ROLE_NAME));
 		
 		

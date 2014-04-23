@@ -2,7 +2,7 @@
 <web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://xmlns.jcp.org/xml/ns/javaee" xsi:schemaLocation="http://xmlns.jcp.org/xml/ns/javaee http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd" id="WebApp_ID" version="3.1">
   <display-name>Zephyrus</display-name>
   <welcome-file-list>
-    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>view/index.jsp</welcome-file>
   </welcome-file-list>
   <filter>
     <filter-name>SessionTimeOutFilter</filter-name>
@@ -21,13 +21,15 @@
     <servlet-name>controller</servlet-name>
     <url-pattern>/controller</url-pattern>
     <url-pattern>/register</url-pattern>
+    <url-pattern>/registerPage</url-pattern>
     <url-pattern>/order</url-pattern>
     <url-pattern>/home</url-pattern>
     <url-pattern>/admin</url-pattern>
     <url-pattern>/login</url-pattern>
     <url-pattern>/logout</url-pattern>
     <url-pattern>/mapping</url-pattern>
-
+    <url-pattern>/proceedOrder</url-pattern>
+	<url-pattern>/saveOrder</url-pattern>
     <url-pattern>/createaccount</url-pattern>
     <url-pattern>/blocking</url-pattern>
    <url-pattern>/reassign</url-pattern>
@@ -35,7 +37,6 @@
     <url-pattern>/review</url-pattern>
     <url-pattern>/customersupport</url-pattern> 
     <url-pattern>/createdevice</url-pattern> 
-
     <url-pattern>/generateReport</url-pattern>
 
   </servlet-mapping>
@@ -58,9 +59,9 @@
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
- <!--    <auth-constraint>
+    <auth-constraint>
       <role-name>ADMIN</role-name>
-    </auth-constraint> -->
+    </auth-constraint> 
   </security-constraint> 
   <security-constraint>
     <web-resource-collection>
@@ -71,10 +72,9 @@
       <http-method>POST</http-method>
     </web-resource-collection>
 
-<!--     <auth-constraint>
-      <role-name>ADMIN</role-name>
+     <auth-constraint>
       <role-name>SUPPORT</role-name> 
-    </auth-constraint>  -->
+    </auth-constraint>  
   </security-constraint>  
 
 

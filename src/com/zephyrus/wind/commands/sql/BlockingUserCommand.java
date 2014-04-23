@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
 import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.UserStatus;
 import com.zephyrus.wind.model.User;
 
 public class BlockingUserCommand extends SQLCommand {
@@ -21,10 +22,10 @@ public class BlockingUserCommand extends SQLCommand {
 		int userId = Integer.parseInt(request.getParameter("id"));
 		IDAO<User> dao = oracleDaoFactory.getUserDAO();
 		User user = dao.findById(userId);		
-		if (user.getStatus().equals(new BigDecimal(1))) {
-		user.setStatus(new BigDecimal(0));
+		if (user.getStatus().equals(UserStatus.BLOCKED.geValue())) {
+		user.setStatus(UserStatus.ACTIVE.geValue());
 		} else {
-			user.setStatus(new BigDecimal(1));
+			user.setStatus(UserStatus.BLOCKED.geValue());
 		}
 		dao.update(user);
 		return null;

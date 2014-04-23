@@ -1,8 +1,8 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-<link rel="stylesheet" href="../resources/css/jquery-ui-1.10.4.min.css">
-<script src="../resources/javascript/jquery-ui-1.10.4.min.js"></script>
-<script src="../resources/javascript/accordion.js"></script>
+<link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
+<script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
+<script src="/Zephyrus/resources/javascript/accordion.js"></script>
 
 <div class="navigation">
   <a href="Zephyrus/view/cutomerOrders" class="current">
@@ -21,6 +21,28 @@
   <div class="main">
   <h2> Actual orders </h2>
   <div id="actual">
+  <c:foreach items="${actualOrders}" var="actualOrder">
+  <h5>Order ${actualOrder.id}</h5>
+  <div>
+    <ul>
+      <li>Order adress: ${actualOrder.adress}</li>
+      <li>Order service: ${actualOrder.service.name} </li>
+      <li>Order type:${actualOrder.type} </li>
+      <li>Order date: ${actualOrder.date}</li>
+      <li>Order status:${actualOrder.status} </li>
+    </ul>
+    <a href="Zephyrus/placingRequest">
+    <input type="button" value="Location services">
+    </a>
+    <form action="Zephyrus/cancelOrder" method="get">
+    <a href="Zephyrus/cancelOrder?id=${actualOrder.id}">
+    <input type="button" value="Cancel order">  
+    </a>  
+    <a href="Zephyrus/proceedOrder?id=">
+    <input type="button" value="Proceed order">  
+    </a>  
+  </div>
+  </c:foreach>
   <h5>Order 1</h5>
   <div>
     <ul>

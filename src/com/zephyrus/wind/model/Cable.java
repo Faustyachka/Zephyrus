@@ -13,38 +13,40 @@ public class Cable implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 
-	private long id;
+	private Integer id;
 
 
-	private java.math.BigDecimal portId;
+	private Integer portId;
 
-	private java.math.BigDecimal serviceLocationId;
+	private Integer serviceLocationId;
 
 	public Cable() {
 	}
 
-	public long getId() {
-		return this.id;
+	public Integer getId() {
+		return id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 
-	public java.math.BigDecimal getPortId() {
-		return this.portId;
+	public Integer getPortId() {
+		return portId;
 	}
 
-	public void setPortId(java.math.BigDecimal portId) {
+	public void setPortId(Integer portId) {
 		this.portId = portId;
 	}
 
-	public java.math.BigDecimal getServiceLocationId() {
-		return this.serviceLocationId;
+	public Integer getServiceLocationId() {
+		return serviceLocationId;
 	}
 
-	public void setServiceLocationId(java.math.BigDecimal serviceLocationId) {
+	public void setServiceLocationId(Integer serviceLocationId) {
 		this.serviceLocationId = serviceLocationId;
 	}
+
+	
 
 }

@@ -12,7 +12,7 @@ import java.io.Serializable;
 public class OrderType implements Serializable {
 	private static final long serialVersionUID = 1L;
 
-	private long id;
+	private Integer id;
 
 
 	private String orderType;
@@ -20,11 +20,11 @@ public class OrderType implements Serializable {
 	public OrderType() {
 	}
 
-	public long getId() {
+	public Integer getId() {
 		return this.id;
 	}
 
-	public void setId(long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 

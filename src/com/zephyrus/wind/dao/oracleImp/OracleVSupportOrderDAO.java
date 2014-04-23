@@ -31,9 +31,9 @@ public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements 
 	}
 
 	@Override
-	public int insert(VSupportOrder record) throws Exception {
+	public VSupportOrder insert(VSupportOrder record) throws Exception {
 		// TODO Auto-generated method stub
-		return 0;
+		return null;
 	}
 
 	@Override
@@ -45,8 +45,8 @@ public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements 
 	@Override
 	protected void fillItem(VSupportOrder item, ResultSet rs)
 			throws SQLException {
-		item.setUserId(rs.getBigDecimal(1));
-		item.setSoId(rs.getBigDecimal(2));
+		item.setUserId(rs.getInt(1));
+		item.setSoId(rs.getInt(2));
 		item.setSlCoord(rs.getString(3));
 		item.setService(rs.getString(4));
 		item.setSoDate(rs.getDate(5));

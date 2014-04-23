@@ -56,7 +56,7 @@ public class MainServlet extends HttpServlet {
 		            page = Pages.MESSAGE_PAGE.getValue();
 		        }catch(Exception e){
 		        	e.printStackTrace();
-			        request.setAttribute("errorMessage", e.getMessage());
+			        request.setAttribute("errorMessage", e.toString() + e.getMessage());
 			        request.setAttribute("title", MessageManager.ERROR);
 			        page = Pages.MESSAGE_PAGE.getValue();
 		        }

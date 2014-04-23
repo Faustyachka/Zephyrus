@@ -42,11 +42,11 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	}
 
 	@Override
-	public int insert(Device record) throws Exception {
+	public Device insert(Device record) throws Exception {
 		stmt = connection.prepareStatement(SQL_INSERT);
 		stmt.setString(1, record.getSerialNum());	    	
         stmt.executeUpdate();		
-		return stmt.executeUpdate();
+		return null;
 	}
 
 	@Override
@@ -56,7 +56,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 
 	@Override
 	protected void fillItem(Device item, ResultSet rs) throws SQLException {
-		item.setId(rs.getLong(COLUMN_ID));
+		item.setId(rs.getInt(COLUMN_ID));
     	item.setSerialNum(rs.getString(COLUMN_SERIAL_NUM));  		
 	}
 	

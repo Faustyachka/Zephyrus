@@ -21,11 +21,11 @@ public class VSupportOrder implements Serializable {
 
 	private Date soDate;
 
-	private BigDecimal soId;
+	private Integer soId;
 
 	private String soValue;
 
-	private BigDecimal userId;
+	private Integer userId;
 
 	public VSupportOrder() {
 	}
@@ -54,11 +54,11 @@ public class VSupportOrder implements Serializable {
 		this.soDate = soDate;
 	}
 
-	public BigDecimal getSoId() {
+	public Integer getSoId() {
 		return this.soId;
 	}
 
-	public void setSoId(BigDecimal soId) {
+	public void setSoId(Integer soId) {
 		this.soId = soId;
 	}
 
@@ -70,11 +70,11 @@ public class VSupportOrder implements Serializable {
 		this.soValue = soValue;
 	}
 
-	public BigDecimal getUserId() {
+	public Integer getUserId() {
 		return this.userId;
 	}
 
-	public void setUserId(BigDecimal userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 
