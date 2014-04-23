@@ -33,7 +33,8 @@
    <url-pattern>/reassign</url-pattern>
     <url-pattern>/createnewpass</url-pattern>
     <url-pattern>/review</url-pattern>
-    <url-pattern>/customersupport</url-pattern>  
+    <url-pattern>/customersupport</url-pattern> 
+    <url-pattern>/createdevice</url-pattern> 
 
     <url-pattern>/generateReport</url-pattern>
 
@@ -129,7 +130,8 @@
       <role-name>INSTALLATION</role-name>
       <role-name>CUSTOMER</role-name>
     </auth-constraint>
-  </security-constraint>
+    </security-constraint>
+  
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>General</web-resource-name>
