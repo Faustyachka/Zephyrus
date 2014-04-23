@@ -15,7 +15,7 @@ public class Port implements Serializable {
 
 	private Integer id;
 
-	private Integer deviceId;
+	private Device device;
 
 	private Integer portNumber;
 
@@ -30,12 +30,12 @@ public class Port implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getDeviceId() {
-		return deviceId;
+	public Device getDevice() {
+		return device;
 	}
 
-	public void setDeviceId(Integer deviceId) {
-		this.deviceId = deviceId;
+	public void setDevice(Device device) {
+		this.device = device;
 	}
 
 	public Integer getPortNumber() {

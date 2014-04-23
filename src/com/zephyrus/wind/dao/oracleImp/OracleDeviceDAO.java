@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.model.Device;
@@ -18,10 +20,9 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
                                       " SET SERIAL_NUM = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (SERIAL_NUM) " + 
-                                      
-                                      "VALUES (?)";
+    private static final String SQL_INSERT =  "BEGIN INSERT INTO " + TABLE_NAME + 
+												"(SERIAL_NUM) VALUES(?)" +
+												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -43,10 +44,12 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 
 	@Override
 	public Device insert(Device record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-		stmt.setString(1, record.getSerialNum());	    	
-        stmt.executeUpdate();		
-		return null;
+		cs = connection.prepareCall(SQL_INSERT);
+    	cs.setString(1, record.getSerialNum());    
+    	cs.registerOutParameter(2, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(2);
+		return findByRowId(rowId);
 	}
 
 	@Override

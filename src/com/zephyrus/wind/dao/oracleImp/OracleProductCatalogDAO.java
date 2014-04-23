@@ -4,9 +4,15 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
+import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceTypeDAO;
 import com.zephyrus.wind.model.ProductCatalog;
+import com.zephyrus.wind.model.ProviderLocation;
+import com.zephyrus.wind.model.ServiceType;
 
 public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implements IProductCatalogDAO {
 
@@ -18,10 +24,9 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
                                       " SET SERVICE_TYPE_ID = ?, PROVIDER_LOC_ID = ?, " + 
                                       " PRICE = ? WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (SERVICE_TYPE_ID, PROVIDER_LOC_ID, " + 
-                                      " PRICE) " +
-                                      "VALUES (?,?,?,?)";
+    private static final String SQL_INSERT =  "BEGIN INSERT INTO " + TABLE_NAME + 
+												"(SERVICE_TYPE_ID, PROVIDER_LOC_ID, PRICE) VALUES(?,?,?)" +
+												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -36,8 +41,8 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 	@Override
 	public void update(ProductCatalog record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_SERVICE_TYPE_ID, record.getServiceTypeId());
-    	stmt.setInt(COLUMN_PROVIDER_LOC_ID, record.getProviderLocId());
+    	stmt.setInt(COLUMN_SERVICE_TYPE_ID, record.getServiceType().getId());
+    	stmt.setInt(COLUMN_PROVIDER_LOC_ID, record.getProviderLoc().getId());
     	stmt.setInt(COLUMN_PRICE, record.getPrice());
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
@@ -46,12 +51,14 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 
 	@Override
 	public ProductCatalog insert(ProductCatalog record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setInt(COLUMN_SERVICE_TYPE_ID, record.getServiceTypeId());
-    	stmt.setInt(COLUMN_PROVIDER_LOC_ID, record.getProviderLocId());
-    	stmt.setInt(COLUMN_PRICE, record.getPrice());
-    	stmt.executeUpdate();
-    	return null;
+    	cs = connection.prepareCall(SQL_INSERT);
+    	cs.setInt(1, record.getServiceType().getId());
+    	cs.setInt(2, record.getProviderLoc().getId());  
+    	cs.setInt(3, record.getPrice());  
+    	cs.registerOutParameter(4, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(4);
+		return findByRowId(rowId);
 	}
 
 	@Override
@@ -61,12 +68,15 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 
 	@Override
 	protected void fillItem(ProductCatalog item, ResultSet rs)
-			throws SQLException {
+			throws SQLException, Exception {
 		item.setId(rs.getInt(COLUMN_ID));
-    	item.setServiceTypeId(rs.getInt(COLUMN_SERVICE_TYPE_ID));
+		IServiceTypeDAO serviceTypeDAO = daoFactory.getServiceTypeDAO();
+		ServiceType serviceType = serviceTypeDAO.findById(rs.getInt(COLUMN_SERVICE_TYPE_ID));
+		item.setServiceType(serviceType);
     	item.setPrice(rs.getInt(COLUMN_PRICE));
-    	item.setProviderLocId(rs.getInt(COLUMN_PROVIDER_LOC_ID));
-    
+    	IProviderLocationDAO providerLocationDAO = daoFactory.getProviderLocationDAO();
+    	ProviderLocation providerLoc = providerLocationDAO.findById(rs.getInt(COLUMN_PROVIDER_LOC_ID));
+    	item.setProviderLoc(providerLoc);
 		
 	}
 	

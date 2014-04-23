@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.model.OrderType;
@@ -18,10 +20,9 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
                                       " SET ORDER_TYPE_VALUE = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (ORDER_TYPE_VALUE) " + 
-                                      
-                                      "VALUES (?)";
+    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
+												"(ORDER_TYPE_VALUE) VALUES(?)" +
+												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -43,10 +44,12 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 
 	@Override
 	public OrderType insert(OrderType record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(COLUMN_ORDER_TYPE_VALUE, record.getOrderType());    	
-        stmt.executeUpdate();		
-		return null;
+		cs = connection.prepareCall(SQL_INSERT);
+    	cs.setString(1, record.getOrderType());
+    	cs.registerOutParameter(2, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(2);
+		return findByRowId(rowId);
 	}
 
 	@Override

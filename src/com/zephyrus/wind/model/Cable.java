@@ -16,9 +16,9 @@ public class Cable implements Serializable {
 	private Integer id;
 
 
-	private Integer portId;
+	private Port port;
 
-	private Integer serviceLocationId;
+	private ServiceLocation serviceLocation;
 
 	public Cable() {
 	}
@@ -31,22 +31,22 @@ public class Cable implements Serializable {
 		this.id = id;
 	}
 
-	public Integer getPortId() {
-		return portId;
+	public Port getPort() {
+		return port;
 	}
 
-	public void setPortId(Integer portId) {
-		this.portId = portId;
+	public void setPort(Port port) {
+		this.port = port;
 	}
 
-	public Integer getServiceLocationId() {
-		return serviceLocationId;
+	public ServiceLocation getServiceLocation() {
+		return serviceLocation;
 	}
 
-	public void setServiceLocationId(Integer serviceLocationId) {
-		this.serviceLocationId = serviceLocationId;
+	public void setServiceLocation(ServiceLocation serviceLocation) {
+		this.serviceLocation = serviceLocation;
 	}
 
-	
+
 
 }
