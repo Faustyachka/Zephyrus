@@ -18,12 +18,9 @@ public class ProductCatalog implements Serializable {
 
 	private Integer price;
 
-	private String productName;
+	private ProviderLocation providerLoc;
 
-	
-	private Integer providerLocId;
-
-	private Integer serviceTypeId;
+	private ServiceType serviceType;
 
 	public ProductCatalog() {
 	}
@@ -44,30 +41,23 @@ public class ProductCatalog implements Serializable {
 		this.price = price;
 	}
 
-	public String getProductName() {
-		return productName;
+	public ProviderLocation getProviderLoc() {
+		return providerLoc;
 	}
 
-	public void setProductName(String productName) {
-		this.productName = productName;
+	public void setProviderLoc(ProviderLocation providerLoc) {
+		this.providerLoc = providerLoc;
 	}
 
-	public Integer getProviderLocId() {
-		return providerLocId;
+	public ServiceType getServiceType() {
+		return serviceType;
 	}
 
-	public void setProviderLocId(Integer providerLocId) {
-		this.providerLocId = providerLocId;
+	public void setServiceType(ServiceType serviceType) {
+		this.serviceType = serviceType;
 	}
 
-	public Integer getServiceTypeId() {
-		return serviceTypeId;
-	}
-
-	public void setServiceTypeId(Integer serviceTypeId) {
-		this.serviceTypeId = serviceTypeId;
-	}
-
+	
 	
 
 }

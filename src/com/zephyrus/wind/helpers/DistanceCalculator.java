@@ -66,7 +66,7 @@ public class DistanceCalculator {
 			if (distance < minimalDistance) {
 				result= new ArrayList<>();
 				for(ProductCatalog pc: productCatalogs) {
-					if(pc.getProviderLocId() == entry.getId()) {
+					if(pc.getProviderLoc().getId() == entry.getId()) {
 						ProductCatalogService serviceData = createProductCatalogService(pc, oracleFactory);
 						result.add(serviceData);
 					}
@@ -77,7 +77,7 @@ public class DistanceCalculator {
 		if (result==null) {
 			result =  new ArrayList<>();
 			for(ProductCatalog pc: productCatalogs) {
-				if(pc.getProviderLocId() == providerLocs.get(1).getId()) {
+				if(pc.getProviderLoc().getId() == providerLocs.get(1).getId()) {
 					ProductCatalogService serviceData = createProductCatalogService(pc, oracleFactory);
 					result.add(serviceData);
 				}
@@ -91,7 +91,7 @@ public class DistanceCalculator {
 		serviceData.setId(pc.getId());
 		serviceData.setPrice( pc.getPrice());
 		IServiceTypeDAO serviceType = oracleFactory.getServiceTypeDAO();
-		ServiceType service = serviceType.findById(pc.getServiceTypeId().intValue());
+		ServiceType service = serviceType.findById(pc.getServiceType().getId().intValue());
 		serviceData.setServiceName(service.getServiceType());
 		return serviceData;
 	}

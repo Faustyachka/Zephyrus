@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
 import com.zephyrus.wind.model.OrderStatus;
@@ -18,10 +20,9 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
                                       " SET ORDER_STATUS_VALUE = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (ORDER_STATUS_VALUE) " + 
-                                      
-                                      "VALUES (?)";
+    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
+												"(ORDER_STATUS_VALUE) VALUES(?)" +
+												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -41,10 +42,13 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 
 	@Override
 	public OrderStatus insert(OrderStatus record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(COLUMN_ORDER_STATUS_VALUE, record.getOrderStatusValue());    	
-        stmt.executeUpdate();		
-		return null;
+		
+		cs = connection.prepareCall(SQL_INSERT);
+    	cs.setString(1, record.getOrderStatusValue());
+    	cs.registerOutParameter(2, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(2);
+		return findByRowId(rowId);
 	}
 
 	@Override

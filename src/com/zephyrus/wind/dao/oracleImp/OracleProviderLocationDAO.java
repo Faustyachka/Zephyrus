@@ -4,6 +4,8 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.model.ProviderLocation;
@@ -17,10 +19,9 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
                                       " SET LOCATION_NAME = ?, LOCATION_COORD = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (LOCATION_NAME, LOCATION_COORD) " + 
-                                      
-                                      "VALUES (?,?)";
+    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
+												"(LOCATION_NAME, LOCATION_COORD) VALUES(?,?)" +
+												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
@@ -43,11 +44,13 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
 
 	@Override
 	public ProviderLocation insert(ProviderLocation record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setString(COLUMN_LOCATION_NAME, record.getLocationName());
-    	stmt.setString(COLUMN_LOCATION_COORD, record.getLocationCoord()); 
-    	stmt.executeUpdate();
-    	return null;
+    	cs = connection.prepareCall(SQL_INSERT);
+    	cs.setString(1, record.getLocationName());
+    	cs.setString(2, record.getLocationCoord());    
+    	cs.registerOutParameter(3, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(3);
+		return findByRowId(rowId);
 	}
 
 	@Override

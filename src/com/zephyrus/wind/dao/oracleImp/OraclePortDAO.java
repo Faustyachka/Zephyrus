@@ -4,8 +4,12 @@ import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import oracle.jdbc.OracleTypes;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
+import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
+import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
 
 public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
@@ -18,16 +22,14 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
                                       " SET DEVICE_ID = ?, PORT_NUMBER = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
-    private static final String SQL_INSERT = "INSERT INTO " + TABLE_NAME + 
-                                      " (DEVICE_ID, PORT_NUMBER) " + 
-                                      
-                                      "VALUES (?,?)";
+    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
+												"(DEVICE_ID, PORT_NUMBER) VALUES(?,?)" +
+												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_DEVICE_ID = 2;
     private static final int COLUMN_PORT_NUMBER = 3;   
-    private static final int COLUMN_PORT_ON = 4;  
 
 	public OraclePortDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -37,7 +39,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	@Override
 	public void update(Port record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_DEVICE_ID, record.getDeviceId());
+    	stmt.setInt(COLUMN_DEVICE_ID, record.getDevice().getId());
     	stmt.setInt(COLUMN_PORT_NUMBER, record.getPortNumber()); 
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
@@ -46,11 +48,13 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
 	@Override
 	public Port insert(Port record) throws Exception {
-		stmt = connection.prepareStatement(SQL_INSERT);
-    	stmt.setInt(COLUMN_DEVICE_ID, record.getDeviceId());
-    	stmt.setInt(COLUMN_PORT_NUMBER, record.getPortNumber());
-    	stmt.executeUpdate();
-		return null;
+		cs = connection.prepareCall(SQL_INSERT);
+    	cs.setInt(1, record.getDevice().getId());
+    	cs.setInt(2, record.getPortNumber());    
+    	cs.registerOutParameter(3, OracleTypes.VARCHAR);
+        cs.execute();
+        String rowId = cs.getString(3);
+		return findByRowId(rowId);
 	}
 
 	@Override
@@ -59,10 +63,11 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	}
 
 	@Override
-	protected void fillItem(Port item, ResultSet rs) throws SQLException {
+	protected void fillItem(Port item, ResultSet rs) throws SQLException, Exception {
 		item.setId(rs.getInt(COLUMN_ID));
-    	item.setDeviceId(rs.getInt(COLUMN_DEVICE_ID));
-    	item.setPortNumber(rs.getInt(COLUMN_PORT_NUMBER));
+		IDeviceDAO deviceDAO = daoFactory.getDeviceDAO();
+		Device device = deviceDAO.findById(rs.getInt(COLUMN_DEVICE_ID));
+    	item.setDevice(device);
 		
 	}
 	

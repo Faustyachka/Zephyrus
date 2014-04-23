@@ -16,7 +16,7 @@ public class Circuit implements Serializable {
 	private Integer id;
 
 
-	private Integer portId;
+	private Port port;
 
 
 	public Circuit() {
@@ -33,14 +33,17 @@ public class Circuit implements Serializable {
 	}
 
 
-	public Integer getPortId() {
-		return portId;
+	public Port getPort() {
+		return port;
 	}
 
 
-	public void setPortId(Integer portId) {
-		this.portId = portId;
+	public void setPort(Port port) {
+		this.port = port;
 	}
+
+
+
 
 	
 
