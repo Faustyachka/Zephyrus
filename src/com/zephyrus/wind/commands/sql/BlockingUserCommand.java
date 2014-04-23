@@ -1,18 +1,20 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.math.BigDecimal;
 import java.sql.SQLException;
-import java.util.Enumeration;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
-import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.enums.UserStatus;
 import com.zephyrus.wind.model.User;
 
+/**
+ * 
+ * @author Alexandra Beskorovaynaya
+ *
+ */
 public class BlockingUserCommand extends SQLCommand {
 
 	@Override
@@ -29,7 +31,6 @@ public class BlockingUserCommand extends SQLCommand {
 		}
 		dao.update(user);
 		return null;
-		//TODO
 	}
 
 }

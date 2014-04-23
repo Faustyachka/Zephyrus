@@ -99,7 +99,6 @@ public class CreateUserCommand extends SQLCommand {
 		    response.getWriter().write("Account created!"); 
 			
 		}
-
 		return null;
 	}
 

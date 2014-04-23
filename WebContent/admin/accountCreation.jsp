@@ -17,7 +17,6 @@
 	            	 document.forms["form1"].reset();
 	             }
 	             });
-
 	         });
 
 	         return false;

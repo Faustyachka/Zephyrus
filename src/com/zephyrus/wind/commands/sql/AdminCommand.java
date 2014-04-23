@@ -25,6 +25,4 @@ public class AdminCommand extends SQLCommand  {
 		request.setAttribute("users", users);
 		return Pages.ADMIN_PAGE.getValue();
 	}
-
-
 }
