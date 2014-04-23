@@ -35,7 +35,6 @@
     <url-pattern>/review</url-pattern>
     <url-pattern>/customersupport</url-pattern> 
     <url-pattern>/createdevice</url-pattern> 
-
     <url-pattern>/generateReport</url-pattern>
 
   </servlet-mapping>
@@ -72,7 +71,6 @@
     </web-resource-collection>
 
      <auth-constraint>
-      <role-name>ADMIN</role-name>
       <role-name>SUPPORT</role-name> 
     </auth-constraint>  
   </security-constraint>  

@@ -1,5 +1,7 @@
 package com.zephyrus.wind.commands.nosql;
 
+import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -7,18 +9,21 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.zephyrus.wind.commands.interfaces.Command;
+import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.helpers.DistanceCalculator;
 import com.zephyrus.wind.model.ProductCatalog;
+import com.zephyrus.wind.model.ProductCatalogService;
+import com.zephyrus.wind.model.ServiceInstanceStatus;
 import com.zephyrus.wind.model.ServiceLocation;
 /**
  * 
  * @author Alexandra Beskorovaynaya
  *
  */
-public class MappingCommand implements Command{
+public class MappingCommand extends SQLCommand{
 
 	@Override
-	public String execute(HttpServletRequest request,
+	public String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		
 		String longitude = null;
@@ -33,8 +38,8 @@ public class MappingCommand implements Command{
         sl.setServiceLocationCoord(s);
         
         DistanceCalculator dc = new DistanceCalculator();
-
-        HashMap<Integer, ProductCatalog> services = dc.getNearestProvidersServices(sl);
+        
+        ArrayList<ProductCatalogService> services = dc.getNearestProvidersServices(sl, oracleDaoFactory);
       
        
         String json = new Gson().toJson(services);

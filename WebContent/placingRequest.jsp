@@ -78,8 +78,8 @@ google.maps.event.addDomListener(window, 'load', initialize);
                 var longituded = $('#longitude').val();
                 $.post('mapping',{latitude:latituded,longitude:longituded},function(rsp){
                     $("#somediv").empty();
-                	$.each(rsp, function(key, productcatalog) { 
-                    	$("#somediv").append("<input type='radio' name='services' id='"+key+"' value = '"+key+"'> "+ productcatalog.productName+" <br>");
+                	$.each(rsp, function(key, prodcatalogserv) { 
+                    	$("#somediv").append("<input type='radio' name='services' id='"+prodcatalogserv.id+"' value = '"+prodcatalogserv.id+"'> "+ prodcatalogserv.serviceName + ", " + prodcatalogserv.price + "$ month" +" <br>");
                     	                         
                     });
 
@@ -113,9 +113,11 @@ google.maps.event.addDomListener(window, 'load', initialize);
            <td>         
                Your desired location:
                 <input type="text" name="address" id="address" size="66"/>               
-                <input type="button" value="Accept" id="submit"/>                
+                <input type="button" value="Accept" id="submit"/>        
+                <form action = "Zephyrus/newOrder" method = "POST">        
                 <div id="somediv"></div>                
-                <input type="button" value="Proceed to order" id="proceed"/>              
+                <input type="submit" value="Proceed to order" id="proceed"/>   
+                </form>           
            </td>
         </tr>
     </table>
