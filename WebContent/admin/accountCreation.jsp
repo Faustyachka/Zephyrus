@@ -1,6 +1,6 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-<script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
+<script type="text/javascript" src="../resources/javascript/dataValidation.js" > </script>
 	<script>
 	 $().ready(function(){
 	     $('#submitt').click(function(){
@@ -25,13 +25,12 @@
 	     </script>
 <div class="navigation">
 <center>
-<input name="tasks" type="button" value="Tasks" class="button" />
-  <br />
   <br />
   <input name="reports" type="button" value="Reports" class="button" />
   <br />
-  <br />
+  <br /><a href="../admin">
   <input name="accounts" type="button" value="Accounts" class="button" />
+  </a>
   </center>
 </div>
 <div class="main">
@@ -70,7 +69,7 @@
 						</select></td>
 					</tr>
 				</table>
-				<input type="button" name="buttonk" id="submitt"
+				<input type="button" name="create" id="submitt"
 					value="Save new account" class="button" />
 			</form>
 </div>

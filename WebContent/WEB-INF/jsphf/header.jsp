@@ -6,8 +6,8 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Zephyrus</title>
-        <link href="resources/css/zephyrus_css.css" type="text/css" rel="stylesheet" />
-		<script src="resources/javascript/jquery-1.11.0.min.js"></script>
+        <link href="/Zephyrus/resources/css/zephyrus_css.css" type="text/css" rel="stylesheet" />
+		<script src="/Zephyrus/resources/javascript/jquery-1.11.0.min.js"></script>
     </head>
     <body>
         <div class="container">

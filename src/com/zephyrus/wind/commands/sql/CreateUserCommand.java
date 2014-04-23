@@ -1,6 +1,5 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.math.BigDecimal;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -8,17 +7,15 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 
-
-
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.dao.interfaces.IDAO;
 import com.zephyrus.wind.enums.UserStatus;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
+import com.zephyrus.wind.model.UserRole;
 
 /**
  * 
@@ -31,7 +28,7 @@ public class CreateUserCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		 IUserDAO oud;
+		IDAO<User> oud;
 		int counter=0;
 		String name = request.getParameter("firstname");
 		String sname = request.getParameter("secondname");
@@ -92,7 +89,9 @@ public class CreateUserCommand extends SQLCommand {
 			user.setEmail(email);		
 			user.setPassword(SHAHashing.getHash(password));
 			user.setStatus(UserStatus.ACTIVE.geValue());
-			user.setRoleId(roleId);
+			IDAO<UserRole> ord = oracleDaoFactory.getUserRoleDAO();
+			UserRole role = ord.findById(roleId);
+			user.setRole(role);
 			user.setRegistrationData(s);			
 			oud.insert(user);			
 			response.setContentType("text/plain");  
