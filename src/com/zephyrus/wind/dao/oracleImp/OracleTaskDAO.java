@@ -2,6 +2,7 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import oracle.jdbc.OracleTypes;
 
@@ -96,6 +97,24 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	protected String getDelete() {
 		return SQL_REMOVE;
+	}
+
+	@Override
+	public ArrayList<Task> findActualTasksByUser(User user) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ? AND TASK_STATUS_ID = ?");
+		stmt.setInt(1, user.getId());
+		stmt.setInt(2, com.zephyrus.wind.enums.TaskStatus.PROCESSING.getId());
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
+	}
+
+	@Override
+	public ArrayList<Task> findAvailableTasksByRole(UserRole role) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE TASK_STATUS_ID = ? AND ROLE_ID = ?");
+		stmt.setInt(1, com.zephyrus.wind.enums.TaskStatus.SUSPEND.getId());
+		stmt.setInt(2, role.getId());
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
 	}
 
 }

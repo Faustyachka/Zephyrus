@@ -11,6 +11,7 @@ import com.zephyrus.wind.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.nosql.RegisterPageCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
+import com.zephyrus.wind.commands.sql.CreateDeviceCommand;
 import com.zephyrus.wind.commands.sql.CreateNewPassComand;
 import com.zephyrus.wind.commands.sql.CreateUserCommand;
 import com.zephyrus.wind.commands.sql.CustomerSupportCommand;
@@ -65,6 +66,7 @@ public class CommandManager {
 		commands.put(BLOCKING_USER_COMMAND, new BlockingUserCommand());
 		commands.put(CREATE_NEW_PASSWORD_COMMAND, new CreateNewPassComand());
 		commands.put(CUSTOMER_SUPPORT_COMMAND, new CustomerSupportCommand());
+		commands.put(CREATE_DEVICE_COMMAND, new CreateDeviceCommand());
 
 		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
 

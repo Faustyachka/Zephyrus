@@ -1,7 +1,5 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.math.BigDecimal;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -9,6 +7,7 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.enums.UserStatus;
 import com.zephyrus.wind.model.User;
 
 public class LoginCommand extends SQLCommand {
@@ -20,7 +19,7 @@ public class LoginCommand extends SQLCommand {
 		IUserDAO userDAO = oracleDaoFactory.getUserDAO();
 		User user = userDAO.findByEmail(userName);
 		if(user != null){
-			if(user.getStatus().equals(new BigDecimal(1))){
+			if(user.getStatus()==UserStatus.BLOCKED.geValue()){
 				request.logout();
 				request.setAttribute("message", "Your account " + userName + "is blocked!");
 				return Pages.MESSAGE_PAGE.getValue();
@@ -31,7 +30,7 @@ public class LoginCommand extends SQLCommand {
 					return Pages.ORDERDETAIL_PAGE.getValue();
 				}
 				for(ROLE role : ROLE.values()){
-					if(user.getRoleId().equals(new BigDecimal(role.getId()))){
+					if(user.getRole().getId()==role.getId()){
 						return role.getHome();
 					}
 				}
