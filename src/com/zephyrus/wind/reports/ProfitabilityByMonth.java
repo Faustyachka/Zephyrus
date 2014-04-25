@@ -5,9 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFFont;
@@ -17,6 +18,10 @@ import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
+import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
+import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 
 public class ProfitabilityByMonth {
 	static String path = "E:\\reports\\";
@@ -36,9 +41,19 @@ public class ProfitabilityByMonth {
 		this.profit = profit;
 	}
 	
-	public static ArrayList<ProfitabilityByMonth> getProfitabilityByMonthReport (){
+	public static ArrayList<ProfitabilityByMonth> getProfitabilityByMonthReport (Date month) throws Exception{
 		ArrayList<ProfitabilityByMonth> list = new ArrayList<ProfitabilityByMonth>();
-//		TODO add work with DAO
+		OracleDAOFactory factory= new OracleDAOFactory();
+		try { 
+	    	  factory.beginConnection();
+	    	  IProviderLocationDAO dao = factory.getProviderLocationDAO();
+	    	  list = dao.getProfitByMonth(month);
+	    	  
+    } catch(SQLException ex){
+        ex.printStackTrace();
+    } finally{
+  	  factory.endConnection();
+    }
 		return list;
 	}
 	public static String convertToExel (ArrayList<ProfitabilityByMonth> list) throws IOException

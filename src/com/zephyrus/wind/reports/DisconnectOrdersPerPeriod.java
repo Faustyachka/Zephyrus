@@ -20,7 +20,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleServiceOrderDAO;
-import com.zephyrus.wind.enums.Pages;
 import com.zephyrus.wind.managers.MessageManager;
 import com.zephyrus.wind.model.ServiceOrder;
 
@@ -77,24 +76,24 @@ public class DisconnectOrdersPerPeriod {
 		this.endPeriod = endPeriod;
 	}
 	
-	public static ArrayList<DisconnectOrdersPerPeriod> getListReport (Date start, Date end) throws Exception{
-		ArrayList<DisconnectOrdersPerPeriod> list = new ArrayList<DisconnectOrdersPerPeriod>();
+	public static ArrayList<DisconnectOrdersPerPeriod> getListReport (Date startDate, Date endDate) throws Exception{
+		ArrayList<DisconnectOrdersPerPeriod> resultList = new ArrayList<DisconnectOrdersPerPeriod>();
 
 		OracleDAOFactory factory= new OracleDAOFactory();
 	      try {
-	  		  DisconnectOrdersPerPeriod time = new DisconnectOrdersPerPeriod();
-    		  time.setStartPeriod(start);
-    		  time.setEndPeriod(end);
+	  		  DisconnectOrdersPerPeriod reportRow = new DisconnectOrdersPerPeriod();
+    		  reportRow.setStartPeriod(startDate);
+    		  reportRow.setEndPeriod(endDate);
 	    	  factory.beginConnection();
 	    	  IServiceOrderDAO dao = factory.getServiceOrderDAO();
-	    	  ArrayList<ServiceOrder> tList = dao.getDisconnectSOByPeriod(start, end);
-	    	  for(Iterator<ServiceOrder> i=tList.iterator(); i.hasNext();){
-	    		  time.setUsername(i.next().getServiceLocation().getUser().getEmail());
-	    		  time.setOrderID(i.next().getId().toString());
-	    		  time.setOrderStatus(i.next().getOrderStatus().getOrderStatusValue());
-	    		  time.setProductName(i.next().getProductCatalog().getServiceType().getServiceType());
-	    		  time.setProviderLocation(i.next().getProductCatalog().getProviderLoc().getLocationName());
-	    		  list.add(time);
+	    	  ArrayList<ServiceOrder> dbList = dao.getDisconnectSOByPeriod(startDate, endDate);
+	    	  for(Iterator<ServiceOrder> i=dbList.iterator(); i.hasNext();){
+	    		  reportRow.setUsername(i.next().getServiceLocation().getUser().getEmail());
+	    		  reportRow.setOrderID(i.next().getId().toString());
+	    		  reportRow.setOrderStatus(i.next().getOrderStatus().getOrderStatusValue());
+	    		  reportRow.setProductName(i.next().getProductCatalog().getServiceType().getServiceType());
+	    		  reportRow.setProviderLocation(i.next().getProductCatalog().getProviderLoc().getLocationName());
+	    		  resultList.add(reportRow);
 	    	  }
 	    	  
 	      } catch(SQLException ex){
@@ -102,7 +101,7 @@ public class DisconnectOrdersPerPeriod {
 	      } finally{
 	    	  factory.endConnection();
 	      }
-		return list;
+		return resultList;
 	}
 	public static String convertToExel (ArrayList<DisconnectOrdersPerPeriod> list) throws IOException
 	{

@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -16,11 +17,14 @@ import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
+import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
+
 public class RouterUtil {
 	static String path = "E:\\reports\\";
 	private String routerSN;
-	private int capacity;
-	private int routerUtil;
+	private double capacity;
+	private double routerUtil;
 	
 	public String getRouterSN() {
 		return routerSN;
@@ -28,22 +32,32 @@ public class RouterUtil {
 	public void setRouterSN(String routerSN) {
 		this.routerSN = routerSN;
 	}
-	public int getCapacity() {
+	public double getCapacity() {
 		return capacity;
 	}
-	public void setCapacity(int capacity) {
+	public void setCapacity(double capacity) {
 		this.capacity = capacity;
 	}
-	public int getRouterUtil() {
+	public double getRouterUtil() {
 		return routerUtil;
 	}
-	public void setRouterUtil(int routerUtil) {
+	public void setRouterUtil(double routerUtil) {
 		this.routerUtil = routerUtil;
 	}
 	
-	public static ArrayList<RouterUtil> getListReport (){
+	public static ArrayList<RouterUtil> getListReport () throws Exception{
 		ArrayList<RouterUtil> list = new ArrayList<RouterUtil>();
-//		TODO add work with DAO
+		OracleDAOFactory factory= new OracleDAOFactory();
+		try { 
+	    	  factory.beginConnection();
+	    	  IDeviceDAO dao = factory.getDeviceDAO();
+	    	  list = dao.getRouterUtil();
+	    	  
+    } catch(SQLException ex){
+        ex.printStackTrace();
+    } finally{
+  	  factory.endConnection();
+    }
 		return list;
 		
 	}

@@ -5,9 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.sql.Date;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -15,6 +16,10 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
+import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.model.ServiceOrder;
 
 public class NewOrdersPerPeriod {
 	static String path = "E:\\reports\\";
@@ -69,10 +74,32 @@ public class NewOrdersPerPeriod {
 		this.endPeriod = endPeriod;
 	}
 	
-	public static ArrayList<NewOrdersPerPeriod> getListReport (Date start, Date end){
-		ArrayList<NewOrdersPerPeriod> list = new ArrayList<NewOrdersPerPeriod>();
-//		TODO add work with DAO
-		return list;
+	public static ArrayList<NewOrdersPerPeriod> getListReport (Date startDate, Date endDate) throws Exception{
+		ArrayList<NewOrdersPerPeriod> resultList = new ArrayList<NewOrdersPerPeriod>();
+
+		OracleDAOFactory factory= new OracleDAOFactory();
+	      try {
+	  		  NewOrdersPerPeriod reportRow = new NewOrdersPerPeriod();
+    		  reportRow.setStartPeriod(startDate);
+    		  reportRow.setEndPeriod(endDate);
+	    	  factory.beginConnection();
+	    	  IServiceOrderDAO dao = factory.getServiceOrderDAO();
+	    	  ArrayList<ServiceOrder> dbList = dao.getNewSOByPeriod(startDate, endDate);
+	    	  for(Iterator<ServiceOrder> i=dbList.iterator(); i.hasNext();){
+	    		  reportRow.setUsername(i.next().getServiceLocation().getUser().getEmail());
+	    		  reportRow.setOrderID(i.next().getId().toString());
+	    		  reportRow.setOrderStatus(i.next().getOrderStatus().getOrderStatusValue());
+	    		  reportRow.setProductName(i.next().getProductCatalog().getServiceType().getServiceType());
+	    		  reportRow.setProviderLocation(i.next().getProductCatalog().getProviderLoc().getLocationName());
+	    		  resultList.add(reportRow);
+	    	  }
+	    	  
+	      } catch(SQLException ex){
+	          ex.printStackTrace();
+	      } finally{
+	    	  factory.endConnection();
+	      }
+		return resultList;
 	}
 	public static String convertToExel (ArrayList<NewOrdersPerPeriod> list) throws IOException
 	{
@@ -118,7 +145,7 @@ public class NewOrdersPerPeriod {
 			sheet.autoSizeColumn(3);
 			sheet.autoSizeColumn(4);
 			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
-			String fileName = "NewOrdersPerPeriod" + sdf.format(new Date()) + ".xls";
+			String fileName = "NewOrdersPerPeriod" +".xls";
 			File exelFile = new File(path + fileName);
 			FileOutputStream outFile = new FileOutputStream(exelFile);
 			workbook.write(outFile);

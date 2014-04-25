@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,6 +16,9 @@ import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
+
+import com.zephyrus.wind.dao.factory.OracleDAOFactory;
+import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 
 public class MostProfitableRouter {
 	static String path = "E:\\reports\\";
@@ -34,9 +38,19 @@ public class MostProfitableRouter {
 		this.profit = profit;
 	}
 
-	public static ArrayList<MostProfitableRouter> getListReport (){
+	public static ArrayList<MostProfitableRouter> getListReport () throws Exception{
 		ArrayList<MostProfitableRouter> list = new ArrayList<MostProfitableRouter>();
-//		TODO add work with DAO
+		OracleDAOFactory factory= new OracleDAOFactory();
+	      try { 
+	    	  MostProfitableRouter reportRow = new MostProfitableRouter();
+	    	  factory.beginConnection();
+	    	  IDeviceDAO dao = factory.getDeviceDAO();
+	    	  
+      } catch(SQLException ex){
+          ex.printStackTrace();
+      } finally{
+    	  factory.endConnection();
+      }
 		return list;	
 	}
 	public static String convertToExel (ArrayList<MostProfitableRouter> list) throws IOException

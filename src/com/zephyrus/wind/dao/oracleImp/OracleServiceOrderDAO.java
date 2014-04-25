@@ -134,8 +134,10 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		return fetchMultiResults(rs);
 	}
 	@Override
+	//Returns orders for reports by period
 	public ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate, Date endDate) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) AND ORDER_STATUS_ID=1");//не красиво
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
+				+ "AND ORDER_STATUS_ID=1");//bad
 		stmt.setDate(1, startDate);
 		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();		
@@ -143,7 +145,8 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	}
 	@Override
 	public ArrayList<ServiceOrder> getNewSOByPeriod(Date startDate, Date endDate) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) AND ORDER_STATUS_ID=2");//не красиво
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
+				+ "AND ORDER_STATUS_ID=2");//bad
 		stmt.setDate(1, startDate);
 		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();		
