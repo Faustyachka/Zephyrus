@@ -95,7 +95,7 @@ public class ProfitabilityByMonth {
 			sheet.autoSizeColumn(0);
 			sheet.autoSizeColumn(1);
 			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
-			String fileName = "ProfitabilityByMonth" + sdf.format(new Date()) + ".xls";
+			String fileName = "ProfitabilityByMonth" + ".xls";
 			File exelFile = new File(path + fileName);
 			FileOutputStream outFile = new FileOutputStream(exelFile);
 			workbook.write(outFile);
