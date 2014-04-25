@@ -12,11 +12,11 @@
   <div class="main">
   <center>
     <h2>Create a Device</h2></center>
-  <form method="post" action="createDevice">
+  <form id="createcircuit" name="createcircuit" method="post" action="">
     <label>Device ID:	</label><input type="text" name="serialID" id="textfield" />
 <br />
 <br />
-  <input type="submit" name="button" id="button" value="Create a Device" class="button"/>
+  <input type="submit" name="button" id="button" value="Create a Circuit" class="button"/>
 </form>
 </div>
 
