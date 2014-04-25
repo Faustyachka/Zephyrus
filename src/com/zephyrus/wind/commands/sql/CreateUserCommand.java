@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
-import com.zephyrus.wind.enums.UserStatus;
+import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
@@ -36,7 +36,7 @@ public class CreateUserCommand extends SQLCommand {
 		String password = request.getParameter("pass");
 		String confPassord = request.getParameter("confirmpass");
 		int roleId = Integer.parseInt(request.getParameter("engtype"));
-		oud = oracleDaoFactory.getUserDAO();
+		oud = getOracleDaoFactory().getUserDAO();
 		Date s = new Date(new java.util.Date().getTime());
 		ArrayList<User> users = oud.findAll();
 		if (name.equals("")) {
@@ -88,8 +88,8 @@ public class CreateUserCommand extends SQLCommand {
 			user.setLastName(sname);
 			user.setEmail(email);		
 			user.setPassword(SHAHashing.getHash(password));
-			user.setStatus(UserStatus.ACTIVE.geValue());
-			IDAO<UserRole> ord = oracleDaoFactory.getUserRoleDAO();
+			user.setStatus(USER_STATUS.ACTIVE.geValue());
+			IDAO<UserRole> ord = getOracleDaoFactory().getUserRoleDAO();
 			UserRole role = ord.findById(roleId);
 			user.setRole(role);
 			user.setRegistrationData(s);			

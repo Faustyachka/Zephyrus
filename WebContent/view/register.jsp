@@ -1,10 +1,12 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
+<script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
+
 <div class="navigation"></div>
   <div class="main"> 
   <div id="registerBox">
             <h3> Registration </h3>
-            <form action="Zephyrus/register" method="post">
+            <form action="/Zephyrus/register" method="post">
             <table align="center" id="registerTable" >
             <tr>
             <td>
@@ -27,7 +29,10 @@
             E-mail:
             </td>
             <td>
-            <input type="text" name="email" id="email"/><span id="valid"></span>
+            <input type="text" name="email" id="email"/>
+            </td>
+            <td>
+            <span id="valid"></span>
             </td>
             </tr>
             <tr>
@@ -35,7 +40,7 @@
             Password:
             </td>
             <td>
-            <input type="text" name="password" id="pass"/>
+            <input type="password" name="password" id="pass"/>
             </td>
             </tr>
             <tr>
@@ -43,7 +48,10 @@
             Confirm password:
             </td>
             <td>
-            <input type="text" name="cpassword" id="confirmpass" /><span id="validpass"></span>
+            <input type="password" name="cpassword" id="confirmpass" />
+            </td>
+            <td>
+            <span id="validpass"></span>
             </td>
             </tr>
             </table>

@@ -11,7 +11,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.MessageManager;
 
 public class SessionTimeOutFilter implements Filter {
@@ -29,7 +29,7 @@ FilterConfig fc = null;
         if (session == null) {
             try {
                 req.setAttribute("title", MessageManager.WELCOME);
-                req.getRequestDispatcher(Pages.HOME_PAGE.getValue()).forward(request, response);
+                req.getRequestDispatcher(PAGES.HOME_PAGE.getValue()).forward(request, response);
             } catch (Exception ex) {
                 ex.printStackTrace();
             }

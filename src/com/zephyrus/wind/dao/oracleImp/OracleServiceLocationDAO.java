@@ -3,6 +3,7 @@ package com.zephyrus.wind.dao.oracleImp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import oracle.jdbc.OracleTypes;
 
@@ -77,6 +78,15 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 	@Override
 	protected String getDelete() {
 		return SQL_REMOVE;
+	}
+
+	@Override
+	public ArrayList<ServiceLocation> getServiceLocationsByUserId(int id)
+			throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
+		stmt.setInt(1, id);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
 	}
 
 }

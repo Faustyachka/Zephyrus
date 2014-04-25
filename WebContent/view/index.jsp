@@ -12,7 +12,7 @@
 			Your desired location: 
 			<input type="text" name="address" id="address" size="50" />
 			<input type="button" value="Accept" id="submit" />  
-			<form action="proceedOrder" method="POST">
+			<form action="/Zephyrus/proceedOrder" method="POST">
 			<input type="hidden" name="latitude" id="latitude" /> 
 			<input type="hidden" name="longitude" id="longitude" /> 
 			<div id="somediv">No service available</div>

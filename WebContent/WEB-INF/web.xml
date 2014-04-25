@@ -30,6 +30,7 @@
     <url-pattern>/mapping</url-pattern>
     <url-pattern>/proceedOrder</url-pattern>
 	<url-pattern>/saveOrder</url-pattern>
+	<url-pattern>/sendOrder</url-pattern>
     <url-pattern>/createaccount</url-pattern>
     <url-pattern>/blocking</url-pattern>
    <url-pattern>/reassign</url-pattern>
@@ -38,6 +39,8 @@
     <url-pattern>/customersupport</url-pattern> 
     <url-pattern>/createdevice</url-pattern> 
     <url-pattern>/generateReport</url-pattern>
+    <url-pattern>/customerOrders</url-pattern>
+    <url-pattern>/customerServices</url-pattern>
 
   </servlet-mapping>
   <session-config>

@@ -3,10 +3,11 @@ $().ready(function(){
                 var latituded = $('#latitude').val();
                 var longituded = $('#longitude').val();
                 var addresss = $('#address').val();
-                $.post('mapping',{latitude:latituded,longitude:longituded, address:addresss},function(rsp){
+                $.post('/Zephyrus/mapping',{latitude:latituded,longitude:longituded, address:addresss},function(rsp){
                     $("#somediv").empty();
-                	$.each(rsp, function(key, prodcatalogserv) { 
-                    	$("#somediv").append("<input type='radio' name='services' id='"+prodcatalogserv.id+"' value = '"+prodcatalogserv.id+"'> "+ prodcatalogserv.serviceName + ", " + prodcatalogserv.price + "$ month" +" <br>");
+                	$.each(rsp, function(key, prodcatalog) { 
+                		var serviceName = prodcatalog.serviceType;
+                    	$("#somediv").append("<input type='radio' name='services' id='"+prodcatalog.id+"' value = '"+prodcatalog.id+"'> "+ serviceName.serviceType + ", " + prodcatalog.price + "$ month" +" <br>");
                     	                         
                     });
 

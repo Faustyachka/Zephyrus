@@ -1,6 +1,6 @@
 package com.zephyrus.wind.enums;
 
-public enum Pages {
+public enum PAGES {
 	LOGIN_PAGE("login"),
 	HOME_PAGE("view/index.jsp"),
 	MESSAGE_PAGE("view/message.jsp"),
@@ -10,13 +10,14 @@ public enum Pages {
 	SUPPORT_VIEW_SI_PAGE("support/viewUserSI"),
 	PROVISION_PAGE("provision/index.jsp"),
 	INSTALLATION_PAGE("installation/index.jsp"),
-	CUSTOMER_PAGE("customer/index.jsp"),
+	CUSTOMERORDERS_PAGE("customer/index.jsp"),
+	CUSTOMERSERVICES_PAGE("customer/customerServices.jsp"),
 	REGISTER_PAGE("view/register.jsp"),
 	REPORT_PAGE("view/report.jsp"),
 	ORDERDETAIL_PAGE("customer/orderDetail.jsp");
 
 	String value;
-	Pages(String page){
+	PAGES(String page){
 		value = page;
 	}
 

@@ -13,6 +13,8 @@ import com.zephyrus.wind.commands.sql.AdminCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
 import com.zephyrus.wind.commands.sql.CreateNewPassComand;
 import com.zephyrus.wind.commands.sql.CreateUserCommand;
+import com.zephyrus.wind.commands.sql.CustomerOrdersCommand;
+import com.zephyrus.wind.commands.sql.CustomerServicesCommand;
 import com.zephyrus.wind.commands.sql.CustomerSupportCommand;
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
@@ -20,6 +22,7 @@ import com.zephyrus.wind.commands.sql.MappingCommand;
 import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
+import com.zephyrus.wind.commands.sql.SendOrderCommand;
 
 public class CommandManager {
 
@@ -34,6 +37,9 @@ public class CommandManager {
 	private static final String REGISTERPAGE_COMMAND = "registerPage";
 	private static final String PROCEEDORDER_COMMAND = "proceedOrder";
 	private static final String SAVEORDER_COMMAND = "saveOrder";
+	private static final String SENDORDER_COMMAND = "sendOrder";
+	private static final String CUSTOMERORDERS_COMMAND = "customerOrders";
+	private static final String CUSTOMERSERVICES_COMMAND = "customerServices";
 
 	private static final String CREATE_ACCOUNT_COMMAND = "createaccount";
 	private static final String BLOCKING_USER_COMMAND = "blocking";
@@ -60,6 +66,9 @@ public class CommandManager {
 		commands.put(REGISTERPAGE_COMMAND, new RegisterPageCommand());
 		commands.put(PROCEEDORDER_COMMAND, new ProceedOrderCommand());
 		commands.put(SAVEORDER_COMMAND, new SaveOrderCommand());
+		commands.put(CUSTOMERORDERS_COMMAND, new CustomerOrdersCommand());
+		commands.put(CUSTOMERSERVICES_COMMAND, new CustomerServicesCommand());
+		commands.put(SENDORDER_COMMAND, new SendOrderCommand());
 
 		commands.put(CREATE_ACCOUNT_COMMAND, new CreateUserCommand());
 		commands.put(BLOCKING_USER_COMMAND, new BlockingUserCommand());

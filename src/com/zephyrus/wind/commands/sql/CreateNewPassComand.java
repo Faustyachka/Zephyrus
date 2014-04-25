@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 
@@ -25,11 +25,11 @@ public class CreateNewPassComand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		
 		int userId = Integer.parseInt(request.getParameter("userId"));
-		IUserDAO dao = oracleDaoFactory.getUserDAO();
+		IUserDAO dao = getOracleDaoFactory().getUserDAO();
 		User user = dao.findById(userId);
 		if (user == null){
 			request.setAttribute("error", "No such user!");
-			return Pages.MESSAGE_PAGE.getValue();
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		String pass = request.getParameter("pass");
 		String confPass = request.getParameter("confpass");
@@ -47,7 +47,7 @@ public class CreateNewPassComand extends SQLCommand {
 		user.setPassword(password);
 		dao.update(user);
 		request.setAttribute("message", "Password changed <br> <a href='/Zephyrus/support'>return to home page</a>");		
-		return Pages.MESSAGE_PAGE.getValue();
+		return PAGES.MESSAGE_PAGE.getValue();
 	}
 
 }

@@ -1,14 +1,13 @@
 package com.zephyrus.wind.enums;
 
-public enum TaskStatus {
-	NEW(1),
-	PROCESSING(2),
-	COMPLETE(3),
-	SUSPEND(4);
+public enum SERVICEINSTANCE_STATUS {
+	PLANNED(1),
+	ACTIVE(2),
+	DISCONNECTED(3);
 
 	int id;
 	
-	TaskStatus(int id){
+	SERVICEINSTANCE_STATUS(int id){
 		this.id = id;
 	}
 	

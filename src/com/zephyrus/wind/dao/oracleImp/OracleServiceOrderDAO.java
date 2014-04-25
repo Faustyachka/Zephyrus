@@ -22,7 +22,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 
 	private static final String TABLE_NAME = "MISTERDAN.SERVICE_ORDERS";
     private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
-    								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID" +
+    								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID " +
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -55,7 +55,10 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     	stmt.setDate(3, (java.sql.Date)record.getOrderDate());  
     	stmt.setInt(4, record.getProductCatalog().getId()); 
     	stmt.setInt(5, record.getServiceLocation().getId());  
-    	stmt.setInt(6, record.getServiceInstance().getId());  
+    	if(record.getServiceInstance().getId() != null)
+    		stmt.setInt(6, record.getServiceInstance().getId());  
+    	else
+    		stmt.setNull(6, java.sql.Types.INTEGER); 
     	stmt.setLong(7, record.getId());
         stmt.executeUpdate();
 		
@@ -68,11 +71,15 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     	cs.setInt(2, record.getOrderStatus().getId());  
     	cs.setDate(3, (java.sql.Date)record.getOrderDate());  
     	cs.setInt(4, record.getProductCatalog().getId()); 
-    	cs.setInt(5, record.getServiceLocation().getId());  
-    	cs.setInt(6, record.getServiceInstance().getId());  
+    	cs.setInt(5, record.getServiceLocation().getId()); 
+    	if(record.getServiceInstance().getId() != null)
+    		cs.setInt(6, record.getServiceInstance().getId());  
+    	else
+    		cs.setNull(6, java.sql.Types.INTEGER);  
     	cs.registerOutParameter(7, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(7);
+        System.out.println(rowId);
 		return findByRowId(rowId);
 	}
 
@@ -92,6 +99,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		item.setOrderType(ot);
 		ProductCatalog pc = daoFactory.getProductCatalogDAO().findById(rs.getInt(COLUMN_PRODUCT_CATALOG_ID));
 		item.setProductCatalog(pc);
+		System.out.println(rs.getInt(COLUMN_SERVICE_INSTANCE_ID));
 		ServiceInstance si = daoFactory.getServiceInstanceDAO().findById(rs.getInt(COLUMN_SERVICE_INSTANCE_ID));
 		item.setServiceInstance(si);
 		ServiceLocation sl = daoFactory.getServiceLocationDAO().findById(rs.getInt(COLUMN_SERVICE_LOCATION_ID));
@@ -108,9 +116,18 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	protected String getDelete() {
 		return SQL_REMOVE;
 	}
+	
 	@Override
-	public ArrayList<ServiceOrder> getServiceOrdersByUserId(int id) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
+	public ArrayList<ServiceOrder> getServiceOrdersByServiceInstanceId(int id) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_INSTANCE_ID = ?");
+		stmt.setInt(1, id);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
+	}
+	
+	@Override
+	public ArrayList<ServiceOrder> getServiceOrdersByServiceLocationId(int id) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
 		stmt.setInt(1, id);
 		rs = stmt.executeQuery();		
 		return fetchMultiResults(rs);

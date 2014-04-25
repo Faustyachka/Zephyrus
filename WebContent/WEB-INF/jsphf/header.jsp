@@ -17,21 +17,21 @@
 <div id="logout_link">
 Hello, ${user.email}
 <br>
-<a href="logout">logout</a>
+<a href="/Zephyrus/logout">logout</a>
 </div>
 </c:when>
 <c:otherwise>
-<a href="login" id="login_link">
+<a href="/Zephyrus/login" id="login_link">
       <input type="button" value="Log in" />
 </a>
-<a href="registerPage" id="register_link">register</a>
+<a href="/Zephyrus/registerPage" id="register_link">register</a>
 </c:otherwise>
 </c:choose> 
-  <a href="home" id="main_link">
+  <a href="/Zephyrus/home" id="main_link">
   <input type="button" value="Main">
   </a>
   <c:if test="${user != null }">
-   <a href="login" id="home_link">
+   <a href="/Zephyrus/login" id="home_link">
   <input type="button" value="Home">
   </a>
   </c:if>
