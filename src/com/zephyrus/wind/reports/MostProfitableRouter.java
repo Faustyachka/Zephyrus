@@ -42,10 +42,9 @@ public class MostProfitableRouter {
 		ArrayList<MostProfitableRouter> list = new ArrayList<MostProfitableRouter>();
 		OracleDAOFactory factory= new OracleDAOFactory();
 	      try { 
-	    	  MostProfitableRouter reportRow = new MostProfitableRouter();
 	    	  factory.beginConnection();
 	    	  IDeviceDAO dao = factory.getDeviceDAO();
-	    	  
+	    	  list = dao.getProfitRouter();
       } catch(SQLException ex){
           ex.printStackTrace();
       } finally{
