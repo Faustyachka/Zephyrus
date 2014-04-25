@@ -2,6 +2,7 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Date;
 
 
 import java.util.ArrayList;
@@ -115,5 +116,22 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		rs = stmt.executeQuery();		
 		return fetchMultiResults(rs);
 	}
+	@Override
+	public ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate, Date endDate) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) AND ORDER_STATUS_ID=1");//не красиво
+		stmt.setDate(1, startDate);
+		stmt.setDate(2, endDate);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
+	}
+	@Override
+	public ArrayList<ServiceOrder> getNewSOByPeriod(Date startDate, Date endDate) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) AND ORDER_STATUS_ID=2");//не красиво
+		stmt.setDate(1, startDate);
+		stmt.setDate(2, endDate);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
+	}
+	
 
 }
