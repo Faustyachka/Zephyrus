@@ -38,7 +38,7 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
     	stmt.setString(COLUMN_ROLE_NAME, record.getRoleName());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -48,6 +48,7 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

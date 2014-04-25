@@ -71,7 +71,7 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
 	public ArrayList<VSupportInstance> getInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 

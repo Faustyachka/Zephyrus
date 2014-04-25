@@ -34,6 +34,11 @@ public abstract class OracleDAO<T> {
             fillItem(item, rs);
             return item;
         } else {
+        	rs.close();
+        	if(stmt != null)
+        		stmt.close();
+        	if(cs != null)
+        		cs.close();
             return null;
         }
 
@@ -78,7 +83,9 @@ public abstract class OracleDAO<T> {
     public int removeById(int id) throws Exception {
         stmt = connection.prepareStatement(getDelete() + "ID=?");
         stmt.setInt(1, id);
-        return stmt.executeUpdate();
+        int res = stmt.executeUpdate();
+        stmt.close();
+        return res;
     }
 }
 

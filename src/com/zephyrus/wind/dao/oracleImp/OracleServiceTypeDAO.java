@@ -37,7 +37,7 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
     	stmt.setString(COLUMN_SERVICE_TYPE, record.getServiceType());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -47,6 +47,7 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

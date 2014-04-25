@@ -41,6 +41,7 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
     	stmt.setInt(COLUMN_USER_ID, record.getUser().getId());    	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
+        stmt.close();
 	}
 
 	@Override
@@ -51,6 +52,7 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
     	cs.registerOutParameter(3, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(3);
+        cs.close();
 		return findByRowId(rowId);
 	}
 
@@ -85,7 +87,7 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 			throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 

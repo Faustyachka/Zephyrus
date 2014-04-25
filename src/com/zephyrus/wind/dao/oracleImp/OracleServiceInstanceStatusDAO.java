@@ -40,7 +40,7 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
     	stmt.setString(COLUMN_SERV_INSTANCE_STATUS_VALUE, record.getServInstanceStatusValue());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -50,6 +50,7 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

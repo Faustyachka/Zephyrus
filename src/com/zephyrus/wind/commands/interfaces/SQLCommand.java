@@ -10,7 +10,7 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.MessageManager;
 
 public abstract class SQLCommand implements Command {
-	private ThreadLocal<OracleDAOFactory> oracleFactoryThreadLocal = new ThreadLocal<OracleDAOFactory>(){
+	private static ThreadLocal<OracleDAOFactory> oracleFactoryThreadLocal = new ThreadLocal<OracleDAOFactory>(){
 		public OracleDAOFactory initialValue(){
 			return new OracleDAOFactory();
 		}
@@ -32,6 +32,7 @@ public abstract class SQLCommand implements Command {
           page = PAGES.MESSAGE_PAGE.getValue();
       } finally{
     	  getOracleDaoFactory().endConnection();
+    	  oracleFactoryThreadLocal.remove();
     	  System.out.println("Connection closed");
       }
       return page;
