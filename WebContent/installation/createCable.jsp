@@ -13,10 +13,11 @@
   <center>
     <h2>Create a Cable</h2></center>
   <form id="createcable" name="createcable" method="post" action="">
-    <label>Choose device:	</label><input type="text" name="serialID" id="textfield" />
+    <label>Choose device:	</label><input type="text" name="deviceID" id="textfield" />
 <br />
+<label>Choose port:	</label><input type="text" name="portID" id="textfield" />
 <br />
-  <input type="submit" name="button" id="button" value="Create a Device" class="button"/>
+  <input type="submit" name="button" id="button" value="Create a Cable" class="button"/>
 </form>
 </div>
 
