@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.helpers.MailSend;
 import com.zephyrus.wind.managers.CommandManager;
 import com.zephyrus.wind.managers.MessageManager;
@@ -48,17 +48,17 @@ public class MainServlet extends HttpServlet {
 		            request.setAttribute("errorMessage", MessageManager.SERVLET_EXCEPTION_ERROR_MESSAGE);
 		            //calling error-jsp
 		            request.setAttribute("title", MessageManager.ERROR);
-		            page = Pages.MESSAGE_PAGE.getValue();
+		            page = PAGES.MESSAGE_PAGE.getValue();
 		        }catch(IOException e){
 		            e.printStackTrace();
 		            request.setAttribute("errorMessage", MessageManager.IO_EXCEPTION_ERROR_MESSAGE);
 		            request.setAttribute("title", MessageManager.ERROR);
-		            page = Pages.MESSAGE_PAGE.getValue();
+		            page = PAGES.MESSAGE_PAGE.getValue();
 		        }catch(Exception e){
 		        	e.printStackTrace();
 			        request.setAttribute("errorMessage", e.toString() + e.getMessage());
 			        request.setAttribute("title", MessageManager.ERROR);
-			        page = Pages.MESSAGE_PAGE.getValue();
+			        page = PAGES.MESSAGE_PAGE.getValue();
 		        }
 		        if(page != null){
 		        //forwarding to answer page

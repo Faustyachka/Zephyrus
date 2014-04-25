@@ -9,11 +9,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
-import com.zephyrus.wind.enums.UserStatus;
+import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
+import com.zephyrus.wind.model.UserRole;
 
 public class RegisterCommand extends SQLCommand {
 
@@ -22,36 +23,42 @@ public class RegisterCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 
 		String firstName = request.getParameter("fname");
-		String lastName = request.getParameter("sname");
+		String lastName = request.getParameter("lname");
 		String email = request.getParameter("email");
-		String password = request.getParameter("pass");
-		String cpassword = request.getParameter("confirmpass");
+		String password = request.getParameter("password");
+		String cpassword = request.getParameter("cpassword");
 		request.setAttribute("firstname", firstName);
 		request.setAttribute("lastname", lastName);
 		
-		IUserDAO userDAO = oracleDaoFactory.getUserDAO();
+		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
 		User user = userDAO.findByEmail(email);
 		if(user != null){
-			request.setAttribute("message", "This login already exists! <a href=' " + Pages.REGISTER_PAGE.getValue()+"' > Return to register page </a>");
-			return Pages.MESSAGE_PAGE.getValue();
+			request.setAttribute("message", "This login already exists! <a href=' " + PAGES.REGISTER_PAGE.getValue()+"' > Return to register page </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		Date s = new Date(new java.util.Date().getTime());
 		user = new User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setEmail(email);
-		user.setPassword(password);
+		user.setPassword(SHAHashing.getHash(password));
 		user.setRegistrationData(s);
-		user.setStatus(UserStatus.ACTIVE.geValue());
-		user.setRoleId(ROLE.CUSTOMER.getId());
-		userDAO.insert(user);
-
+		user.setStatus(USER_STATUS.ACTIVE.geValue());
+		UserRole role = new UserRole();
+		role.setId(ROLE.CUSTOMER.getId());
+		role.setRoleName(ROLE.CUSTOMER.name());
+		user.setRole(role);
+		user = userDAO.insert(user);
+		
+		request.login(email, password);
+		if(request.getSession().getAttribute("user") == null)
+			request.getSession().setAttribute("user", user);
 		if(request.getSession().getAttribute("service") != null){
-			return Pages.ORDERDETAIL_PAGE.getValue();
+			return PAGES.ORDERDETAIL_PAGE.getValue();
 		}
 		
 	    request.setAttribute("message", "You have successfully registered!");
-		return Pages.MESSAGE_PAGE.getValue();
+		return PAGES.MESSAGE_PAGE.getValue();
 	}
 
 }

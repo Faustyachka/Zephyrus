@@ -23,31 +23,14 @@
   <h5>Task ${actualTask.id}</h5>
   <div>
     <ul>
-      <li>Task: ${actualTask.task_value}</li>
+      <li>Task: ${actualOrder.task_value}</li>
     </ul>
-    <a href="Zephyrus/suspendTask">
-    <input type="button" value="Suspend task">
-    </a> 
-    <a href="Zephyrus/completeTask">
-    <input type="button" value="Complete task">
+    <a href="Zephyrus/takeTask">
+    <input type="button" value="Take task">
     </a> 
   </div>
   </c:foreach>
-  </div>
 
-
-<br>
-
-<h2> Completed Tasks </h2>
-<div id="workedOut">
-  <c:foreach items="${completedTasks}" var="completedTask">
-  <h5>Task ${completedTask.id}</h5>
-  <div>
-    <ul>
-      <li>Task: ${actualTask.task_value}</li>
-    </ul>
-  </div>
-  </c:foreach>
   </div>
 
   </div>

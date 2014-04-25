@@ -2,11 +2,13 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.TASK_STATUS;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.TaskStatus;
@@ -96,6 +98,24 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	protected String getDelete() {
 		return SQL_REMOVE;
+	}
+
+	@Override
+	public ArrayList<Task> findActualTasksByUser(User user) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ? AND TASK_STATUS_ID = ?");
+		stmt.setInt(1, user.getId());
+		stmt.setInt(2, TASK_STATUS.PROCESSING.getId());
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
+	}
+
+	@Override
+	public ArrayList<Task> findAvailableTasksByRole(UserRole role) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE TASK_STATUS_ID = ? AND ROLE_ID = ?");
+		stmt.setInt(1, TASK_STATUS.SUSPEND.getId());
+		stmt.setInt(2, role.getId());
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
 	}
 
 }

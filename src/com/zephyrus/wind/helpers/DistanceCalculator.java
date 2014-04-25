@@ -49,7 +49,7 @@ public class DistanceCalculator {
 		return degree * (Math.PI / 180);
 	}
 
-	public ArrayList<ProductCatalogService> getNearestProvidersServices(ServiceLocation sl, OracleDAOFactory oracleFactory) throws Exception {
+	public ArrayList<ProductCatalog> getNearestProvidersServices(ServiceLocation sl, OracleDAOFactory oracleFactory) throws Exception {
 
 		IDAO<ProductCatalog> productCatalog = oracleFactory.getProductCatalogDAO();
 		ArrayList<ProductCatalog> productCatalogs = productCatalog.findAll();
@@ -57,7 +57,7 @@ public class DistanceCalculator {
 		ArrayList<ProviderLocation> providerLocs= providerLocation.findAll();
 
 
-		ArrayList<ProductCatalogService> result = null;
+		ArrayList<ProductCatalog> result = null;
 
 		double minimalDistance = calculateDistance(providerLocs.get(1), sl);
 
@@ -67,8 +67,7 @@ public class DistanceCalculator {
 				result= new ArrayList<>();
 				for(ProductCatalog pc: productCatalogs) {
 					if(pc.getProviderLoc().getId() == entry.getId()) {
-						ProductCatalogService serviceData = createProductCatalogService(pc, oracleFactory);
-						result.add(serviceData);
+						result.add(pc);
 					}
 				}
 			}
@@ -78,22 +77,11 @@ public class DistanceCalculator {
 			result =  new ArrayList<>();
 			for(ProductCatalog pc: productCatalogs) {
 				if(pc.getProviderLoc().getId() == providerLocs.get(1).getId()) {
-					ProductCatalogService serviceData = createProductCatalogService(pc, oracleFactory);
-					result.add(serviceData);
+					result.add(pc);
 				}
 			}
 		}
 		return result;
-	}
-
-	public ProductCatalogService createProductCatalogService(ProductCatalog pc, OracleDAOFactory oracleFactory) throws Exception{
-		ProductCatalogService serviceData = new ProductCatalogService();
-		serviceData.setId(pc.getId());
-		serviceData.setPrice( pc.getPrice());
-		IServiceTypeDAO serviceType = oracleFactory.getServiceTypeDAO();
-		ServiceType service = serviceType.findById(pc.getServiceType().getId().intValue());
-		serviceData.setServiceName(service.getServiceType());
-		return serviceData;
 	}
 
 }

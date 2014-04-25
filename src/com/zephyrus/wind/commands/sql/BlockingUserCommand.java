@@ -7,7 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
-import com.zephyrus.wind.enums.UserStatus;
+import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.model.User;
 
 /**
@@ -22,12 +22,12 @@ public class BlockingUserCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		
 		int userId = Integer.parseInt(request.getParameter("id"));
-		IDAO<User> dao = oracleDaoFactory.getUserDAO();
+		IDAO<User> dao = getOracleDaoFactory().getUserDAO();
 		User user = dao.findById(userId);		
-		if (user.getStatus().equals(UserStatus.BLOCKED.geValue())) {
-		user.setStatus(UserStatus.ACTIVE.geValue());
+		if (user.getStatus().equals(USER_STATUS.BLOCKED.geValue())) {
+		user.setStatus(USER_STATUS.ACTIVE.geValue());
 		} else {
-			user.setStatus(UserStatus.BLOCKED.geValue());
+			user.setStatus(USER_STATUS.BLOCKED.geValue());
 		}
 		dao.update(user);
 		return null;

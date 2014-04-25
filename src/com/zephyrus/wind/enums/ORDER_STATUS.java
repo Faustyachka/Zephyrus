@@ -1,6 +1,6 @@
 package com.zephyrus.wind.enums;
 
-public enum OrderStatus {
+public enum ORDER_STATUS {
 	ENTERING(1),
 	PROCESSING(2),
 	COMPLETED(3),
@@ -8,7 +8,7 @@ public enum OrderStatus {
 
 	int id;
 	
-	OrderStatus(int id){
+	ORDER_STATUS(int id){
 		this.id = id;
 	}
 	

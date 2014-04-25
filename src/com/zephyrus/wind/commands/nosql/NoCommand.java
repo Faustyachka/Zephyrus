@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.MessageManager;
 
 
@@ -16,7 +16,7 @@ public class NoCommand implements Command {
 		
 		request.setAttribute("errorMessage", MessageManager.NOCOMMAND);
 		request.setAttribute("title", MessageManager.ERROR);
-        return Pages.MESSAGE_PAGE.getValue();
+        return PAGES.MESSAGE_PAGE.getValue();
 	}
 	
 }

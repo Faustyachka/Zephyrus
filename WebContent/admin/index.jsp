@@ -1,11 +1,11 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="resources/css/demo_table.css" rel="stylesheet"
+<link href="/Zephyrus/resources/css/demo_table.css" rel="stylesheet"
 	type="text/css" />
-<link href="resources/css/demo_table_jui.css" rel="stylesheet"
+<link href="/Zephyrus/resources/css/demo_table_jui.css" rel="stylesheet"
 	type="text/css" />
-<script src="resources/javascript/jquery.dataTables.js"
+<script src="/Zephyrus/resources/javascript/jquery.dataTables.js"
 	type="text/javascript"></script>
 <script type="text/javascript">
 	$(document).ready(function() {
@@ -27,6 +27,7 @@
 			<table id="users" class="display">
 				<thead>
 					<tr>
+						<th><u>Email</u></th>
 						<th><u>First name</u></th>
 						<th><u>Second name</u></th>
 						<th><u>Role</u></th>
@@ -36,6 +37,7 @@
 				<tbody>
 					<c:forEach var="customerUser" items="${users}">
 						<tr>
+							<td>${customerUser.email }</td>
 							<td>${customerUser.firstName }</td>
 							<td>${customerUser.lastName }</td>
 							<td>${customerUser.role.roleName}</td>
@@ -54,7 +56,7 @@
 			</table>
 		</div>
 		
-		<a href="admin/accountCreation.jsp"> <input type="button"
+		<a href="/Zehyrus/admin/accountCreation.jsp"> <input type="button"
 			value="Create account" class="button" />
 		</a>
 	</div>

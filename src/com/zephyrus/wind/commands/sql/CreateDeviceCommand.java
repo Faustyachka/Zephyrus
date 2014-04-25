@@ -7,8 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
+import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.dao.oracleImp.OracleServiceOrderDAO;
+import com.zephyrus.wind.dao.oracleImp.OracleUserRoleDAO;
 import com.zephyrus.wind.model.Device;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.model.Task;
 
 /**
  * 
@@ -29,10 +32,23 @@ public class CreateDeviceCommand extends SQLCommand {
 		}
 		Device device = new Device();
 		device.setSerialNum(serialID);
-		IDeviceDAO dao = oracleDaoFactory.getDeviceDAO();
+		IDeviceDAO dao = getOracleDaoFactory().getDeviceDAO();
 		dao.insert(device);
+		
+//		int orderId = Integer.parseInt(request.getParameter("orderId"));
+//		ServiceOrder so = new ServiceOrder();
+//		OracleServiceOrderDAO dao = oracleDaoFactory.getServiceOrderDAO();
+//		so = dao.findById(orderId);
+//		Task task = new Task();
+//		task.setServiceOrder(so);
+//		UserRole role = new UserRole();
+//		OracleUserRoleDAO daoRole = oracleDaoFactory.getUserRoleDAO();
+//		role = daoRole.findById("4");
+//		task.setRole(role);
+//		task.setTaskValue("Create Cable");
+		
 		request.setAttribute("message", "Device created <br> <a href='/Zephyrus/installation'>return to home page</a>");		
-		return Pages.MESSAGE_PAGE.getValue();
+		return PAGES.MESSAGE_PAGE.getValue();
 	}
 
 }

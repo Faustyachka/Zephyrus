@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.User;
 /**
  * 
@@ -20,9 +20,9 @@ public class AdminCommand extends SQLCommand  {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {		   
-		IDAO<User> dao = oracleDaoFactory.getUserDAO();
+		IDAO<User> dao = getOracleDaoFactory().getUserDAO();
 		ArrayList<User> users = dao.findAll();
 		request.setAttribute("users", users);
-		return Pages.ADMIN_PAGE.getValue();
+		return PAGES.ADMIN_PAGE.getValue();
 	}
 }

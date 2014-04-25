@@ -8,9 +8,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ProductCatalogService;
-import com.zephyrus.wind.model.ServiceLocation;
 
 public class ProceedOrderCommand extends SQLCommand {
 
@@ -18,18 +18,21 @@ public class ProceedOrderCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		HttpSession session = request.getSession();
-        
+        if(request.getParameter("services") == null){
+        	request.setAttribute("message", "Choose at least one service");
+        	return PAGES.MESSAGE_PAGE.getValue();
+        }
         Integer productId = Integer.parseInt(request.getParameter("services"));
-        ArrayList<ProductCatalogService> services = ( ArrayList<ProductCatalogService>) session.getAttribute("products");
-        ProductCatalogService service = null;
-        for(ProductCatalogService ser : services)
+        ArrayList<ProductCatalog> services = ( ArrayList<ProductCatalog>) session.getAttribute("products");
+        ProductCatalog service = null;
+        for(ProductCatalog ser : services)
         	if(ser.getId() == productId)
         		service = ser;
         session.setAttribute("service", service);
         if(session.getAttribute("user") != null){
-        	return Pages.ORDERDETAIL_PAGE.getValue();
+        	return PAGES.ORDERDETAIL_PAGE.getValue();
         } else {
-        	response.sendRedirect(Pages.LOGIN_PAGE.getValue());
+        	response.sendRedirect(PAGES.LOGIN_PAGE.getValue());
         	return null;
         }
 	}

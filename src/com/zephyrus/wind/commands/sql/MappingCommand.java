@@ -42,13 +42,14 @@ public class MappingCommand extends SQLCommand{
         
         DistanceCalculator dc = new DistanceCalculator();
         
-        ArrayList<ProductCatalogService> services = dc.getNearestProvidersServices(sl, oracleDaoFactory);
+        ArrayList<ProductCatalog> services = dc.getNearestProvidersServices(sl, getOracleDaoFactory());
         request.getSession().setAttribute("products", services);
        
         String json = new Gson().toJson(services);
         response.setContentType("application/json");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(json);
+        System.out.println(json);
 		return null;
 	}
 

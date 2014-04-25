@@ -8,8 +8,9 @@ import com.zephyrus.wind.model.ServiceOrder;
 
 public interface IServiceOrderDAO extends IDAO<ServiceOrder> {
 
-	ArrayList<ServiceOrder> getServiceOrdersByUserId(int id)
+	public ArrayList<ServiceOrder> getServiceOrdersByServiceInstanceId(int id)
 			throws Exception;
+	public ArrayList<ServiceOrder> getServiceOrdersByServiceLocationId(int id) throws Exception;
 
 
 	ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate,

@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 
 public class LogoutCommand implements Command {
 
@@ -13,7 +13,7 @@ public class LogoutCommand implements Command {
 			HttpServletResponse response) throws Exception {
 		request.logout();
 		request.getSession().invalidate();
-		return Pages.HOME_PAGE.getValue();
+		return PAGES.HOME_PAGE.getValue();
 	}
 
 }

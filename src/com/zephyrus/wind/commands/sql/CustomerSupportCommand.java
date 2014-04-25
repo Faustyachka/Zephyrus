@@ -14,7 +14,7 @@ import com.google.gson.reflect.TypeToken;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.User;
 
 /**
@@ -37,11 +37,11 @@ public class CustomerSupportCommand extends SQLCommand {
 		String action=(String)request.getParameter("action");
 		response.setContentType("application/json");
 		if(action==null) {
-			return Pages.SUPPORT_PAGE.getValue();
+			return PAGES.SUPPORT_PAGE.getValue();
 		} else {
 		if (action.equals("list")) {
 		try{     
-			IUserDAO dao = oracleDaoFactory.getUserDAO();			
+			IUserDAO dao = getOracleDaoFactory().getUserDAO();			
 			    ArrayList<User> lstUser=dao.getUsersByRoleId(2);			
 			    JsonElement element = gson.toJsonTree(lstUser, new TypeToken<List<User>>() {}.getType());			
 			    JsonArray jsonArray = element.getAsJsonArray();			
@@ -60,7 +60,7 @@ public class CustomerSupportCommand extends SQLCommand {
 			    }
 		} }	
 		
-		return Pages.SUPPORT_PAGE.getValue();
+		return PAGES.SUPPORT_PAGE.getValue();
 	}
 
 }

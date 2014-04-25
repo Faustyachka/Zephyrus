@@ -4,7 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
-import com.zephyrus.wind.enums.Pages;
+import com.zephyrus.wind.enums.PAGES;
 
 public class RegisterPageCommand implements Command {
 
@@ -12,7 +12,7 @@ public class RegisterPageCommand implements Command {
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
 		// TODO Auto-generated method stub
-		return Pages.REGISTER_PAGE.getValue();
+		return PAGES.REGISTER_PAGE.getValue();
 	}
 
 }

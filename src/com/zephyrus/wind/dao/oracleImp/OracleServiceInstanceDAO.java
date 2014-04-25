@@ -18,7 +18,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	
 	private static final String TABLE_NAME = "MISTERDAN.SERVICE_INSTANCES";
     private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_ID, USER_ID, " + 
-    								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE" +
+    								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE " +
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -45,12 +45,15 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	@Override
 	public void update(ServiceInstance record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_SERV_INSTANCE_STATUS_ID, record.getServInstanceStatus().getId());   
-    	stmt.setInt(COLUMN_USER_ID, record.getUser().getId());  
-    	stmt.setInt(COLUMN_PRODUCT_CATALOG_ID, record.getProductCatalog().getId());  
-    	stmt.setInt(COLUMN_CIRCUIT_ID, record.getCircuit().getId());  
-    	stmt.setDate(COLUMN_START_DATE, (java.sql.Date)record.getStartDate());
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setInt(1, record.getServInstanceStatus().getId());   
+    	stmt.setInt(2, record.getUser().getId());  
+    	stmt.setInt(3, record.getProductCatalog().getId());  
+    	if(record.getCircuit().getId() != null)
+    		stmt.setInt(4, record.getCircuit().getId());  
+    	else
+    		stmt.setNull(4, java.sql.Types.INTEGER); 
+    	stmt.setDate(5, (java.sql.Date)record.getStartDate());
+    	stmt.setLong(6, record.getId());
         stmt.executeUpdate();
 		
 	}
@@ -61,7 +64,10 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
     	cs.setInt(1, record.getServInstanceStatus().getId());   
     	cs.setInt(2, record.getUser().getId());  
     	cs.setInt(3, record.getProductCatalog().getId());  
-    	cs.setInt(4, record.getCircuit().getId());  
+    	if(record.getCircuit().getId() != null)
+    		cs.setInt(4, record.getCircuit().getId());  
+    	else
+    		cs.setNull(4, java.sql.Types.INTEGER); 
     	cs.setDate(5, (java.sql.Date)record.getStartDate());
     	cs.registerOutParameter(6, OracleTypes.VARCHAR);
         cs.execute();
