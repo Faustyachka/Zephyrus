@@ -39,7 +39,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
     	stmt.setString(COLUMN_ORDER_TYPE_VALUE, record.getOrderType());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -49,6 +49,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

@@ -46,7 +46,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
     	stmt.setInt(COLUMN_PRICE, record.getPrice());
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -58,6 +58,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
     	cs.registerOutParameter(4, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(4);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

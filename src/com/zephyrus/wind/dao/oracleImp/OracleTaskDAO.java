@@ -53,7 +53,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
     	stmt.setInt(COLUMN_ROLE_ID, record.getRole().getId());
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -67,6 +67,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
     	cs.registerOutParameter(5, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(5);
+        cs.close();
 		return findByRowId(rowId);
 	}
 
@@ -105,7 +106,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ? AND TASK_STATUS_ID = ?");
 		stmt.setInt(1, user.getId());
 		stmt.setInt(2, TASK_STATUS.PROCESSING.getId());
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 
@@ -114,7 +115,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE TASK_STATUS_ID = ? AND ROLE_ID = ?");
 		stmt.setInt(1, TASK_STATUS.SUSPEND.getId());
 		stmt.setInt(2, role.getId());
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 

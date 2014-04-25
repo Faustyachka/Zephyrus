@@ -39,7 +39,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
     	stmt.setString(COLUMN_SERIAL_NUM, record.getSerialNum());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -49,6 +49,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

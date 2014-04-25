@@ -39,7 +39,7 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
     	stmt.setString(COLUMN_LOCATION_COORD, record.getLocationCoord());    	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -50,6 +50,7 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
     	cs.registerOutParameter(3, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(3);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

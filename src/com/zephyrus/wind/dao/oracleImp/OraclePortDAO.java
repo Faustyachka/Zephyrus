@@ -43,7 +43,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
     	stmt.setInt(COLUMN_PORT_NUMBER, record.getPortNumber()); 
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -54,6 +54,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
     	cs.registerOutParameter(3, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(3);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

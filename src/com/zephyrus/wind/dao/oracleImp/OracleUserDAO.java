@@ -53,7 +53,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     	stmt.setInt(7, record.getRole().getId());
     	stmt.setLong(8, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -69,6 +69,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     	cs.registerOutParameter(8, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(8);
+        cs.close();
 		return findByRowId(rowId);
 	}
 
@@ -106,7 +107,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	public ArrayList<User> getUsersByRoleId(int roleId) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
 		stmt.setInt(1, roleId);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 
