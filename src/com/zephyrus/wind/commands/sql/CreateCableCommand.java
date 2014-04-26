@@ -12,6 +12,7 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.ServiceLocation;
 
 /**
  * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
@@ -48,9 +49,21 @@ public class CreateCableCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		String deviceID = request.getParameter("deviceID");
 		String portNum = request.getParameter("portNum");
-		
+		if (deviceID.isEmpty()) {
+			response.setContentType("text/plain");  
+		    response.setCharacterEncoding("UTF-8"); 
+		    response.getWriter().write("Device should be chosen.");
+			return "installation/createCable.jsp";
+		}
+		if (portNum.isEmpty()) {
+			response.setContentType("text/plain");  
+		    response.setCharacterEncoding("UTF-8"); 
+		    response.getWriter().write("Port for cable should be chosen.");
+			return "installation/createCable.jsp";
+		}
 		Cable cable = new Cable();
 		
+		ServiceLocation so = new ServiceLocation();
 		Device device = new Device();
 		IDeviceDAO devicedao = getOracleDaoFactory().getDeviceDAO();
 		device = devicedao.findById(Integer.parseInt(deviceID));
@@ -60,7 +73,7 @@ public class CreateCableCommand extends SQLCommand {
 		port.setDevice(device);
 		
 		cable.setPort(port);
-		cable.setServiceLocation(serviceLocation);
+		cable.setServiceLocation(so);
 		ICableDAO dao = getOracleDaoFactory().getCableDAO();
 		dao.insert(cable);
 		
