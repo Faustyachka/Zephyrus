@@ -10,7 +10,7 @@ public enum USER_STATUS {
 		this.status = status;
 	}
 	
-	public int geValue(){
+	public int getValue(){
 		return status;
 	}
 }
