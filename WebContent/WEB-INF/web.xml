@@ -33,11 +33,13 @@
 	<url-pattern>/sendOrder</url-pattern>
     <url-pattern>/createaccount</url-pattern>
     <url-pattern>/blocking</url-pattern>
-   <url-pattern>/reassign</url-pattern>
+    <url-pattern>/reassign</url-pattern>
     <url-pattern>/createnewpass</url-pattern>
     <url-pattern>/review</url-pattern>
     <url-pattern>/customersupport</url-pattern> 
     <url-pattern>/createdevice</url-pattern> 
+    <url-pattern>/createcable</url-pattern>
+    <url-pattern>/deletecable</url-pattern>
     <url-pattern>/generateReport</url-pattern>
     <url-pattern>/customerOrders</url-pattern>
     <url-pattern>/customerServices</url-pattern>
@@ -54,7 +56,7 @@
       <form-error-page>/view/loginError.jsp</form-error-page>
     </form-login-config>
   </login-config>
- <security-constraint>
+  <security-constraint>
     <web-resource-collection>
       <web-resource-name>Administrator</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
