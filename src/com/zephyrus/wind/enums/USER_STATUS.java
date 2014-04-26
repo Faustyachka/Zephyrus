@@ -1,5 +1,5 @@
 package com.zephyrus.wind.enums;
-
+																						// REVIEW: documentation expected
 public enum USER_STATUS {
 	ACTIVE(0),
 	BLOCKED(1);
@@ -10,7 +10,7 @@ public enum USER_STATUS {
 		this.status = status;
 	}
 	
-	public int geValue(){
+	public int getValue(){
 		return status;
 	}
 }

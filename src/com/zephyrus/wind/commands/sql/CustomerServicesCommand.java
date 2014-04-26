@@ -1,6 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.SQLException;
+import java.sql.SQLException;											
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -8,14 +8,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
-import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;												// REVIEW: unused imports found
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
-
+																										// REVIEW: documenatation & author expected
 public class CustomerServicesCommand extends SQLCommand {
 
 	@Override
@@ -27,7 +27,7 @@ public class CustomerServicesCommand extends SQLCommand {
 		ArrayList<ServiceInstance> services = serviceDAO.getServiceInstancesByUserId(user.getId());
 		ArrayList<ServiceInstance> actualServices = new ArrayList<ServiceInstance>();
 		ArrayList<ServiceInstance> workedOutServices = new ArrayList<ServiceInstance>();
-		for(ServiceInstance service : services){
+		for(ServiceInstance service : services){													  // REVIEW: this cycle could and should be transformed into DAO method
 			if(service.getServInstanceStatus().getId() == SERVICEINSTANCE_STATUS.ACTIVE.getId() ||
 					service.getServInstanceStatus().getId() == SERVICEINSTANCE_STATUS.PLANNED.getId()){
 				actualServices.add(service);

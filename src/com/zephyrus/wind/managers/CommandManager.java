@@ -18,7 +18,11 @@ import com.zephyrus.wind.commands.sql.CreateUserCommand;
 import com.zephyrus.wind.commands.sql.CustomerOrdersCommand;
 import com.zephyrus.wind.commands.sql.CustomerServicesCommand;
 import com.zephyrus.wind.commands.sql.CustomerSupportCommand;
+<<<<<<< HEAD
 import com.zephyrus.wind.commands.sql.DeleteCableCommand;
+=======
+import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
+>>>>>>> refs/remotes/origin/master
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
@@ -26,7 +30,7 @@ import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
-
+																										// REVIEW: documentation expected
 public class CommandManager {
 
 	HashMap<String, Command> commands = new HashMap<String, Command>();
@@ -46,13 +50,16 @@ public class CommandManager {
 
 	private static final String CREATE_ACCOUNT_COMMAND = "createaccount";
 	private static final String BLOCKING_USER_COMMAND = "blocking";
-	private static final String REASSIGN_COMMAND = "reassign";
+	private static final String REASSIGN_COMMAND = "reassign";											// REVIEW: command was not used
 	private static final String CREATE_NEW_PASSWORD_COMMAND = "createnewpass";
-	private static final String REVIEW_USER_COMMAND = "review";
+	private static final String REVIEW_USER_COMMAND = "review";											// REVIEW: command was not used
 	private static final String CUSTOMER_SUPPORT_COMMAND = "customersupport";
 	private static final String CREATE_DEVICE_COMMAND = "createdevice";
-	private static final String CREATE_CABLE_COMMAND = "createcable";
-	private static final String DELETE_CABLE_COMMAND = "deletecable";
+
+	private static final String SUPPORT_COMMAND = "support";
+	private static final String INSTALLATION_COMMAND = "installation";
+	private static final String PROVISION_COMMAND = "provision";
+
 	
 	
 
@@ -80,14 +87,15 @@ public class CommandManager {
 		commands.put(CREATE_NEW_PASSWORD_COMMAND, new CreateNewPassComand());
 		commands.put(CUSTOMER_SUPPORT_COMMAND, new CustomerSupportCommand());
 		commands.put(CREATE_DEVICE_COMMAND, new CreateDeviceCommand());
-		commands.put(CREATE_CABLE_COMMAND, new CreateCableCommand());
-		commands.put(DELETE_CABLE_COMMAND, new DeleteCableCommand());
 
 		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
+		commands.put(SUPPORT_COMMAND, new DisplayTasksCommand());
+		commands.put(INSTALLATION_COMMAND, new DisplayTasksCommand());
+		commands.put(PROVISION_COMMAND, new DisplayTasksCommand());
 
 
 	}
-
+																										// REVIEW: documentation expected
 	public Command getCommand(HttpServletRequest request) {
 
 		String action = null;
@@ -103,7 +111,7 @@ public class CommandManager {
 		// receiving the object of Command
 		return getCommand(action);
 	}
-
+																										// REVIEW: documentation expected
 	public Command getCommand(String action) {
 		Command command = commands.get(action);
 		if (command == null) {

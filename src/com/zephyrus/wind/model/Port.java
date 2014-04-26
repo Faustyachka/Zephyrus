@@ -10,7 +10,7 @@ import com.zephyrus.wind.dao.interfaces.IPortDAO;
 
 /**
  * The persistent class for the PORTS database table.
- * 
+ * 																								// REVIEW: author expected
  */
 
 public class Port implements Serializable {

@@ -12,13 +12,13 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.IDAO;
+import com.zephyrus.wind.dao.interfaces.IDAO;															// REVIEW: unused imports found
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.User;
 
 /**
- * 
+ * 																										// REVIEW: documentation expected
  * @author Alexandra Beskorovaynaya
  *
  */
@@ -28,7 +28,7 @@ public class CustomerSupportCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-//		IUserDAO dao = oracleDaoFactory.getUserDAO();
+//		IUserDAO dao = oracleDaoFactory.getUserDAO();													// REVIEW: commended code found 
 //		ArrayList<User> users = dao.findAll();
 //		request.getSession().setAttribute("users", users);
 //		return Pages.SUPPORT_PAGE.getValue();
@@ -38,11 +38,11 @@ public class CustomerSupportCommand extends SQLCommand {
 		response.setContentType("application/json");
 		if(action==null) {
 			return PAGES.SUPPORT_PAGE.getValue();
-		} else {
+		} else {																						// REVIEW: bad formatting
 		if (action.equals("list")) {
 		try{     
 			IUserDAO dao = getOracleDaoFactory().getUserDAO();			
-			    ArrayList<User> lstUser=dao.getUsersByRoleId(2);			
+			    ArrayList<User> lstUser=dao.getUsersByRoleId(2);										// REVIEW: roles mapped by IDs. Enum should be used
 			    JsonElement element = gson.toJsonTree(lstUser, new TypeToken<List<User>>() {}.getType());			
 			    JsonArray jsonArray = element.getAsJsonArray();			
 			    String listData=jsonArray.toString();   						
@@ -50,7 +50,7 @@ public class CustomerSupportCommand extends SQLCommand {
 			    response.getWriter().print(listData);
 			    return null;			
 			    }catch(Exception ex){
-			
+			    																						// REVIEW: bad formatting
 			     String error="{\"Result\":\"ERROR\",\"Message\":"+ex.getMessage()+"}";
 			
 			     response.getWriter().print(error);
@@ -58,7 +58,7 @@ public class CustomerSupportCommand extends SQLCommand {
 			     ex.printStackTrace();
 			
 			    }
-		} }	
+		} }																								// REVIEW: bad formatting
 		
 		return PAGES.SUPPORT_PAGE.getValue();
 	}

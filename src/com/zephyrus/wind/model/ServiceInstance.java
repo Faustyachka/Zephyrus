@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * The persistent class for the SERVICE_INSTANCES database table.
- * 
+ * 																							// REVIEW: author expected
  */
 
 public class ServiceInstance implements Serializable {

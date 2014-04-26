@@ -11,13 +11,13 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.enums.PAGES;
-import com.zephyrus.wind.helpers.MailSend;
+import com.zephyrus.wind.helpers.MailSend;															
 import com.zephyrus.wind.managers.CommandManager;
 import com.zephyrus.wind.managers.MessageManager;
 
 // The Main entry point
 
-
+																									// REVIEW: documentation expected
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
@@ -31,7 +31,7 @@ public class MainServlet extends HttpServlet {
 		
 	}
 
-	private void processRequest(HttpServletRequest request, HttpServletResponse response)
+	private void processRequest(HttpServletRequest request, HttpServletResponse response)			
 		    throws ServletException, IOException {
 		        String page = null;
 		        try{
@@ -65,18 +65,18 @@ public class MainServlet extends HttpServlet {
 		        RequestDispatcher dispatcher = request.getRequestDispatcher(page);
 		        dispatcher.forward(request, response);
 		        }
-		    }
+		    }																							// REVIEW: watch formatting: } brace is out of line
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { // REVIEW: too long line
 		processRequest(request, response);
 		try{
-//		MailSend.send("The letter1", new String[]{"misterdan@bigmir.net"},"Hello, Bogdan!");
+//		MailSend.send("The letter1", new String[]{"misterdan@bigmir.net"},"Hello, Bogdan!");			// REVIEW: mail templates should be used
 		} catch(Exception ex){
 			ex.printStackTrace();
 		}
 	}
 
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException { // REVIEW: too long line
 		processRequest(request, response);
 	}
 

@@ -11,7 +11,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.VSupportOrder;
 
 public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements IVSupportOrderDAO{
-	private static final String TABLE_NAME = "MISTERDAN.V_SUPPORT_ORDER";
+	private static final String TABLE_NAME = "V_SUPPORT_ORDER";
     private static final String SQL_SELECT = "SELECT USER_ID, SO_ID, SL_COORD, " + 
                                       "SERVICE, SO_DATE, SO_VALUE  FROM " + 
                                        TABLE_NAME + " ";
@@ -73,7 +73,7 @@ public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements 
 	public ArrayList<VSupportOrder> getOrdersByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 

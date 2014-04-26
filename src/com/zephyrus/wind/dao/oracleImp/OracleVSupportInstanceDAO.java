@@ -11,7 +11,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.VSupportInstance;
 
 public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> implements IVSupportInstanceDAO{
-	private static final String TABLE_NAME = "MISTERDAN.V_SUPPORT_INSTANCE";
+	private static final String TABLE_NAME = "V_SUPPORT_INSTANCE";
     private static final String SQL_SELECT = "SELECT USER_ID, SI_ID, SI_STARD_DATE, " + 
                                       "SERVICE, PRICE, SI_STATUS FROM " + 
                                        TABLE_NAME + " ";
@@ -71,7 +71,7 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
 	public ArrayList<VSupportInstance> getInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 

@@ -12,7 +12,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
-	private static final String TABLE_NAME = "MISTERDAN.USERS";
+	private static final String TABLE_NAME = "USERS";
     private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
                                       "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID FROM " + 
                                        TABLE_NAME + " ";
@@ -53,7 +53,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     	stmt.setInt(7, record.getRole().getId());
     	stmt.setLong(8, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -69,6 +69,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
     	cs.registerOutParameter(8, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(8);
+        cs.close();
 		return findByRowId(rowId);
 	}
 
@@ -106,7 +107,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	public ArrayList<User> getUsersByRoleId(int roleId) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
 		stmt.setInt(1, roleId);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 

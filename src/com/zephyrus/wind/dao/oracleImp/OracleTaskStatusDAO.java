@@ -37,7 +37,7 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
     	stmt.setString(COLUMN_TASK_STATUS_VALUE, record.getTaskStatusValue());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();	
-		
+        stmt.close();
 	}
 
 	@Override
@@ -47,6 +47,7 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

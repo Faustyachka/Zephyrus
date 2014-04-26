@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the CIRCUITS database table.
- * 
+ * 																								// REVIEW: author expected
  */
 
 public class Circuit implements Serializable {

@@ -13,11 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.MessageManager;
-
+																								// REVIEW: documentation expected
 public class SessionTimeOutFilter implements Filter {
 
-FilterConfig fc = null;
-    
+FilterConfig fc = null;																			// REVIEW: bad formatting
+																								// REVIEW: Override annotation expected
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 

@@ -7,7 +7,7 @@ import java.sql.Date;
 
 /**
  * The persistent class for the " V_SUPPORT_INSTANCE" database table.
- * 
+ * 																									// REVIEW: author expected
  */
 
 public class VSupportInstance implements Serializable {

@@ -45,7 +45,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
     	stmt.setInt(COLUMN_SERVICE_LOCATION_ID, record.getServiceLocation().getId());    	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -56,6 +56,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
     	cs.registerOutParameter(3, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(3);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

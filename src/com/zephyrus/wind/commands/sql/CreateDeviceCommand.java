@@ -1,7 +1,8 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+
+import java.sql.SQLException;																
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -9,17 +10,14 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.enums.PAGES;
+
+import com.zephyrus.wind.dao.oracleImp.OracleServiceOrderDAO;										    // REVIEW: unused imports found
+import com.zephyrus.wind.dao.oracleImp.OracleUserRoleDAO;
 import com.zephyrus.wind.model.Device;
+import com.zephyrus.wind.model.Task;
 
 /**
- * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
- * It is supposed to create new device in the system.
- * 
- * @see com.zephyrus.wind.model.Device
- * @see com.zephyrus.wind.enums.PAGES
- * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
- * 
- * @return page with confirmation of successful creation of device
+ * 																										// REVIEW: documentation expected
  * @author Ielyzaveta Zubacheva
  */
 
@@ -39,14 +37,17 @@ public class CreateDeviceCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		String serialNum = request.getParameter("serialNum");
-		if (serialNum.isEmpty()) {
-			response.setContentType("text/plain");  
-		    response.setCharacterEncoding("UTF-8"); 
-		    response.getWriter().write("Serial number cannot be empty.");
+
+		String serialID = request.getParameter("serialID");
+		if (serialID.isEmpty()) {																		// REVIEW: serialID null check expected
+			request.setAttribute("error", "Serial number cannot be empty");
+			request.setAttribute("SerialID", serialID);													// REVIEW: SerialID - first letter should be in lower case
+
 			return "installation/createDevice.jsp";
 		}
-		int counter=0;
+
+		Device device = new Device();																	// REVIEW: device addition should be performed in Workflow class
+		device.setSerialNum(serialID);
 		IDeviceDAO dao = getOracleDaoFactory().getDeviceDAO();
 		ArrayList<Device> devices = dao.findAll();
 		for (Device d: devices) {
@@ -65,7 +66,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		device.setSerialNum(serialNum);
 		dao.insert(device);
 		
-//		int orderId = Integer.parseInt(request.getParameter("orderId"));
+//		int orderId = Integer.parseInt(request.getParameter("orderId"));								// REVIEW: is this code valid?
 //		ServiceOrder so = new ServiceOrder();
 //		IServiceOrderDAO dao = oracleDaoFactory.getServiceOrderDAO();
 //		so = dao.findById(orderId);

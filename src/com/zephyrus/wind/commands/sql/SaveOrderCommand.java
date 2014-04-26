@@ -16,12 +16,12 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.OrderType;
 import com.zephyrus.wind.model.ProductCatalog;
-import com.zephyrus.wind.model.ProductCatalogService;
+import com.zephyrus.wind.model.ProductCatalogService;											// REVIEW: unused import
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
-
+																								// REVIEW: documentation expected
 public class SaveOrderCommand extends SQLCommand {
 	
 	private ServiceOrder insertedOrder = null;
@@ -40,11 +40,11 @@ public class SaveOrderCommand extends SQLCommand {
 		ProductCatalog service = (ProductCatalog) session.getAttribute("service");
 		ServiceOrder order = new ServiceOrder();
 		OrderStatus orderStatus = new OrderStatus();
-		orderStatus.setId(ORDER_STATUS.ENTERING.getId());
+		orderStatus.setId(ORDER_STATUS.ENTERING.getId());										// REVIEW: setOrderStatusValue wasn't invoked. OrderStatus should be obtained by find method in generic DAO
 		order.setOrderStatus(orderStatus);
 		order.setOrderDate(new Date(new java.util.Date().getTime()));
 		OrderType orderType = new OrderType();
-		orderType.setId(ORDER_TYPE.NEW.getId());
+		orderType.setId(ORDER_TYPE.NEW.getId());												// REVIEW: setOrderType wasn't invoked. OrderType should be obtained by find
 		order.setOrderType(orderType);
 		order.setProductCatalog(service);
 		order.setServiceLocation(location);
@@ -59,7 +59,7 @@ public class SaveOrderCommand extends SQLCommand {
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 	
-	public ServiceOrder returnOrder(HttpServletRequest request,
+	public ServiceOrder returnOrder(HttpServletRequest request,									// REVIEW: public return-method in Command. Are you sure about it? 
 			HttpServletResponse response) throws SQLException, Exception{
 		execute(request, response);
 		return insertedOrder;

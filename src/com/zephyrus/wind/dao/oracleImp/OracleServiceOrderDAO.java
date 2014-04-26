@@ -2,6 +2,7 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.Date;
 
 
 import java.util.ArrayList;
@@ -20,7 +21,7 @@ import com.zephyrus.wind.model.ServiceOrder;
 
 public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {
 
-	private static final String TABLE_NAME = "MISTERDAN.SERVICE_ORDERS";
+	private static final String TABLE_NAME = "SERVICE_ORDERS";
     private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
     								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID " +
                                       "FROM " + 
@@ -61,7 +62,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     		stmt.setNull(6, java.sql.Types.INTEGER); 
     	stmt.setLong(7, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -79,7 +80,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     	cs.registerOutParameter(7, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(7);
-        System.out.println(rowId);
+        cs.close();
 		return findByRowId(rowId);
 	}
 
@@ -121,7 +122,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceInstanceId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_INSTANCE_ID = ?");
 		stmt.setInt(1, id);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();
 		return fetchMultiResults(rs);
 	}
 	
@@ -129,8 +130,28 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceLocationId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
 		stmt.setInt(1, id);
+		rs = stmt.executeQuery();	
+		return fetchMultiResults(rs);
+	}
+	@Override
+	//Returns orders for reports by period
+	public ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate, Date endDate) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
+				+ "AND ORDER_STATUS_ID=1");//bad
+		stmt.setDate(1, startDate);
+		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();		
 		return fetchMultiResults(rs);
 	}
+	@Override
+	public ArrayList<ServiceOrder> getNewSOByPeriod(Date startDate, Date endDate) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
+				+ "AND ORDER_STATUS_ID=2");//bad
+		stmt.setDate(1, startDate);
+		stmt.setDate(2, endDate);
+		rs = stmt.executeQuery();		
+		return fetchMultiResults(rs);
+	}
+	
 
 }

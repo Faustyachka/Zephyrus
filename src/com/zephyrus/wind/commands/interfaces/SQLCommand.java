@@ -8,17 +8,17 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.MessageManager;
-
+																													// REVIEW: documentation & author expected
 public abstract class SQLCommand implements Command {
-	private ThreadLocal<OracleDAOFactory> oracleFactoryThreadLocal = new ThreadLocal<OracleDAOFactory>(){
+	private static ThreadLocal<OracleDAOFactory> oracleFactoryThreadLocal = new ThreadLocal<OracleDAOFactory>(){	// REVIEW: too long line
 		public OracleDAOFactory initialValue(){
 			return new OracleDAOFactory();
 		}
 	};
 
-  public SQLCommand() {
+  public SQLCommand() {																								// REVIEW: empty constructor. is it necessary? 
   }
-
+  																													// REVIEW: Override annotation & documentation expected
   public String execute(HttpServletRequest request, HttpServletResponse response)
           throws Exception {
       String page = null;
@@ -32,6 +32,7 @@ public abstract class SQLCommand implements Command {
           page = PAGES.MESSAGE_PAGE.getValue();
       } finally{
     	  getOracleDaoFactory().endConnection();
+    	  oracleFactoryThreadLocal.remove();
     	  System.out.println("Connection closed");
       }
       return page;

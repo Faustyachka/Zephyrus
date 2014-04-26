@@ -9,6 +9,7 @@ import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
+import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
@@ -20,10 +21,10 @@ import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
-
+																							// REVIEW: documentation expected
 public interface IDAOFactory {
-
-   ICableDAO getCableDAO() throws Exception;
+																							// REVIEW: documentation on EVERY DAO method expected
+   ICableDAO getCableDAO() throws Exception;												// REVIEW: Special DAOException class should be written 
    ICircuitDAO getCircuitDAO() throws Exception; 
    IDeviceDAO getDeviceDAO()  throws Exception;
    IOrderStatusDAO getOrderStatusDAO()  throws Exception;
@@ -42,4 +43,5 @@ public interface IDAOFactory {
    IUserRoleDAO getUserRoleDAO() throws Exception;
    IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception;
    IVSupportOrderDAO getVSupportOrderDAO() throws Exception;
+   IReportDAO getReportDAO() throws Exception;
 }

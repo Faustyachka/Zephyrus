@@ -1,5 +1,5 @@
 package com.zephyrus.wind.enums;
-
+																							// REVIEW: documentation expected
 public enum ORDER_TYPE {
 	NEW(1),
 	MODIFY(2),

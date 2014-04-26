@@ -9,7 +9,7 @@ import javax.naming.Context;
 import javax.naming.InitialContext;
 import javax.naming.NamingException;
 import javax.sql.DataSource;
-
+																								// REVIEW: documentation expected
 public enum ConnectionManager {
 	INSTANCE;
 	

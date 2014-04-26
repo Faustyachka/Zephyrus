@@ -10,13 +10,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
-
+																									// REVIEW: documentation expected
 public class FileDownload implements Command{
-
+																									// REVIEW: documentation expected
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		int BUFSIZE = 4096;
+		int BUFSIZE = 4096;																			// REVIEW: implementation too far from usage
 		String filePath = "";
 		
 		File file = new File(filePath);
@@ -48,7 +48,7 @@ public class FileDownload implements Command{
         in.close();
         outStream.close();
 
-		return null;
+		return null;																					// REVIEW: null? always?
 	}
 
 }

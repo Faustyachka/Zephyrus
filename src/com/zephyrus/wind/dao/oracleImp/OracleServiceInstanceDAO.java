@@ -16,7 +16,7 @@ import com.zephyrus.wind.model.User;
 
 public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> implements IServiceInstanceDAO {
 	
-	private static final String TABLE_NAME = "MISTERDAN.SERVICE_INSTANCES";
+	private static final String TABLE_NAME = "SERVICE_INSTANCES";
     private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_ID, USER_ID, " + 
     								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE " +
                                       "FROM " + 
@@ -55,7 +55,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
     	stmt.setDate(5, (java.sql.Date)record.getStartDate());
     	stmt.setLong(6, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -72,6 +72,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
     	cs.registerOutParameter(6, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(6);
+        cs.close();
 		return findByRowId(rowId);
 	}
 
@@ -109,7 +110,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	public ArrayList<ServiceInstance> getServiceInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
-		rs = stmt.executeQuery();		
+		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
 

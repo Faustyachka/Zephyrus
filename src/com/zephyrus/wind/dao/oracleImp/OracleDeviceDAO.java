@@ -1,14 +1,19 @@
 package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.model.Device;
+import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.reports.MostProfitableRouterReport;
+import com.zephyrus.wind.reports.RouterUtil;
 
 public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	
@@ -24,6 +29,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 												"(SERIAL_NUM) VALUES(?)" +
 												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERIAL_NUM = 2;
@@ -39,7 +45,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
     	stmt.setString(COLUMN_SERIAL_NUM, record.getSerialNum());  	
     	stmt.setLong(COLUMN_ID, record.getId());
         stmt.executeUpdate();
-		
+        stmt.close();
 	}
 
 	@Override
@@ -49,6 +55,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 
@@ -71,6 +78,23 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	@Override
 	protected String getDelete() {
 		return SQL_REMOVE;
+	}
+
+	
+	@Override
+	//Return list of router and their util
+	public ArrayList<RouterUtil> getRouterUtil () throws Exception {
+		stmt = connection.prepareStatement("");
+		rs = stmt.executeQuery();		
+		ArrayList<RouterUtil> resultList = new ArrayList<RouterUtil>();
+		RouterUtil item = new RouterUtil();
+		while (rs.next()){
+			item.setRouterSN(rs.getString(1));
+			item.setRouterUtil(rs.getInt(2)/60);
+			item.setCapacity(0.6);
+        	resultList.add(item);
+        }
+		return resultList;
 	}
 
 }

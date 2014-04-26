@@ -37,7 +37,8 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 		stmt = connection.prepareStatement(SQL_UPDATE);
     	stmt.setString(COLUMN_ORDER_STATUS_VALUE, record.getOrderStatusValue());  	
     	stmt.setLong(COLUMN_ID, record.getId());
-        stmt.executeUpdate();		
+        stmt.executeUpdate();
+        stmt.close();
 	}
 
 	@Override
@@ -48,6 +49,7 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(2);
+        cs.close();
 		return findByRowId(rowId);
 	}
 

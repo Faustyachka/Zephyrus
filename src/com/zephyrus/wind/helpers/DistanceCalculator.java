@@ -1,11 +1,11 @@
 package com.zephyrus.wind.helpers;
 
 
-import java.math.BigDecimal;
+import java.math.BigDecimal;																		// REVIEW: unused import
 import java.util.ArrayList;
 
 
-
+																									// REVIEW: too big gap
 
 
 import com.zephyrus.wind.dao.interfaces.IServiceTypeDAO;
@@ -20,13 +20,13 @@ import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.User;
 /**
- * 
+ * 																									// REVIEW: documentation expected
  * @author Alexandra Beskorovaynaya
  *
  */
 public class DistanceCalculator {
 	private static final double EARTH_RADIUS = 6371.;
-
+																									// REVIEW: documentation expected
 	public double calculateDistance(ProviderLocation providerLocation, ServiceLocation serviceLocation){
 
 
@@ -49,7 +49,7 @@ public class DistanceCalculator {
 		return degree * (Math.PI / 180);
 	}
 
-	public ArrayList<ProductCatalog> getNearestProvidersServices(ServiceLocation sl, OracleDAOFactory oracleFactory) throws Exception {
+	public ArrayList<ProductCatalog> getNearestProvidersServices(ServiceLocation sl, OracleDAOFactory oracleFactory) throws Exception {	// REVIEW: resembles DAO method structure, method could be placed into DAO. too long line
 
 		IDAO<ProductCatalog> productCatalog = oracleFactory.getProductCatalogDAO();
 		ArrayList<ProductCatalog> productCatalogs = productCatalog.findAll();

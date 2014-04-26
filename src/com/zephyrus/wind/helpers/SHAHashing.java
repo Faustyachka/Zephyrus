@@ -3,7 +3,7 @@ package com.zephyrus.wind.helpers;
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-
+																						// REVIEW: documentation expected
 public class SHAHashing {
 	
 	public static String getHash(String password) 
