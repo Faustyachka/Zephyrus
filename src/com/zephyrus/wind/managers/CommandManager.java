@@ -18,11 +18,8 @@ import com.zephyrus.wind.commands.sql.CreateUserCommand;
 import com.zephyrus.wind.commands.sql.CustomerOrdersCommand;
 import com.zephyrus.wind.commands.sql.CustomerServicesCommand;
 import com.zephyrus.wind.commands.sql.CustomerSupportCommand;
-<<<<<<< HEAD
 import com.zephyrus.wind.commands.sql.DeleteCableCommand;
-=======
 import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
->>>>>>> refs/remotes/origin/master
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
