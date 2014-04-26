@@ -27,5 +27,22 @@ $(document).ready(function() {
     	    	$(this).css({'border' : '1px solid #569b44'});
     	    	$('#validpass').text('Ok');
     	    }
+     });
  });
+ $(document).ready(function() {
+     $('#serialNum').change(function() {
+    	 if($(this).val() != '') {
+             var pattern = /^([A-Z0-9]){11}$/;
+             if(pattern.test($(this).val())){
+                 $(this).css({'border' : '1px solid #569b44'});
+                 $('#valid').text('Ok');
+             } else {
+                 $(this).css({'border' : '1px solid #ff0000'});
+                 $('#valid').text('Not valid');
+             }
+         } else {
+             $(this).css({'border' : '1px solid #ff0000'});
+             $('#valid').text('Can not be empty');
+         }
+     });
  });
