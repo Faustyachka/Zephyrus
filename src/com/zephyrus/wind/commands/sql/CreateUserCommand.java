@@ -88,7 +88,7 @@ public class CreateUserCommand extends SQLCommand {
 			user.setLastName(sname);
 			user.setEmail(email);		
 			user.setPassword(SHAHashing.getHash(password));
-			user.setStatus(USER_STATUS.ACTIVE.geValue());
+			user.setStatus(USER_STATUS.ACTIVE.getValue());
 			IDAO<UserRole> ord = getOracleDaoFactory().getUserRoleDAO();
 			UserRole role = ord.findById(roleId);
 			user.setRole(role);

@@ -19,7 +19,7 @@ public class LoginCommand extends SQLCommand {
 		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
 		User user = userDAO.findByEmail(userName);
 		if(user != null){
-			if(user.getStatus()==USER_STATUS.BLOCKED.geValue()){								// REVIEW: typo: geValue
+			if(user.getStatus()==USER_STATUS.BLOCKED.getValue()){								
 				request.logout();
 				request.setAttribute("message", "Your account " + userName + "is blocked!");
 				return PAGES.MESSAGE_PAGE.getValue();

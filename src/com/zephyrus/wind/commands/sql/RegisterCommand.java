@@ -43,7 +43,7 @@ public class RegisterCommand extends SQLCommand {												// REVIEW: CreateUs
 		user.setEmail(email);
 		user.setPassword(SHAHashing.getHash(password));
 		user.setRegistrationData(s);															// REVIEW: setRegistationDatE, not Data
-		user.setStatus(USER_STATUS.ACTIVE.geValue());
+		user.setStatus(USER_STATUS.ACTIVE.getValue());
 		UserRole role = new UserRole();
 		role.setId(ROLE.CUSTOMER.getId());
 		role.setRoleName(ROLE.CUSTOMER.name());
