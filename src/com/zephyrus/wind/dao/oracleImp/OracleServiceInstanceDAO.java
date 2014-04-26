@@ -16,7 +16,7 @@ import com.zephyrus.wind.model.User;
 
 public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> implements IServiceInstanceDAO {
 	
-	private static final String TABLE_NAME = "MISTERDAN.SERVICE_INSTANCES";
+	private static final String TABLE_NAME = "SERVICE_INSTANCES";
     private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_ID, USER_ID, " + 
     								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE " +
                                       "FROM " + 

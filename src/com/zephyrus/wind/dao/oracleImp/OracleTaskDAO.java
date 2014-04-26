@@ -16,7 +16,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
-	private static final String TABLE_NAME = "MISTERDAN.TASKS";
+	private static final String TABLE_NAME = "TASKS";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, TASK_VALUE, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID" +
                                       "FROM " + 

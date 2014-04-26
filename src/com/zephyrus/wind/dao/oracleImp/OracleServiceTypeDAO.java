@@ -11,7 +11,7 @@ import com.zephyrus.wind.dao.interfaces.IServiceTypeDAO;
 import com.zephyrus.wind.model.ServiceType;
 
 public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements IServiceTypeDAO {
-	private static final String TABLE_NAME = "MISTERDAN.SERVICE_TYPE";
+	private static final String TABLE_NAME = "SERVICE_TYPE";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_VALUE " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";

@@ -12,7 +12,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
-	private static final String TABLE_NAME = "MISTERDAN.USERS";
+	private static final String TABLE_NAME = "USERS";
     private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
                                       "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID FROM " + 
                                        TABLE_NAME + " ";

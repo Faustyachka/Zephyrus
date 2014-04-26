@@ -21,7 +21,7 @@ import com.zephyrus.wind.model.ServiceOrder;
 
 public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {
 
-	private static final String TABLE_NAME = "MISTERDAN.SERVICE_ORDERS";
+	private static final String TABLE_NAME = "SERVICE_ORDERS";
     private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
     								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID " +
                                       "FROM " + 
