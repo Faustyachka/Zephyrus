@@ -68,9 +68,13 @@ public class OracleDAOFactory implements IDAOFactory {											// REVIEW: docu
      * Closes connection obtained by factory
      * @throws SQLException if failed to close connection
      */
-    public void endConnection() throws SQLException{
+    public void endConnection() {
         if(connection != null) {
-        	connection.close();
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
         }
     }
     
