@@ -8,6 +8,4 @@ public interface IPortDAO extends IDAO<Port> {
 
 	int findFreePort() throws Exception;
 
-	Port findByDevPortID(int devId, int portId) throws Exception;
-
 }
