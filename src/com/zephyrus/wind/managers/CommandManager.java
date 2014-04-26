@@ -17,6 +17,7 @@ import com.zephyrus.wind.commands.sql.CreateUserCommand;
 import com.zephyrus.wind.commands.sql.CustomerOrdersCommand;
 import com.zephyrus.wind.commands.sql.CustomerServicesCommand;
 import com.zephyrus.wind.commands.sql.CustomerSupportCommand;
+import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
@@ -49,6 +50,9 @@ public class CommandManager {
 	private static final String REVIEW_USER_COMMAND = "review";											// REVIEW: command was not used
 	private static final String CUSTOMER_SUPPORT_COMMAND = "customersupport";
 	private static final String CREATE_DEVICE_COMMAND = "createdevice";
+	private static final String SUPPORT_COMMAND = "support";
+	private static final String INSTALLATION_COMMAND = "installation";
+	private static final String PROVISION_COMMAND = "provision";
 	
 	
 
@@ -76,8 +80,10 @@ public class CommandManager {
 		commands.put(CREATE_NEW_PASSWORD_COMMAND, new CreateNewPassComand());
 		commands.put(CUSTOMER_SUPPORT_COMMAND, new CustomerSupportCommand());
 		commands.put(CREATE_DEVICE_COMMAND, new CreateDeviceCommand());
-
 		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
+		commands.put(SUPPORT_COMMAND, new DisplayTasksCommand());
+		commands.put(INSTALLATION_COMMAND, new DisplayTasksCommand());
+		commands.put(PROVISION_COMMAND, new DisplayTasksCommand());
 
 
 	}
