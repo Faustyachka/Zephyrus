@@ -56,11 +56,11 @@ public class ProfitabilityByMonth {
     }
 		return list;
 	}
-	public static String convertToExel (ArrayList<ProfitabilityByMonth> list) throws IOException
+	public static String convertToExel (ArrayList<ProfitabilityByMonth> list) throws IOException // REVIEW: convertToExcel is in every report method. Create Interface Report and use it as param to ExcelReportGenerator class, for instance.
 	{
 		Workbook workbook = null;
 		Row row = null;
-		Cell cell=null;
+		Cell cell=null;																			// REVIEW: watch formatting
 			//Read template file
 			FileInputStream template = null;
 			try {
@@ -94,7 +94,7 @@ public class ProfitabilityByMonth {
 			cell.setCellValue("=SUMM(B2:B"+rowIndex);
 			sheet.autoSizeColumn(0);
 			sheet.autoSizeColumn(1);
-			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");					// REVIEW: variable wasn't used
 			String fileName = "ProfitabilityByMonth" + ".xls";
 			File exelFile = new File(path + fileName);
 			FileOutputStream outFile = new FileOutputStream(exelFile);

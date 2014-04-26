@@ -7,7 +7,7 @@ import java.util.Date;
 
 /**
  * The persistent class for the SERVICE_ORDERS database table.
- * 
+ * 																								// REVIEW: author expected
  */
 
 public class ServiceOrder implements Serializable {

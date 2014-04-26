@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the SERVICE_LOCATIONS database table.
- * 
+ * 																								// REVIEW: author expected
  */
 
 public class ServiceLocation implements Serializable {

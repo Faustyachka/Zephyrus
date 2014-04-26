@@ -1,6 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.SQLException;
+import java.sql.SQLException;																
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,12 +13,12 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
-import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;													// REVIEW: unused imports found
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
-
+																											// REVIEW: documentation expected
 public class GetUsersSI extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -30,12 +30,12 @@ public class GetUsersSI extends SQLCommand {
 		if(action==null) {
 			return PAGES.SUPPORT_PAGE.getValue();
 		} else {
-		if (action.equals("list")) {
+		if (action.equals("list")) {																		// REVIEW: bad formatting
 		try{     
 				IServiceInstanceDAO dao = getOracleDaoFactory().getServiceInstanceDAO();	
 				int id = Integer.parseInt(request.getParameter("id"));
 				ArrayList<ServiceInstance> SO = dao.getServiceInstancesByUserId(id);	
-			    JsonElement element = gson.toJsonTree(SO, new TypeToken<List<ServiceInstance>>() {}.getType());			
+			    JsonElement element = gson.toJsonTree(SO, new TypeToken<List<ServiceInstance>>() {}.getType()); // REVIEW: should be refactored into few more lines
 			    JsonArray jsonArray = element.getAsJsonArray();			
 			    String listData=jsonArray.toString();   						
 			    listData="{\"Result\":\"OK\",\"Records\":"+listData+"}";  		
@@ -50,7 +50,7 @@ public class GetUsersSI extends SQLCommand {
 			     ex.printStackTrace();
 			
 			    }
-		} }	
+		} }																									// REVIEW: bad formatting
 		return PAGES.SUPPORT_VIEW_SI_PAGE.getValue();
 }
 }

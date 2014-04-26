@@ -20,10 +20,10 @@ import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
-
+																							// REVIEW: documentation expected
 public interface IDAOFactory {
-
-   ICableDAO getCableDAO() throws Exception;
+																							// REVIEW: documentation on EVERY DAO method expected
+   ICableDAO getCableDAO() throws Exception;												// REVIEW: Special DAOException class should be written 
    ICircuitDAO getCircuitDAO() throws Exception; 
    IDeviceDAO getDeviceDAO()  throws Exception;
    IOrderStatusDAO getOrderStatusDAO()  throws Exception;

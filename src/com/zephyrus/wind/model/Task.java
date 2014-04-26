@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the TASKS database table.
- * 
+ * 																									// REVIEW: author expected
  */
 
 public class Task implements Serializable {

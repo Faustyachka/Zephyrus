@@ -19,12 +19,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
-import com.zephyrus.wind.dao.oracleImp.OracleServiceOrderDAO;
+import com.zephyrus.wind.dao.oracleImp.OracleServiceOrderDAO;									// REVIEW: unused imports found
 import com.zephyrus.wind.managers.MessageManager;
 import com.zephyrus.wind.model.ServiceOrder;
-
+																								// REVIEW: documentation expected
 public class DisconnectOrdersPerPeriod {
-	static String path = "E:\\reports\\";
+	static String path = "E:\\reports\\";														// REVIEW: what the path is that?
 	private String username;
 	private String orderID;
 	private String orderStatus;
@@ -75,11 +75,11 @@ public class DisconnectOrdersPerPeriod {
 	public void setEndPeriod(Date endPeriod) {
 		this.endPeriod = endPeriod;
 	}
-	
+	// REVIEW: documentation expected
 	public static ArrayList<DisconnectOrdersPerPeriod> getListReport (Date startDate, Date endDate) throws Exception{
 		ArrayList<DisconnectOrdersPerPeriod> resultList = new ArrayList<DisconnectOrdersPerPeriod>();
 
-		OracleDAOFactory factory= new OracleDAOFactory();
+		OracleDAOFactory factory= new OracleDAOFactory();												
 	      try {
 	  		  DisconnectOrdersPerPeriod reportRow = new DisconnectOrdersPerPeriod();
     		  reportRow.setStartPeriod(startDate);
@@ -102,20 +102,20 @@ public class DisconnectOrdersPerPeriod {
 	    	  factory.endConnection();
 	      }
 		return resultList;
-	}
+	}																								// REVIEW: documentation expected
 	public static String convertToExel (ArrayList<DisconnectOrdersPerPeriod> list) throws IOException
 	{
 		Workbook workbook = null;
 		Row row = null;
-		Cell cell=null;
+		Cell cell=null;																				// REVIEW: watch formatting
 			//Read template file
 			FileInputStream template = null;
 			try {
 			template = new FileInputStream(new
-					File(path+"_NewOrdersPerPeriod.xls"));
+					File(path+"_NewOrdersPerPeriod.xls"));											// REVIEW: hardcode path
 			} catch (FileNotFoundException e) 
 			{
-
+																									// REVIEW: no error correction
 			}
 			workbook = new HSSFWorkbook(template);
 			Sheet sheet = workbook.getSheetAt(0);
@@ -146,7 +146,7 @@ public class DisconnectOrdersPerPeriod {
 			sheet.autoSizeColumn(2);
 			sheet.autoSizeColumn(3);
 			sheet.autoSizeColumn(4);
-			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
+			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");				// REVIEW: variable is not used
 			String fileName = "DisconnectOrdersPerPeriod" + ".xls";
 			File exelFile = new File(path + fileName);
 			FileOutputStream outFile = new FileOutputStream(exelFile);

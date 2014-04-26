@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the SERVICE_INSTANCE_STATUS database table.
- * 
+ * 																							// REVIEW: author expected
  */
 
 public class ServiceInstanceStatus implements Serializable {

@@ -13,7 +13,7 @@ import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 
 /**
- * 
+ * 																									// REVIEW: documenation expected
  * @author Alexandra Beskorovaynaya
  *
  */

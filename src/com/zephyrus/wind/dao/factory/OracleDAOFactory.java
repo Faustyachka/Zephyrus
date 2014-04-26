@@ -42,8 +42,8 @@ import com.zephyrus.wind.dao.oracleImp.OracleUserRoleDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleVSupportInstanceDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleVSupportOrderDAO;
 import com.zephyrus.wind.managers.ConnectionManager;
-
-public class OracleDAOFactory implements IDAOFactory {
+																								// REVIEW: documentation expected
+public class OracleDAOFactory implements IDAOFactory {											// REVIEW: documentation on EVERY public method expected
 	
 	private Connection connection = null;
     

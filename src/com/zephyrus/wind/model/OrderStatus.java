@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the ORDER_STATUS database table.
- * 
+ * 																							// REVIEW: author expected
  */
 
 public class OrderStatus implements Serializable {

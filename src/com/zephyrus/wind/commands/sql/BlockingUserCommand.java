@@ -11,7 +11,7 @@ import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.model.User;
 
 /**
- * 
+ * 																									// REVIEW: documentation expected
  * @author Alexandra Beskorovaynaya
  *
  */
@@ -24,13 +24,13 @@ public class BlockingUserCommand extends SQLCommand {
 		int userId = Integer.parseInt(request.getParameter("id"));
 		IDAO<User> dao = getOracleDaoFactory().getUserDAO();
 		User user = dao.findById(userId);		
-		if (user.getStatus().equals(USER_STATUS.BLOCKED.geValue())) {
-		user.setStatus(USER_STATUS.ACTIVE.geValue());
+		if (user.getStatus().equals(USER_STATUS.BLOCKED.geValue())) {								// REVIEW: typo: geValue method
+		user.setStatus(USER_STATUS.ACTIVE.geValue());												// REVIEW: wrong formatting
 		} else {
-			user.setStatus(USER_STATUS.BLOCKED.geValue());
+			user.setStatus(USER_STATUS.BLOCKED.geValue());											// REVIEW: typo: geValue method
 		}
 		dao.update(user);
-		return null;
+		return null;																				// REVIEW: null always returned
 	}
 
 }

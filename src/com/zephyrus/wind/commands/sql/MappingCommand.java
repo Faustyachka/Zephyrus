@@ -1,6 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.SQLException;
+import java.sql.SQLException;																		// REVIEW: unused imports found
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -16,14 +16,14 @@ import com.zephyrus.wind.model.ProductCatalogService;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
 import com.zephyrus.wind.model.ServiceLocation;
 /**
- * 
+ * 																									// REVIEW: documentation expected
  * @author Alexandra Beskorovaynaya
  *
  */
 public class MappingCommand extends SQLCommand{
 
 	@Override
-	public String doExecute(HttpServletRequest request,
+	public String doExecute(HttpServletRequest request,												// REVIEW: public doExecute
 			HttpServletResponse response) throws Exception {
 		
 		String longitude = null;

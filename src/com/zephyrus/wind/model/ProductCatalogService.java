@@ -1,11 +1,11 @@
 package com.zephyrus.wind.model;
 
 import java.io.Serializable;
-import java.math.BigDecimal;
-
+import java.math.BigDecimal;														// REVIEW: unused import
+																					// REVIEW: front documentation formatting
 /**
  * The persistent class for the PRODUCT_CATALOG and SERVICE_TYPE database table (PRODUCT_CATALOG.ID, PRODUCT_CATALOG.PRICE, SERVICE_TYPE.NAME)
- */
+ */																					// REVIEW: author expected
 
 public class ProductCatalogService implements Serializable {
 

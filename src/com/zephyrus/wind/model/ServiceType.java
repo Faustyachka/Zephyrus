@@ -5,7 +5,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the SERVICE_TYPE database table.
- * 
+ * 																								// REVIEW: author expected
  */
 
 public class ServiceType implements Serializable {

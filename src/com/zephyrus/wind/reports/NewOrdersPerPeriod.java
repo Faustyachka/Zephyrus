@@ -20,9 +20,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.model.ServiceOrder;
-
+																						// REVIEW: documentation expected
 public class NewOrdersPerPeriod {
-	static String path = "E:\\reports\\";
+	static String path = "E:\\reports\\";												// REVIEW: hardcode path
 	private String username;
 	private String orderID;
 	private String orderStatus;
@@ -73,7 +73,7 @@ public class NewOrdersPerPeriod {
 	public void setEndPeriod(Date endPeriod) {
 		this.endPeriod = endPeriod;
 	}
-	
+																							// REVIEW: documentation of ALL methods expected
 	public static ArrayList<NewOrdersPerPeriod> getListReport (Date startDate, Date endDate) throws Exception{
 		ArrayList<NewOrdersPerPeriod> resultList = new ArrayList<NewOrdersPerPeriod>();
 
@@ -83,7 +83,7 @@ public class NewOrdersPerPeriod {
     		  reportRow.setStartPeriod(startDate);
     		  reportRow.setEndPeriod(endDate);
 	    	  factory.beginConnection();
-	    	  IServiceOrderDAO dao = factory.getServiceOrderDAO();
+	    	  IServiceOrderDAO dao = factory.getServiceOrderDAO();							// REVIEW: reportDAO should be used
 	    	  ArrayList<ServiceOrder> dbList = dao.getNewSOByPeriod(startDate, endDate);
 	    	  for(Iterator<ServiceOrder> i=dbList.iterator(); i.hasNext();){
 	    		  reportRow.setUsername(i.next().getServiceLocation().getUser().getEmail());

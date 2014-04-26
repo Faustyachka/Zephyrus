@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the USER_ROLES database table.
- * 
+ * 																								// REVIEW: author expected
  */
 
 public class UserRole implements Serializable {

@@ -7,7 +7,7 @@ import java.sql.Date;
 
 /**
  * The persistent class for the USERS database table.
- * 
+ * 																									// REVIEW: author expected
  */
 
 public class User implements Serializable {

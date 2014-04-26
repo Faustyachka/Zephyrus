@@ -5,10 +5,10 @@ import java.util.ArrayList;
 
 import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.reports.ProfitabilityByMonth;
-
+																							// REVIEW: documentation expected
 public interface IProviderLocationDAO extends IDAO<ProviderLocation> {
 
 	ArrayList<ProfitabilityByMonth> getProfitByMonth(Date month)
-			throws Exception;
+			throws Exception;																// REVIEW: throws DAOException
 
 }

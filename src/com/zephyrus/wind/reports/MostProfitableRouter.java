@@ -19,12 +19,12 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
-
+																								// REVIEW: documentation expected
 public class MostProfitableRouter {
-	static String path = "E:\\reports\\";
+	static String path = "E:\\reports\\";														// REVIEW: hardcode path
 	private String routerSN;
 	private Long profit;
-	
+																								// REVIEW: documentation of ALL public methods expected
 	public String getRouterSN() {
 		return routerSN;
 	}
@@ -43,7 +43,7 @@ public class MostProfitableRouter {
 		OracleDAOFactory factory= new OracleDAOFactory();
 	      try { 
 	    	  factory.beginConnection();
-	    	  IDeviceDAO dao = factory.getDeviceDAO();
+	    	  IDeviceDAO dao = factory.getDeviceDAO();											// REVIEW: reportDAO should be invoked
 	    	  list = dao.getProfitRouter();
       } catch(SQLException ex){
           ex.printStackTrace();
@@ -52,7 +52,7 @@ public class MostProfitableRouter {
       }
 		return list;	
 	}
-	public static String convertToExel (ArrayList<MostProfitableRouter> list) throws IOException
+	public static String convertToExel (ArrayList<MostProfitableRouter> list) throws IOException	// REVIEW: watch formatting
 	{
 		Workbook workbook = null;
 		Row row = null;

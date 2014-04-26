@@ -18,7 +18,7 @@ import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
-
+																								// REVIEW: documentation expected
 public class SendOrderCommand extends SQLCommand {
 	
 	@Override
@@ -33,7 +33,7 @@ public class SendOrderCommand extends SQLCommand {
 		if (orderId != null){
 			order = orderDAO.findById(orderId);
 		} else{
-			order = new SaveOrderCommand().returnOrder(request, response);
+			order = new SaveOrderCommand().returnOrder(request, response);						// REVIEW: is this really work? invoke method of one Command from another one? what is other Command was not executed yet? 
 		}
 		if(order == null){
 			request.setAttribute("error", "No order to send!");
@@ -47,11 +47,11 @@ public class SendOrderCommand extends SQLCommand {
 		ServiceInstance serviceInstance = new ServiceInstance();
 		serviceInstance.setProductCatalog(order.getProductCatalog());
 		ServiceInstanceStatus instanceStatus = new ServiceInstanceStatus();
-		instanceStatus.setId(SERVICEINSTANCE_STATUS.PLANNED.getId());
+		instanceStatus.setId(SERVICEINSTANCE_STATUS.PLANNED.getId());							// REVIEW: InstanceStatus should be obtained by find in generic DAO
 		instanceStatus.setServInstanceStatusValue(SERVICEINSTANCE_STATUS.PLANNED.name());
 		serviceInstance.setServInstanceStatus(instanceStatus);
 		serviceInstance.setStartDate(s);
-		serviceInstance.setCircuit(new Circuit());
+		serviceInstance.setCircuit(new Circuit());												// REVIEW: Circuit creation is responsibility of Provisioning Engineer
 		serviceInstance.setUser((User) request.getSession().getAttribute("user"));
 		serviceInstance = instanceDAO.insert(serviceInstance);
 		order.setServiceInstance(serviceInstance);

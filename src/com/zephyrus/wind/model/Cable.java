@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the CABLES database table.
- * 
+ * 																						// REVIEW: author expected
  */
 
 public class Cable implements Serializable {

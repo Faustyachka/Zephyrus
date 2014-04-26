@@ -9,17 +9,17 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.model.User;
-
+																								// REVIEW: documentation expected
 public class LoginCommand extends SQLCommand {
 
 	@Override
-	public String doExecute(HttpServletRequest request,
+	public String doExecute(HttpServletRequest request,											// REVIEW: public doExecute
 			HttpServletResponse response) throws Exception {
 		String userName = request.getUserPrincipal().getName();
 		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
 		User user = userDAO.findByEmail(userName);
 		if(user != null){
-			if(user.getStatus()==USER_STATUS.BLOCKED.geValue()){
+			if(user.getStatus()==USER_STATUS.BLOCKED.geValue()){								// REVIEW: typo: geValue
 				request.logout();
 				request.setAttribute("message", "Your account " + userName + "is blocked!");
 				return PAGES.MESSAGE_PAGE.getValue();
@@ -35,7 +35,7 @@ public class LoginCommand extends SQLCommand {
 						return null;
 				}
 			}
-		}
+		}																						// REVIEW: bad formatting
 		}
 		
 		return PAGES.HOME_PAGE.getValue();

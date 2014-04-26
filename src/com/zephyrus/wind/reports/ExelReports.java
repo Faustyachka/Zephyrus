@@ -1,6 +1,6 @@
 package com.zephyrus.wind.reports;
 
-import java.io.File;
+import java.io.File;																		// REVIEW: unused imports
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -29,14 +29,14 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.sun.xml.bind.v2.schemagen.xmlschema.List;
 
 /**
- * Servlet implementation class ExelReports
- */
-@WebServlet("/ExelReports")
+ * Servlet implementation class ExelReports														// REVIEW: documentation should be extended
+ */																								// REVIEW: author expected
+@WebServlet("/ExelReports")																		// REVIEW: servlet name should be ended with "Servlet")
 public class ExelReports extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * @see HttpServlet#HttpServlet()
+	 * @see HttpServlet#HttpServlet()															// REVIEW: documentation expected - @see tag gives no clue about method functionality
 	 */
 	public ExelReports() {
 		super();
@@ -50,9 +50,9 @@ public class ExelReports extends HttpServlet {
 	protected void doGet(HttpServletRequest request,
 			HttpServletResponse response) throws ServletException, IOException {
 		PrintWriter out = response.getWriter();
-		out.println("12312313");
+		out.println("12312313");																// REVIEW: what it this?
 		try {
-//			String path = "E:\\reports\\";
+//			String path = "E:\\reports\\";														// REVIEW: commented code
 //			ArrayList <ProfitabilityByMonth> list = new ArrayList<ProfitabilityByMonth>();
 //			Workbook workbook = ProfitabilityByMonth.convertToExel(list);
 //			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");

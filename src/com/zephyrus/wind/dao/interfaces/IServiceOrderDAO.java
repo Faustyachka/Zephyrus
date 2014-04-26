@@ -1,11 +1,11 @@
 package com.zephyrus.wind.dao.interfaces;
 
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.sql.SQLException;																		// REVIEW: unused import
+import java.util.ArrayList;	
 import java.sql.Date;
 
 import com.zephyrus.wind.model.ServiceOrder;
-
+																									// REVIEW: documentation expected, DAOException should be thrown
 public interface IServiceOrderDAO extends IDAO<ServiceOrder> {
 
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceInstanceId(int id)

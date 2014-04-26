@@ -19,9 +19,9 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
-
+																						// REVIEW: documentation expected
 public class RouterUtil {
-	static String path = "E:\\reports\\";
+	static String path = "E:\\reports\\";												// REVIEW: hardcode path
 	private String routerSN;
 	private double capacity;
 	private double routerUtil;
@@ -60,7 +60,7 @@ public class RouterUtil {
     }
 		return list;
 		
-	}
+	} // REVIEW: documentation expected & refactoring should be performed - Interface Report and ExcelReportGenerator class
 	public static String convertToExel (ArrayList<RouterUtil> list) throws IOException
 	{
 		Workbook workbook = null;

@@ -18,7 +18,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
- * 
+ * 																									// REVIEW: documentation expected
  * @author Alexandra Beskorovaynaya
  *
  */
@@ -28,7 +28,7 @@ public class CreateUserCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		IDAO<User> oud;
+		IDAO<User> oud;																				// REVIEW: variable name is not suitable // REVIEW: Implementation too far from usage  
 		int counter=0;
 		String name = request.getParameter("firstname");
 		String sname = request.getParameter("secondname");
@@ -38,7 +38,7 @@ public class CreateUserCommand extends SQLCommand {
 		int roleId = Integer.parseInt(request.getParameter("engtype"));
 		oud = getOracleDaoFactory().getUserDAO();
 		Date s = new Date(new java.util.Date().getTime());
-		ArrayList<User> users = oud.findAll();
+		ArrayList<User> users = oud.findAll();														// REVIEW: method is forbidden
 		if (name.equals("")) {
 			response.setContentType("text/plain");  
 		    response.setCharacterEncoding("UTF-8"); 
@@ -72,12 +72,12 @@ public class CreateUserCommand extends SQLCommand {
 		    response.getWriter().write("Bad email"); 
 		    return null;
 		} 
-		for (User u: users) {
-			if (u.getEmail().equals(email)) {
+		for (User u: users) {																			// REVIEW: this check should be performed in userDAO. Corresponding DAO method should be written
+			if (u.getEmail().equals(email)) {															
 				counter++;
 			}
 		}
-		if (counter>0) {
+		if (counter>0) {																				// This check should be deleted due to needlessness
 			response.setContentType("text/plain");  
 		    response.setCharacterEncoding("UTF-8"); 
 		    response.getWriter().write("This email already exist in system"); 
@@ -92,12 +92,12 @@ public class CreateUserCommand extends SQLCommand {
 			IDAO<UserRole> ord = getOracleDaoFactory().getUserRoleDAO();
 			UserRole role = ord.findById(roleId);
 			user.setRole(role);
-			user.setRegistrationData(s);			
+			user.setRegistrationData(s);																// Method should be renamed: setRegistrationData -> setRegistrationDate		
 			oud.insert(user);			
 			response.setContentType("text/plain");  
 		    response.setCharacterEncoding("UTF-8"); 
 		    response.getWriter().write("Account created!"); 
-			
+																										// Empty line
 		}
 		return null;
 	}

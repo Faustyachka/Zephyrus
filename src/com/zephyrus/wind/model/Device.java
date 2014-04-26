@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 /**
  * The persistent class for the DEVICES database table.
- * 
+ * 																										// REVIEW: author expected
  */
 
 public class Device implements Serializable {

@@ -24,7 +24,7 @@ import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
-
+																										// REVIEW: documentation expected
 public class CommandManager {
 
 	HashMap<String, Command> commands = new HashMap<String, Command>();
@@ -44,9 +44,9 @@ public class CommandManager {
 
 	private static final String CREATE_ACCOUNT_COMMAND = "createaccount";
 	private static final String BLOCKING_USER_COMMAND = "blocking";
-	private static final String REASSIGN_COMMAND = "reassign";
+	private static final String REASSIGN_COMMAND = "reassign";											// REVIEW: command was not used
 	private static final String CREATE_NEW_PASSWORD_COMMAND = "createnewpass";
-	private static final String REVIEW_USER_COMMAND = "review";
+	private static final String REVIEW_USER_COMMAND = "review";											// REVIEW: command was not used
 	private static final String CUSTOMER_SUPPORT_COMMAND = "customersupport";
 	private static final String CREATE_DEVICE_COMMAND = "createdevice";
 	
@@ -81,7 +81,7 @@ public class CommandManager {
 
 
 	}
-
+																										// REVIEW: documentation expected
 	public Command getCommand(HttpServletRequest request) {
 
 		String action = null;
@@ -97,7 +97,7 @@ public class CommandManager {
 		// receiving the object of Command
 		return getCommand(action);
 	}
-
+																										// REVIEW: documentation expected
 	public Command getCommand(String action) {
 		Command command = commands.get(action);
 		if (command == null) {
