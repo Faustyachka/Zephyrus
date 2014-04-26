@@ -47,54 +47,49 @@ import com.zephyrus.wind.managers.ConnectionManager;
 
 /**
  * This class generates DAO instances and encapsulates connection to DB
- * 
  * @author Bogdan Bodnar & Igor Litvinenko
  */
-public class OracleDAOFactory implements IDAOFactory { // REVIEW: documentation
-														// on EVERY public
-														// method expected
+public class OracleDAOFactory implements IDAOFactory {											// REVIEW: documentation on EVERY public method expected
 
 	private Connection connection = null;
-
-	public OracleDAOFactory() {
-	}
-
-	/**
-	 * Obtains connection from pool for current factory. Sets auto commit to
-	 * false
-	 * 
-	 * @throws SQLException
-	 *             if failed to obtain connection
-	 */
-	public void beginConnection() throws SQLException {
-		connection = ConnectionManager.INSTANCE.getConnection();
-		connection.setAutoCommit(false);
-	}
-
-	/**
-	 * Closes connection obtained by factory
-	 * 
-	 * @throws SQLException
-	 *             if failed to close connection
-	 */
-	public void endConnection() throws SQLException {
-		if (connection != null) {
-			connection.close();
-		}
-	}
-
-	/**
-	 * This function commits current transaction, presented by executions
-	 * between <code>beginConnection()</code> and <code>endConnection()</code>
-	 * 
-	 * @throws SQLException
-	 *             if failed to commit
-	 */
-	public void commitTransaction() throws SQLException {
-		if (connection != null) {
-			connection.commit();
-		}
-	}
+    
+    public OracleDAOFactory(){
+    }
+    
+    /**
+     * Obtains connection from pool for current factory.
+     * Sets auto commit to false
+     * @throws SQLException if failed to obtain connection
+     */
+    public void beginConnection() throws SQLException{
+        connection = ConnectionManager.INSTANCE.getConnection();
+        connection.setAutoCommit(false);
+    }
+    
+    /**
+     * Closes connection obtained by factory
+     * @throws SQLException if failed to close connection
+     */
+    public void endConnection() {
+        if(connection != null) {
+        	try {
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+        }
+    }
+    
+    /**
+     * This function commits current transaction, presented by executions between 
+     * <code>beginConnection()</code> and <code>endConnection()</code>
+     * @throws SQLException if failed to commit
+     */
+    public void commitTransaction() throws SQLException {
+    	if(connection != null) {
+        	connection.commit();
+        }
+    }
 
 	@Override
 	public ICableDAO getCableDAO() throws Exception {
@@ -183,12 +178,13 @@ public class OracleDAOFactory implements IDAOFactory { // REVIEW: documentation
 	}
 
 	@Override
-	public IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception {
+	public IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception {	
 		return new OracleVSupportInstanceDAO(connection, this);
 	}
 
 	@Override
 	public IVSupportOrderDAO getVSupportOrderDAO() throws Exception {
+
 		return new OracleVSupportOrderDAO(connection, this);
 	}
 
@@ -197,3 +193,4 @@ public class OracleDAOFactory implements IDAOFactory { // REVIEW: documentation
 		return (IReportDAO) new OracleReportDAO(connection, this);
 	}
 }
+
