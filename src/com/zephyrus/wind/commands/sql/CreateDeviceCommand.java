@@ -72,7 +72,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		device.setSerialNum(serialNum);
 		dao.insert(device);
 		
-		request.setAttribute("message", "Device created <br> <a href='/Zephyrus/installation'>return to home page</a>");		
+		request.setAttribute("message", "Device created <br> <a href='/Zephyrus/installation/newWorkflowTasks.jsp'>return to home page</a>");		
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 
