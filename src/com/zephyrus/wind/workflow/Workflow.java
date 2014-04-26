@@ -7,7 +7,9 @@ import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
+import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.enums.ORDER_STATUS;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.enums.TASK_STATUS;
 import com.zephyrus.wind.model.OrderStatus;
@@ -74,10 +76,13 @@ public abstract class Workflow {
      * @param factory DAO implementations factory
      * @param userRole identifies user group to create task for
      */
-    protected void createTask(OracleDAOFactory factory, UserRole userRole) throws Exception {
+    protected void createTask(OracleDAOFactory factory, ROLE role) throws Exception {
         ITaskDAO taskDAO = factory.getTaskDAO();
         ITaskStatusDAO statusDAO = factory.getTaskStatusDAO();
-
+        IUserRoleDAO roleDAO = factory.getUserRoleDAO();
+        
+        UserRole userRole = roleDAO.findById(role.getId());
+        
         Task task = new Task();
         task.setUser(null);
         task.setRole(userRole);
