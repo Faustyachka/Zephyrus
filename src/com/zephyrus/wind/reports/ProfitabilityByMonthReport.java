@@ -18,47 +18,37 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
-import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
+import com.zephyrus.wind.dao.interfaces.IReportDAO;
+import com.zephyrus.wind.reports.rowObjects.ProfitabilityByMonthRow;
 
-public class ProfitabilityByMonth {
+public class ProfitabilityByMonthReport implements IReport{
 	static String path = "E:\\reports\\";
-	private String providerLocation;
-	private Long profit;
-
-	public String getProviderLocation() {
-		return providerLocation;
+	private ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();
+	
+	public ArrayList<ProfitabilityByMonthRow> getReport() {
+		return report;
 	}
 
-	public void setProviderLocation(String providerLocation) {
-		this.providerLocation = providerLocation;
+	public void setReport(ArrayList<ProfitabilityByMonthRow> report) {
+		this.report = report;
 	}
-
-	public Long getProfit() {
-		return profit;
-	}
-
-	public void setProfit(Long profit) {
-		this.profit = profit;
-	}
-
-	public static ArrayList<ProfitabilityByMonth> getProfitabilityByMonthReport(
-			Date month) throws Exception {
-		ArrayList<ProfitabilityByMonth> list = new ArrayList<ProfitabilityByMonth>();
+	
+	public ProfitabilityByMonthReport(Date month) throws Exception{
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
-			IProviderLocationDAO dao = factory.getProviderLocationDAO();
-			list = dao.getProfitByMonth(month);
+			IReportDAO dao = factory.getReportDAO();
+			report = dao.getProfitByMonthReport(month);
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			factory.endConnection();
 		}
-		return list;
 	}
 
-	public static Workbook convertToExel(ArrayList<ProfitabilityByMonth> list)
+
+	public Workbook convertToExel()
 			throws IOException // REVIEW: convertToExcel is in every report
 								// method. Create Interface Report and use it as
 								// param to ExcelReportGenerator class, for
@@ -78,7 +68,7 @@ public class ProfitabilityByMonth {
 		workbook = new HSSFWorkbook(template);
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
-		Iterator<ProfitabilityByMonth> iterator = list.iterator();
+		Iterator<ProfitabilityByMonthRow> iterator = report.iterator();
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
 			row = sheet.createRow(rowIndex++);
@@ -101,4 +91,6 @@ public class ProfitabilityByMonth {
 		sheet.autoSizeColumn(1);
 		return workbook;
 	}
+
+
 }
