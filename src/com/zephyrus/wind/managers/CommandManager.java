@@ -55,6 +55,8 @@ public class CommandManager {
 	private static final String REVIEW_USER_COMMAND = "review";											// REVIEW: command was not used
 	private static final String CUSTOMER_SUPPORT_COMMAND = "customersupport";
 	private static final String CREATE_DEVICE_COMMAND = "createdevice";
+	private static final String CREATE_CABLE_COMMAND = "createcable";
+	private static final String DELETE_CABLE_COMMAND = "deletecable";
 
 	private static final String SUPPORT_COMMAND = "support";
 	private static final String INSTALLATION_COMMAND = "installation";
@@ -87,6 +89,9 @@ public class CommandManager {
 		commands.put(CREATE_NEW_PASSWORD_COMMAND, new CreateNewPassComand());
 		commands.put(CUSTOMER_SUPPORT_COMMAND, new CustomerSupportCommand());
 		commands.put(CREATE_DEVICE_COMMAND, new CreateDeviceCommand());
+		commands.put(CREATE_DEVICE_COMMAND, new CreateDeviceCommand());
+		commands.put(CREATE_CABLE_COMMAND, new CreateCableCommand());
+		commands.put(DELETE_CABLE_COMMAND, new DeleteCableCommand());
 
 		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
 		commands.put(SUPPORT_COMMAND, new DisplayTasksCommand());

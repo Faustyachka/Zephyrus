@@ -4,20 +4,29 @@ package com.zephyrus.wind.commands.sql;
 import java.sql.SQLException;																
 
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.enums.PAGES;
-
 import com.zephyrus.wind.dao.oracleImp.OracleServiceOrderDAO;										    // REVIEW: unused imports found
 import com.zephyrus.wind.dao.oracleImp.OracleUserRoleDAO;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Task;
 
 /**
- * 																										// REVIEW: documentation expected
+ * 	
+ * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * It is supposed to create new device in the system.
+ * 
+ * @see com.zephyrus.wind.model.Device
+ * @see com.zephyrus.wind.enums.PAGES
+ * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
+ * 
+ * @return page with confirmation of successful creation of device							
  * @author Ielyzaveta Zubacheva
  */
 
@@ -37,17 +46,16 @@ public class CreateDeviceCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-
-		String serialID = request.getParameter("serialID");
-		if (serialID.isEmpty()) {																		// REVIEW: serialID null check expected
-			request.setAttribute("error", "Serial number cannot be empty");
-			request.setAttribute("SerialID", serialID);													// REVIEW: SerialID - first letter should be in lower case
-
+		String serialNum = request.getParameter("serialNum");
+		if (serialNum.isEmpty()) {
+			response.setContentType("text/plain");  
+		    response.setCharacterEncoding("UTF-8"); 
+		    response.getWriter().write("Serial number cannot be empty.");
 			return "installation/createDevice.jsp";
 		}
-
+		int counter = 0;
 		Device device = new Device();																	// REVIEW: device addition should be performed in Workflow class
-		device.setSerialNum(serialID);
+		device.setSerialNum(serialNum);
 		IDeviceDAO dao = getOracleDaoFactory().getDeviceDAO();
 		ArrayList<Device> devices = dao.findAll();
 		for (Device d: devices) {
@@ -61,22 +69,8 @@ public class CreateDeviceCommand extends SQLCommand {
 		    response.getWriter().write("The device with such serial number already exists in system"); 
 		    return null;
 		}
-		
-		Device device = new Device();
 		device.setSerialNum(serialNum);
 		dao.insert(device);
-		
-//		int orderId = Integer.parseInt(request.getParameter("orderId"));								// REVIEW: is this code valid?
-//		ServiceOrder so = new ServiceOrder();
-//		IServiceOrderDAO dao = oracleDaoFactory.getServiceOrderDAO();
-//		so = dao.findById(orderId);
-//		Task task = new Task();
-//		task.setServiceOrder(so);
-//		UserRole role = new UserRole();
-//		IUserRoleDAO daoRole = oracleDaoFactory.getUserRoleDAO();
-//		role = daoRole.findById("4");
-//		task.setRole(role);
-//		task.setTaskValue("Create Cable");
 		
 		request.setAttribute("message", "Device created <br> <a href='/Zephyrus/installation'>return to home page</a>");		
 		return PAGES.MESSAGE_PAGE.getValue();
