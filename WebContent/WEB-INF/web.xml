@@ -29,19 +29,18 @@
     <url-pattern>/logout</url-pattern>
     <url-pattern>/mapping</url-pattern>
     <url-pattern>/proceedOrder</url-pattern>
-	<url-pattern>/saveOrder</url-pattern>
-	<url-pattern>/sendOrder</url-pattern>
+    <url-pattern>/saveOrder</url-pattern>
+    <url-pattern>/sendOrder</url-pattern>
     <url-pattern>/createaccount</url-pattern>
     <url-pattern>/blocking</url-pattern>
-   <url-pattern>/reassign</url-pattern>
+    <url-pattern>/reassign</url-pattern>
     <url-pattern>/createnewpass</url-pattern>
     <url-pattern>/review</url-pattern>
-    <url-pattern>/customersupport</url-pattern> 
-    <url-pattern>/createdevice</url-pattern> 
+    <url-pattern>/customersupport</url-pattern>
+    <url-pattern>/createdevice</url-pattern>
     <url-pattern>/generateReport</url-pattern>
     <url-pattern>/customerOrders</url-pattern>
     <url-pattern>/customerServices</url-pattern>
-
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>
@@ -54,7 +53,7 @@
       <form-error-page>/view/loginError.jsp</form-error-page>
     </form-login-config>
   </login-config>
- <security-constraint>
+  <security-constraint>
     <web-resource-collection>
       <web-resource-name>Administrator</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
@@ -64,8 +63,8 @@
     </web-resource-collection>
     <auth-constraint>
       <role-name>ADMIN</role-name>
-    </auth-constraint> 
-  </security-constraint> 
+    </auth-constraint>
+  </security-constraint>
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>SupportEngineer</web-resource-name>
@@ -74,15 +73,10 @@
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
-
-     <auth-constraint>
-      <role-name>SUPPORT</role-name> 
-    </auth-constraint>  
-  </security-constraint>  
-
-
-
-
+    <auth-constraint>
+      <role-name>SUPPORT</role-name>
+    </auth-constraint>
+  </security-constraint>
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>ProvisionEngineer</web-resource-name>
@@ -133,8 +127,7 @@
       <role-name>INSTALLATION</role-name>
       <role-name>CUSTOMER</role-name>
     </auth-constraint>
-    </security-constraint>
-  
+  </security-constraint>
   <security-constraint>
     <web-resource-collection>
       <web-resource-name>General</web-resource-name>

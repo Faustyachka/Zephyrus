@@ -114,7 +114,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	@Override
 	//Return list of router and their util
 	public ArrayList<RouterUtil> getRouterUtil () throws Exception {
-		stmt = connection.prepareStatement(SQL_PROFIT);
+		stmt = connection.prepareStatement(SQL_UTIL);
 		rs = stmt.executeQuery();		
 		ArrayList<RouterUtil> resultList = new ArrayList<RouterUtil>();
 		RouterUtil item = new RouterUtil();
