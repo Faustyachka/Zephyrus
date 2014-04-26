@@ -12,7 +12,7 @@ import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.reports.ProfitabilityByMonth;
-import com.zephyrus.wind.reports.RouterUtil;
+import com.zephyrus.wind.reports.RouterUtilReport;
 
 public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> implements IProviderLocationDAO{
 	private static final String TABLE_NAME = "PROVIDER_LOCATIONS";
