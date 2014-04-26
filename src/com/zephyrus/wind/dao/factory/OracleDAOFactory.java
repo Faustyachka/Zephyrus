@@ -11,6 +11,7 @@ import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
+import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
@@ -30,6 +31,7 @@ import com.zephyrus.wind.dao.oracleImp.OracleOrderTypeDAO;
 import com.zephyrus.wind.dao.oracleImp.OraclePortDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleProductCatalogDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleProviderLocationDAO;
+import com.zephyrus.wind.dao.oracleImp.OracleReportDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleServiceInstanceDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleServiceInstanceStatusDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleServiceLocationDAO;
@@ -45,45 +47,54 @@ import com.zephyrus.wind.managers.ConnectionManager;
 
 /**
  * This class generates DAO instances and encapsulates connection to DB
+ * 
  * @author Bogdan Bodnar & Igor Litvinenko
  */
-public class OracleDAOFactory implements IDAOFactory {											// REVIEW: documentation on EVERY public method expected
-	
+public class OracleDAOFactory implements IDAOFactory { // REVIEW: documentation
+														// on EVERY public
+														// method expected
+
 	private Connection connection = null;
-    
-    public OracleDAOFactory(){
-    }
-    
-    /**
-     * Obtains connection from pool for current factory.
-     * Sets auto commit to false
-     * @throws SQLException if failed to obtain connection
-     */
-    public void beginConnection() throws SQLException{
-        connection = ConnectionManager.INSTANCE.getConnection();
-        connection.setAutoCommit(false);
-    }
-    
-    /**
-     * Closes connection obtained by factory
-     * @throws SQLException if failed to close connection
-     */
-    public void endConnection() throws SQLException{
-        if(connection != null) {
-        	connection.close();
-        }
-    }
-    
-    /**
-     * This function commits current transaction, presented by executions between 
-     * <code>beginConnection()</code> and <code>endConnection()</code>
-     * @throws SQLException if failed to commit
-     */
-    public void commitTransaction() throws SQLException {
-    	if(connection != null) {
-        	connection.commit();
-        }
-    }
+
+	public OracleDAOFactory() {
+	}
+
+	/**
+	 * Obtains connection from pool for current factory. Sets auto commit to
+	 * false
+	 * 
+	 * @throws SQLException
+	 *             if failed to obtain connection
+	 */
+	public void beginConnection() throws SQLException {
+		connection = ConnectionManager.INSTANCE.getConnection();
+		connection.setAutoCommit(false);
+	}
+
+	/**
+	 * Closes connection obtained by factory
+	 * 
+	 * @throws SQLException
+	 *             if failed to close connection
+	 */
+	public void endConnection() throws SQLException {
+		if (connection != null) {
+			connection.close();
+		}
+	}
+
+	/**
+	 * This function commits current transaction, presented by executions
+	 * between <code>beginConnection()</code> and <code>endConnection()</code>
+	 * 
+	 * @throws SQLException
+	 *             if failed to commit
+	 */
+	public void commitTransaction() throws SQLException {
+		if (connection != null) {
+			connection.commit();
+		}
+	}
 
 	@Override
 	public ICableDAO getCableDAO() throws Exception {
@@ -172,13 +183,17 @@ public class OracleDAOFactory implements IDAOFactory {											// REVIEW: docu
 	}
 
 	@Override
-	public IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception {	
+	public IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception {
 		return new OracleVSupportInstanceDAO(connection, this);
 	}
 
 	@Override
 	public IVSupportOrderDAO getVSupportOrderDAO() throws Exception {
-		
 		return new OracleVSupportOrderDAO(connection, this);
+	}
+
+	@Override
+	public IReportDAO getReportDAO() throws Exception {
+		return (IReportDAO) new OracleReportDAO(connection, this);
 	}
 }

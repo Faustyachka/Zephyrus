@@ -9,6 +9,7 @@ import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
+import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
@@ -42,4 +43,5 @@ public interface IDAOFactory {
    IUserRoleDAO getUserRoleDAO() throws Exception;
    IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception;
    IVSupportOrderDAO getVSupportOrderDAO() throws Exception;
+   IReportDAO getReportDAO() throws Exception;
 }

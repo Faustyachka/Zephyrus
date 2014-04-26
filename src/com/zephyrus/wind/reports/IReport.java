@@ -5,5 +5,5 @@ import java.util.ArrayList;
 import org.apache.poi.ss.usermodel.Workbook;
 
 public interface IReport {
-	public abstract Workbook convertToExel(ArrayList<Object> list) throws IOException ;
+	public  Workbook convertToExel() throws IOException ;
 }

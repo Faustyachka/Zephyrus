@@ -5,8 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Iterator;
+import java.util.LinkedHashMap;
+import java.util.Map.Entry;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -15,48 +16,38 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
-import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
+import com.zephyrus.wind.dao.interfaces.IReportDAO;
 
 // REVIEW: documentation expected
-public class MostProfitableRouter{
+public class MostProfitableRouterReport implements IReport{
 	static String path = "E:\\reports\\"; // REVIEW: hardcode path
-	private String routerSN;
-	private Long profit;
-
+	private LinkedHashMap<String, Long> report = new LinkedHashMap<String, Long>();
+	
+	
+	public LinkedHashMap<String, Long> getReport() {
+		return report;
+	}
+	
+	public void setReport(LinkedHashMap<String, Long> report) {
+		this.report = report;
+	}
+	
 	// REVIEW: documentation of ALL public methods expected
-	public String getRouterSN() {
-		return routerSN;
-	}
-
-	public void setRouterSN(String routerSN) {
-		this.routerSN = routerSN;
-	}
-
-	public Long getProfit() {
-		return profit;
-	}
-
-	public void setProfit(Long profit) {
-		this.profit = profit;
-	}
-
-	public static ArrayList<MostProfitableRouter> getListReport()
-			throws Exception {
-		ArrayList<MostProfitableRouter> list = new ArrayList<MostProfitableRouter>();
+	public MostProfitableRouterReport() throws Exception {
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
-			IDeviceDAO dao = factory.getDeviceDAO(); // REVIEW: reportDAO should
+			IReportDAO dao = factory.getReportDAO(); // REVIEW: reportDAO should
 														// be invoked
-			list = dao.getProfitRouter();
+			setReport(dao.getMostProfitableRouterReport());
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			factory.endConnection();
 		}
-		return list;
 	}
-	public  Workbook convertToExel(ArrayList<MostProfitableRouter> list)
+	
+	public  Workbook convertToExel()
 			throws IOException { // REVIEW: watch formatting
 		Workbook workbook = null;
 		Row row = null;
@@ -72,17 +63,20 @@ public class MostProfitableRouter{
 		workbook = new HSSFWorkbook(template);
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
-		Iterator<MostProfitableRouter> iterator = list.iterator();
+		Iterator<Entry<String, Long>> iterator = report.entrySet().iterator();
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
+			Entry<String, Long> pairs = iterator.next();
 			row = sheet.createRow(rowIndex++);
 			cell = row.createCell(0);
-			cell.setCellValue(iterator.next().getRouterSN());
+			cell.setCellValue(pairs.getKey());
 			cell = row.createCell(1);
-			cell.setCellValue(iterator.next().getProfit());
+			cell.setCellValue(pairs.getValue());
 		}
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);
 		return workbook;
 	}
+
+
 }
