@@ -16,9 +16,9 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
-	private static final String TABLE_NAME = "MISTERDAN.TASKS";
+	private static final String TABLE_NAME = "TASKS";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, TASK_VALUE, " + 
-    								  "USER_ID, TASK_STATUS_ID, ROLE_ID" +
+    								  "USER_ID, TASK_STATUS_ID, ROLE_ID " +
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -101,20 +101,31 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 		return SQL_REMOVE;
 	}
 
+	/**
+	 * Method allows to get active tasks for the given user.
+	 * @param user - user for which it is necessary to find out active tasks
+	 * @return list of active tasks 
+	 */
 	@Override
 	public ArrayList<Task> findActualTasksByUser(User user) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ? AND TASK_STATUS_ID = ?");
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=?");
 		stmt.setInt(1, user.getId());
-		stmt.setInt(2, TASK_STATUS.PROCESSING.getId());
+		stmt.setInt(2, TASK_STATUS.PROCESSING.getId()); //include only processing tasks   
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
-
+	
+	/**
+	 * Method allows to get free tasks inside the definite UserRole.
+	 * @param role user role for which it is necessary to find out free tasks
+	 * @return list of available tasks 
+	 */
 	@Override
 	public ArrayList<Task> findAvailableTasksByRole(UserRole role) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE TASK_STATUS_ID = ? AND ROLE_ID = ?");
-		stmt.setInt(1, TASK_STATUS.SUSPEND.getId());
-		stmt.setInt(2, role.getId());
+		stmt = connection.prepareStatement(SQL_SELECT + 
+				"WHERE TASK_STATUS_ID = ? AND ROLE_ID = ?");
+		stmt.setInt(1, TASK_STATUS.NEW.getId());         //include only free tasks
+		stmt.setInt(2, role.getId());					 //include tasks only for given role
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
