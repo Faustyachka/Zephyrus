@@ -3,12 +3,9 @@ package com.zephyrus.wind.reports;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
@@ -19,73 +16,73 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
-																								// REVIEW: documentation expected
-public class MostProfitableRouter {
-	static String path = "E:\\reports\\";														// REVIEW: hardcode path
+
+// REVIEW: documentation expected
+public class MostProfitableRouter{
+	static String path = "E:\\reports\\"; // REVIEW: hardcode path
 	private String routerSN;
 	private Long profit;
-																								// REVIEW: documentation of ALL public methods expected
+
+	// REVIEW: documentation of ALL public methods expected
 	public String getRouterSN() {
 		return routerSN;
 	}
+
 	public void setRouterSN(String routerSN) {
 		this.routerSN = routerSN;
 	}
+
 	public Long getProfit() {
 		return profit;
 	}
+
 	public void setProfit(Long profit) {
 		this.profit = profit;
 	}
 
-	public static ArrayList<MostProfitableRouter> getListReport () throws Exception{
+	public static ArrayList<MostProfitableRouter> getListReport()
+			throws Exception {
 		ArrayList<MostProfitableRouter> list = new ArrayList<MostProfitableRouter>();
-		OracleDAOFactory factory= new OracleDAOFactory();
-	      try { 
-	    	  factory.beginConnection();
-	    	  IDeviceDAO dao = factory.getDeviceDAO();											// REVIEW: reportDAO should be invoked
-	    	  list = dao.getProfitRouter();
-      } catch(SQLException ex){
-          ex.printStackTrace();
-      } finally{
-    	  factory.endConnection();
-      }
-		return list;	
+		OracleDAOFactory factory = new OracleDAOFactory();
+		try {
+			factory.beginConnection();
+			IDeviceDAO dao = factory.getDeviceDAO(); // REVIEW: reportDAO should
+														// be invoked
+			list = dao.getProfitRouter();
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		} finally {
+			factory.endConnection();
+		}
+		return list;
 	}
-	public static String convertToExel (ArrayList<MostProfitableRouter> list) throws IOException	// REVIEW: watch formatting
-	{
+	public  Workbook convertToExel(ArrayList<MostProfitableRouter> list)
+			throws IOException { // REVIEW: watch formatting
 		Workbook workbook = null;
 		Row row = null;
-		Cell cell=null;
-			//Read template file
-			FileInputStream template = null;
-			try {
-			template = new FileInputStream(new
-					File(path+"_MostProfitableRouter.xls"));
-			} catch (FileNotFoundException e) 
-			{
+		Cell cell = null;
+		// Read template file
+		FileInputStream template = null;
+		try {
+			template = new FileInputStream(new File(path
+					+ "_MostProfitableRouter.xls"));
+		} catch (FileNotFoundException e) {
 
-			}
-			workbook = new HSSFWorkbook(template);
-			Sheet sheet = workbook.getSheetAt(0);
-			//Write data to workbook
-			Iterator<MostProfitableRouter> iterator = list.iterator();
-			int rowIndex = 1;
-			while(iterator.hasNext()){
-				row = sheet.createRow(rowIndex++);
-				cell = row.createCell(0);
-				cell.setCellValue(iterator.next().getRouterSN());
-				cell = row.createCell(1);
-				cell.setCellValue(iterator.next().getProfit());
-			}
-			sheet.autoSizeColumn(0);
-			sheet.autoSizeColumn(1);
-			SimpleDateFormat sdf = new SimpleDateFormat("dd_M_yyyy_hh_mm_ss");
-			String fileName = "MostProfitableRouter" + sdf.format(new Date()) + ".xls";
-			File exelFile = new File(path + fileName);
-			FileOutputStream outFile = new FileOutputStream(exelFile);
-			workbook.write(outFile);
-			outFile.close();
-			return path+fileName;
+		}
+		workbook = new HSSFWorkbook(template);
+		Sheet sheet = workbook.getSheetAt(0);
+		// Write data to workbook
+		Iterator<MostProfitableRouter> iterator = list.iterator();
+		int rowIndex = 1;
+		while (iterator.hasNext()) {
+			row = sheet.createRow(rowIndex++);
+			cell = row.createCell(0);
+			cell.setCellValue(iterator.next().getRouterSN());
+			cell = row.createCell(1);
+			cell.setCellValue(iterator.next().getProfit());
+		}
+		sheet.autoSizeColumn(0);
+		sheet.autoSizeColumn(1);
+		return workbook;
 	}
 }
