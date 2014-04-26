@@ -3,14 +3,18 @@ package com.zephyrus.wind.dao.oracleImp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
+import com.zephyrus.wind.dao.interfaces.ICableDAO;
+import com.zephyrus.wind.dao.interfaces.IDAO;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.ProductCatalog;
 
 public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
@@ -80,6 +84,36 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	@Override
 	protected String getDelete() {
 		return SQL_REMOVE;
+	}
+	
+
+	@Override
+	public int findFreePort() throws Exception {
+		ArrayList<Port> ports = daoFactory.getPortDAO().findAll();
+		ArrayList<Device> devices = daoFactory.getDeviceDAO().findAll();
+		ICableDAO cable = daoFactory.getCableDAO();
+		for (Device d: devices){
+			int i = 1;
+			for (Port p: ports){
+				if (d.getId() == p.getDevice().getId()){
+					if (cable.findPortID(p.getId())){
+						i++;
+					} else {
+						return findByDevPortID(d.getId(), i).getId();
+					}
+				}
+			}
+		}
+		return 0;
+	}
+
+	@Override
+	public Port findByDevPortID(int devId, int portId) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + " WHERE (DEVICE_ID = ? and PORT_NUMBER = ? )");
+		stmt.setInt(1, devId);
+		stmt.setInt(2, portId);
+		rs = stmt.executeQuery();
+		return fetchSingleResult(rs);
 	}
 
 }

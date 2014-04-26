@@ -19,6 +19,9 @@ public class Cable implements Serializable {
 	private Port port;
 
 	private ServiceLocation serviceLocation;
+	
+	private String cableType;
+
 
 	public Cable() {
 	}
@@ -47,6 +50,12 @@ public class Cable implements Serializable {
 		this.serviceLocation = serviceLocation;
 	}
 
+	public String getCableType() {
+		return cableType;
+	}
 
+	public void setCableType(String cableType) {
+		this.cableType = cableType;
+	}
 
 }

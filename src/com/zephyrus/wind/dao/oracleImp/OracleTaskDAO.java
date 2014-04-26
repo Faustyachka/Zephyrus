@@ -17,26 +17,25 @@ import com.zephyrus.wind.model.UserRole;
 
 public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	private static final String TABLE_NAME = "TASKS";
-    private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, TASK_VALUE, " + 
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID " +
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET SERVICE_ORDER_ID = ?, TASK_VALUE = ?, " + 
+                                      " SET SERVICE_ORDER_ID = ?, " + 
                                       " USER_ID = ?, TASK_STATUS_ID = ?, ROLE_ID = ? WHERE " + 
                                       " ID = ?";
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
-                                      " (SERVICE_ORDER_ID, TASK_VALUE, " + 
+                                      " (SERVICE_ORDER_ID, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID) " +                                      
-                                      "VALUES (?,?,?,?,?) " + "RETURN ROWID INTO ?;END;";
+                                      "VALUES (?,?,?,?) " + "RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_ORDER_ID = 2;
-    private static final int COLUMN_TASK_VALUE = 3;  
-    private static final int COLUMN_USER_ID = 4;  
-    private static final int COLUMN_TASK_STATUS_ID = 5;  
-    private static final int COLUMN_ROLE_ID = 6;  
+    private static final int COLUMN_USER_ID = 3;  
+    private static final int COLUMN_TASK_STATUS_ID = 4;  
+    private static final int COLUMN_ROLE_ID = 5;  
 
 	public OracleTaskDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -46,8 +45,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	public void update(Task record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_SERVICE_ORDER_ID, record.getServiceOrder().getId());   
-    	stmt.setString(COLUMN_TASK_VALUE, record.getTaskValue());  
+    	stmt.setInt(COLUMN_SERVICE_ORDER_ID, record.getServiceOrder().getId()); 
     	stmt.setInt(COLUMN_USER_ID, record.getUser().getId());  
     	stmt.setInt(COLUMN_TASK_STATUS_ID, record.getTaskStatus().getId());  
     	stmt.setInt(COLUMN_ROLE_ID, record.getRole().getId());
@@ -59,11 +57,10 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	public Task insert(Task record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
-    	cs.setInt(1, record.getServiceOrder().getId());   
-    	cs.setString(2, record.getTaskValue());  
-    	cs.setInt(3, record.getUser().getId());  
-    	cs.setInt(4, record.getTaskStatus().getId());  
-    	cs.setInt(5, record.getRole().getId());
+    	cs.setInt(1, record.getServiceOrder().getId()); 
+    	cs.setInt(2, record.getUser().getId());  
+    	cs.setInt(3, record.getTaskStatus().getId());  
+    	cs.setInt(4, record.getRole().getId());
     	cs.registerOutParameter(5, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(5);
@@ -85,7 +82,6 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 		item.setServiceOrder(so);
 		TaskStatus ts = daoFactory.getTaskStatusDAO().findById(rs.getInt(COLUMN_TASK_STATUS_ID));
 		item.setTaskStatus(ts);
-		item.setTaskValue(rs.getString(COLUMN_TASK_VALUE));
 		User user = daoFactory.getUserDAO().findById(rs.getInt(COLUMN_USER_ID));
 		item.setUser(user);
 		

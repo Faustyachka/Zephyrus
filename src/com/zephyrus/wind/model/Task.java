@@ -23,9 +23,6 @@ public class Task implements Serializable {
 	
 	private TaskStatus taskStatus;
 
-	private String taskValue;
-
-
 	private User user;
 
 	public Task() {
@@ -37,16 +34,6 @@ public class Task implements Serializable {
 
 	public void setId(Integer id) {
 		this.id = id;
-	}
-
-	
-
-	public String getTaskValue() {
-		return taskValue;
-	}
-
-	public void setTaskValue(String taskValue) {
-		this.taskValue = taskValue;
 	}
 
 	public UserRole getRole() {
