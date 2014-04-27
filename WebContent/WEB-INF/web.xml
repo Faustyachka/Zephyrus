@@ -48,6 +48,8 @@
     <url-pattern>/installation</url-pattern>
     <url-pattern>/provision</url-pattern>
     <url-pattern>/taskRedirector</url-pattern>
+    <url-pattern>/assignTask</url-pattern>
+    <url-pattern>/createCircuit</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>
@@ -92,9 +94,9 @@
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
-    <auth-constraint>
+ <!--    <auth-constraint>
       <role-name>PROVISION</role-name>
-    </auth-constraint> 
+    </auth-constraint>  -->
   </security-constraint>
   <security-constraint>
     <web-resource-collection>

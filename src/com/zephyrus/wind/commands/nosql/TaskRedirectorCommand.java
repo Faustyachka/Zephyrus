@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
-import com.zephyrus.wind.model.UserRole;
 
 /** 																										 	
  * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.Command.
@@ -33,12 +32,7 @@ public class TaskRedirectorCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-//		User user = (User) request.getSession().getAttribute("user");
-		User user = new User();
-		user.setId(1);
-		UserRole userRole = new UserRole();
-		userRole.setId(3);
-		user.setRole(userRole);
+		User user = (User) request.getSession().getAttribute("user");
 		int taskId = Integer.parseInt(request.getParameter("id"));
 		
 		request.setAttribute("taskId", taskId);

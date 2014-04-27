@@ -10,8 +10,10 @@ import com.zephyrus.wind.commands.nosql.LogoutCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.nosql.RegisterPageCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
+import com.zephyrus.wind.commands.sql.AssignTaskCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
 import com.zephyrus.wind.commands.sql.CreateCableCommand;
+import com.zephyrus.wind.commands.sql.CreateCircuitCommand;
 import com.zephyrus.wind.commands.sql.CreateDeviceCommand;
 import com.zephyrus.wind.commands.sql.CreateNewPassComand;
 import com.zephyrus.wind.commands.sql.CreateUserCommand;
@@ -45,7 +47,6 @@ public class CommandManager {
 	private static final String SENDORDER_COMMAND = "sendOrder";
 	private static final String CUSTOMERORDERS_COMMAND = "customerOrders";
 	private static final String CUSTOMERSERVICES_COMMAND = "customerServices";
-
 	private static final String CREATE_ACCOUNT_COMMAND = "createaccount";
 	private static final String BLOCKING_USER_COMMAND = "blocking";
 	private static final String CREATE_NEW_PASSWORD_COMMAND = "createnewpass";		
@@ -55,17 +56,14 @@ public class CommandManager {
 	private static final String DELETE_CABLE_COMMAND = "deletecable";
 	private static final String NEW_CONNECTION_COMMAND = "newconnection";
 	private static final String CABLE_TYPES_COMMAND = "cabletypes";
-
 	private static final String SUPPORT_COMMAND = "support";
 	private static final String INSTALLATION_COMMAND = "installation";
 	private static final String PROVISION_COMMAND = "provision";
-
+	private static final String ASSIGN_TASK_COMMAND = "assignTask";
 	private static final String TASK_REDIRECTOR_COMMAND = "taskRedirector";
-
-	
-	
-
 	private static final String GENERATEREPORT_COMMAND = "generateReport";
+	private static final String CREATE_CIRCUIT_COMMAND = "createCircuit";
+	
 
 
 	public CommandManager() {
@@ -91,12 +89,13 @@ public class CommandManager {
 		commands.put(CREATE_DEVICE_COMMAND, new CreateDeviceCommand());
 		commands.put(CREATE_CABLE_COMMAND, new CreateCableCommand());
 		commands.put(DELETE_CABLE_COMMAND, new DeleteCableCommand());
-
 		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
 		commands.put(SUPPORT_COMMAND, new DisplayTasksCommand());
 		commands.put(INSTALLATION_COMMAND, new DisplayTasksCommand());
 		commands.put(PROVISION_COMMAND, new DisplayTasksCommand());
 		commands.put(TASK_REDIRECTOR_COMMAND, new TaskRedirectorCommand());
+		commands.put(ASSIGN_TASK_COMMAND, new AssignTaskCommand());
+		commands.put(CREATE_CIRCUIT_COMMAND, new CreateCircuitCommand());
 
 
 	}

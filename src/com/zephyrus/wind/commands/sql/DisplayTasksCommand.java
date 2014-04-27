@@ -48,14 +48,16 @@ public class DisplayTasksCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		
+		//checking is user authorized
+		if (request.getSession().getAttribute("user")==null) {
+			request.setAttribute("errorMessage", "You should login to view this page!"
+					+ " <a href='/Zephyrus/view/login.jsp'>login");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 		//Get user from HTTP session
-//		User user = (User) request.getSession().getAttribute("user");
-//		UserRole userRole = user.getRole();
-		User user = new User();
-		user.setId(1);
-		UserRole userRole = new UserRole();
-		userRole.setId(3);
-		user.setRole(userRole);
+		User user = (User) request.getSession().getAttribute("user");
+		UserRole userRole = user.getRole();
+
 		
 		//Find necessary lists of tasks for defined user
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();

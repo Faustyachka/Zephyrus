@@ -25,7 +25,7 @@
 	<h2>Available Tasks</h2>
 	<div id="workedOut">
 		<c:forEach items="${availableTasks}" var="availableTask">
-			<h5>${availableTask.id}</h5>
+			<h5>Task# ${availableTask.id}</h5>
 			<div>
 				<ul>
 					<li>Order date: ${availableTask.serviceOrder.orderDate}</li>

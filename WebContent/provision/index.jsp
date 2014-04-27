@@ -8,10 +8,14 @@
 <div class="navigation">
   <center>
    <br />
+   <a href="/Zephyrus/provision">
    <input name="tasks" type="button" value="Tasks" class="button" />
+   </a>
   <br />
   <br />
+  <a href="">
   <input name="reports" type="button" value="Reports" class="button" />
+  </a>
   </center></div>
   <div class="main">
 <jsp:include page="../view/tasks.jsp" />

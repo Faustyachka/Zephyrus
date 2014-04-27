@@ -43,6 +43,7 @@ public class AssignTaskCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		int taskId = Integer.parseInt(request.getParameter("id"));
+		
 		User user = (User) request.getSession().getAttribute("user");
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskId);
