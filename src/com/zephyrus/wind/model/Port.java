@@ -1,6 +1,10 @@
 package com.zephyrus.wind.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+
+import com.zephyrus.wind.dao.interfaces.ICableDAO;
+import com.zephyrus.wind.dao.interfaces.IPortDAO;
 
 
 
@@ -45,5 +49,6 @@ public class Port implements Serializable {
 	public void setPortNumber(Integer portNumber) {
 		this.portNumber = portNumber;
 	}
+	
 
 }

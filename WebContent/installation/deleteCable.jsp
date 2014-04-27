@@ -1,12 +1,20 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-    pageEncoding="ISO-8859-1"%>
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<title>Insert title here</title>
-</head>
-<body>
+<jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-</body>
-</html>
+<div class="navigation">
+  <center><input name="backtotask" type="button" value="Back to Task" class="button" />
+  </center></div>
+  <div class="main">
+  <center><h2>Delete a Cable</h2></center>
+  <form id="deletecable" name="deletecable" method="post" action="/Zephyrus/deletecable">
+  <table>
+  <tr>
+  <td>Choose device:</td><td><input type="text" name="deviceID" id="deviceID" /></td></tr>
+  <tr>
+  <td>Choose port:</td><td><input type="text" name="portNum" id="portNum" /></td></tr>
+  <tr>
+  <td></td><td><input type="submit" name="button" id="button" value="Delete a Cable" class="button"/></td>
+  	</table>
+</form>
+</div>
+
+<jsp:include page="../WEB-INF/jsphf/footer.jsp" />
