@@ -22,11 +22,4 @@ public enum ROLE {
         return id;
     }
     
-    /**
-     * Method for taking of users index page
-     * @return index page for defined user role
-     */
-    public String getIndexPage(){
-    	return home + "/index.jsp";
-    }
 }

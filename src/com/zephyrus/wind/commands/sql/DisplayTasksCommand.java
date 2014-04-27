@@ -49,8 +49,13 @@ public class DisplayTasksCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		
 		//Get user from HTTP session
-		User user = (User) request.getSession().getAttribute("user");
-		UserRole userRole = user.getRole();
+//		User user = (User) request.getSession().getAttribute("user");
+//		UserRole userRole = user.getRole();
+		User user = new User();
+		user.setId(1);
+		UserRole userRole = new UserRole();
+		userRole.setId(3);
+		user.setRole(userRole);
 		
 		//Find necessary lists of tasks for defined user
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
@@ -60,10 +65,14 @@ public class DisplayTasksCommand extends SQLCommand {
 
 		request.setAttribute("activeTasks", activeTasks);
 		request.setAttribute("availableTasks", availableTasks);
-		for (ROLE role : ROLE.values()) {
-			if (user.getRole().getId() == role.getId()) {
-				return role.getIndexPage();
-			}
+		if (userRole.getId()==ROLE.PROVISION.getId()) {
+			return "provision/index.jsp";
+		}
+		if (userRole.getId()==ROLE.INSTALLATION.getId()) {
+			return "installation/index.jsp";
+		}
+		if (userRole.getId()==ROLE.SUPPORT.getId()) {
+			return "support/index.jsp";
 		}
 
 		// If user is not authorized
