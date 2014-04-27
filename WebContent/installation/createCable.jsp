@@ -1,4 +1,6 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+
 
 <div class="navigation">
   <center><input name="backtotask" type="button" value="Back to Task" class="button" />
@@ -9,11 +11,14 @@
   <form id="createcable" name="createcable" method="post" action="/Zephyrus/createcable">
   <table>
   <tr>
-  <td>Choose device:</td><td><input type="text" name="deviceID" id="deviceID" /></td></tr>
+  <td>Choose cable type:</td>
+  <td><select>
+  <c:forEach items="cableTypes" var="cableType">
+  				<option value = "${cableType}">${cableType}</option>
+  		</c:forEach>
+  	</select></td></tr>
   <tr>
-  <td>Choose port:</td><td><input type="text" name="portNum" id="portNum" /></td></tr>
-  <tr>
-  <td></td><td><input type="submit" name="button" id="button" value="Delete a Cable" class="button"/></td>
+  <td></td><td><input type="submit" name="button" id="button" value="Create a Cable" class="button"/></td>
   	</table>
 </div>
 

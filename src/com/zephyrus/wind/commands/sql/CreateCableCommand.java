@@ -47,33 +47,10 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		String deviceID = request.getParameter("deviceID");
-		String portNum = request.getParameter("portNum");
-		if (deviceID.isEmpty()) {
-			response.setContentType("text/plain");  
-		    response.setCharacterEncoding("UTF-8"); 
-		    response.getWriter().write("Device should be chosen.");
-			return "installation/createCable.jsp";
-		}
-		if (portNum.isEmpty()) {
-			response.setContentType("text/plain");  
-		    response.setCharacterEncoding("UTF-8"); 
-		    response.getWriter().write("Port for cable should be chosen.");
-			return "installation/createCable.jsp";
-		}
+		String type = request.getParameter("cableType");
 		Cable cable = new Cable();
 		
-		ServiceLocation so = new ServiceLocation();
-		Device device = new Device();
-		IDeviceDAO devicedao = getOracleDaoFactory().getDeviceDAO();
-		device = devicedao.findById(Integer.parseInt(deviceID));
-		
-		Port port = new Port();
-		port.setPortNumber(Integer.parseInt(portNum));
-		port.setDevice(device);
-		
-		cable.setPort(port);
-		cable.setServiceLocation(so);
+		cable.setType(type);
 		ICableDAO dao = getOracleDaoFactory().getCableDAO();
 		dao.insert(cable);
 		

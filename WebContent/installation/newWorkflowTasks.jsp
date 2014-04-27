@@ -1,6 +1,9 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
+<link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
+<script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
+
 <div class="navigation">
   <center><input name="backtotask" type="button" value="Back to Tasks" class="button" />
   </center></div>
@@ -26,7 +29,8 @@
 			value="Create cable" class="button" />
 		</a></td></tr>
   <tr>
-  <td></td><td></td><td></td><td><input type="submit" name="button" id="button" value="Create connection" class="button"/></td>
+  <td></td><td></td><td></td><td><input type="submit" name="button" id="button" 
+  						value="Create connection" class="button"/></td>
   	</table>
   	</form>
 </div>

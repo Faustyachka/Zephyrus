@@ -54,6 +54,8 @@ public class CommandManager {
 	private static final String CREATE_DEVICE_COMMAND = "createdevice";
 	private static final String CREATE_CABLE_COMMAND = "createcable";
 	private static final String DELETE_CABLE_COMMAND = "deletecable";
+	private static final String NEW_CONNECTION_COMMAND = "newconnection";
+	private static final String CABLE_TYPES_COMMAND = "cabletypes";
 
 	private static final String SUPPORT_COMMAND = "support";
 	private static final String INSTALLATION_COMMAND = "installation";
