@@ -52,9 +52,10 @@ public abstract class Workflow {
 		try {
 			factory.beginConnection();
 			ITaskDAO taskDAO = factory.getTaskDAO();
-
+			
             Task task = taskDAO.findById(taskID);
-            User user = task.getUser();
+            User user = factory.getUserDAO().findById(userID);
+            
             if (isTaskValid(factory, taskID, user.getRole().getId())) {
                 task.setUser(user);
                 taskDAO.update(task);

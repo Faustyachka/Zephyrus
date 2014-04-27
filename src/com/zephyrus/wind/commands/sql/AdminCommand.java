@@ -10,7 +10,8 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.User;
-/**																										// REVIEW: no gap
+
+/**																										
  * 																										// REVIEW: documentation expected
  * @author Alexandra Beskorovaynaya
  *

@@ -104,7 +104,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	 */
 	@Override
 	public ArrayList<Task> findActualTasksByUser(User user) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=?");
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=? AND TASK_STATUS_ID=?");
 		stmt.setInt(1, user.getId());
 		stmt.setInt(2, TASK_STATUS.PROCESSING.getId()); //include only processing tasks   
 		rs = stmt.executeQuery();	

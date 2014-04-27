@@ -27,6 +27,7 @@ import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
+import com.zephyrus.wind.commands.nosql.TaskRedirectorCommand;
 																										// REVIEW: documentation expected
 public class CommandManager {
 
@@ -47,9 +48,7 @@ public class CommandManager {
 
 	private static final String CREATE_ACCOUNT_COMMAND = "createaccount";
 	private static final String BLOCKING_USER_COMMAND = "blocking";
-	private static final String REASSIGN_COMMAND = "reassign";											// REVIEW: command was not used
-	private static final String CREATE_NEW_PASSWORD_COMMAND = "createnewpass";
-	private static final String REVIEW_USER_COMMAND = "review";											// REVIEW: command was not used
+	private static final String CREATE_NEW_PASSWORD_COMMAND = "createnewpass";		
 	private static final String CUSTOMER_SUPPORT_COMMAND = "customersupport";
 	private static final String CREATE_DEVICE_COMMAND = "createdevice";
 	private static final String CREATE_CABLE_COMMAND = "createcable";
@@ -60,6 +59,8 @@ public class CommandManager {
 	private static final String SUPPORT_COMMAND = "support";
 	private static final String INSTALLATION_COMMAND = "installation";
 	private static final String PROVISION_COMMAND = "provision";
+
+	private static final String TASK_REDIRECTOR_COMMAND = "taskRedirector";
 
 	
 	
@@ -82,7 +83,6 @@ public class CommandManager {
 		commands.put(CUSTOMERORDERS_COMMAND, new CustomerOrdersCommand());
 		commands.put(CUSTOMERSERVICES_COMMAND, new CustomerServicesCommand());
 		commands.put(SENDORDER_COMMAND, new SendOrderCommand());
-
 		commands.put(CREATE_ACCOUNT_COMMAND, new CreateUserCommand());
 		commands.put(BLOCKING_USER_COMMAND, new BlockingUserCommand());
 		commands.put(CREATE_NEW_PASSWORD_COMMAND, new CreateNewPassComand());
@@ -96,6 +96,7 @@ public class CommandManager {
 		commands.put(SUPPORT_COMMAND, new DisplayTasksCommand());
 		commands.put(INSTALLATION_COMMAND, new DisplayTasksCommand());
 		commands.put(PROVISION_COMMAND, new DisplayTasksCommand());
+		commands.put(TASK_REDIRECTOR_COMMAND, new TaskRedirectorCommand());
 
 
 	}
