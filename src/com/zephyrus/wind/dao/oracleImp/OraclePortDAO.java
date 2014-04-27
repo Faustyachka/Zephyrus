@@ -12,9 +12,13 @@ import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.IDAO;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
+import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ProductCatalog;
+import com.zephyrus.wind.model.ServiceLocation;
+import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.Task;
 
 public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
@@ -87,17 +91,46 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	}
 	
 
+	/**
+	 * Method for searching ID of fist free port (without cable)
+	 * 
+	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO.getCableDAO
+	 * @return ID of first free port or 0 if it doesn't exist
+	 * @author Miroshnychenko Nataliya
+	 */
+	
 	@Override
-	public int findFreePort() throws Exception {
+	public int findFreePortID() throws Exception {
 		ArrayList<Port> ports = daoFactory.getPortDAO().findAll();
 		ICableDAO cable = daoFactory.getCableDAO();
 			for (Port p: ports){
-					if (!cable.findPortID(p.getId())){
+					if (!cable.existConnectToPort(p.getId())){
 						return p.getId();
 					} 
 				}
 	
 		return 0;
+	}
+	
+	/**
+	 * Method for searching port by order task
+	 * 
+	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
+	 * @param given task
+	 * @return port object if exist, otherwise null.
+	 * @author Miroshnychenko Nataliya
+	 */
+
+	
+	@Override
+	public Port findPortFromTaskID(Task task) throws Exception{
+		ServiceOrder serviceOrder = task.getServiceOrder();
+		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
+		if (serviceLocation == null){
+			return null;
+		} 
+		Cable cable = daoFactory.getCableDAO().findCableFromServLoc(serviceLocation.getId());
+		return cable.getPort();
 	}
 
 

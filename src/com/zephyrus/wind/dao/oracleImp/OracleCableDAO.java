@@ -89,8 +89,16 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 		return SQL_REMOVE;
 	}
 	
+	/**
+	 * Method checks existing connection to port
+	 * 
+	 * @param port ID
+	 * @return true if connection exist, otherwise false
+	 * @author Miroshnychenko Nataliya
+	 */
+	
 	@Override
-	public boolean findPortID(int portId) throws SQLException {
+	public boolean existConnectToPort(int portId) throws SQLException {
 		stmt = connection.prepareStatement("SELECT COUNT(*) FROM " + 
                 TABLE_NAME + 
                 " WHERE (PORT_ID = ? ) ");
@@ -100,6 +108,22 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Method finds Cable object for Service Location ID
+	 * 
+	 * @param Service Location ID
+	 * @return existing Cable, otherwise null
+	 * @author Miroshnychenko Nataliya
+	 */
+	
+	@Override
+	public Cable findCableFromServLoc(int serviceLocationID) throws Exception{
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
+		stmt.setInt(1, serviceLocationID);
+		rs = stmt.executeQuery();
+		return fetchSingleResult(rs);
 	}
 
 }
