@@ -56,7 +56,7 @@
 			</table>
 		</div>
 		
-		<a href="/Zehyrus/admin/accountCreation.jsp"> <input type="button"
+		<a href="/Zephyrus/admin/accountCreation.jsp"> <input type="button"
 			value="Create account" class="button" />
 		</a>
 	</div>
