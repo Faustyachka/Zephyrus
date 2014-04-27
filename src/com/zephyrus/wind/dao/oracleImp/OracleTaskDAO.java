@@ -17,7 +17,7 @@ import com.zephyrus.wind.model.UserRole;
 
 public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	private static final String TABLE_NAME = "TASKS";
-    private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, TASK_VALUE, " + 
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID " +
                                       "FROM " + 
                                        TABLE_NAME + " ";
@@ -108,7 +108,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	 */
 	@Override
 	public ArrayList<Task> findActualTasksByUser(User user) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=?");
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=? AND TASK_STATUS_ID=?");
 		stmt.setInt(1, user.getId());
 		stmt.setInt(2, TASK_STATUS.PROCESSING.getId()); //include only processing tasks   
 		rs = stmt.executeQuery();	

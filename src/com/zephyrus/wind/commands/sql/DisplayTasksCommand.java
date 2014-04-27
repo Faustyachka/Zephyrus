@@ -15,37 +15,61 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
- *  The DisplayTasksCommand class provide the displaying of engineers current active tasks
- *  and available tasks for given engineer's group.  			
- *  @author Alexandra Beskorovaynaya
- *
+ * The DisplayTasksCommand class provide the displaying of engineers current
+ * active tasks and available tasks for given engineer's group. Class contains 
+ * the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * 
+ * @see com.zephyrus.wind.model.User
+ * @see com.zephyrus.wind.model.Task
+ * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
+ * @see com.zephyrus.wind.enums.ROLE
+ * 
+ * @return engineer's index page with tasks if user authorized under
+ * engineer's account, index page of customer user if user authorized under customer 
+ * user's account, and error page if user isn't authorized.
+ * @author Alexandra Beskorovaynaya
+ * 
  */
 public class DisplayTasksCommand extends SQLCommand {
 	/**
-	 * @return String url of page for redirecting, which depends on authorized user's role. 
+	 * Method allows to display active and available tasks for the authorized
+	 * user in dependence of his role.
+	 * 
+     * @see com.zephyrus.wind.model.User
+     * @see com.zephyrus.wind.model.Task
+     * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
+     * @see com.zephyrus.wind.enums.ROLE
+     * 
+	 * @return String url of user's index page for redirecting, which depends on
+	 *         authorized user's role. Index page is the home page for every
+	 *         user, on which Current Tasks are displayed.
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		User user = (User)request.getSession().getAttribute("user"); 
-		UserRole role = user.getRole();
 		
+		//Get user from HTTP session
+		User user = (User) request.getSession().getAttribute("user");
+		UserRole userRole = user.getRole();
+		
+		//Find necessary lists of tasks for defined user
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
 		ArrayList<Task> activeTasks = taskDao.findActualTasksByUser(user);
-		ArrayList<Task> availableTasks = taskDao.findAvailableTasksByRole(role);
+		ArrayList<Task> availableTasks = taskDao
+				.findAvailableTasksByRole(userRole);
+
 		request.setAttribute("activeTasks", activeTasks);
-		request.setAttribute("availableTask", availableTasks);
-		if (role.getId() == ROLE.SUPPORT.getId()) {
-			return PAGES.SUPPORT_PAGE.getValue();
-		} 
-		if (role.getId() == ROLE.INSTALLATION.getId()) {
-			return PAGES.INSTALLATION_PAGE.getValue();
+		request.setAttribute("availableTasks", availableTasks);
+		for (ROLE role : ROLE.values()) {
+			if (user.getRole().getId() == role.getId()) {
+				return role.getIndexPage();
+			}
 		}
-		if (role.getId() == ROLE.PROVISION.getId()) {
-			return PAGES.PROVISION_PAGE.getValue();
-		} else {
-			return null;
-		}
+
+		// If user is not authorized
+		request.setAttribute("errorMessage", "Please, login! <br/> <a href='view/login.jsp'> login");
+		return PAGES.MESSAGE_PAGE.getValue();
+
 	}
 
 }
