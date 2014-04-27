@@ -59,7 +59,9 @@ public class CommandManager {
 	private static final String SUPPORT_COMMAND = "support";
 	private static final String INSTALLATION_COMMAND = "installation";
 	private static final String PROVISION_COMMAND = "provision";
+
 	private static final String TASK_REDIRECTOR_COMMAND = "taskRedirector";
+
 	
 	
 
