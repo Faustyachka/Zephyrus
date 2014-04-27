@@ -59,7 +59,7 @@
       <form-error-page>/view/loginError.jsp</form-error-page>
     </form-login-config>
   </login-config>
-<!-- <security-constraint>
+ <security-constraint>
     <web-resource-collection>
       <web-resource-name>Administrator</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
@@ -144,7 +144,7 @@
     <auth-constraint>
       <role-name>*</role-name>
     </auth-constraint>
-  </security-constraint> -->
+  </security-constraint> 
   <security-role>
     <description>Administrator</description>
     <role-name>ADMIN</role-name>

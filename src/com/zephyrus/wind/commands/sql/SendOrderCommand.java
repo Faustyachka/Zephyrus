@@ -33,7 +33,7 @@ public class SendOrderCommand extends SQLCommand {
 		if (orderId != null){
 			order = orderDAO.findById(orderId);
 		} else{
-			order = new SaveOrderCommand().returnOrder(request, response);						// REVIEW: is this really work? invoke method of one Command from another one? what is other Command was not executed yet? 
+			order = new SaveOrderCommand().returnOrder(request, response, getOracleDaoFactory());						// REVIEW: is this really work? invoke method of one Command from another one? what is other Command was not executed yet? 
 		}
 		if(order == null){
 			request.setAttribute("error", "No order to send!");
