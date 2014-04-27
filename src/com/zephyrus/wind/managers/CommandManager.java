@@ -27,7 +27,7 @@ import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
-import com.zephyrus.wind.commands.sql.TaskRedirectorCommand;
+import com.zephyrus.wind.commands.nosql.TaskRedirectorCommand;
 																										// REVIEW: documentation expected
 public class CommandManager {
 
