@@ -31,13 +31,13 @@ public class RegisterCommand extends SQLCommand {												// REVIEW: CreateUs
 		request.setAttribute("lastname", lastName);
 		
 		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
-		User user = userDAO.findByEmail(email);
-		if(user != null){																		// REVIEW: too long line
-			request.setAttribute("message", "This login already exists! <a href=' " + PAGES.REGISTER_PAGE.getValue()+"' > Return to register page </a>"); 
+		if(userDAO.findByEmail(email) != null){																		
+			request.setAttribute("message", "User with current email already exists! "
+					+ "<a href=' " + PAGES.REGISTER_PAGE.getValue()+"'>Return to register page</a>"); 
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		Date s = new Date(new java.util.Date().getTime());									  	// REVIEW: "s" name is not suitable for this variable
-		user = new User();
+		User user = new User();
 		user.setFirstName(firstName);
 		user.setLastName(lastName);
 		user.setEmail(email);
@@ -49,14 +49,7 @@ public class RegisterCommand extends SQLCommand {												// REVIEW: CreateUs
 		role.setRoleName(ROLE.CUSTOMER.name());
 		user.setRole(role);
 		user = userDAO.insert(user);
-		
-		request.login(email, password);
-		if(request.getSession().getAttribute("user") == null)
-			request.getSession().setAttribute("user", user);
-		if(request.getSession().getAttribute("service") != null){
-			return PAGES.ORDERDETAIL_PAGE.getValue();
-		}
-		
+	
 	    request.setAttribute("message", "You have successfully registered!");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
