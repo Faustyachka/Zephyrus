@@ -60,7 +60,7 @@
       <form-error-page>/view/loginError.jsp</form-error-page>
     </form-login-config>
   </login-config>
- <security-constraint>
+  <security-constraint>
     <web-resource-collection>
       <web-resource-name>Administrator</web-resource-name>
       <url-pattern>/admin/*</url-pattern>
@@ -68,11 +68,11 @@
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
-     <auth-constraint>
+    <auth-constraint>
       <role-name>ADMIN</role-name>
     </auth-constraint> 
   </security-constraint>
-  <security-constraint> 
+  <security-constraint>
     <web-resource-collection>
       <web-resource-name>SupportEngineer</web-resource-name>
       <url-pattern>/support</url-pattern>
@@ -92,9 +92,9 @@
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
-     <auth-constraint>
+    <auth-constraint>
       <role-name>PROVISION</role-name>
-    </auth-constraint>
+    </auth-constraint> 
   </security-constraint>
   <security-constraint>
     <web-resource-collection>
@@ -116,7 +116,7 @@
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
-   <auth-constraint>
+     <auth-constraint>
       <role-name>CUSTOMER</role-name>
     </auth-constraint> 
   </security-constraint>
@@ -145,7 +145,7 @@
     <auth-constraint>
       <role-name>*</role-name>
     </auth-constraint>
-  </security-constraint> -->
+  </security-constraint>
   <security-role>
     <description>Administrator</description>
     <role-name>ADMIN</role-name>
