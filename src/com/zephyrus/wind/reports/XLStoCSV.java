@@ -9,11 +9,16 @@ import org.apache.poi.ss.usermodel.DateUtil;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
-																				// REVIEW: documentation expected. Class should be refactored and included in ExcelReportGenerator or similar 
+/**
+ * This class provides functionality for convert POI Workbook to CSV outfile
+ * @author Kostya Trukhan
+ */											// REVIEW: documentation expected. Class should be refactored and included in ExcelReportGenerator or similar 
 public class XLStoCSV {
 	static String path = "E:\\reports\\";
-
-	public static String convert(Workbook workbook) throws IOException {
+	/**
+	 * Return type - need refactor
+	 */
+	public static String convertCSV(Workbook workbook) throws IOException {
 		BufferedWriter output = new BufferedWriter(new FileWriter(path
 				+ "new.csv"));
 		Sheet sheet = workbook.getSheetAt(0);

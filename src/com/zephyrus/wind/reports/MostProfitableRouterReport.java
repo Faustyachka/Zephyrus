@@ -18,7 +18,10 @@ import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.reports.rowObjects.MostProfitableRouterRow;
 
-// REVIEW: documentation expected
+/**
+ * This class provides functionality for create and convert "Most profitable router report"
+ * @author Kostya Trukhan
+ */
 public class MostProfitableRouterReport implements IReport {
 	static String path = "E:\\reports\\"; // REVIEW: hardcode path
 	private ArrayList<MostProfitableRouterRow> report = new ArrayList<MostProfitableRouterRow>();
@@ -29,7 +32,10 @@ public class MostProfitableRouterReport implements IReport {
 	public void setReport(ArrayList<MostProfitableRouterRow> report) {
 		this.report = report;
 	}
-	// REVIEW: documentation of ALL public methods expected
+    /**
+     * This constructor generate report into private parameter report 
+     * @throws If get some trouble with connection to DB
+     */
 	public MostProfitableRouterReport() throws Exception {
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {

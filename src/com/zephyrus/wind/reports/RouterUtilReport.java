@@ -18,7 +18,10 @@ import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
 
-// REVIEW: documentation expected
+/**
+ * This class provides functionality for create and convert "Router util report"
+ * @author Kostya Trukhan
+ */
 public class RouterUtilReport implements IReport{
 	
 	static String path = "E:\\reports\\"; // REVIEW: hardcode path
@@ -31,7 +34,10 @@ public class RouterUtilReport implements IReport{
 	public void setReport(ArrayList<RouterUtilRow> report) {
 		this.report = report;
 	}
-
+    /**
+     * This constructor generate report into private parameter report 
+     * @throws If get some trouble with connection to DB
+     */
 	public RouterUtilReport() throws Exception{
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
@@ -45,9 +51,6 @@ public class RouterUtilReport implements IReport{
 			factory.endConnection();
 		}
 	}
-	
-// REVIEW: documentation expected & refactoring should be performed -
-		// Interface Report and ExcelReportGenerator class
 	
 	public Workbook convertToExel()
 			throws IOException {

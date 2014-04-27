@@ -1,5 +1,8 @@
 package com.zephyrus.wind.reports.rowObjects;
-
+/**
+ * This class needed to save data for reports row
+ * @author Kostya Trukhan
+ */		
 public class RouterUtilRow {
 	private String routerSN;
 	private double capacity;
