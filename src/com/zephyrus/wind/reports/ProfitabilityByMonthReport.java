@@ -18,55 +18,47 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
-import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
-
-public class ProfitabilityByMonth {
+import com.zephyrus.wind.dao.interfaces.IReportDAO;
+import com.zephyrus.wind.reports.rowObjects.ProfitabilityByMonthRow;
+/**
+ * This class provides functionality for create and convert "profitability by month report"
+ * @author Kostya Trukhan
+ */
+public class ProfitabilityByMonthReport implements IReport {
 	static String path = "E:\\reports\\";
-	private String providerLocation;
-	private Long profit;
+	private ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();
 
-	public String getProviderLocation() {
-		return providerLocation;
+	public ArrayList<ProfitabilityByMonthRow> getReport() {
+		return report;
 	}
 
-	public void setProviderLocation(String providerLocation) {
-		this.providerLocation = providerLocation;
+	public void setReport(ArrayList<ProfitabilityByMonthRow> report) {
+		this.report = report;
 	}
-
-	public Long getProfit() {
-		return profit;
-	}
-
-	public void setProfit(Long profit) {
-		this.profit = profit;
-	}
-
-	public static ArrayList<ProfitabilityByMonth> getProfitabilityByMonthReport(
-			Date month) throws Exception {
-		ArrayList<ProfitabilityByMonth> list = new ArrayList<ProfitabilityByMonth>();
+    /**
+     * This constructor generate report into private parameter report 
+     * @param month - method use it to get all SI that started before this parameter
+     * how choose this date - must be described in assumptions 
+     * @throws If get some trouble with connection to DB
+     */
+	public ProfitabilityByMonthReport(Date month) throws Exception {
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
-			IProviderLocationDAO dao = factory.getProviderLocationDAO();
-			list = dao.getProfitByMonth(month);
+			IReportDAO dao = factory.getReportDAO();
+			report = dao.getProfitByMonthReport(month);
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			factory.endConnection();
 		}
-		return list;
 	}
 
-	public static Workbook convertToExel(ArrayList<ProfitabilityByMonth> list)
-			throws IOException // REVIEW: convertToExcel is in every report
-								// method. Create Interface Report and use it as
-								// param to ExcelReportGenerator class, for
-								// instance.
-	{
+	public Workbook convertToExel() throws IOException {
 		Workbook workbook = null;
 		Row row = null;
-		Cell cell = null; // REVIEW: watch formatting
+		Cell cell = null; 
 		// Read template file
 		FileInputStream template = null;
 		try {
@@ -78,7 +70,7 @@ public class ProfitabilityByMonth {
 		workbook = new HSSFWorkbook(template);
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
-		Iterator<ProfitabilityByMonth> iterator = list.iterator();
+		Iterator<ProfitabilityByMonthRow> iterator = report.iterator();
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
 			row = sheet.createRow(rowIndex++);
@@ -101,4 +93,5 @@ public class ProfitabilityByMonth {
 		sheet.autoSizeColumn(1);
 		return workbook;
 	}
+
 }

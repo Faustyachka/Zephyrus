@@ -15,58 +15,44 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
-import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
+import com.zephyrus.wind.dao.interfaces.IReportDAO;
+import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
 
-// REVIEW: documentation expected
-public class RouterUtil {
+/**
+ * This class provides functionality for create and convert "Router util report"
+ * @author Kostya Trukhan
+ */
+public class RouterUtilReport implements IReport{
+	
 	static String path = "E:\\reports\\"; // REVIEW: hardcode path
-	private String routerSN;
-	private double capacity;
-	private double routerUtil;
-
-	public String getRouterSN() {
-		return routerSN;
+	private ArrayList<RouterUtilRow> report = new ArrayList<RouterUtilRow>();
+	
+	public ArrayList<RouterUtilRow> getReport() {
+		return report;
 	}
-
-	public void setRouterSN(String routerSN) {
-		this.routerSN = routerSN;
+	
+	public void setReport(ArrayList<RouterUtilRow> report) {
+		this.report = report;
 	}
-
-	public double getCapacity() {
-		return capacity;
-	}
-
-	public void setCapacity(double capacity) {
-		this.capacity = capacity;
-	}
-
-	public double getRouterUtil() {
-		return routerUtil;
-	}
-
-	public void setRouterUtil(double routerUtil) {
-		this.routerUtil = routerUtil;
-	}
-
-	public static ArrayList<RouterUtil> getListReport() throws Exception {
-		ArrayList<RouterUtil> list = new ArrayList<RouterUtil>();
+    /**
+     * This constructor generate report into private parameter report 
+     * @throws If get some trouble with connection to DB
+     */
+	public RouterUtilReport() throws Exception{
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
-			IDeviceDAO dao = factory.getDeviceDAO();
-			list = dao.getRouterUtil();
+			IReportDAO dao = factory.getReportDAO();
+			report = dao.getRouterUtilReport();
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
 			factory.endConnection();
 		}
-		return list;
-
-	} // REVIEW: documentation expected & refactoring should be performed -
-		// Interface Report and ExcelReportGenerator class
+	}
 	
-	public static Workbook convertToExel(ArrayList<RouterUtil> list)
+	public Workbook convertToExel()
 			throws IOException {
 		Workbook workbook = null;
 		Row row = null;
@@ -81,7 +67,7 @@ public class RouterUtil {
 		workbook = new HSSFWorkbook(template);
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
-		Iterator<RouterUtil> iterator = list.iterator();
+		Iterator<RouterUtilRow> iterator = report.iterator();
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
 			row = sheet.createRow(rowIndex++);
@@ -97,5 +83,7 @@ public class RouterUtil {
 		sheet.autoSizeColumn(2);
 		return workbook;
 	}
+
+
 
 }

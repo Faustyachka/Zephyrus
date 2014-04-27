@@ -1,14 +1,23 @@
 package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.LinkedHashMap;
+import java.util.ArrayList;
+import java.util.Iterator;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.reports.IReport;
+import com.zephyrus.wind.reports.rowObjects.*;
 
+/**
+ * This class gives functionality to generate report from DAO
+ * @author Kostya Trukhan
+ */
 public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	private static final String SQL_ROUTER_PROFIT = "SELECT DEVICES.SERIAL_NUM,"
 			+ "SUM(PRODUCT_CATALOG.PRICE) AS SUM"
@@ -21,12 +30,24 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			+ "INNER JOIN PRODUCT_CATALOG"
 			+ "ON PRODUCT_CATALOG.ID = SERVICE_INSTANCES.PRODUCT_CATALOG_ID"
 			+ "GROUP BY DEVICES.SERIAL_NUM";
+
 	private static final String SQL_ROUTER_UTIL = "SELECT DEVICES.SERIAL_NUM,"
-			+ "COUNT(PORTS.PORT_NUMBER) AS COUNT" + "FROM DEVICES"
-			+ "INNER JOIN PORTS" + "ON DEVICES.ID = PORTS.DEVICE_ID"
+			+ "COUNT(PORTS.PORT_NUMBER) AS COUNT FROM DEVICES"
+			+ "INNER JOIN PORTT ON DEVICES.ID = PORTS.DEVICE_ID"
+			+ "INNER JOIN CABLES ON CABLES.PORT_ID=PORTS.ID"
 			+ "GROUP BY DEVICES.SERIAL_NUM ;";
-	public OracleReportDAO(Connection connection,
-			OracleDAOFactory daoFactory) throws Exception {
+
+	private static final String SQL_MONTH_PROFIT = "SELECT PROVIDER_LOCATIONS.LOCATION_NAME,"
+			+ "SUM (PRODUCT_CATALOG.PRICE) AS SUM"
+			+ "FROM PRODUCT_CATALOG INNER JOIN SERVICE_INSTANCES "
+			+ "ON PRODUCT_CATALOG.ID=SERVICE_INSTANCES.PRODUCT_CATALOG_ID "
+			+ "INNER JOIN PROVIDER_LOCATIONS "
+			+ "ON PROVIDER_LOCATIONS.ID=PRODUCT_CATALOG.PROVIDER_LOC_ID"
+			+ "WHERE SERVICE_INSTANCES.START_DATE < ?"
+			+ "GROUP BY PROVIDER_LOCATIONS.LOCATION_NAME;";
+
+	public OracleReportDAO(Connection connection, OracleDAOFactory daoFactory)
+			throws Exception {
 		super(IReport.class, connection, daoFactory);
 
 	}
@@ -35,7 +56,7 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	protected void fillItem(IReport item, ResultSet rs) throws SQLException,
 			Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -53,7 +74,7 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	@Override
 	public void update(IReport record) throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
@@ -69,14 +90,99 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public LinkedHashMap<String, Long> getMostProfitableRouterReport() throws SQLException{
+	public ArrayList<MostProfitableRouterRow> getMostProfitableRouterReport()
+			throws SQLException {
 		stmt = connection.prepareStatement(SQL_ROUTER_PROFIT);
 		rs = stmt.executeQuery();
-		LinkedHashMap<String, Long> report = new LinkedHashMap<String,Long>();
-		while(rs.next()){
-			report.put(rs.getString(1), rs.getLong(2));
+		ArrayList<MostProfitableRouterRow> report = new ArrayList<MostProfitableRouterRow>();
+		MostProfitableRouterRow item = new MostProfitableRouterRow();
+		while (rs.next()) {
+			item.setRouterSN(rs.getString(1));
+			item.setProfit(rs.getLong(2));
+			report.add(item);
 		}
 		return report;
-		
+	}
+
+	@Override
+	public ArrayList<RouterUtilRow> getRouterUtilReport() throws SQLException {
+		stmt = connection.prepareStatement(SQL_ROUTER_UTIL);
+		rs = stmt.executeQuery();
+		ArrayList<RouterUtilRow> report = new ArrayList<RouterUtilRow>();
+		RouterUtilRow item = new RouterUtilRow();
+		while (rs.next()) {
+			item.setRouterSN(rs.getString(1));
+			item.setRouterUtil(60 / rs.getLong(2));
+			item.setCapacity(0.6);
+			report.add(item);
+		}
+		return report;
+	}
+
+	@Override
+	public ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date month)
+			throws SQLException {
+		stmt = connection.prepareStatement(SQL_MONTH_PROFIT);
+		stmt.setDate(1, month);
+		rs = stmt.executeQuery();
+		ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();
+		ProfitabilityByMonthRow item = new ProfitabilityByMonthRow();
+		while (rs.next()) {
+			item.setProviderLocation(rs.getString(1));
+			item.setProfit(rs.getLong(2));
+			report.add(item);
+		}
+		return report;
+	}
+
+	@Override
+	public ArrayList<DisconnectOrdersPerPeriodRow> getDisconnectSOPerPeriodReport(
+			Date startDate, Date endDate) throws Exception {
+		OracleDAOFactory factory = new OracleDAOFactory();
+		factory.beginConnection();
+		IServiceOrderDAO dao = factory.getServiceOrderDAO();
+		ArrayList<ServiceOrder> list = dao.getDisconnectSOByPeriod(startDate,
+				endDate);
+		ArrayList<DisconnectOrdersPerPeriodRow> report = new ArrayList<DisconnectOrdersPerPeriodRow>();
+		DisconnectOrdersPerPeriodRow item = new DisconnectOrdersPerPeriodRow();
+		item.setStartPeriod(startDate);
+		item.setEndPeriod(endDate);
+		for (Iterator<ServiceOrder> i = list.iterator(); i.hasNext();) {
+			item.setOrderID(i.next().getId().toString());
+			item.setOrderStatus(i.next().getOrderStatus().getOrderStatusValue());
+			item.setProductName(i.next().getProductCatalog().getServiceType()
+					.getServiceType());
+			item.setProviderLocation(i.next().getProductCatalog()
+					.getProviderLoc().getLocationName());
+			item.setUsername(i.next().getServiceLocation().getUser().getEmail());
+			report.add(item);
+		}
+		return report;
+
+	}
+
+	@Override
+	public ArrayList<NewOrdersPerPeriodRow> getNewSOPerPeriodReport(
+			Date startDate, Date endDate) throws Exception {
+		OracleDAOFactory factory = new OracleDAOFactory();
+		factory.beginConnection();
+		IServiceOrderDAO dao = factory.getServiceOrderDAO();
+		ArrayList<ServiceOrder> list = dao.getNewSOByPeriod(startDate, endDate);
+		ArrayList<NewOrdersPerPeriodRow> report = new ArrayList<NewOrdersPerPeriodRow>();
+		NewOrdersPerPeriodRow item = new NewOrdersPerPeriodRow();
+		item.setStartPeriod(startDate);
+		item.setEndPeriod(endDate);
+		for (Iterator<ServiceOrder> i = list.iterator(); i.hasNext();) {
+			item.setOrderID(i.next().getId().toString());
+			item.setOrderStatus(i.next().getOrderStatus().getOrderStatusValue());
+			item.setProductName(i.next().getProductCatalog().getServiceType()
+					.getServiceType());
+			item.setProviderLocation(i.next().getProductCatalog()
+					.getProviderLoc().getLocationName());
+			item.setUsername(i.next().getServiceLocation().getUser().getEmail());
+			report.add(item);
+		}
+		return report;
+
 	}
 }
