@@ -11,6 +11,7 @@ import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.OrderType;
 import com.zephyrus.wind.model.ProductCatalog;
@@ -137,7 +138,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	//Returns orders for reports by period
 	public ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate, Date endDate) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
-				+ "AND ORDER_STATUS_ID=1");//bad
+				+ "AND ORDER_STATUS_ID="+ORDER_TYPE.DISCONNECT.getId());
 		stmt.setDate(1, startDate);
 		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();		
@@ -146,7 +147,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	@Override
 	public ArrayList<ServiceOrder> getNewSOByPeriod(Date startDate, Date endDate) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
-				+ "AND ORDER_STATUS_ID=2");//bad
+				+ "AND ORDER_STATUS_ID="+ORDER_TYPE.NEW.getId());
 		stmt.setDate(1, startDate);
 		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();		

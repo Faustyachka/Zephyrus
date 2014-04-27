@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.enums.ORDER_STATUS;
@@ -30,21 +29,14 @@ public class SaveOrderCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		returnOrder(request, response, getOracleDaoFactory());
-		request.setAttribute("message", "Order successfuly saved!");
-		return PAGES.MESSAGE_PAGE.getValue();
-	}
-	
-	public ServiceOrder returnOrder(HttpServletRequest request,									// REVIEW: public return-method in Command. Are you sure about it? 
-			HttpServletResponse response, OracleDAOFactory factory) throws SQLException, Exception{
 		HttpSession session = request.getSession();
 		User user = (User) session.getAttribute("user");
-		IServiceLocationDAO locationDAO = factory.getServiceLocationDAO();
+		IServiceLocationDAO locationDAO = getOracleDaoFactory().getServiceLocationDAO();
 		ServiceLocation location = (ServiceLocation) session.getAttribute("serviceLocation");
 		location.setUser(user);
 		location = locationDAO.insert(location);
 		
-		IServiceOrderDAO orderDAO = factory.getServiceOrderDAO();
+		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
 		ProductCatalog service = (ProductCatalog) session.getAttribute("service");
 		ServiceOrder order = new ServiceOrder();
 		OrderStatus orderStatus = new OrderStatus();
@@ -62,6 +54,14 @@ public class SaveOrderCommand extends SQLCommand {
 		session.setAttribute("serviceLocation", null);
 		session.setAttribute("service", null);
 		session.setAttribute("products", null);
+		
+		request.setAttribute("message", "Order successfuly saved!");
+		return PAGES.MESSAGE_PAGE.getValue();
+	}
+	
+	public ServiceOrder returnOrder(HttpServletRequest request,									// REVIEW: public return-method in Command. Are you sure about it? 
+			HttpServletResponse response) throws SQLException, Exception{
+		execute(request, response);
 		return insertedOrder;
 	}
 

@@ -21,4 +21,5 @@ public enum ROLE {
     public Integer getId(){
         return id;
     }
+    
 }

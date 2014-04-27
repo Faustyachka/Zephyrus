@@ -25,6 +25,7 @@ public abstract class SQLCommand implements Command {
       try {
     	  getOracleDaoFactory().beginConnection();
           page = doExecute(request, response);
+          getOracleDaoFactory().commitTransaction();
       } catch(SQLException ex){
           ex.printStackTrace();
           request.setAttribute("errorMessage", MessageManager.SQL_ERROR_MESSAGE + ex.getMessage());

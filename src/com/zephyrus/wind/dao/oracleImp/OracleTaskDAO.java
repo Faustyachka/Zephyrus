@@ -104,7 +104,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	 */
 	@Override
 	public ArrayList<Task> findActualTasksByUser(User user) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=?");
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=? AND TASK_STATUS_ID=?");
 		stmt.setInt(1, user.getId());
 		stmt.setInt(2, TASK_STATUS.PROCESSING.getId()); //include only processing tasks   
 		rs = stmt.executeQuery();	
@@ -119,8 +119,8 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	public ArrayList<Task> findAvailableTasksByRole(UserRole role) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + 
-				"WHERE TASK_STATUS_ID = ? AND ROLE_ID = ?");
-		stmt.setInt(1, TASK_STATUS.NEW.getId());         //include only free tasks
+				"WHERE TASK_STATUS_ID = ? AND ROLE_ID = ? AND USER_ID IS NULL");
+		stmt.setInt(1, TASK_STATUS.PROCESSING.getId());         //include only free tasks
 		stmt.setInt(2, role.getId());					 //include tasks only for given role
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);

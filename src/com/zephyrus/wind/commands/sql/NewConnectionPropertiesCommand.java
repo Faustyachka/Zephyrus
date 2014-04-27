@@ -28,7 +28,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
 		
-		Port port = portDAO.findById(portDAO.findFreePort());
+		Port port = portDAO.findById(portDAO.findFreePortID());
 		Device device = port.getDevice();
 		
 		ArrayList<Cable> cables = cableDAO.findAll();

@@ -48,11 +48,9 @@ public class CreateCableCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		String type = request.getParameter("cableType");
-		Cable cable = new Cable();
 		
-		cable.setType(type);
-		ICableDAO dao = getOracleDaoFactory().getCableDAO();
-		dao.insert(cable);
+		// NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
+		// wf.createCable(taskID, type);
 		
 		request.setAttribute("message", "Cable created <br> <a href='/Zephyrus/installation'>return to home page</a>");		
 		return PAGES.MESSAGE_PAGE.getValue();

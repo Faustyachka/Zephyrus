@@ -73,7 +73,7 @@ public class NewScenarioWorkflow extends Workflow {
             /*
              * task for IE is created, whether or not we have free ports,
              * because physical link to customer is always absent for "new"
-             * scenario, so we have to create it mannualy
+             * scenario, so we have to create it manually
              */
             createTask(factory, ROLE.INSTALLATION);
 
@@ -158,7 +158,7 @@ public class NewScenarioWorkflow extends Workflow {
             ICableDAO cableDAO = factory.getCableDAO();
 
             Cable cable = new Cable();
-            //cable.setCableType(cableType); TODO: implement setCableType in DAO
+            cable.setCableType(cableType);
             cable.setPort(null); // no port associated with device so far
             cable.setServiceLocation(order.getServiceLocation());
             cableDAO.insert(cable);
