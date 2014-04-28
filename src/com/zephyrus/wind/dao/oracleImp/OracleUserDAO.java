@@ -89,7 +89,6 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		item.setStatus(rs.getInt(COLUMN_STATUS));
 		UserRole role = daoFactory.getUserRoleDAO().findById(rs.getInt(COLUMN_ROLE_ID));
 		item.setRole(role);
-		
 	}
 	
 	@Override
@@ -107,8 +106,10 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	public ArrayList<User> getUsersByRoleId(int roleId) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
 		stmt.setInt(1, roleId);
-		rs = stmt.executeQuery();	
-		return fetchMultiResults(rs);
+		rs = stmt.executeQuery();
+		ArrayList<User> users = fetchMultiResults(rs);
+		rs.close();
+		return users;
 	}
 
 	@Override
@@ -116,7 +117,9 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE EMAIL = ?");
 		stmt.setString(1, email);
 		rs = stmt.executeQuery();
-		return fetchSingleResult(rs);
+		User user = fetchSingleResult(rs);
+		rs.close();
+		return user;
 	}
 
 }

@@ -37,7 +37,7 @@ public class TestWorkflowServlet extends HttpServlet {
     	OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
-			int orderID = 2;
+			int orderID = 3;
 			order = factory.getServiceOrderDAO().findById(orderID);
 		} catch (Exception exc) {
 			throw new WorkflowException("Assign task exception", exc);
