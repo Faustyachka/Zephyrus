@@ -67,11 +67,11 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 
 	@Override
 	protected void fillItem(Circuit item, ResultSet rs) throws SQLException, Exception {
-		item.setId(rs.getInt(COLUMN_ID));
+		item.setId(rs.getInt(1));
 		IPortDAO portDAO = daoFactory.getPortDAO();
-		Port port = portDAO.findById(rs.getInt(COLUMN_PORT_ID));
+		Port port = portDAO.findById(rs.getInt(2));
 		item.setPort(port);
-		item.setConfig(rs.getString(CONFIG));
+		item.setConfig(rs.getString(3));
 	}
 	
 	@Override

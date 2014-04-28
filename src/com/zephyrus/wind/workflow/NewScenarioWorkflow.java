@@ -23,6 +23,7 @@ import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
+import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 
 /**
@@ -208,7 +209,7 @@ public class NewScenarioWorkflow extends Workflow {
      * @param circuitConfig logical port configuration
      * @param port Port for which Circuit is created
      */
-    public void createCircuit(int taskID, String circuitConfig, Port port) {
+    public void createCircuit(int taskID, String circuitConfig) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
         	factory.beginConnection();
@@ -218,7 +219,9 @@ public class NewScenarioWorkflow extends Workflow {
         	
             ICircuitDAO circuitDAO = factory.getCircuitDAO();
             IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
-
+            
+            Port port = getPortByCustomer(factory);
+            
             Circuit circuit = new Circuit();
             circuit.setPort(port);
             circuit.setConfig(circuitConfig);
@@ -237,6 +240,25 @@ public class NewScenarioWorkflow extends Workflow {
 		} finally {
         	factory.endConnection();
         }
+    }
+    
+    /**
+     * Method obtains Port assigned by Installation engineer to current Order
+     * @param factory DAO implementations factory
+     * @return Port for current order
+     */
+    private Port getPortByCustomer(OracleDAOFactory factory) throws Exception {
+    	ServiceLocation location = order.getServiceLocation();
+        ICableDAO cableDAO = factory.getCableDAO();
+        Cable cable = cableDAO.findCableFromServLoc(location.getId());
+        if(cable == null) {
+        	throw new WorkflowException("No cable attached to customer location");
+        }
+        Port port = cable.getPort();
+        if(port == null) {
+        	throw new WorkflowException("No link between Service Location and Router");
+        }
+        return port;
     }
 
     /**

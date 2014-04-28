@@ -62,14 +62,12 @@ public class CreateCircuitCommand extends SQLCommand {
 		
 		//getting Task and Port and Service Order by task ID
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
-		Task task = taskDao.findById(taskID);		
-		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
-		Port port = portDAO.findPortFromTaskID(task);		
+		Task task = taskDao.findById(taskID);			
 		ServiceOrder so =  task.getServiceOrder();
 		
 		//creating circuit due to "New" scenario
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(so);
-		wf.createCircuit(taskID, circuitConfig, port);
+		wf.createCircuit(taskID, circuitConfig);
 		
 		//sending redirect to page with confirmation
 		request.setAttribute("message", "New circuit successfully added" +
