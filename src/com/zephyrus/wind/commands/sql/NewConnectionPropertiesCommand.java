@@ -17,38 +17,67 @@ import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 
+/**
+ * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * It is supposed to gather the information, needed on NewWorkflowTasks.jsp page.
+ * 
+ * @see com.zephyrus.wind.model.Cable
+ * @see com.zephyrus.wind.model.Device
+ * @see com.zephyrus.wind.model.Port
+ * @see com.zephyrus.wind.model.Task
+ * @see com.zephyrus.wind.model.ServiceOrder
+ * @see com.zephyrus.wind.enums.PAGES
+ * @see com.zephyrus.wind.dao.interfaces.ICableDAO
+ * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
+ * @see com.zephyrus.wind.dao.interfaces.IPortDAO
+ * 
+ * @return {@linkNewWorkflowTasks.jsp} page
+ * @author Ielyzaveta Zubacheva
+ */
 
 public class NewConnectionPropertiesCommand extends SQLCommand {
+	
+	/**
+	 * This method gathers the information, needed on NewWorkflowTasks.jsp page. 
+	 * Method gets ID of the present task.
+	 * All the information is sent to the page.
+	 * 
+	 * @see com.zephyrus.wind.model.Cable
+	 * @see com.zephyrus.wind.model.Device
+	 * @see com.zephyrus.wind.model.Port
+	 * @see com.zephyrus.wind.model.Task
+	 * @see com.zephyrus.wind.model.ServiceOrder
+	 * @see com.zephyrus.wind.enums.PAGES
+	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
+	 * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
+	 * @see com.zephyrus.wind.dao.interfaces.IPortDAO
+	 * 
+	 * @return {@linkNewWorkflowTasks.jsp} page
+	 */
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = (Integer) request.getAttribute("id");
+		int id = (Integer) request.getAttribute("taskId");
+		Cable cable = (Cable) request.getAttribute("cable");
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
-		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
 		
 		Port port = portDAO.findById(portDAO.findFreePortID());
 		Device device = port.getDevice();
 		
-		ArrayList<Cable> cables = cableDAO.findAll();
-		ArrayList<Cable> availableCables = new ArrayList<Cable>();;
-		for (Cable c : cables) {
-			if (c.getPort().equals(null)) {
-				availableCables.add(c);
-			}
-		}
-		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		task = taskDAO.findById(taskID);
+		task = taskDAO.findById(id);
 		ServiceOrder order = task.getServiceOrder();
 		
-		request.setAttribute("id", taskID);
+		
+		request.getSession().setAttribute("id", id);
 		request.setAttribute("device", device);
-		request.setAttribute("port", port);
-		request.setAttribute("availableCables", availableCables);
+		request.setAttribute("portId", port.getId());
+		request.getSession().setAttribute("portId", port.getId());
 		request.setAttribute("order", order);
+		request.setAttribute("cable", cable);
 		
 		return PAGES.INSTALLATIONNEWWORKFLOW_PAGE.getValue();
 	}

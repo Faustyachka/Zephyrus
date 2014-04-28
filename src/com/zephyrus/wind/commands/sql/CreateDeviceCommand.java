@@ -44,7 +44,7 @@ public class CreateDeviceCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = (Integer) request.getAttribute("id");
+		int taskID = (Integer) request.getSession().getAttribute("taskId");
 		String serialNum = request.getParameter("serialNum");
 		int portQuantity = 60;
 		
@@ -60,12 +60,11 @@ public class CreateDeviceCommand extends SQLCommand {
 		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		wf.createRouter(taskID, serialNum, portQuantity);
 		
-		
-		request.setAttribute("message", "Device created <br> <a href='/Zephyrus/installation/newWorkflowTasks.jsp'>return to home page</a>");		
-		return PAGES.MESSAGE_PAGE.getValue();
+//		request.setAttribute("taskId", taskID);
+		return "newConnectionProperties";
 	}
 
 }

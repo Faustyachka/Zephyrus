@@ -101,7 +101,6 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		item.setOrderType(ot);
 		ProductCatalog pc = daoFactory.getProductCatalogDAO().findById(rs.getInt(COLUMN_PRODUCT_CATALOG_ID));
 		item.setProductCatalog(pc);
-		System.out.println(rs.getInt(COLUMN_SERVICE_INSTANCE_ID));
 		ServiceInstance si = daoFactory.getServiceInstanceDAO().findById(rs.getInt(COLUMN_SERVICE_INSTANCE_ID));
 		item.setServiceInstance(si);
 		ServiceLocation sl = daoFactory.getServiceLocationDAO().findById(rs.getInt(COLUMN_SERVICE_LOCATION_ID));

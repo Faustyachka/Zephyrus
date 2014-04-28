@@ -37,12 +37,12 @@ public class CustomerSupportCommand extends SQLCommand {
 		String action=(String)request.getParameter("action");
 		response.setContentType("application/json");
 		if(action==null) {
-			return PAGES.SUPPORT_PAGE.getValue();
+			return "support/users.jsp";
 		} else {																						// REVIEW: bad formatting
 		if (action.equals("list")) {
 		try{     
 			IUserDAO dao = getOracleDaoFactory().getUserDAO();			
-			    ArrayList<User> lstUser=dao.getUsersByRoleId(2);										// REVIEW: roles mapped by IDs. Enum should be used
+			    ArrayList<User> lstUser=dao.findAll();										// REVIEW: roles mapped by IDs. Enum should be used
 			    JsonElement element = gson.toJsonTree(lstUser, new TypeToken<List<User>>() {}.getType());			
 			    JsonArray jsonArray = element.getAsJsonArray();			
 			    String listData=jsonArray.toString();   						
@@ -60,7 +60,7 @@ public class CustomerSupportCommand extends SQLCommand {
 			    }
 		} }																								// REVIEW: bad formatting
 		
-		return PAGES.SUPPORT_PAGE.getValue();
+		return "support/users.jsp";
 	}
 
 }

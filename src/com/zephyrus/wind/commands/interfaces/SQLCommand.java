@@ -34,7 +34,6 @@ public abstract class SQLCommand implements Command {
       } finally{
     	  getOracleDaoFactory().endConnection();
     	  oracleFactoryThreadLocal.remove();
-    	  System.out.println("Connection closed");
       }
       return page;
   }

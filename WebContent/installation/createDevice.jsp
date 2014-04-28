@@ -23,8 +23,8 @@
   </div></div>
   <div class="main">
   <div style="text-align:center">
-    <h2>Create a Device for Task# ${task.id}</h2></div>
-  <form method="post" action="/Zephyrus/createDevice?id=${task.id} }">
+    <h2>Create a Device for Task# ${id}</h2></div>
+  <form method="post" action="/Zephyrus/createDevice">
   <div id="somediv"></div>
     <label>Device ID:	</label><input type="text" name="serialNum" id="serialNum" />
 <br />

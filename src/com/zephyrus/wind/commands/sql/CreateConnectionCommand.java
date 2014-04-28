@@ -55,8 +55,8 @@ public class CreateConnectionCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		int taskID = (Integer) request.getAttribute("id");
-		int portNum = Integer.parseInt(request.getParameter("portNum"));
-		int cableID = Integer.parseInt(request.getParameter("cableID"));
+		int portID = Integer.parseInt(request.getParameter("port"));
+		int cableID = Integer.parseInt(request.getParameter("cable"));
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
@@ -65,11 +65,11 @@ public class CreateConnectionCommand extends SQLCommand {
 		
 		Cable cable = new Cable();
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
-		Port port = portDAO.findById(portNum);
+		Port port = portDAO.findById(portID);
 		cable.setId(cableID);
 		
-		NewScenarioWorkflow nw = new NewScenarioWorkflow(order);
-		nw.plugCableToPort(taskID, cable, port);
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
+		wf.plugCableToPort(taskID, cable, port);
 		
 		request.setAttribute("message", "New connection successfully created" +
 				"<a href='/Zephyrus/installation'>home page");	

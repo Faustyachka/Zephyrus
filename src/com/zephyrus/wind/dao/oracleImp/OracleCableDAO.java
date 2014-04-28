@@ -114,7 +114,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 				" WHERE (PORT_ID = ? ) ");
 		stmt.setInt(1, portId);
 		rs = stmt.executeQuery();		
-		if (rs.getInt(1)!=0){
+		if (rs.next() && rs.getInt(1)!=0){
 			return true;
 		}
 		return false;

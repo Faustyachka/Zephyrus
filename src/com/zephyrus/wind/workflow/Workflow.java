@@ -29,9 +29,11 @@ import com.zephyrus.wind.model.UserRole;
 public abstract class Workflow {
 
     protected ServiceOrder order; // Service Order for which workflow was created
+    protected OracleDAOFactory factory; // DAO implementations' factory
 
-    public Workflow(ServiceOrder order) {
-        this.order = order;
+    public Workflow(OracleDAOFactory factory, ServiceOrder order) {
+        this.factory = factory;
+    	this.order = order;
     }
 
     /**
@@ -48,25 +50,20 @@ public abstract class Workflow {
      * @throws WorkflowException if task is not valid
      */
     public void assignTask(int taskID, int userID) {
-    	OracleDAOFactory factory = new OracleDAOFactory();
 		try {
-			factory.beginConnection();
 			ITaskDAO taskDAO = factory.getTaskDAO();
 			
             Task task = taskDAO.findById(taskID);
             User user = factory.getUserDAO().findById(userID);
             
-            if (isTaskValid(factory, taskID, user.getRole().getId())) {
+            if (isTaskValid(taskID, user.getRole().getId())) {
                 task.setUser(user);
                 taskDAO.update(task);
             } else {
                 throw new WorkflowException("Given Task is not valid");
             }
-            factory.commitTransaction();
 		} catch (Exception exc) {
 			throw new WorkflowException("Assign task exception", exc);
-		} finally {
-			factory.endConnection();
 		}
     }
 
@@ -74,10 +71,9 @@ public abstract class Workflow {
      * This method is used to create tasks and assign it to user groups.
      * Method is <code>protected</code> because it can only be invoked in
      * Workflow methods.
-     * @param factory DAO implementations factory
      * @param userRole identifies user group to create task for
      */
-    protected void createTask(OracleDAOFactory factory, ROLE role) throws Exception {
+    protected void createTask(ROLE role) throws Exception {
         ITaskDAO taskDAO = factory.getTaskDAO();
         ITaskStatusDAO statusDAO = factory.getTaskStatusDAO();
         IUserRoleDAO roleDAO = factory.getUserRoleDAO();
@@ -97,10 +93,10 @@ public abstract class Workflow {
      * This method sets task status to "Completed".
      * Method is <code>protected</code> because it can only be invoked in
      * Workflow methods.
-     * @param factory DAO implementations factory
+     * 
      * @param taskID ID of task
      */
-    protected void completeTask(OracleDAOFactory factory, int taskID) throws Exception {
+    protected void completeTask(int taskID) throws Exception {
         ITaskDAO taskDAO = factory.getTaskDAO();
         ITaskStatusDAO taskStatusDAO = factory.getTaskStatusDAO();
 
@@ -110,8 +106,8 @@ public abstract class Workflow {
         taskDAO.update(task);
     }
     
-    protected void changeServiceInstanceStatus(OracleDAOFactory factory, 
-    		SERVICEINSTANCE_STATUS status) throws Exception {
+    protected void changeServiceInstanceStatus(SERVICEINSTANCE_STATUS status) 
+    		throws Exception {
     	
     	IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
     	IServiceInstanceStatusDAO sisDAO = factory.getServiceInstanceStatusDAO();
@@ -122,7 +118,7 @@ public abstract class Workflow {
         siDAO.update(si);
     }
 
-    protected void changeOrderStatus(OracleDAOFactory factory, ORDER_STATUS status) 
+    protected void changeOrderStatus(ORDER_STATUS status) 
     		throws Exception {
     	
         IServiceOrderDAO orderDAO = factory.getServiceOrderDAO();
@@ -136,16 +132,13 @@ public abstract class Workflow {
     /**
      * This method checks whether given Task is active, connected with
      * current Order and was created for given User Role
-     * @param factory DAO implementations factory
      * @param taskID ID of Task to validate
      * @param userRoleID ID of User Role the Task was created for
      * @return <code>true</code> if Task is valid for execution and
      * <code>false</code> otherwise
      * @throws Exception 
      */
-    protected boolean isTaskValid(OracleDAOFactory factory, int taskID, int userRoleID) 
-    		throws Exception {
-    	
+    protected boolean isTaskValid(int taskID, int userRoleID) throws Exception {
         ITaskDAO taskDAO = factory.getTaskDAO();
         Task task = taskDAO.findById(taskID);
         
