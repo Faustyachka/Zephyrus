@@ -43,8 +43,8 @@ public class SendOrderCommand extends SQLCommand {
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
-		NewScenarioWorkflow workflow = new NewScenarioWorkflow(order);
-		workflow.proceedOrder(getOracleDaoFactory());
+		NewScenarioWorkflow workflow = new NewScenarioWorkflow(getOracleDaoFactory(), order);
+		workflow.proceedOrder();
 
 		request.setAttribute("message", "Order has been sent successfuly!");
 		return PAGES.MESSAGE_PAGE.getValue();
