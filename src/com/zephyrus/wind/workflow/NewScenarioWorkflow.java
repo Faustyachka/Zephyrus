@@ -65,7 +65,7 @@ public class NewScenarioWorkflow extends Workflow {
             
             OrderStatus orderStatus = orderStatusDAO.findById(ORDER_STATUS.PROCESSING.getId());
             order.setOrderStatus(orderStatus);
-            ServiceInstance serviceInstance = createServiceInstance(factory);
+            ServiceInstance serviceInstance = createServiceInstance();
 
             // Link Order with SI
             order.setServiceInstance(serviceInstance);
@@ -197,7 +197,7 @@ public class NewScenarioWorkflow extends Workflow {
             ICircuitDAO circuitDAO = factory.getCircuitDAO();
             IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
             
-            Port port = getPortByCustomer(factory);
+            Port port = getPortByCustomer();
             
             Circuit circuit = new Circuit();
             circuit.setPort(port);
