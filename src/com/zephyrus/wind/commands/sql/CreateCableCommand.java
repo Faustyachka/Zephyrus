@@ -61,8 +61,8 @@ public class CreateCableCommand extends SQLCommand {
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(id);
 		ServiceOrder order = task.getServiceOrder();
-
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
+		
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		wf.createCable(id);
 		
 		Cable cable = new Cable();

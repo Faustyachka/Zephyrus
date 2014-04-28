@@ -68,8 +68,8 @@ public class CreateConnectionCommand extends SQLCommand {
 		Port port = portDAO.findById(portID);
 		cable.setId(cableID);
 		
-		NewScenarioWorkflow nw = new NewScenarioWorkflow(order);
-		nw.plugCableToPort(taskID, cable, port);
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
+		wf.plugCableToPort(taskID, cable, port);
 		
 		request.setAttribute("message", "New connection successfully created" +
 				"<a href='/Zephyrus/installation'>home page");	

@@ -60,7 +60,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		wf.createRouter(taskID, serialNum, portQuantity);
 		
 		request.setAttribute("taskId", taskID);
