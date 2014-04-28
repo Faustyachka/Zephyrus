@@ -37,7 +37,7 @@ public class TaskRedirectorCommand implements Command {
 		
 		request.setAttribute("taskId", taskId);
 		if (user.getRole().getId()==ROLE.INSTALLATION.getId()) {
-			return "installation/newWorkflowTasks.jsp";
+			return "newConnectionProperties";
 		} if (user.getRole().getId()==ROLE.PROVISION.getId()){
 			return "provision/createCircuit.jsp";			
 		} if (user.getRole().getId()==ROLE.SUPPORT.getId()) {

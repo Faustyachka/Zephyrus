@@ -8,14 +8,14 @@
   <div style="text-align:center"><input name="backtotask" type="button" value="Back to Tasks" class="button" /></div></div>
   <div class="main">
   <div style="text-align:center">
-    <h2>Workflow for Order ${order.id}</h2></div>
+    <h2>Workflow for Order ${order.id} by Task ${id}</h2></div>
     <br>
   <div style="text-align:center">Choose connection properties:</div>
   <br>
   <form method="post" action="/Zephyrus/createConnection">
   <table>
   <tr>
-  <td></td><td>Device ${device.id}</td><td>Port ${port.PortNumber}</td><td>Cable</td></tr>
+  <td></td><td>Device ${device.id}</td><td>Port ${port.portNumber}</td><td>Cable</td></tr>
   <tr>
   <td></td><td><input type="text" name="deviceNum" id="deviceNum" /></td>
   			<td><input type="text" name="portNum" id="portNum" /></td>
