@@ -23,7 +23,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = Integer.parseInt(request.getParameter("id"));
+		int taskID = (Integer) request.getAttribute("id");
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
@@ -44,7 +44,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 		
-		
+		request.setAttribute("id", taskID);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
 		request.setAttribute("availableCables", availableCables);
