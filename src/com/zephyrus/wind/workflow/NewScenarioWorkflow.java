@@ -149,7 +149,7 @@ public class NewScenarioWorkflow extends Workflow {
      * @param taskID ID of task for installation engineer
      * @param cableType type of Cable to create
      */
-    public void createCable(int taskID, String cableType) {
+    public void createCable(int taskID) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
             if (!isTaskValid(factory, taskID, ROLE.INSTALLATION.getId())) {
@@ -159,7 +159,7 @@ public class NewScenarioWorkflow extends Workflow {
             ICableDAO cableDAO = factory.getCableDAO();
 
             Cable cable = new Cable();
-            cable.setCableType(cableType);
+            cable.setCableType("UTP");
             cable.setPort(null); // no port associated with device so far
             cable.setServiceLocation(order.getServiceLocation());
             cableDAO.insert(cable);
@@ -219,7 +219,7 @@ public class NewScenarioWorkflow extends Workflow {
 
             Circuit circuit = new Circuit();
             circuit.setPort(port);
-            //circuit.setConfig(circuitConfig);
+            circuit.setConfig(circuitConfig);
             circuit = circuitDAO.insert(circuit);
 
             // link Circuit with SI
