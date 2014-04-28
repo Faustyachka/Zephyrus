@@ -28,8 +28,7 @@
 			value="Create cable" class="button" />
 		</a></td></tr>
   <tr>
-  <td></td><td><a href="/Zephyrus/newConnectionProperties?id=1"><input type="button"
-			value="Request properties" class="button" /></td><td></td><td><input type="submit" name="button" id="button" 
+  <td></td><td></td><td></td><td><input type="submit" name="button" id="button" 
   						value="Create connection" class="button"/></td>
   	</table>
   	</form>
