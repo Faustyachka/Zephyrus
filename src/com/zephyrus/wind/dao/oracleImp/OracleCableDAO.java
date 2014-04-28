@@ -42,10 +42,10 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	@Override
 	public void update(Cable record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_PORT_ID, record.getPort().getId());
-    	stmt.setInt(COLUMN_SERVICE_LOCATION_ID, record.getServiceLocation().getId());    	
-    	stmt.setLong(COLUMN_ID, record.getId());
-    	stmt.setString(CABLE_TYPE, record.getCableType());
+    	stmt.setInt(1, record.getPort().getId());
+    	stmt.setInt(2, record.getServiceLocation().getId());  
+    	stmt.setString(3, record.getCableType());
+    	stmt.setLong(4, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}
