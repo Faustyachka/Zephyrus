@@ -119,10 +119,10 @@ public class NewScenarioWorkflow extends Workflow {
             IDeviceDAO deviceDAO = factory.getDeviceDAO();
             IPortDAO portDAO = factory.getPortDAO();
 
-            /*if (portDAO.getFreePort() != null) {
+            if (portDAO.findFreePortID() != 0) {
                 throw new WorkflowException("Router creation is not allowed: " +
                         "free ports available");
-            }*/
+            }
 
             Device device = new Device();
             device.setSerialNum(serialNumber);
