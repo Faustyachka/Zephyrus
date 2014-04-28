@@ -70,7 +70,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 		
-		request.setAttribute("id", taskID);
+		request.setAttribute("id", id);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
 		request.setAttribute("order", order);
