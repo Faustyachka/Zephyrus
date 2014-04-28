@@ -44,17 +44,13 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		String cableID = request.getParameter("cableID");
 		int taskID = 1;
 		Task task = new Task();
 		task.setId(taskID);
 		ServiceOrder order = task.getServiceOrder();
-		
-//		Cable cable = new Cable();
-//		cable.setId(cableID);
-		
+
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
-		wf.createCable(taskID, cableID);
+		wf.createCable(taskID);
 		
 		request.setAttribute("message", "Cable created <br> <a href='/Zephyrus/installation/newWorkflowTasks.jsp'>return to task page</a>");		
 		return PAGES.MESSAGE_PAGE.getValue();
