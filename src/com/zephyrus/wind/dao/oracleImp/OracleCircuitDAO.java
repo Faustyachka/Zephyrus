@@ -15,21 +15,23 @@ import com.zephyrus.wind.model.Port;
 public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	
 	private static final String TABLE_NAME = "CIRCUITS";
-    private static final String SQL_SELECT = "SELECT ID, PORT_ID " + 
+    private static final String SQL_SELECT = "SELECT ID, PORT_ID, CONFIG " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET PORT_ID = ?" + 
+                                      " SET CONFIG = ?" +
                                       " WHERE " + 
                                       " ID = ?";
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
-											"(PORT_ID) VALUES(?)" +
+											"(PORT_ID, CONFIG) VALUES(?, ?)" +
 											"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_PORT_ID = 2;
-    private static final int COLUMN_STATUS = 3;    
+    private static final int COLUMN_STATUS = 3; 
+    private static final int CONFIG = 4; 
 
 	public OracleCircuitDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -41,6 +43,7 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 		stmt = connection.prepareStatement(SQL_UPDATE);
     	stmt.setInt(COLUMN_PORT_ID, record.getPort().getId());
     	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(CONFIG, record.getConfig());
         stmt.executeUpdate();
         stmt.close();
 	}
@@ -49,9 +52,10 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	public Circuit insert(Circuit record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
     	cs.setInt(1, record.getPort().getId());
-    	cs.registerOutParameter(2, OracleTypes.VARCHAR);
+    	cs.setString(2, record.getConfig());
+    	cs.registerOutParameter(3, OracleTypes.VARCHAR);
         cs.execute();
-        String rowId = cs.getString(2);
+        String rowId = cs.getString(3);
         cs.close();
 		return findByRowId(rowId);
 	}
@@ -67,7 +71,7 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 		IPortDAO portDAO = daoFactory.getPortDAO();
 		Port port = portDAO.findById(rs.getInt(COLUMN_PORT_ID));
 		item.setPort(port);
-		
+		item.setConfig(rs.getString(CONFIG));
 	}
 	
 	@Override

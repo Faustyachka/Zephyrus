@@ -17,6 +17,8 @@ public class Circuit implements Serializable {
 
 
 	private Port port;
+	
+	private String config;
 
 
 	public Circuit() {
@@ -42,6 +44,15 @@ public class Circuit implements Serializable {
 		this.port = port;
 	}
 
+
+	public String getConfig() {
+		return config;
+	}
+
+
+	public void setConfig(String config) {
+		this.config = config;
+	}
 
 
 
