@@ -7,9 +7,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
+import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.Cable;
+import com.zephyrus.wind.model.Device;
+import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
@@ -47,22 +50,28 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = (Integer) request.getAttribute("id");
+		int id = (Integer) request.getAttribute("id");
+		int portNum = (Integer) request.getAttribute("port");
+		
+		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
+		Port port = portDAO.findById(portNum);
+		Device device = port.getDevice();
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		task = taskDAO.findById(taskID);
+		task = taskDAO.findById(id);
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
-		wf.createCable(taskID);
+		wf.createCable(id);
 		
 		Cable cable = new Cable();
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
 		cable = cableDAO.findCableFromServLoc((order.getServiceLocation()).getId());
 		
+		request.setAttribute("taskId", id);
 		request.setAttribute("cable",cable);
-		return PAGES.INSTALLATIONNEWWORKFLOW_PAGE.getValue();
+		return "newConnectionProperties";
 		}
 
 }

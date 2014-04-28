@@ -12,19 +12,19 @@
     <br>
   <div style="text-align:center">Choose connection properties:</div>
   <br>
-  <form method="post" action="/Zephyrus/createConnection">
+  <form method="post" action="/Zephyrus/createConnection?id=${id}&port=${port.id}&cable=${cable.id}">
   <table>
   <tr>
-  <td></td><td>Device ${device.id}</td><td>Port ${port.portNumber}</td><td>Cable</td></tr>
+  <td></td><td>Device ID</td><td>Port ID</td><td>Cable ID</td></tr>
   <tr>
-  <td></td><td><input type="text" name="deviceNum" id="deviceNum" /></td>
-  			<td><input type="text" name="portNum" id="portNum" /></td>
-  			<td><input type="text" name="cableID" id="cableID" /></td>
+  <td></td><td>${device.id}</td>
+  			<td>${port.id}</td>
+  			<td>${cable.id}</td>
   			</tr>
   <tr>
-  <td></td><td><a href="/Zephyrus/installation/createDevice.jsp"> <input type="button"
+  <td></td><td><a href="/Zephyrus/installation/createDevice?id=${id}"> <input type="button"
 			value="Create device" class="button" /></a></td><td> </td>
-			<td><a href="/Zephyrus/createCable?id=${id}"><input type="button"
+			<td><a href="/Zephyrus/createCable?id=${id}&port=${port.id}"><input type="button"
 			value="Create cable" class="button" />
 		</a></td></tr>
   <tr>
