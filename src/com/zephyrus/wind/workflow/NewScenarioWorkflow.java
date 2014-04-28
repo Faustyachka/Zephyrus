@@ -207,7 +207,6 @@ public class NewScenarioWorkflow extends Workflow {
      * Creates new Circuit Instance
      * @param taskID taskID ID of task for provisioning engineer
      * @param circuitConfig logical port configuration
-     * @param port Port for which Circuit is created
      */
     public void createCircuit(int taskID, String circuitConfig) {
     	OracleDAOFactory factory = new OracleDAOFactory();
