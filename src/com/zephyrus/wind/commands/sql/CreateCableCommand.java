@@ -50,12 +50,8 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int id = (Integer) request.getAttribute("id");
-		int portNum = (Integer) request.getAttribute("port");
 		
-		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
-		Port port = portDAO.findById(portNum);
-		Device device = port.getDevice();
+		int id = (Integer) request.getSession().getAttribute("taskId");
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
@@ -69,7 +65,7 @@ public class CreateCableCommand extends SQLCommand {
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
 		cable = cableDAO.findCableFromServLoc((order.getServiceLocation()).getId());
 		
-		request.setAttribute("taskId", id);
+//		request.setAttribute("taskId", id);
 		request.setAttribute("cable",cable);
 		return "newConnectionProperties";
 		}

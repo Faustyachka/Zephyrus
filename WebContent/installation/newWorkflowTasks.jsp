@@ -15,20 +15,21 @@
   <form method="post" action="/Zephyrus/createConnection?id=${id}&port=${port.id}&cable=${cable.id}">
   <table>
   <tr>
-  <td></td><td>Device ID</td><td>Port ID</td><td>Cable ID</td></tr>
+  <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
   <tr>
-  <td></td><td>${device.id}</td>
-  			<td>${port.id}</td>
-  			<td>${cable.id}</td>
+  <td align="center">${device.id}</td><td align="center">${port.id}</td><td align="center">${cable.id}</td>
   			</tr>
   <tr>
-  <td></td><td><a href="/Zephyrus/installation/createDevice?id=${id}"> <input type="button"
+  <td align="center">
+  <a href="/Zephyrus/installation/createDevice.jsp"> <input type="button"
 			value="Create device" class="button" /></a></td><td> </td>
-			<td><a href="/Zephyrus/createCable?id=${id}&port=${port.id}"><input type="button"
+			<td align="center"><a href="/Zephyrus/createCable"><input type="button"
 			value="Create cable" class="button" />
 		</a></td></tr>
   <tr>
-  <td></td><td></td><td></td><td><input type="submit" name="button" id="button" 
+  </tr>
+  <tr>
+  <td></td><td></td><td></td><td align="center"><input type="submit" name="button" id="button" 
   						value="Create connection" class="button"/></td>
   	</table>
   	</form>

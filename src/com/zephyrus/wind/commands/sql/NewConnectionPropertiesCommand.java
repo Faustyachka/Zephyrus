@@ -72,9 +72,10 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		ServiceOrder order = task.getServiceOrder();
 		
 		
-		request.setAttribute("id", id);
+		request.getSession().setAttribute("id", id);
 		request.setAttribute("device", device);
-		request.setAttribute("port", port);
+		request.setAttribute("portId", port.getId());
+		request.getSession().setAttribute("portId", port.getId());
 		request.setAttribute("order", order);
 		request.setAttribute("cable", cable);
 		
