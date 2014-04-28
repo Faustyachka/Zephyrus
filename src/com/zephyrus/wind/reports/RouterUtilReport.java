@@ -43,7 +43,7 @@ public class RouterUtilReport implements IReport{
 		try {
 			factory.beginConnection();
 			IReportDAO dao = factory.getReportDAO();
-			report = dao.getRouterUtilReport();
+			setReport(dao.getRouterUtilReport());
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -60,7 +60,7 @@ public class RouterUtilReport implements IReport{
 		// Read template file
 		FileInputStream template = null;
 		try {
-			template = new FileInputStream(new File(path + "_RouterUtil.xls"));
+			template = new FileInputStream(new File(path+"_RouterUtil.xls"));
 		} catch (FileNotFoundException e) {
 
 		}
