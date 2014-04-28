@@ -63,9 +63,8 @@ public class CreateDeviceCommand extends SQLCommand {
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		wf.createRouter(taskID, serialNum, portQuantity);
 		
-		
-		request.setAttribute("message", "Device created <br> <a href='/Zephyrus/installation/newWorkflowTasks.jsp'>return to home page</a>");		
-		return PAGES.MESSAGE_PAGE.getValue();
+		request.setAttribute("taskId", taskID);
+		return "newConnectionProperties";
 	}
 
 }

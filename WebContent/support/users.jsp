@@ -34,20 +34,17 @@
                     list: false
                 },
                 firstName: {
-                    title: 'Customer Name',
-                    width: '30%'
+                    title: 'Customer Name'
                 },
                 lastName: {
-                    title: 'Customer Second Name',
-                    width: '30%'
+                    title: 'Customer Second Name'
                 },
                 email: {
-                    title: 'Email',
-                    width: '30%'
+                    title: 'Email'
                 },
                 
                 status: {
-                    title: 'Blocked',                   
+                    title: 'Choose',                   
                     display: function (data) {                  	
                        return '<input type="radio" name="radiobutton" class="radiobutton" value="'+data.record.id+'"/>';                   	 
                     },
@@ -57,7 +54,9 @@
                 },
                 roleId: {
                     title: 'Role',
-                    width: '20%',
+                    display: function (data) {                  	
+                        return data.record.role.roleName;                   	 
+                     }                   
                     
                 }
                 
