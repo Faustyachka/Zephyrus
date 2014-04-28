@@ -47,7 +47,7 @@ public class AssignTaskCommand extends SQLCommand {
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskId);
 		ServiceOrder order = task.getServiceOrder();
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		wf.assignTask(taskId, user.getId());
 		
 		

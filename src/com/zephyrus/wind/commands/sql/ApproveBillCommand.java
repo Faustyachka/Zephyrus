@@ -51,7 +51,7 @@ public class ApproveBillCommand extends SQLCommand {
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		wf.approveBill(taskID);
 		request.setAttribute("message", "Bill succesfully approved! <a href='"+ROLE.SUPPORT.getHome() +"'/> home page");
 		return PAGES.MESSAGE_PAGE.getValue();
