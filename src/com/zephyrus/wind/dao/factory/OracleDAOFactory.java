@@ -73,6 +73,11 @@ public class OracleDAOFactory implements IDAOFactory {											// REVIEW: docu
     public void endConnection() {
         if(connection != null) {
         	try {
+        		/*
+        		 * Rollback invoked here only has an effect if commit() method was
+        		 * not invoked. So it rolls back transaction which was not commited.
+        		 */
+        		connection.rollback();
 				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
