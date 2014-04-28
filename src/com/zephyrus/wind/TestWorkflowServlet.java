@@ -51,7 +51,7 @@ public class TestWorkflowServlet extends HttpServlet {
 			factory.endConnection();
 		}
 		
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
+		//NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		//wf.proceedOrder();
 		//int userID = 4; // install engineer
 		//int taskID = 3; // install engineer task

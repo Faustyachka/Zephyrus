@@ -35,12 +35,14 @@ public class NewScenarioWorkflow extends Workflow {
     /**
      * This method creates NewScenarioWorkflow for given Order.
      * It doesn't proceed Order to execution(See {@link Workflow#proceedOrder()})
+     * 
+     * @param factory DAO implementations' factory
      * @param order Order to create Workflow for
      * @throws Workflow exception if Order scenario doesn't match "New" scenario
      * workflow
      */
-    public NewScenarioWorkflow(ServiceOrder order) {
-        super(order);
+    public NewScenarioWorkflow(OracleDAOFactory factory, ServiceOrder order) {
+        super(factory, order);
 		if (order.getOrderType().getId() != ORDER_TYPE.NEW.getId()) {
             throw new WorkflowException("Cannot proceed Order: wrong order scenario");
         }
@@ -52,7 +54,7 @@ public class NewScenarioWorkflow extends Workflow {
      * Order should have status "Entering" and workflow scenario "New"
      */
     @Override
-    public void proceedOrder(OracleDAOFactory factory) {
+    public void proceedOrder() {
         try {
             if (order.getOrderStatus().getId() != ORDER_STATUS.ENTERING.getId()) {
                 throw new WorkflowException("Cannot proceed Order: wrong order state");
@@ -74,13 +76,13 @@ public class NewScenarioWorkflow extends Workflow {
              * because physical link to customer is always absent for "new"
              * scenario, so we have to create it manually
              */
-            createTask(factory, ROLE.INSTALLATION);
+            createTask(ROLE.INSTALLATION);
         } catch (Exception exc) {
         	throw new WorkflowException("Exception while proceeding order", exc);
 		}
     }
 
-    private ServiceInstance createServiceInstance(OracleDAOFactory factory) throws Exception {
+    private ServiceInstance createServiceInstance() throws Exception {
         IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
         IServiceInstanceStatusDAO sisDAO = factory.getServiceInstanceStatusDAO();
 
@@ -105,10 +107,8 @@ public class NewScenarioWorkflow extends Workflow {
      * @param portQuantity amount of Ports that Router accommodates
      */
     public void createRouter(int taskID, String serialNumber, int portQuantity) {
-    	OracleDAOFactory factory = new OracleDAOFactory();
         try {
-        	factory.beginConnection();
-            if (!isTaskValid(factory, taskID, ROLE.INSTALLATION.getId())) {
+            if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
 
@@ -130,24 +130,19 @@ public class NewScenarioWorkflow extends Workflow {
                 port.setPortNumber(portNumber);
                 portDAO.insert(port);
             }
-
-            factory.commitTransaction();
         } catch (Exception exc) {
 			throw new WorkflowException("Router creation failed", exc);
-		} finally {
-            factory.endConnection();
-        }
+		}
     }
 
     /**
-     * This method creates Cable by specified service location and Cable type 
+     * This method creates Cable by specified service location and Cable type
+     *  
      * @param taskID ID of task for installation engineer
      */
     public void createCable(int taskID) {
-    	OracleDAOFactory factory = new OracleDAOFactory();
         try {
-        	factory.beginConnection();
-            if (!isTaskValid(factory, taskID, ROLE.INSTALLATION.getId())) {
+            if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
 
@@ -158,13 +153,9 @@ public class NewScenarioWorkflow extends Workflow {
             cable.setPort(null); // no port associated with device so far
             cable.setServiceLocation(order.getServiceLocation());
             cableDAO.insert(cable);
-
-            factory.commitTransaction();
         } catch (Exception exc) {
         	throw new WorkflowException("Cable creation failed", exc);
-		} finally {
-        	factory.endConnection();
-        }
+		}
     }
 
     /**
@@ -176,10 +167,8 @@ public class NewScenarioWorkflow extends Workflow {
      * @param port Port to plug Cable to
      */
     public void plugCableToPort(int taskID, Cable cable, Port port) {
-    	OracleDAOFactory factory = new OracleDAOFactory();
         try {
-        	factory.beginConnection();
-            if (!isTaskValid(factory, taskID, ROLE.INSTALLATION.getId())) {
+            if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
             
@@ -187,14 +176,11 @@ public class NewScenarioWorkflow extends Workflow {
             cable.setPort(port);
             cableDAO.update(cable);
 
-            this.completeTask(factory, taskID);
-            this.createTask(factory, ROLE.PROVISION);
-            factory.commitTransaction();
+            this.completeTask(taskID);
+            this.createTask(ROLE.PROVISION);
         } catch (Exception exc) {
         	throw new WorkflowException("Failed to plug Cable to the Port", exc);
-		} finally {
-        	factory.endConnection();
-        }
+		}
     }
 
     /**
@@ -203,10 +189,8 @@ public class NewScenarioWorkflow extends Workflow {
      * @param circuitConfig logical port configuration
      */
     public void createCircuit(int taskID, String circuitConfig) {
-    	OracleDAOFactory factory = new OracleDAOFactory();
         try {
-        	factory.beginConnection();
-        	if (!isTaskValid(factory, taskID, ROLE.PROVISION.getId())) {
+        	if (!isTaskValid(taskID, ROLE.PROVISION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
         	
@@ -225,22 +209,19 @@ public class NewScenarioWorkflow extends Workflow {
             si.setCircuit(circuit);
             siDAO.update(si);
 
-            this.completeTask(factory, taskID);
-            this.createTask(factory, ROLE.SUPPORT);
-            factory.commitTransaction();
+            this.completeTask(taskID);
+            this.createTask(ROLE.SUPPORT);
         } catch (Exception exc) {
         	throw new WorkflowException("Circuit creation failed", exc);
-		} finally {
-        	factory.endConnection();
-        }
+		}
     }
     
     /**
      * Method obtains Port assigned by Installation engineer to current Order
-     * @param factory DAO implementations factory
+     * 
      * @return Port for current order
      */
-    private Port getPortByCustomer(OracleDAOFactory factory) throws Exception {
+    private Port getPortByCustomer() throws Exception {
     	ServiceLocation location = order.getServiceLocation();
         ICableDAO cableDAO = factory.getCableDAO();
         Cable cable = cableDAO.findCableFromServLoc(location.getId());
@@ -258,36 +239,31 @@ public class NewScenarioWorkflow extends Workflow {
      * This method approves and sends Bill to customer and automatically activates SI
      * by changing it's status to "Active". It also changes Order status to
      * "Completed"
+     * 
      * @param taskID ID of Task for Support Engineer
      */
     public void approveBill(int taskID) {
-    	OracleDAOFactory factory = new OracleDAOFactory();
         try {
-        	factory.beginConnection();
-        	if (!isTaskValid(factory, taskID, ROLE.SUPPORT.getId())) {
+        	if (!isTaskValid(taskID, ROLE.SUPPORT.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
 
-            completeTask(factory, taskID);
+            completeTask(taskID);
 
-            updateServiceInstanceDate(factory, order.getServiceInstance());
-            changeServiceInstanceStatus(factory, SERVICEINSTANCE_STATUS.ACTIVE);
-            changeOrderStatus(factory, ORDER_STATUS.COMPLETED);
+            updateServiceInstanceDate(order.getServiceInstance());
+            changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.ACTIVE);
+            changeOrderStatus(ORDER_STATUS.COMPLETED);
             // TODO: send email here
-            factory.commitTransaction();
         } catch (Exception exc) {
         	throw new WorkflowException("Failed to approve Bill", exc);
-		} finally {
-        	factory.endConnection();
-        }
+		}
     }
 
     /**
      * Sets SI creation date to current date
-     * @param factory DAO implementations factory
      * @param si Service Instance to update date for
      */
-    private void updateServiceInstanceDate(OracleDAOFactory factory, ServiceInstance si) 
+    private void updateServiceInstanceDate(ServiceInstance si) 
     		throws Exception {
     	
         IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
