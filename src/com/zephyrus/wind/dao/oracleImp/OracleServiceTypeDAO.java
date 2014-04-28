@@ -34,8 +34,8 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
 	@Override
 	public void update(ServiceType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_SERVICE_TYPE, record.getServiceType());  	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getServiceType());  	
+    	stmt.setLong(2, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

@@ -45,11 +45,11 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	public void update(Task record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_SERVICE_ORDER_ID, record.getServiceOrder().getId()); 
-    	stmt.setInt(COLUMN_USER_ID, record.getUser().getId());  
-    	stmt.setInt(COLUMN_TASK_STATUS_ID, record.getTaskStatus().getId());  
-    	stmt.setInt(COLUMN_ROLE_ID, record.getRole().getId());
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setInt(1, record.getServiceOrder().getId()); 
+    	stmt.setInt(2, record.getUser().getId());  
+    	stmt.setInt(3, record.getTaskStatus().getId());  
+    	stmt.setInt(4, record.getRole().getId());
+    	stmt.setLong(5, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

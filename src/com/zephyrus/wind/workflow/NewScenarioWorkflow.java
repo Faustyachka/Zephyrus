@@ -108,11 +108,11 @@ public class NewScenarioWorkflow extends Workflow {
      * @param taskID ID of task for installation engineer        
      * @param serialNumber String representing serial number of device
      * @param portQuantity amount of Ports that Router accommodates
-     * @throws Exception 
      */
     public void createRouter(int taskID, String serialNumber, int portQuantity) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
+        	factory.beginConnection();
             if (!isTaskValid(factory, taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
@@ -138,7 +138,7 @@ public class NewScenarioWorkflow extends Workflow {
 
             factory.commitTransaction();
         } catch (Exception exc) {
-			throw new WorkflowException("Router creation failed");
+			throw new WorkflowException("Router creation failed", exc);
 		} finally {
             factory.endConnection();
         }
@@ -147,11 +147,11 @@ public class NewScenarioWorkflow extends Workflow {
     /**
      * This method creates Cable by specified service location and Cable type 
      * @param taskID ID of task for installation engineer
-     * @param cableType type of Cable to create
      */
     public void createCable(int taskID) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
+        	factory.beginConnection();
             if (!isTaskValid(factory, taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
@@ -166,7 +166,7 @@ public class NewScenarioWorkflow extends Workflow {
 
             factory.commitTransaction();
         } catch (Exception exc) {
-        	throw new WorkflowException("Cable creation failed");
+        	throw new WorkflowException("Cable creation failed", exc);
 		} finally {
         	factory.endConnection();
         }
@@ -183,6 +183,7 @@ public class NewScenarioWorkflow extends Workflow {
     public void plugCableToPort(int taskID, Cable cable, Port port) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
+        	factory.beginConnection();
             if (!isTaskValid(factory, taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
@@ -203,13 +204,14 @@ public class NewScenarioWorkflow extends Workflow {
 
     /**
      * Creates new Circuit Instance
-     * @param factory DAO implementations factory
+     * @param taskID taskID ID of task for provisioning engineer
      * @param circuitConfig logical port configuration
      * @param port Port for which Circuit is created
      */
     public void createCircuit(int taskID, String circuitConfig, Port port) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
+        	factory.beginConnection();
         	if (!isTaskValid(factory, taskID, ROLE.PROVISION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
@@ -246,6 +248,7 @@ public class NewScenarioWorkflow extends Workflow {
     public void approveBill(int taskID) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
+        	factory.beginConnection();
         	if (!isTaskValid(factory, taskID, ROLE.SUPPORT.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
@@ -268,7 +271,6 @@ public class NewScenarioWorkflow extends Workflow {
      * Sets SI creation date to current date
      * @param factory DAO implementations factory
      * @param si Service Instance to update date for
-     * @throws Exception 
      */
     private void updateServiceInstanceDate(OracleDAOFactory factory, ServiceInstance si) 
     		throws Exception {

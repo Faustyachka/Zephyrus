@@ -41,9 +41,9 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	@Override
 	public void update(Circuit record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_PORT_ID, record.getPort().getId());
-    	stmt.setLong(COLUMN_ID, record.getId());
-    	stmt.setString(CONFIG, record.getConfig());
+    	stmt.setInt(1, record.getPort().getId());
+    	stmt.setString(2, record.getConfig());
+    	stmt.setLong(3, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

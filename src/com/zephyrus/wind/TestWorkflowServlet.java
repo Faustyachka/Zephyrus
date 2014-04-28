@@ -37,7 +37,7 @@ public class TestWorkflowServlet extends HttpServlet {
     	OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
-			int orderID = 3;
+			int orderID = 5;
 			order = factory.getServiceOrderDAO().findById(orderID);
 		} catch (Exception exc) {
 			throw new WorkflowException("Assign task exception", exc);
@@ -46,8 +46,13 @@ public class TestWorkflowServlet extends HttpServlet {
 		}
 		
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
-		wf.proceedOrder();
+		//wf.proceedOrder();
+		//int userID = 4; // install engineer
+		int taskID = 3;
+		//wf.assignTask(taskID, userID);
+		wf.createCable(taskID);
     }
+    
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */

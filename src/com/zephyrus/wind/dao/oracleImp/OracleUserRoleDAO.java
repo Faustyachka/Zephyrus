@@ -35,8 +35,8 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
 	@Override
 	public void update(UserRole record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_ROLE_NAME, record.getRoleName());  	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getRoleName());  	
+    	stmt.setLong(2, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}
