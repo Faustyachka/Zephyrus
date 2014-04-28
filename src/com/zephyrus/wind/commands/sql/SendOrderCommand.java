@@ -18,45 +18,34 @@ import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
-																								// REVIEW: documentation expected
+import com.zephyrus.wind.workflow.NewScenarioWorkflow;
+// REVIEW: documentation expected
 public class SendOrderCommand extends SQLCommand {
-	
+
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+		
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
-		Date s = new Date(new java.util.Date().getTime());
 		ServiceOrder order = null;
 		Integer orderId = null;
+		
 		if(request.getParameter("orderId") != null)
 			orderId = Integer.parseInt(request.getParameter("orderId"));
 		if (orderId != null){
 			order = orderDAO.findById(orderId);
-		} else{
-			order = new SaveOrderCommand().returnOrder(request, response, getOracleDaoFactory());						// REVIEW: is this really work? invoke method of one Command from another one? what is other Command was not executed yet? 
+		} else {
+			SaveOrderCommand saveOrder = new SaveOrderCommand();
+			order = saveOrder.returnOrder(request, response, getOracleDaoFactory());						// REVIEW: is this really work? invoke method of one Command from another one? what is other Command was not executed yet? 
 		}
-		if(order == null){
+		if (order == null){
 			request.setAttribute("error", "No order to send!");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		OrderStatus orderStatus = new OrderStatus();
-		orderStatus.setId(ORDER_STATUS.PROCESSING.getId());
-		order.setOrderStatus(orderStatus);
-		order.setOrderDate(s);
-		IServiceInstanceDAO instanceDAO = getOracleDaoFactory().getServiceInstanceDAO();
-		ServiceInstance serviceInstance = new ServiceInstance();
-		serviceInstance.setProductCatalog(order.getProductCatalog());
-		ServiceInstanceStatus instanceStatus = new ServiceInstanceStatus();
-		instanceStatus.setId(SERVICEINSTANCE_STATUS.PLANNED.getId());							// REVIEW: InstanceStatus should be obtained by find in generic DAO
-		instanceStatus.setServInstanceStatusValue(SERVICEINSTANCE_STATUS.PLANNED.name());
-		serviceInstance.setServInstanceStatus(instanceStatus);
-		serviceInstance.setStartDate(s);
-		serviceInstance.setCircuit(new Circuit());												// REVIEW: Circuit creation is responsibility of Provisioning Engineer
-		serviceInstance.setUser((User) request.getSession().getAttribute("user"));
-		serviceInstance = instanceDAO.insert(serviceInstance);
-		order.setServiceInstance(serviceInstance);
-		orderDAO.update(order);
 		
+		NewScenarioWorkflow wokrflow = new NewScenarioWorkflow(order);
+		wokrflow.proceedOrder();
+
 		request.setAttribute("message", "Order has been sent successfuly!");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
