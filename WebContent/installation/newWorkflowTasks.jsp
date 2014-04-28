@@ -24,7 +24,7 @@
   <tr>
   <td></td><td><a href="/Zephyrus/installation/createDevice.jsp"> <input type="button"
 			value="Create device" class="button" /></a></td><td> </td>
-			<td><a href="/Zephyrus/createCable?id=1"><input type="button"
+			<td><a href="/Zephyrus/createCable?id=${id}"><input type="button"
 			value="Create cable" class="button" />
 		</a></td></tr>
   <tr>
