@@ -1,3 +1,5 @@
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 <script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
 	<script>
@@ -21,8 +23,8 @@
   </div></div>
   <div class="main">
   <div style="text-align:center">
-    <h2>Create a Device</h2></div>
-  <form method="post" action="/Zephyrus/createDevice">
+    <h2>Create a Device for Task# ${task.id}</h2></div>
+  <form method="post" action="/Zephyrus/createDevice?id=${task.id} }">
   <div id="somediv"></div>
     <label>Device ID:	</label><input type="text" name="serialNum" id="serialNum" />
 <br />

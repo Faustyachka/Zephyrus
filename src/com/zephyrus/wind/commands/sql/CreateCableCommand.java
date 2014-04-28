@@ -31,7 +31,7 @@ public class CreateCableCommand extends SQLCommand {
 	/**
 	 * This method creates the cable in the database. 
 	 * Method gets parameters of device's ID and port's ID, which cable will be connected to.
-	 * By means of DAO, new object Cable with mentioned parameters is created in the database.
+	 * By means of workflow, new object Cable with mentioned parameters is created in the database.
 	 * 
 	 * @see com.zephyrus.wind.model.Cable
 	 * @see com.zephyrus.wind.model.Device
@@ -45,7 +45,7 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = Integer.parseInt(request.getParameter("id"));
+		int taskID = (Integer) request.getAttribute("id");
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
