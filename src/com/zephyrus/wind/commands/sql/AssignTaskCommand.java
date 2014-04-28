@@ -43,20 +43,23 @@ public class AssignTaskCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		int taskId = Integer.parseInt(request.getParameter("id"));
-		
 		User user = (User) request.getSession().getAttribute("user");
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskId);
 		ServiceOrder order = task.getServiceOrder();
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		wf.assignTask(taskId, user.getId());
-		for (ROLE role : ROLE.values()) {
-			if (user.getRole().getId() == role.getId()) {
-				response.sendRedirect(role.getHome());
-				return role.getHome();
-			}
+		
+		
+		if (user.getRole().getId()==ROLE.SUPPORT.getId()) {
+			return "support";
+		} if (user.getRole().getId()==ROLE.PROVISION.getId()) {
+			return "provision";
+		} if (user.getRole().getId()==ROLE.INSTALLATION.getId()) {
+			return "installation";
+		} else {
+			return null;
 		}
-		return null;
 
 	}
 }
