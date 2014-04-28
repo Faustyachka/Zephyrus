@@ -6,8 +6,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
@@ -55,8 +57,12 @@ public class CreateCableCommand extends SQLCommand {
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		wf.createCable(taskID);
 		
-		request.setAttribute("message", "Cable created <br> <a href='/Zephyrus/installation/newWorkflowTasks.jsp'>return to task page</a>");		
-		return PAGES.MESSAGE_PAGE.getValue();
-	}
+		Cable cable = new Cable();
+		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
+		cable = cableDAO.findCableFromServLoc((order.getServiceLocation()).getId());
+		
+		request.setAttribute("cable",cable);
+		return PAGES.INSTALLATIONNEWWORKFLOW_PAGE.getValue();
+		}
 
 }

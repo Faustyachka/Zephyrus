@@ -15,7 +15,7 @@
   <form method="post" action="/Zephyrus/createConnection">
   <table>
   <tr>
-  <td></td><td>Device</td><td>Port</td><td>Cable</td></tr>
+  <td></td><td>Device ${device.id}</td><td>Port ${port.PortNumber}</td><td>Cable</td></tr>
   <tr>
   <td></td><td><input type="text" name="deviceNum" id="deviceNum" /></td>
   			<td><input type="text" name="portNum" id="portNum" /></td>
