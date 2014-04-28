@@ -24,7 +24,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		Order order = (Order) request.getSession().getAttribute("order");
 		
-		IDeviceDAO deviceDAO = getOracleDaoFactory().getDeviceDAO();
+//		IDeviceDAO deviceDAO = getOracleDaoFactory().getDeviceDAO();
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
 		
@@ -32,7 +32,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		Device device = port.getDevice();
 		
 		ArrayList<Cable> cables = cableDAO.findAll();
-		ArrayList<Cable> availableCables = null;
+		ArrayList<Cable> availableCables = new ArrayList<Cable>();;
 		for (Cable c : cables) {
 			if (c.getPort().equals(null)) {
 				availableCables.add(c);

@@ -17,12 +17,12 @@
 	     });
 	     </script>
 <div class="navigation">
-  <center><input name="backtotask" type="button" value="Back to Task" class="button" />
-  </center></div>
+  <div style="text-align:center"><input name="backtotask" type="button" value="Back to Task" class="button" />
+  </div></div>
   <div class="main">
-  <center>
-    <h2>Create a Device</h2></center>
-  <form id="createdevice" name="createdevice" method="post" action="/Zephyrus/createdevice">
+  <div style="text-align:center">
+    <h2>Create a Device</h2></div>
+  <form id="createDevice" name="createDevice" method="post" action="/Zephyrus/createDevice">
   <div id="somediv"></div>
     <label>Device ID:	</label><input type="text" name="serialNum" id="serialNum" />
 <br />
