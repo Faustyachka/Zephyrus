@@ -108,7 +108,6 @@ public class NewScenarioWorkflow extends Workflow {
      * @param taskID ID of task for installation engineer        
      * @param serialNumber String representing serial number of device
      * @param portQuantity amount of Ports that Router accommodates
-     * @throws Exception 
      */
     public void createRouter(int taskID, String serialNumber, int portQuantity) {
     	OracleDAOFactory factory = new OracleDAOFactory();
@@ -147,7 +146,6 @@ public class NewScenarioWorkflow extends Workflow {
     /**
      * This method creates Cable by specified service location and Cable type 
      * @param taskID ID of task for installation engineer
-     * @param cableType type of Cable to create
      */
     public void createCable(int taskID) {
     	OracleDAOFactory factory = new OracleDAOFactory();
@@ -203,7 +201,7 @@ public class NewScenarioWorkflow extends Workflow {
 
     /**
      * Creates new Circuit Instance
-     * @param factory DAO implementations factory
+     * @param taskID taskID ID of task for provisioning engineer
      * @param circuitConfig logical port configuration
      * @param port Port for which Circuit is created
      */
@@ -268,7 +266,6 @@ public class NewScenarioWorkflow extends Workflow {
      * Sets SI creation date to current date
      * @param factory DAO implementations factory
      * @param si Service Instance to update date for
-     * @throws Exception 
      */
     private void updateServiceInstanceDate(OracleDAOFactory factory, ServiceInstance si) 
     		throws Exception {
