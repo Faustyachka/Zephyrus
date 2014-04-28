@@ -58,7 +58,10 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	public Task insert(Task record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
     	cs.setInt(1, record.getServiceOrder().getId()); 
-    	cs.setInt(2, record.getUser().getId());  
+    	if(record.getUser() == null)
+    		cs.setNull(2, java.sql.Types.INTEGER);
+    	else
+    		cs.setInt(2, record.getUser().getId());
     	cs.setInt(3, record.getTaskStatus().getId());  
     	cs.setInt(4, record.getRole().getId());
     	cs.registerOutParameter(5, OracleTypes.VARCHAR);
