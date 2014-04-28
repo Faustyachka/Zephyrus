@@ -35,8 +35,8 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 	@Override
 	public void update(OrderStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_ORDER_STATUS_VALUE, record.getOrderStatusValue());  	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getOrderStatusValue());  	
+    	stmt.setLong(2, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

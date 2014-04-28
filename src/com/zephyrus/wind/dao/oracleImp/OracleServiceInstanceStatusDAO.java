@@ -37,8 +37,8 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
 	@Override
 	public void update(ServiceInstanceStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_SERV_INSTANCE_STATUS_VALUE, record.getServInstanceStatusValue());  	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getServInstanceStatusValue());  	
+    	stmt.setLong(2, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

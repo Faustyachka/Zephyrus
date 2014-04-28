@@ -41,10 +41,10 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 	@Override
 	public void update(ProductCatalog record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_SERVICE_TYPE_ID, record.getServiceType().getId());
-    	stmt.setInt(COLUMN_PROVIDER_LOC_ID, record.getProviderLoc().getId());
-    	stmt.setInt(COLUMN_PRICE, record.getPrice());
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setInt(1, record.getServiceType().getId());
+    	stmt.setInt(2, record.getProviderLoc().getId());
+    	stmt.setInt(3, record.getPrice());
+    	stmt.setLong(4, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

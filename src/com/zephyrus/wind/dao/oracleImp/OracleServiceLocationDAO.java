@@ -37,9 +37,9 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 	@Override
 	public void update(ServiceLocation record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_SERVICE_LOCATION_COORD, record.getServiceLocationCoord());
-    	stmt.setInt(COLUMN_USER_ID, record.getUser().getId());    	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getServiceLocationCoord());
+    	stmt.setInt(2, record.getUser().getId());    	
+    	stmt.setLong(3, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

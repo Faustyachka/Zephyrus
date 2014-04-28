@@ -47,9 +47,9 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	@Override
 	public void update(Port record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(COLUMN_DEVICE_ID, record.getDevice().getId());
-    	stmt.setInt(COLUMN_PORT_NUMBER, record.getPortNumber()); 
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setInt(1, record.getDevice().getId());
+    	stmt.setInt(2, record.getPortNumber()); 
+    	stmt.setLong(3, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

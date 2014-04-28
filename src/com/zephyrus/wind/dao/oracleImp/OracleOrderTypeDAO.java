@@ -36,8 +36,8 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 	@Override
 	public void update(OrderType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_ORDER_TYPE_VALUE, record.getOrderType());  	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getOrderType());  	
+    	stmt.setLong(2, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

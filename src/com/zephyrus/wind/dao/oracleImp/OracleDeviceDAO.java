@@ -37,8 +37,8 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	@Override
 	public void update(Device record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_SERIAL_NUM, record.getSerialNum());  	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getSerialNum());  	
+    	stmt.setLong(2, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}

@@ -34,8 +34,8 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
 	@Override
 	public void update(TaskStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_TASK_STATUS_VALUE, record.getTaskStatusValue());  	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getTaskStatusValue());  	
+    	stmt.setLong(2, record.getId());
         stmt.executeUpdate();	
         stmt.close();
 	}

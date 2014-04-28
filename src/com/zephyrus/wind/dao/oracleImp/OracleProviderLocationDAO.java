@@ -36,9 +36,9 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
 	@Override
 	public void update(ProviderLocation record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setString(COLUMN_LOCATION_NAME, record.getLocationName());
-    	stmt.setString(COLUMN_LOCATION_COORD, record.getLocationCoord());    	
-    	stmt.setLong(COLUMN_ID, record.getId());
+    	stmt.setString(1, record.getLocationName());
+    	stmt.setString(2, record.getLocationCoord());    	
+    	stmt.setLong(3, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}
