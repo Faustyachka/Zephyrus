@@ -4,11 +4,11 @@
 	 $().ready(function(){
 	     $('#check').click(function(){
 	    	 var serialNum = $('#serialNum').val();
-	         $.post('/Zephyrus/createdevice',{serialNum:serialNum},function(rsp){
+	         $.post('/Zephyrus/createDevice',{serialNum:serialNum},function(rsp){
 	             $("#somediv").empty();
 	             $('#somediv').text(rsp);	 
 	             if (rsp == 'Device created!') {
-	            	 document.forms["createdevice"].reset();
+	            	 document.forms["createDevice"].reset();
 	             }
 	             });
 	         });
@@ -22,7 +22,7 @@
   <div class="main">
   <div style="text-align:center">
     <h2>Create a Device</h2></div>
-  <form id="createDevice" name="createDevice" method="post" action="/Zephyrus/createDevice">
+  <form method="post" action="/Zephyrus/createDevice">
   <div id="somediv"></div>
     <label>Device ID:	</label><input type="text" name="serialNum" id="serialNum" />
 <br />

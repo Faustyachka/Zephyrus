@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.enums.PAGES;
-import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
@@ -45,16 +44,14 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-//		int cableID = Integer.parseInt(request.getParameter("cableID"));
 		String cableID = request.getParameter("cableID");
-		int taskID = Integer.parseInt(request.getParameter("taskID"));
-		
+		int taskID = 1;
 		Task task = new Task();
+		task.setId(taskID);
 		ServiceOrder order = task.getServiceOrder();
 		
 //		Cable cable = new Cable();
 //		cable.setId(cableID);
-
 		
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		wf.createCable(taskID, cableID);

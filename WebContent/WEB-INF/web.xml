@@ -37,10 +37,9 @@
     <url-pattern>/createnewpass</url-pattern>
     <url-pattern>/review</url-pattern>
     <url-pattern>/customersupport</url-pattern>
-    <url-pattern>/newconnection</url-pattern>
-    <url-pattern>/createdevice</url-pattern>
-    <url-pattern>/createcable</url-pattern>
-    <url-pattern>/deletecable</url-pattern>
+    <url-pattern>/createDevice</url-pattern>
+    <url-pattern>/createCable</url-pattern>
+    <url-pattern>/createConnection</url-pattern>
     <url-pattern>/generateReport</url-pattern>
     <url-pattern>/customerOrders</url-pattern>
     <url-pattern>/customerServices</url-pattern>
