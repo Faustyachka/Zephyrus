@@ -52,10 +52,8 @@ public class NewScenarioWorkflow extends Workflow {
      * Order should have status "Entering" and workflow scenario "New"
      */
     @Override
-    public void proceedOrder() {
-    	OracleDAOFactory factory = new OracleDAOFactory();
+    public void proceedOrder(OracleDAOFactory factory) {
         try {
-        	factory.beginConnection();
             if (order.getOrderStatus().getId() != ORDER_STATUS.ENTERING.getId()) {
                 throw new WorkflowException("Cannot proceed Order: wrong order state");
             }
@@ -77,13 +75,9 @@ public class NewScenarioWorkflow extends Workflow {
              * scenario, so we have to create it manually
              */
             createTask(factory, ROLE.INSTALLATION);
-
-            factory.commitTransaction();
         } catch (Exception exc) {
         	throw new WorkflowException("Exception while proceeding order", exc);
-		} finally {
-        	factory.endConnection();
-        }
+		}
     }
 
     private ServiceInstance createServiceInstance(OracleDAOFactory factory) throws Exception {

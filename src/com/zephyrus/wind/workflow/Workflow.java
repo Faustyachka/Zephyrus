@@ -38,7 +38,7 @@ public abstract class Workflow {
      * This method proceeds Order by creating tasks for
      * corresponding user groups which take part in Order execution
      */
-    public abstract void proceedOrder();
+    public abstract void proceedOrder(OracleDAOFactory factory);
 
     /**
      * This method assigns task to particular user of user group
