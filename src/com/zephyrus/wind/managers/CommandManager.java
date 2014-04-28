@@ -25,6 +25,7 @@ import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
+import com.zephyrus.wind.commands.sql.NewConnectionPropertiesCommand;
 import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
@@ -61,6 +62,7 @@ public class CommandManager {
 	private static final String GENERATEREPORT_COMMAND = "generateReport";
 	private static final String CREATE_CIRCUIT_COMMAND = "createCircuit";
 	private static final String CREATE_CONNECTION_COMMAND = "createConnection";
+	private static final String NEW_CONNECTION_PROPERTIES_COMMAND = "newConnectionProperties";
 	
 
 
@@ -93,6 +95,7 @@ public class CommandManager {
 		commands.put(ASSIGN_TASK_COMMAND, new AssignTaskCommand());
 		commands.put(CREATE_CIRCUIT_COMMAND, new CreateCircuitCommand());
 		commands.put(CREATE_CONNECTION_COMMAND, new CreateConnectionCommand());
+		commands.put(NEW_CONNECTION_PROPERTIES_COMMAND, new NewConnectionPropertiesCommand());
 
 
 	}

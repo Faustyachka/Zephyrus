@@ -1,8 +1,8 @@
-<jsp:include page="../WEB-INF/jsphf/header.jsp" />
-<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
 <script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
+
+<jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
 <div class="navigation">
   <div style="text-align:center"><input name="backtotask" type="button" value="Back to Tasks" class="button" /></div></div>
@@ -24,11 +24,12 @@
   <tr>
   <td></td><td><a href="/Zephyrus/installation/createDevice.jsp"> <input type="button"
 			value="Create device" class="button" /></a></td><td> </td>
-			<td><a href="/Zephyrus/createCable"><input type="button"
+			<td><a href="/Zephyrus/createCable?id=1"><input type="button"
 			value="Create cable" class="button" />
 		</a></td></tr>
   <tr>
-  <td></td><td></td><td></td><td><input type="submit" name="button" id="button" 
+  <td></td><td><a href="/Zephyrus/newConnectionProperties?id=1"><input type="button"
+			value="Request properties" class="button" /></td><td></td><td><input type="submit" name="button" id="button" 
   						value="Create connection" class="button"/></td>
   	</table>
   	</form>

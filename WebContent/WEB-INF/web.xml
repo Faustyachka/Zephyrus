@@ -49,6 +49,7 @@
     <url-pattern>/taskRedirector</url-pattern>
     <url-pattern>/assignTask</url-pattern>
     <url-pattern>/createCircuit</url-pattern>
+    <url-pattern>/newConnectionProperties</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>

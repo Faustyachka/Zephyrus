@@ -1,4 +1,3 @@
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
 <script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>

@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
@@ -44,9 +45,11 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = 1;
+		int taskID = Integer.parseInt(request.getParameter("id"));
+		
 		Task task = new Task();
-		task.setId(taskID);
+		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
+		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
