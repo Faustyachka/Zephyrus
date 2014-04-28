@@ -54,7 +54,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	public Cable insert(Cable record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
 		if(record.getPort() == null){
-			cs.setNull(2, java.sql.Types.INTEGER);
+			cs.setNull(1, java.sql.Types.INTEGER);
 		}
 		else {
 			cs.setInt(1, record.getPort().getId());
