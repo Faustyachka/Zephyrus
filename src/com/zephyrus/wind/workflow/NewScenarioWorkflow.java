@@ -54,7 +54,7 @@ public class NewScenarioWorkflow extends Workflow {
     public void proceedOrder() {
     	OracleDAOFactory factory = new OracleDAOFactory();
         try {
-        	
+        	factory.beginConnection();
             if (order.getOrderStatus().getId() != ORDER_STATUS.ENTERING.getId()) {
                 throw new WorkflowException("Cannot proceed Order: wrong order state");
             }
@@ -91,6 +91,7 @@ public class NewScenarioWorkflow extends Workflow {
 
         ServiceInstance serviceInstance = new ServiceInstance();
         serviceInstance.setCircuit(null);
+        serviceInstance.setUser(order.getServiceLocation().getUser());
         serviceInstance.setProductCatalog(order.getProductCatalog());
         serviceInstance.setStartDate(null); // date is not set because SI wasn't activated yet
        	ServiceInstanceStatus status = sisDAO.findById(SERVICEINSTANCE_STATUS.PLANNED.getId());
