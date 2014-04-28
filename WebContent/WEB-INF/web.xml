@@ -50,6 +50,8 @@
     <url-pattern>/assignTask</url-pattern>
     <url-pattern>/createCircuit</url-pattern>
     <url-pattern>/newConnectionProperties</url-pattern>
+    <url-pattern>/showBill</url-pattern>
+    <url-pattern>/approveBill</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>
