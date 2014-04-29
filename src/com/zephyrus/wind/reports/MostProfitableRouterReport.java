@@ -56,8 +56,7 @@ public class MostProfitableRouterReport implements IReport {
 		// Read template file
 		FileInputStream template = null;
 		try {
-			template = new FileInputStream(new File(path
-					+ "_MostProfitableRouter.xls"));
+			template = new FileInputStream(new File( "/WebContent/resources/xls/_MostProfitableRouter.xls"));
 		} catch (FileNotFoundException e) {
 
 		}

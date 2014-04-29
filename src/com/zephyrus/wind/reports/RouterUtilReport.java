@@ -43,7 +43,7 @@ public class RouterUtilReport implements IReport{
 		try {
 			factory.beginConnection();
 			IReportDAO dao = factory.getReportDAO();
-			report = dao.getRouterUtilReport();
+			setReport(dao.getRouterUtilReport());
 
 		} catch (SQLException ex) {
 			ex.printStackTrace();
@@ -60,7 +60,7 @@ public class RouterUtilReport implements IReport{
 		// Read template file
 		FileInputStream template = null;
 		try {
-			template = new FileInputStream(new File(path + "_RouterUtil.xls"));
+			template = new FileInputStream(new File(path+"_RouterUtil.xls"));
 		} catch (FileNotFoundException e) {
 
 		}
@@ -68,15 +68,17 @@ public class RouterUtilReport implements IReport{
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
 		Iterator<RouterUtilRow> iterator = report.iterator();
+		RouterUtilRow item = new RouterUtilRow();
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
+			item = iterator.next();
 			row = sheet.createRow(rowIndex++);
 			cell = row.createCell(0);
-			cell.setCellValue(iterator.next().getRouterSN());
+			cell.setCellValue(item.getRouterSN());
 			cell = row.createCell(1);
-			cell.setCellValue(iterator.next().getRouterUtil());
+			cell.setCellValue(item.getRouterUtil());
 			cell = row.createCell(2);
-			cell.setCellValue(iterator.next().getCapacity());
+			cell.setCellValue(item.getCapacity());
 		}
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);
