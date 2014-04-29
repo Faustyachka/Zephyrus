@@ -69,20 +69,21 @@ public class DisconnectOrdersPerPeriodReport implements IReport{
 		cell.setCellValue(iterator.next().getStartPeriod());
 		cell = row.createCell(2);
 		cell.setCellValue(iterator.next().getEndPeriod());
-
+		DisconnectOrdersPerPeriodRow item = null;
 		int rowIndex = 2;
 		while (iterator.hasNext()) {
+			item = iterator.next();
 			row = sheet.createRow(rowIndex++);
 			cell = row.createCell(0);
-			cell.setCellValue(iterator.next().getUsername());
+			cell.setCellValue(item.getUsername());
 			cell = row.createCell(1);
-			cell.setCellValue(iterator.next().getOrderID());
+			cell.setCellValue(item.getOrderID());
 			cell = row.createCell(2);
-			cell.setCellValue(iterator.next().getOrderStatus());
+			cell.setCellValue(item.getOrderStatus());
 			cell = row.createCell(3);
-			cell.setCellValue(iterator.next().getProductName());
+			cell.setCellValue(item.getProductName());
 			cell = row.createCell(4);
-			cell.setCellValue(iterator.next().getProviderLocation());
+			cell.setCellValue(item.getProviderLocation());
 		}
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);

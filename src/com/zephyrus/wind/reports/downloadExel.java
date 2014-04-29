@@ -32,9 +32,26 @@ public class downloadExel extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("application/vnd.ms-excel");
+		Workbook wb = null;
 		if(request.getSession().getAttribute("routerUtil")!=null){
 			RouterUtilReport report = (RouterUtilReport) request.getSession().getAttribute("routerUtil");
-			Workbook wb = report.convertToExel();
+			wb = report.convertToExel();
+		}
+		if(request.getSession().getAttribute("disconnRepo")!=null){
+			DisconnectOrdersPerPeriodReport report = (DisconnectOrdersPerPeriodReport) request.getSession().getAttribute("routerUtil");
+			wb = report.convertToExel();
+		}
+		if(request.getSession().getAttribute("newRepo")!=null){
+			NewOrdersPerPeriodReport report = (NewOrdersPerPeriodReport) request.getSession().getAttribute("routerUtil");
+			wb = report.convertToExel();
+		}
+		if(request.getSession().getAttribute("profitReport")!=null){
+			ProfitabilityByMonthReport report = (ProfitabilityByMonthReport) request.getSession().getAttribute("routerUtil");
+			wb = report.convertToExel();
+		}
+		if(request.getSession().getAttribute("profitRouter")!=null){
+			MostProfitableRouterReport report = (MostProfitableRouterReport) request.getSession().getAttribute("routerUtil");
+			wb = report.convertToExel();
 		}
 	}
 

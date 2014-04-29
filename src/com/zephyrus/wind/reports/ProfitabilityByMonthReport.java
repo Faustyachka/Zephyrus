@@ -71,13 +71,15 @@ public class ProfitabilityByMonthReport implements IReport {
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
 		Iterator<ProfitabilityByMonthRow> iterator = report.iterator();
+		ProfitabilityByMonthRow item = null;
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
+			item = iterator.next();
 			row = sheet.createRow(rowIndex++);
 			cell = row.createCell(0);
-			cell.setCellValue(iterator.next().getProviderLocation());
+			cell.setCellValue(item.getProviderLocation());
 			cell = row.createCell(1);
-			cell.setCellValue(iterator.next().getProfit());
+			cell.setCellValue(item.getProfit());
 		}
 		CellStyle bold = workbook.createCellStyle();
 		HSSFFont font = (HSSFFont) workbook.createFont();

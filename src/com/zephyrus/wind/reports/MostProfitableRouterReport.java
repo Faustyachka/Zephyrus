@@ -56,7 +56,7 @@ public class MostProfitableRouterReport implements IReport {
 		// Read template file
 		FileInputStream template = null;
 		try {
-			template = new FileInputStream(new File( "/WebContent/resources/xls/_MostProfitableRouter.xls"));
+			template = new FileInputStream(new File(path+ "_MostProfitableRouter.xls"));
 		} catch (FileNotFoundException e) {
 
 		}
@@ -64,13 +64,15 @@ public class MostProfitableRouterReport implements IReport {
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
 		Iterator<MostProfitableRouterRow> iterator = report.iterator();
+		MostProfitableRouterRow item = null;
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
+			item = iterator.next();
 			row = sheet.createRow(rowIndex++);
 			cell = row.createCell(0);
-			cell.setCellValue(iterator.next().getRouterSN());
+			cell.setCellValue(item.getRouterSN());
 			cell = row.createCell(1);
-			cell.setCellValue(iterator.next().getProfit());
+			cell.setCellValue(item.getProfit());
 		}
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);

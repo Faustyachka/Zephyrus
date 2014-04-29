@@ -68,7 +68,7 @@ public class RouterUtilReport implements IReport{
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
 		Iterator<RouterUtilRow> iterator = report.iterator();
-		RouterUtilRow item = new RouterUtilRow();
+		RouterUtilRow item = null;
 		int rowIndex = 1;
 		while (iterator.hasNext()) {
 			item = iterator.next();

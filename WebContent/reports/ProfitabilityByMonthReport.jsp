@@ -25,7 +25,7 @@
 			date.setMonth(Integer.parseInt(request.getParameter("dateMonth")));
 		}
 		ProfitabilityByMonthReport report = new ProfitabilityByMonthReport(date);
-	request.getSession().setAttribute("routerUtil", report);
+	request.getSession().setAttribute("profitReport", report);
 	for(int i = 0; i<report.getReport().size(); i++){
 %>
 		<tr>
