@@ -56,6 +56,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 	
 	public int id;
 	public Cable cable = null;
+	public Device device = null;
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -69,7 +70,10 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		
 		Port port = portDAO.findById(portDAO.findFreePortID());
-		Device device = port.getDevice();
+		
+		if (port != null) {
+			device = port.getDevice();
+		}
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
