@@ -18,7 +18,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.reports.rowObjects.DisconnectOrdersPerPeriodRow;
-import com.zephyrus.wind.workflow.Workflow;
 
 /**
  * This class provides functionality for create and convert "Disconnect SO per period"
@@ -40,7 +39,7 @@ public class DisconnectOrdersPerPeriodReport implements IReport{
 		try {
 			factory.beginConnection();
 			IReportDAO dao = factory.getReportDAO();
-			report = dao.getDisconnectSOPerPeriodReport(startDate, endDate);
+			setReport(dao.getDisconnectSOPerPeriodReport(startDate, endDate));
 		} catch (SQLException ex) {
 			ex.printStackTrace();
 		} finally {
@@ -64,7 +63,7 @@ public class DisconnectOrdersPerPeriodReport implements IReport{
 		workbook = new HSSFWorkbook(template);
 		Sheet sheet = workbook.getSheetAt(0);
 		// Write data to workbook
-		Iterator<DisconnectOrdersPerPeriodRow> iterator = report.iterator();
+		Iterator<DisconnectOrdersPerPeriodRow> iterator = getReport().iterator();
 		row = sheet.getRow(0);
 		cell = row.createCell(1);
 		cell.setCellValue(iterator.next().getStartPeriod());
@@ -92,5 +91,15 @@ public class DisconnectOrdersPerPeriodReport implements IReport{
 		sheet.autoSizeColumn(4);
 		return workbook;
 
+	}
+
+
+	public ArrayList<DisconnectOrdersPerPeriodRow> getReport() {
+		return report;
+	}
+
+
+	public void setReport(ArrayList<DisconnectOrdersPerPeriodRow> report) {
+		this.report = report;
 	}
 }

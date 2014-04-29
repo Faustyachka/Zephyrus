@@ -1,6 +1,8 @@
 package com.zephyrus.wind.reports;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.OutputStream;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -29,6 +31,7 @@ public class downloadExel extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		response.setContentType("application/vnd.ms-excel");
 		if(request.getSession().getAttribute("routerUtil")!=null){
 			RouterUtilReport report = (RouterUtilReport) request.getSession().getAttribute("routerUtil");
 			Workbook wb = report.convertToExel();
