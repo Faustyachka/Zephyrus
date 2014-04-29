@@ -52,6 +52,6 @@
 		<%
 } %>
 	</table>
-	<a href="/Zephyrus/downloadExel">Convert to Exel</a>
+	<a href="/Zephyrus/downloadReport?type=xls">Convert to Exel</a>
 </body>
 </html>
