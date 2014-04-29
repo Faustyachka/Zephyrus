@@ -32,6 +32,11 @@ public abstract class OracleDAO<T> {
         if (rs.next()) {
             T item = itemClass.newInstance();
             fillItem(item, rs);
+            rs.close();
+        	if(stmt != null)
+        		stmt.close();
+        	if(cs != null)
+        		cs.close();
             return item;
         } else {
         	rs.close();
@@ -50,9 +55,17 @@ public abstract class OracleDAO<T> {
             IllegalAccessException, Exception{
         ArrayList<T> resultList = new ArrayList<T>();
         T item = null;
-        while ((item = fetchSingleResult(rs)) != null) 
-            resultList.add(item);
-        
+        while (rs.next()) {
+        	item = itemClass.newInstance();
+            fillItem(item, rs);
+        	resultList.add(item);
+        }
+            
+        rs.close();
+    	if(stmt != null)
+    		stmt.close();
+    	if(cs != null)
+    		cs.close();
         return resultList;
     }
     
