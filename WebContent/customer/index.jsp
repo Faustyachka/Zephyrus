@@ -38,9 +38,9 @@
     <a href="/Zephyrus/cancelOrder?orderId=${actualOrder.id}">
     <input type="button" value="Cancel order">  
     </a>  
-    <a href="/Zephyrus/proceedOrder?orderId=${actualOrder.id}">
-    <input type="button" value="Proceed order" />  
-	</a>
+    <a href="/Zephyrus/sendOrder?orderId=${actualOrder.id}">
+    <input type="button" value="Send Order" />  
+    </a>
     </c:if>
   </div>
   </c:forEach>
