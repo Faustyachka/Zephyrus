@@ -24,14 +24,14 @@
   <td align="center"><c:if test= "${device.id == null}">
   <a href="/Zephyrus/deviceCreationProperties?task_id=${task}"> <input type="button"
 			value="Create device" class="button" /></a></c:if></td><td> </td>
-			<td align="center"><a href="/Zephyrus/createCable?task_id=${task}"><input type="button"
+			<td align="center"><c:if test= "${cable.id == null}"><c:if test = "${device.id != null}"><a href="/Zephyrus/createCable?task_id=${task}"><input type="button"
 			value="Create cable" class="button" />
-		</a></td></tr>
+		</a></c:if></c:if></td></tr>
   <tr>
   </tr>
   <tr>
-  <td></td><td></td><td></td><td align="center"><input type="submit" name="button" id="button" 
-  						value="Create connection" class="button"/></td>
+  <td></td><td></td><td></td><td align="center"><c:if test= "${device.id != null}"><c:if test = "${cable.id != null}"><input type="submit" name="button" id="button" 
+  						value="Create connection" class="button"/></c:if></c:if></td>
   	</table>
   	</form>
 </div>
