@@ -5,7 +5,8 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
 <div class="navigation">
-  <div style="text-align:center"><input name="backtotask" type="button" value="Back to Tasks" class="button" /></div></div>
+  <div style="text-align:center"><a href="/Zephyrus/installation"> <input type="button"
+			value="Back to Tasks" class="button" /></a></div></div>
   <div class="main">
   <div style="text-align:center">
     <h2>Workflow for Order ${order.id} by Task ${task}</h2></div>
