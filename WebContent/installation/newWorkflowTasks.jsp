@@ -21,9 +21,9 @@
   <td align="center">${device.id}</td><td align="center">${port.id}</td><td align="center">${cable.id}</td>
   			</tr>
   <tr>
-  <td align="center">
+  <td align="center"><c:if test= "${device.id == null}">
   <a href="/Zephyrus/deviceCreationProperties?task_id=${task}"> <input type="button"
-			value="Create device" class="button" /></a></td><td> </td>
+			value="Create device" class="button" /></a></c:if></td><td> </td>
 			<td align="center"><a href="/Zephyrus/createCable?task_id=${task}"><input type="button"
 			value="Create cable" class="button" />
 		</a></td></tr>
