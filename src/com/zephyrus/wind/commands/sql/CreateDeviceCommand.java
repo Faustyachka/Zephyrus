@@ -44,7 +44,15 @@ public class CreateDeviceCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = (Integer) request.getSession().getAttribute("taskId");
+		int id = 0;
+		if (request.getParameter("taskID")!=null) {
+			id =  Integer.parseInt(request.getParameter("taskID"));
+			System.out.println("device's task = " + id);
+			request.setAttribute("taskId", id);
+		}else{
+			System.out.println("no attr " );
+		}
+		
 		String serialNum = request.getParameter("serialNum");
 		int portQuantity = 60;
 		
@@ -57,11 +65,11 @@ public class CreateDeviceCommand extends SQLCommand {
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		task = taskDAO.findById(taskID);
+		task = taskDAO.findById(id);
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
-		wf.createRouter(taskID, serialNum, portQuantity);
+		wf.createRouter(id, serialNum, portQuantity);
 		
 //		request.setAttribute("taskId", taskID);
 		return "newConnectionProperties";
