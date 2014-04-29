@@ -6,14 +6,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.IPortDAO;
-import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
-import com.zephyrus.wind.model.Cable;
-import com.zephyrus.wind.model.Device;
-import com.zephyrus.wind.model.Port;
-import com.zephyrus.wind.model.ServiceOrder;
-import com.zephyrus.wind.model.Task;
 
 public class DeviceCreationPropertiesCommand extends SQLCommand {
 

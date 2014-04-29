@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
@@ -57,11 +56,12 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 	
 	public int id;
 	public Cable cable = null;
+	public Port port = null;
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		id = (Integer) request.getAttribute("taskId");
-		System.out.println(" get task id : "+id);
+		id = (Integer) request.getAttribute("task_id");
+		port = (Port) request.getAttribute("port");
 		cable = (Cable) request.getAttribute("cable");
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();

@@ -7,12 +7,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
-import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
-import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.Cable;
-import com.zephyrus.wind.model.Device;
-import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
@@ -53,7 +49,6 @@ public class CreateCableCommand extends SQLCommand {
 		int id = 0;
 		if (request.getParameter("task_id")!=null) {
 			id =  Integer.parseInt(request.getParameter("task_id"));
-			System.out.println("device's task = " + id);
 			request.setAttribute("taskId", id);
 		}else{
 			System.out.println("no attr " );

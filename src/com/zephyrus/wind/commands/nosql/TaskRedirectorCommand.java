@@ -35,7 +35,6 @@ public class TaskRedirectorCommand implements Command {
 			HttpServletResponse response) throws Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		int taskId = Integer.parseInt(request.getParameter("id"));
-		System.out.println(" set task id : "+taskId);
 		request.setAttribute("taskId", taskId);
 		if (user.getRole().getId() == ROLE.INSTALLATION.getId()) {
 			return "newConnectionProperties";
