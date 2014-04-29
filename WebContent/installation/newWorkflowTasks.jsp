@@ -8,11 +8,11 @@
   <div style="text-align:center"><input name="backtotask" type="button" value="Back to Tasks" class="button" /></div></div>
   <div class="main">
   <div style="text-align:center">
-    <h2>Workflow for Order ${order.id} by Task ${id}</h2></div>
+    <h2>Workflow for Order ${order.id} by Task ${task}</h2></div>
     <br>
   <div style="text-align:center">Choose connection properties:</div>
   <br>
-  <form method="post" action="/Zephyrus/createConnection?id=${id}&port=${port.id}&cable=${cable.id}">
+  <form method="post" action="/Zephyrus/createConnection?task_id=${task}&port=${port.id}&cable=${cable.id}">
   <table>
   <tr>
   <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
@@ -21,9 +21,9 @@
   			</tr>
   <tr>
   <td align="center">
-  <a href="/Zephyrus/installation/createDevice.jsp"> <input type="button"
+  <a href="/Zephyrus/deviceCreationProperties?task_id=${task}"> <input type="button"
 			value="Create device" class="button" /></a></td><td> </td>
-			<td align="center"><a href="/Zephyrus/createCable"><input type="button"
+			<td align="center"><a href="/Zephyrus/createCable?task_id=${task}"><input type="button"
 			value="Create cable" class="button" />
 		</a></td></tr>
   <tr>

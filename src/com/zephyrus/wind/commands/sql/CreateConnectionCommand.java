@@ -54,9 +54,26 @@ public class CreateConnectionCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID = (Integer) request.getAttribute("id");
+		int taskID = 0 ;
+		
+		if (request.getParameter("task_id")!=null) {
+			taskID =  Integer.parseInt(request.getParameter("task_id"));
+			System.out.println("device's task = " + taskID);
+		}else{
+			System.out.println("no attr " );
+		}
+		
+		int cableID = 0;
+		
+		if (request.getParameter("cable")!=null) {
+			cableID =  Integer.parseInt(request.getParameter("cable"));
+			System.out.println("cable's id = " + cableID);
+		}else{
+			System.out.println("no cable " );
+		}
+		
 		int portID = Integer.parseInt(request.getParameter("port"));
-		int cableID = Integer.parseInt(request.getParameter("cable"));
+		
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();

@@ -54,12 +54,15 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 	 * 
 	 * @return {@linkNewWorkflowTasks.jsp} page
 	 */
-
+	
+	public int id;
+	public Cable cable = null;
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int id = (Integer) request.getAttribute("taskId");
-		Cable cable = (Cable) request.getAttribute("cable");
+		id = (Integer) request.getAttribute("taskId");
+		System.out.println(" get task id : "+id);
+		cable = (Cable) request.getAttribute("cable");
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		
@@ -72,10 +75,9 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		ServiceOrder order = task.getServiceOrder();
 		
 		
-		request.getSession().setAttribute("id", id);
+		request.getSession().setAttribute("task", id);
 		request.setAttribute("device", device);
-		request.setAttribute("portId", port.getId());
-		request.getSession().setAttribute("portId", port.getId());
+		request.setAttribute("port", port);
 		request.setAttribute("order", order);
 		request.setAttribute("cable", cable);
 		

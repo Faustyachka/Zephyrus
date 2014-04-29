@@ -16,7 +16,8 @@ public enum PAGES {
 	CUSTOMERSERVICES_PAGE("customer/customerServices.jsp"),
 	REGISTER_PAGE("view/register.jsp"),
 	REPORT_PAGE("view/report.jsp"),
-	ORDERDETAIL_PAGE("customer/orderDetail.jsp");
+	ORDERDETAIL_PAGE("customer/orderDetail.jsp"),
+	CREATEDEVICE_PAGE("installation/createDevice.jsp");
 
 	String value;
 	PAGES(String page){
