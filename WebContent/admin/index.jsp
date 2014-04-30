@@ -1,20 +1,15 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-<link href="/Zephyrus/resources/css/demo_table.css" rel="stylesheet"
-	type="text/css" />
-<link href="/Zephyrus/resources/css/demo_table_jui.css" rel="stylesheet"
-	type="text/css" />
-<script src="/Zephyrus/resources/javascript/jquery.dataTables.js"
+ <link href="/Zephyrus/resources/css/metro/crimson/jtable.css"
+	rel="stylesheet" type="text/css" />
+<link href="/Zephyrus/resources/css/jquery-ui-1.10.4.custom.css"
+	rel="stylesheet" type="text/css" />
+<script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.custom.js"
 	type="text/javascript"></script>
-<script type="text/javascript">
-	$(document).ready(function() {
-		$("#users").dataTable({
-			"sPaginationType" : "full_numbers",
-			"bJQueryUI" : true
-		});
-	});
-</script>
+<script src="/Zephyrus/resources/javascript/jquery.jtable.js"
+	type="text/javascript"></script>
+<script src="/Zephyrus/resources/javascript/adminJTable.js"
+	type="text/javascript"></script>
 	<div class="navigation">
 		<center>
 			<br /> <input name="reports" type="button" value="Reports"
@@ -23,50 +18,9 @@
 		</center>
 	</div>
 	<div class="main">
-		<div>
-			<table id="users" class="display">
-				<thead>
-					<tr>
-						<th><u>Email</u></th>
-						<th><u>First name</u></th>
-						<th><u>Second name</u></th>
-						<th><u>Role</u></th>
-						<th><u>Blocked</u></th>
-					</tr>
-				</thead>
-				<tbody>
-					<c:forEach var="customerUser" items="${users}">
-						<tr>
-							<td>${customerUser.email }</td>
-							<td>${customerUser.firstName }</td>
-							<td>${customerUser.lastName }</td>
-							<td>${customerUser.role.roleName}</td>
-							<td><c:choose>
-									<c:when test="${customerUser.status == 1}">
-										<input type="checkbox" class="serialcheck" value="${customerUser.id}"
-											checked="checked" />
-									</c:when>
-									<c:otherwise>
-										<input type="checkbox" class="serialcheck" value="${customerUser.id}" />
-									</c:otherwise>
-								</c:choose></td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
-		
+	<div id="PersonTableContainer"></div>
 		<a href="/Zephyrus/admin/accountCreation.jsp"> <input type="button"
 			value="Create account" class="button" />
 		</a>
 	</div>
-	<script>
-		$('.serialcheck').click(function() {
-			var id = $(this).val();
-			$.post('blocking', {
-				id : id
-			}, function(rsp) {
-			});
-		});
-	</script>
-	<jsp:include page="../WEB-INF/jsphf/footer.jsp" />
+<jsp:include page="../WEB-INF/jsphf/footer.jsp" />
