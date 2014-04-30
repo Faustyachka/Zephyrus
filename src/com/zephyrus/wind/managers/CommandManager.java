@@ -10,7 +10,6 @@ import com.zephyrus.wind.commands.nosql.LogoutCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.nosql.RegisterPageCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
-import com.zephyrus.wind.commands.sql.ApproveBillCommand;
 import com.zephyrus.wind.commands.sql.AssignTaskCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
 import com.zephyrus.wind.commands.sql.CreateCableCommand;
@@ -34,7 +33,6 @@ import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
-import com.zephyrus.wind.commands.sql.ShowBillCommand;
 import com.zephyrus.wind.commands.nosql.TaskRedirectorCommand;
 																										// REVIEW: documentation expected
 public class CommandManager {
@@ -71,8 +69,6 @@ public class CommandManager {
 	private static final String DISCONNECT_CONNECTION_PROPERTIES_COMMAND = "disconnectConnectionProperties";
 	private static final String NEW_CONNECTION_PROPERTIES_COMMAND = "newConnectionProperties";
 	private static final String DEVICE_CREATION_PROPERTIES_COMMAND = "deviceCreationProperties";
-	private static final String SHOW_BILL_COMMAND = "showBill";
-	private static final String APPROVE_BILL_COMMAND = "approveBill";
 	
 
 
@@ -109,8 +105,7 @@ public class CommandManager {
 		commands.put(DISCONNECT_CONNECTION_PROPERTIES_COMMAND, new DeleteConnectionPropertiesCommand());
 		commands.put(NEW_CONNECTION_PROPERTIES_COMMAND, new NewConnectionPropertiesCommand());
 		commands.put(DEVICE_CREATION_PROPERTIES_COMMAND, new DeviceCreationPropertiesCommand());
-		commands.put(SHOW_BILL_COMMAND, new ShowBillCommand());
-		commands.put(APPROVE_BILL_COMMAND, new ApproveBillCommand());
+
 
 
 	}

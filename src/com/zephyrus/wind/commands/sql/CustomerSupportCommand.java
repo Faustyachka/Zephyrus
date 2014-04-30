@@ -37,7 +37,7 @@ public class CustomerSupportCommand extends SQLCommand {
 		String action=(String)request.getParameter("action");
 		response.setContentType("application/json");
 		if(action==null) {
-			return "support/users.jsp";
+			return "support/index.jsp";
 		} else {																						// REVIEW: bad formatting
 		if (action.equals("list")) {
 		try{     
@@ -60,7 +60,7 @@ public class CustomerSupportCommand extends SQLCommand {
 			    }
 		} }																								// REVIEW: bad formatting
 		
-		return "support/users.jsp";
+		return "support/index.jsp";
 	}
 
 }

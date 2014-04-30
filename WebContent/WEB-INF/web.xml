@@ -36,14 +36,13 @@
     <url-pattern>/reassign</url-pattern>
     <url-pattern>/createnewpass</url-pattern>
     <url-pattern>/review</url-pattern>
-    <url-pattern>/customersupport</url-pattern>
     <url-pattern>/createDevice</url-pattern>
     <url-pattern>/createCable</url-pattern>
     <url-pattern>/createConnection</url-pattern>
     <url-pattern>/generateReport</url-pattern>
     <url-pattern>/customerOrders</url-pattern>
     <url-pattern>/customerServices</url-pattern>
-    <url-pattern>/support</url-pattern>
+    <url-pattern>/customersupport</url-pattern>
     <url-pattern>/installation</url-pattern>
     <url-pattern>/provision</url-pattern>
     <url-pattern>/taskRedirector</url-pattern>
@@ -53,8 +52,6 @@
     <url-pattern>/disconnectConnectionProperties</url-pattern>
     <url-pattern>/deleteConnection</url-pattern>
     <url-pattern>/deviceCreationProperties</url-pattern>
-    <url-pattern>/showBill</url-pattern>
-    <url-pattern>/approveBill</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>

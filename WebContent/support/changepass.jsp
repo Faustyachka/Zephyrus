@@ -1,8 +1,4 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
-	<div class="container">
-		<div class="header">
-			<input type="button" name="button" value="Log out" class="logout" />
-		</div>
 		<div class="navigation">
 			<center>
 				<input name="reports" type="button" value="Reports" class="button" />
@@ -32,7 +28,5 @@
 					<input type="hidden" id="userId" name="userId" value="${param.id}"/>
 					<input type="hidden" id="userId" name="userId2" value="${id}"/>
 			</form>
-		</div>
-		<div class="footer"></div>
 	</div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

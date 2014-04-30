@@ -41,9 +41,6 @@ public class TaskRedirectorCommand implements Command {
 		}
 		if (user.getRole().getId() == ROLE.PROVISION.getId()) {
 			return "provision/createCircuit.jsp";
-		}
-		if (user.getRole().getId() == ROLE.SUPPORT.getId()) {
-			return "showBill";
 		} else {
 			return null;
 		}

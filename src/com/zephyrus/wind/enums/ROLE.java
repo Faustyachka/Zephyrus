@@ -2,7 +2,7 @@ package com.zephyrus.wind.enums;
 																									// REVIEW: documentation expected
 public enum ROLE {
 	ADMIN("/Zephyrus/admin",1),
-    SUPPORT("/Zephyrus/support",2),
+    SUPPORT("/Zephyrus/customersupport",2),
     PROVISION("/Zephyrus/provision",3),
     INSTALLATION("/Zephyrus/installation",4),
     CUSTOMER("/Zephyrus/customerOrders",5);
