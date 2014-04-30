@@ -32,6 +32,7 @@ public class ModifyScenarioWorkflow extends Workflow {
     /**
      * This method proceeds given Order under Modify scenario.
      * No tasks are created for Workflow under Modify scenario.
+     * It automatically completes current Order and sends notification to User.
      * Order should have status "Entering" and workflow scenario "Modify"
      */
     @Override
@@ -52,6 +53,7 @@ public class ModifyScenarioWorkflow extends Workflow {
             
             updateServiceInstanceDate(order.getServiceInstance());
             changeOrderStatus(ORDER_STATUS.COMPLETED);
+            // TODO: send email here
         } catch (Exception exc) {
         	throw new WorkflowException("Exception while proceeding order", exc);
 		} finally {

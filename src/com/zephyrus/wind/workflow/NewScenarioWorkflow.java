@@ -173,6 +173,8 @@ public class NewScenarioWorkflow extends Workflow {
                 throw new WorkflowException("Given Task is not valid");
             }
             
+            // TODO: port status validation
+            
             ICableDAO cableDAO = factory.getCableDAO();
             cable.setPort(port);
             cableDAO.update(cable);
@@ -187,7 +189,9 @@ public class NewScenarioWorkflow extends Workflow {
     }
 
     /**
-     * Creates new Circuit Instance
+     * Creates new Circuit Instance. SI is automatically linked with Circuit.
+     * It automatically completes current Order and sends notification to User. 
+     * It also sets SI status to "Active".
      * @param taskID taskID ID of task for provisioning engineer
      * @param circuitConfig logical port configuration
      */
@@ -210,6 +214,9 @@ public class NewScenarioWorkflow extends Workflow {
 
             // link Circuit with SI
             ServiceInstance si = order.getServiceInstance();
+            if(si.getCircuit() != null) {
+            	throw new WorkflowException("Circuit for current SI already exists");
+            }
             si.setCircuit(circuit);
             siDAO.update(si);
             
