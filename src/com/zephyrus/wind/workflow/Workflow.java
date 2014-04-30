@@ -1,5 +1,8 @@
 package com.zephyrus.wind.workflow;
 
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
@@ -27,9 +30,19 @@ import com.zephyrus.wind.model.UserRole;
  * @author Igor Litvinenko
  */
 public abstract class Workflow {
-
-    protected ServiceOrder order; // Service Order for which workflow was created
-    protected OracleDAOFactory factory; // DAO implementations' factory
+	
+	/**
+	 * Static lock is used to achieve continuous
+	 * code execution of some crucial code blocks that should not be
+	 * run simultaneously due to validation issues
+	 */
+    protected static Lock lock = new ReentrantLock();
+	
+    /** Service Order for which workflow was created */
+    protected ServiceOrder order;
+    
+    /** DAO implementations' factory */
+    protected OracleDAOFactory factory;
 
     public Workflow(OracleDAOFactory factory, ServiceOrder order) {
         this.factory = factory;
@@ -50,6 +63,7 @@ public abstract class Workflow {
      * @throws WorkflowException if task is not valid
      */
     public void assignTask(int taskID, int userID) {
+    	lock.lock();
 		try {
 			ITaskDAO taskDAO = factory.getTaskDAO();
 			
@@ -64,6 +78,8 @@ public abstract class Workflow {
             }
 		} catch (Exception exc) {
 			throw new WorkflowException("Assign task exception", exc);
+		} finally {
+			lock.unlock();
 		}
     }
 
@@ -99,8 +115,12 @@ public abstract class Workflow {
     protected void completeTask(int taskID) throws Exception {
         ITaskDAO taskDAO = factory.getTaskDAO();
         ITaskStatusDAO taskStatusDAO = factory.getTaskStatusDAO();
-
+        
         Task task = taskDAO.findById(taskID);
+        if(task.getTaskStatus().getId() != TASK_STATUS.PROCESSING.getId()) {
+        	throw new WorkflowException("Given task is not active");
+        }
+        
         TaskStatus status = taskStatusDAO.findById(TASK_STATUS.COMPLETE.getId());
         task.setTaskStatus(status);
         taskDAO.update(task);

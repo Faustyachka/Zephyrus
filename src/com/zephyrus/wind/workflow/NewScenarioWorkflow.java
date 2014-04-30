@@ -35,7 +35,6 @@ public class NewScenarioWorkflow extends Workflow {
     /**
      * This method creates NewScenarioWorkflow for given Order.
      * It doesn't proceed Order to execution(See {@link Workflow#proceedOrder()})
-     * 
      * @param factory DAO implementations' factory
      * @param order Order to create Workflow for
      * @throws Workflow exception if Order scenario doesn't match "New" scenario
@@ -55,6 +54,7 @@ public class NewScenarioWorkflow extends Workflow {
      */
     @Override
     public void proceedOrder() {
+    	lock.lock();
         try {
             if (order.getOrderStatus().getId() != ORDER_STATUS.ENTERING.getId()) {
                 throw new WorkflowException("Cannot proceed Order: wrong order state");
@@ -79,6 +79,8 @@ public class NewScenarioWorkflow extends Workflow {
             createTask(ROLE.INSTALLATION);
         } catch (Exception exc) {
         	throw new WorkflowException("Exception while proceeding order", exc);
+		} finally {
+			lock.unlock();
 		}
     }
 
@@ -107,7 +109,8 @@ public class NewScenarioWorkflow extends Workflow {
      * @param portQuantity amount of Ports that Router accommodates
      */
     public void createRouter(int taskID, String serialNumber, int portQuantity) {
-        try {
+        lock.lock();
+    	try {
             if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
@@ -132,15 +135,17 @@ public class NewScenarioWorkflow extends Workflow {
             }
         } catch (Exception exc) {
 			throw new WorkflowException("Router creation failed", exc);
+		} finally {
+			lock.unlock();
 		}
     }
 
     /**
      * This method creates Cable by specified service location and Cable type
-     *  
      * @param taskID ID of task for installation engineer
      */
     public void createCable(int taskID) {
+    	lock.lock();
         try {
             if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
@@ -155,6 +160,8 @@ public class NewScenarioWorkflow extends Workflow {
             cableDAO.insert(cable);
         } catch (Exception exc) {
         	throw new WorkflowException("Cable creation failed", exc);
+		} finally {
+			lock.unlock();
 		}
     }
 
@@ -167,6 +174,7 @@ public class NewScenarioWorkflow extends Workflow {
      * @param port Port to plug Cable to
      */
     public void plugCableToPort(int taskID, Cable cable, Port port) {
+    	lock.lock();
         try {
             if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
@@ -180,6 +188,8 @@ public class NewScenarioWorkflow extends Workflow {
             this.createTask(ROLE.PROVISION);
         } catch (Exception exc) {
         	throw new WorkflowException("Failed to plug Cable to the Port", exc);
+		} finally {
+			lock.unlock();
 		}
     }
 
@@ -189,6 +199,7 @@ public class NewScenarioWorkflow extends Workflow {
      * @param circuitConfig logical port configuration
      */
     public void createCircuit(int taskID, String circuitConfig) {
+    	lock.lock();
         try {
         	if (!isTaskValid(taskID, ROLE.PROVISION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
@@ -208,17 +219,21 @@ public class NewScenarioWorkflow extends Workflow {
             ServiceInstance si = order.getServiceInstance();
             si.setCircuit(circuit);
             siDAO.update(si);
+            
+            completeTask(taskID);
 
-            this.completeTask(taskID);
-            this.createTask(ROLE.SUPPORT);
+            updateServiceInstanceDate(order.getServiceInstance());
+            changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.ACTIVE);
+            changeOrderStatus(ORDER_STATUS.COMPLETED);
         } catch (Exception exc) {
         	throw new WorkflowException("Circuit creation failed", exc);
+		} finally {
+			lock.unlock();
 		}
     }
     
     /**
      * Method obtains Port assigned by Installation engineer to current Order
-     * 
      * @return Port for current order
      */
     private Port getPortByCustomer() throws Exception {
@@ -233,30 +248,6 @@ public class NewScenarioWorkflow extends Workflow {
         	throw new WorkflowException("No link between Service Location and Router");
         }
         return port;
-    }
-
-    /**
-     * This method approves and sends Bill to customer and automatically activates SI
-     * by changing it's status to "Active". It also changes Order status to
-     * "Completed"
-     * 
-     * @param taskID ID of Task for Support Engineer
-     */
-    public void approveBill(int taskID) {
-        try {
-        	if (!isTaskValid(taskID, ROLE.SUPPORT.getId())) {
-                throw new WorkflowException("Given Task is not valid");
-            }
-
-            completeTask(taskID);
-
-            updateServiceInstanceDate(order.getServiceInstance());
-            changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.ACTIVE);
-            changeOrderStatus(ORDER_STATUS.COMPLETED);
-            // TODO: send email here
-        } catch (Exception exc) {
-        	throw new WorkflowException("Failed to approve Bill", exc);
-		}
     }
 
     /**
