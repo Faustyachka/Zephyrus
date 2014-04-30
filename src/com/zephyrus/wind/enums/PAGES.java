@@ -11,6 +11,7 @@ public enum PAGES {
 	PROVISION_PAGE("provision/index.jsp"),
 	INSTALLATION_PAGE("installation/index.jsp"),
 	INSTALLATIONNEWWORKFLOW_PAGE("installation/newWorkflowTasks.jsp"),
+	INSTALLATIONDISCONNECTWORKFLOW_PAGE("installation/disconnectWorkflowTasks.jsp"),
 	CREATECABLE_PAGE("installation/createcable.jsp"),
 	CUSTOMERORDERS_PAGE("customer/index.jsp"),
 	CUSTOMERSERVICES_PAGE("customer/customerServices.jsp"),

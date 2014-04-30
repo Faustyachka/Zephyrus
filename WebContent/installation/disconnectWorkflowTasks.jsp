@@ -11,9 +11,9 @@
   <div style="text-align:center">
     <h2>Workflow for Order ${order.id} by Task ${task}</h2></div>
     <br>
-  <div style="text-align:center">Choose connection properties:</div>
+  <div style="text-align:center">Connection properties:</div>
   <br>
-  <form method="post" action="/Zephyrus/createConnection?task_id=${task}&port=${port.id}&cable=${cable.id}">
+  <form method="post" action="/Zephyrus/deleteConnection?task_id=${task}&port=${port.id}&cable=${cable.id}">
   <table>
   <tr>
   <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
@@ -21,17 +21,12 @@
   <td align="center">${device.id}</td><td align="center">${port.id}</td><td align="center">${cable.id}</td>
   			</tr>
   <tr>
-  <td align="center"><c:if test= "${device.id == null}">
-  <a href="/Zephyrus/deviceCreationProperties?task_id=${task}"> <input type="button"
-			value="Create device" class="button" /></a></c:if></td><td> </td>
-			<td align="center"><c:if test= "${cable.id == null}"><c:if test = "${device.id != null}"><a href="/Zephyrus/createCable?task_id=${task}"><input type="button"
-			value="Create cable" class="button" />
-		</a></c:if></c:if></td></tr>
+  <td></td></tr>
   <tr>
   </tr>
   <tr>
   <td></td><td></td><td></td><td align="center"><c:if test= "${device.id != null}"><c:if test = "${cable.id != null}"><input type="submit" name="button" id="button" 
-  						value="Create connection" class="button"/></c:if></c:if></td>
+  						value="Delete connection" class="button"/></c:if></c:if></td>
   	</table>
   	</form>
 </div>
