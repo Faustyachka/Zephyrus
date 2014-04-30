@@ -103,10 +103,14 @@ public abstract class OracleDAO<T> {
 	 * @return int - number of existing class objects
 	 */
     public int count() throws SQLException{
+    	int result = 0;
     	stmt = connection.prepareStatement("SELECT COUNT(*) FROM (" + getSelect() +
     			" )");
     	rs = stmt.executeQuery();
-    	return rs.getInt(1);
+    	if (rs.next()) {
+    		result = rs.getInt(1);
+    	}
+    	return result;
     }
     ;
     
