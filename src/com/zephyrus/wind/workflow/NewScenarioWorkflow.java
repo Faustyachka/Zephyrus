@@ -1,13 +1,9 @@
 package com.zephyrus.wind.workflow;
 
-import java.sql.Date;
-import java.util.Calendar;
-
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.ICircuitDAO;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
-import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
@@ -19,7 +15,6 @@ import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Circuit;
 import com.zephyrus.wind.model.Device;
-import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
@@ -28,6 +23,7 @@ import com.zephyrus.wind.model.ServiceOrder;
 
 /**
  * This class provides functionality for "New" scenario workflow
+ * @see com.zephyrus.wind.workflow.Workflow
  * @author Igor Litvinenko
  */
 public class NewScenarioWorkflow extends Workflow {
@@ -60,14 +56,11 @@ public class NewScenarioWorkflow extends Workflow {
                 throw new WorkflowException("Cannot proceed Order: wrong order state");
             }
 
-            IOrderStatusDAO orderStatusDAO = factory.getOrderStatusDAO();
-            IServiceOrderDAO orderDAO = factory.getServiceOrderDAO();
-            
-            OrderStatus orderStatus = orderStatusDAO.findById(ORDER_STATUS.PROCESSING.getId());
-            order.setOrderStatus(orderStatus);
-            ServiceInstance serviceInstance = createServiceInstance();
+            changeOrderStatus(ORDER_STATUS.PROCESSING);
 
             // Link Order with SI
+            IServiceOrderDAO orderDAO = factory.getServiceOrderDAO();
+            ServiceInstance serviceInstance = createServiceInstance();
             order.setServiceInstance(serviceInstance);
             orderDAO.update(order);
 
@@ -248,20 +241,6 @@ public class NewScenarioWorkflow extends Workflow {
         	throw new WorkflowException("No link between Service Location and Router");
         }
         return port;
-    }
-
-    /**
-     * Sets SI creation date to current date
-     * @param si Service Instance to update date for
-     */
-    private void updateServiceInstanceDate(ServiceInstance si) 
-    		throws Exception {
-    	
-        IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
-        Calendar cal = java.util.Calendar.getInstance();
-        Date date = new Date(cal.getTimeInMillis());
-        si.setStartDate(date);
-        siDAO.update(si);
     }
 }
 

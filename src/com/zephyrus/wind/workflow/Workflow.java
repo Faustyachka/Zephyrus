@@ -1,5 +1,7 @@
 package com.zephyrus.wind.workflow;
 
+import java.sql.Date;
+import java.util.Calendar;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 
@@ -171,5 +173,19 @@ public abstract class Workflow {
         } else {
             return true;
         }
+    }
+    
+    /**
+     * Sets SI creation date to current date
+     * @param si Service Instance to update date for
+     */
+    protected void updateServiceInstanceDate(ServiceInstance si) 
+    		throws Exception {
+    	
+        IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
+        Calendar cal = java.util.Calendar.getInstance();
+        Date date = new Date(cal.getTimeInMillis());
+        si.setStartDate(date);
+        siDAO.update(si);
     }
 }
