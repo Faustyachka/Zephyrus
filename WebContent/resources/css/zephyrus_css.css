@@ -1,34 +1,34 @@
 .container {
-	height: 100%;
-	width: 100%;
-	border: dotted;
+	height: 675px;
+	width: 1000px;
+	border:solid;
 	margin: 0 auto;
 }
 .header {
 	float: left;
 	height: 100px;
-	width: 100%;
-	border-bottom:dotted;
+	width: 1000px;
+	border-bottom:solid;
 }
 .navigation {
 	float: left;
 	height: 550px;
-	width: 25%;
-	border-right:dotted;
+	width: 190px;
+	border-right:solid;
 }
 
 .main {
 	float: left;
 	height: 550px;
-	width: 75%;
+	width: 800px;
 	overflow:auto;
 }
 
 .footer {
 	float: left;
 	height: 25px;
-	width: 100%;
-	border-top:dotted;
+	width: 1000px;
+	border-top:solid;
 }
 
 .button {
