@@ -73,12 +73,43 @@ public abstract class OracleDAO<T> {
     protected abstract String getSelect();
     protected abstract String getDelete();
     
+    @Deprecated
     public ArrayList<T> findAll() throws Exception {
         stmt = connection.prepareStatement(getSelect());
         rs = stmt.executeQuery();
         return fetchMultiResults(rs);
     }
 
+    /**
+	 * Method find specified count of class objects
+	 * 
+	 * @param int firstItem - begin item of search
+	 * @param int count - number of return class objects
+	 * @return ArrayList<T> - collection of class objects
+	 */
+    
+    public ArrayList<T> find(int firstItem, int count) throws Exception {
+    	int lastItem = firstItem + count;
+        stmt = connection.prepareStatement(getSelect()  + 
+        		" WHERE ROWNUM BETWEEN " + firstItem + " AND " + lastItem);
+        rs = stmt.executeQuery();
+        return fetchMultiResults(rs);
+    }
+    
+    
+    /**
+	 * Method find count of existing class objects from corresponding DB table
+	 * 
+	 * @return int - number of existing class objects
+	 */
+    public int count() throws SQLException{
+    	stmt = connection.prepareStatement("SELECT COUNT(*) FROM (" + getSelect() +
+    			" )");
+    	rs = stmt.executeQuery();
+    	return rs.getInt(1);
+    }
+    ;
+    
     public T findById(int id) throws Exception {
         stmt = connection.prepareStatement(getSelect() + "WHERE ID=?");
         stmt.setInt(1, id);
