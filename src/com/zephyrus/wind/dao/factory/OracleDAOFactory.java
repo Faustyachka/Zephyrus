@@ -23,12 +23,14 @@ import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
+import com.zephyrus.wind.dao.interfaces.IPortStatusDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleCableDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleCircuitDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleDeviceDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleOrderStatusDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleOrderTypeDAO;
 import com.zephyrus.wind.dao.oracleImp.OraclePortDAO;
+import com.zephyrus.wind.dao.oracleImp.OraclePortStatusDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleProductCatalogDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleProviderLocationDAO;
 import com.zephyrus.wind.dao.oracleImp.OracleReportDAO;
@@ -196,6 +198,11 @@ public class OracleDAOFactory implements IDAOFactory {											// REVIEW: docu
 	@Override
 	public IReportDAO getReportDAO() throws Exception {
 		return (IReportDAO) new OracleReportDAO(connection, this);
+	}
+
+	@Override
+	public IPortStatusDAO getPortStatusDAO() throws Exception {
+		return new OraclePortStatusDAO(connection, this);
 	}
 }
 

@@ -22,6 +22,9 @@ public class Port implements Serializable {
 	private Device device;
 
 	private Integer portNumber;
+	
+	private PortStatus portStatus;
+
 
 	public Port() {
 	}
@@ -48,6 +51,14 @@ public class Port implements Serializable {
 
 	public void setPortNumber(Integer portNumber) {
 		this.portNumber = portNumber;
+	}
+	
+	public PortStatus getPortStatusID() {
+		return portStatus;
+	}
+
+	public void setPortStatusID(PortStatus portStatus) {
+		this.portStatus = portStatus;
 	}
 	
 
