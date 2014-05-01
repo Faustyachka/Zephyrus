@@ -5,17 +5,20 @@ import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.ICircuitDAO;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
+import com.zephyrus.wind.dao.interfaces.IPortStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
+import com.zephyrus.wind.enums.PORT_STATUS;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Circuit;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.PortStatus;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
 import com.zephyrus.wind.model.ServiceLocation;
@@ -120,9 +123,12 @@ public class NewScenarioWorkflow extends Workflow {
             device.setSerialNum(serialNumber);
             device = deviceDAO.insert(device);
 
+            IPortStatusDAO portStatusDAO = factory.getPortStatusDAO();
+            PortStatus freePortStatus = portStatusDAO.findById(PORT_STATUS.FREE.getId());
             for (int portNumber = 1; portNumber <= portQuantity; portNumber++) {
                 Port port = new Port();
                 port.setDevice(device);
+                port.setPortStatus(freePortStatus);		
                 port.setPortNumber(portNumber);
                 portDAO.insert(port);
             }
@@ -173,11 +179,20 @@ public class NewScenarioWorkflow extends Workflow {
                 throw new WorkflowException("Given Task is not valid");
             }
             
-            // TODO: port status validation
+            PortStatus portStatus = port.getPortStatus();
+            if(portStatus.getId() != PORT_STATUS.FREE.getId()) {
+            	throw new WorkflowException("Port isn't free at the moment");
+            }
             
             ICableDAO cableDAO = factory.getCableDAO();
             cable.setPort(port);
             cableDAO.update(cable);
+            
+            // update Port status to "Busy"
+            IPortDAO portDAO = factory.getPortDAO();
+            portStatus = factory.getPortStatusDAO().findById(PORT_STATUS.BUSY.getId());
+            port.setPortStatus(portStatus);
+            portDAO.update(port);
 
             this.completeTask(taskID);
             this.createTask(ROLE.PROVISION);

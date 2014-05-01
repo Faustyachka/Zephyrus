@@ -4,6 +4,7 @@ import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
+import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 
@@ -20,13 +21,20 @@ public class ModifyScenarioWorkflow extends Workflow {
      * @param factory DAO implementations' factory
      * @param order Order to create Workflow for
      * @throws Workflow exception if Order scenario doesn't match "Modify" scenario
-     * workflow
+     * workflow or if SI is not active
      */
     public ModifyScenarioWorkflow(OracleDAOFactory factory, ServiceOrder order) {
         super(factory, order);
+        
 		if (order.getOrderType().getId() != ORDER_TYPE.MODIFY.getId()) {
             throw new WorkflowException("Cannot proceed Order: wrong order scenario");
         }
+		
+		ServiceInstance si = order.getServiceInstance();
+		if(si.getServInstanceStatus().getId() != SERVICEINSTANCE_STATUS.ACTIVE.getId()) {
+			throw new WorkflowException("service Instance associated with current Order "
+					+ "is not Active");
+		}
     }
     
     /**

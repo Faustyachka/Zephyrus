@@ -191,6 +191,9 @@ public abstract class Workflow implements Closeable {
         siDAO.update(si);
     }
     
+    /**
+     * Removes lock associated with current order
+     */
     public void close() {
 		LockManager.removeLock(order.getId());
     }
