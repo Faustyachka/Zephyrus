@@ -5,33 +5,51 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
 <div class="navigation">
-  <div style="text-align:center"><a href="/Zephyrus/installation"> <input type="button"
-			value="Back to Tasks" class="button" /></a></div></div>
-  <div class="main">
+	<div style="text-align: center">
+		<a href="/Zephyrus/installation"> <input type="button"
+			value="Back to Tasks" class="button" /></a>
+	</div>
+</div>
+<div class="main">
   <div style="text-align:center">
-    <h2>Workflow for Order ${order.id} by Task ${task}</h2></div>
+    <h2>Workflow for Order ${order.id} by Task ${task}</h2>
+    </div>
     <br>
   <div style="text-align:center">Choose connection properties:</div>
   <br>
-  <form method="post" action="/Zephyrus/createConnection?task_id=${task}&port=${port.id}&cable=${cable.id}">
+  <form method="post" action="/Zephyrus/createConnection?taskId=${task}&port=${port.id}&cable=${cable.id}">
   <table>
   <tr>
   <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
   <tr>
-  <td align="center">${device.id}</td><td align="center">${port.id}</td><td align="center">${cable.id}</td>
-  			</tr>
+  <td align="center">${device.serialNum}</td><td align="center">${port.portNumber}</td><td align="center">${cable.id}</td>
+  </tr>
   <tr>
   <td align="center"><c:if test= "${device.id == null}">
-  <a href="/Zephyrus/deviceCreationProperties?task_id=${task}"> <input type="button"
-			value="Create device" class="button" /></a></c:if></td><td> </td>
-			<td align="center"><c:if test= "${cable.id == null}"><c:if test = "${device.id != null}"><a href="/Zephyrus/createCable?task_id=${task}"><input type="button"
-			value="Create cable" class="button" />
-		</a></c:if></c:if></td></tr>
+  <a href="/Zephyrus/deviceCreationProperties?taskId=${task}"> 
+  <input type="button" value="Create device" class="button" />
+  </a>
+  </c:if>
+  </td> <td> </td>
+		<td align="center"><c:if test= "${cable.id == null}">
+		<c:if test = "${device.id != null}">
+		<a href="/Zephyrus/createCable?taskId=${task}">
+		<input type="button" value="Create cable" class="button" />
+		</a>
+		</c:if>
+		</c:if>
+		</td>
+		</tr>
   <tr>
   </tr>
   <tr>
-  <td></td><td></td><td></td><td align="center"><c:if test= "${device.id != null}"><c:if test = "${cable.id != null}"><input type="submit" name="button" id="button" 
-  						value="Create connection" class="button"/></c:if></c:if></td>
+  <td></td><td></td><td></td>
+  <td align="center"><c:if test= "${device.id != null}">
+  <c:if test = "${cable.id != null}">
+  <input type="submit" name="button" id="button" value="Create connection" class="button"/>
+  </c:if>
+  </c:if>
+  </td>
   	</table>
   	</form>
 </div>

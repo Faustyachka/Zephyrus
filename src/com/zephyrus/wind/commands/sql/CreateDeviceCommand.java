@@ -1,9 +1,11 @@
 package com.zephyrus.wind.commands.sql;
 
 
+
 import java.sql.SQLException;																
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -101,7 +103,9 @@ public class CreateDeviceCommand extends SQLCommand {
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
+
 		wf.createRouter(taskID, serialNum, portQuantity);
+
 		wf.close();
 		
 //		request.setAttribute("taskId", taskID);

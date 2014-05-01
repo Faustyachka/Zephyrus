@@ -33,14 +33,14 @@ public class TaskRedirectorCommand implements Command {
 	@Override
 	public String execute(HttpServletRequest request,
 			HttpServletResponse response) throws Exception {
-		User user = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");  //TODO check null
 		int taskId = Integer.parseInt(request.getParameter("id"));
 		request.setAttribute("taskId", taskId);
 		if (user.getRole().getId() == ROLE.INSTALLATION.getId()) {
 			return "newConnectionProperties";
 		}
 		if (user.getRole().getId() == ROLE.PROVISION.getId()) {
-			return "provision/createCircuit.jsp";
+			return "createCircuitView";
 		} else {
 			return null;
 		}

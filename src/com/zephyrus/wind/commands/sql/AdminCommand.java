@@ -48,9 +48,15 @@ public class AdminCommand extends SQLCommand  {
 			//checking is this the AJAX request for users list getting from JSP
 			if (action.equals("list")) {
 				try {
+					int startPageIndex=
+					          Integer.parseInt(request.getParameter("jtStartIndex"));
+					       int numRecordsPerPage=
+					          Integer.parseInt(request.getParameter("jtPageSize"));
+					       
 					IUserDAO dao = getOracleDaoFactory().getUserDAO();
-					ArrayList<User> lstUser = dao
-							.findAll(); // TODO pagination
+					ArrayList<User> lstUser=dao.find(startPageIndex,numRecordsPerPage);
+				       //Get Total Record Count for Pagination
+				       int userCount=dao.count();
 					JsonElement element = gson.toJsonTree(lstUser,
 							new TypeToken<List<User>>() {
 							}.getType());
@@ -59,7 +65,7 @@ public class AdminCommand extends SQLCommand  {
 					
 					//transforming data to form required in JTable
 					listData = "{\"Result\":\"OK\",\"Records\":" + listData
-							+ "}";
+							+ ",\"TotalRecordCount\":"+userCount+"}";
 					response.getWriter().print(listData);
 					return null;
 				} catch (Exception ex) {

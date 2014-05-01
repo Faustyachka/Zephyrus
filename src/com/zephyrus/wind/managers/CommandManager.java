@@ -14,6 +14,7 @@ import com.zephyrus.wind.commands.sql.AssignTaskCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
 import com.zephyrus.wind.commands.sql.CreateCableCommand;
 import com.zephyrus.wind.commands.sql.CreateCircuitCommand;
+import com.zephyrus.wind.commands.sql.CreateCircuitViewCommand;
 import com.zephyrus.wind.commands.sql.CreateConnectionCommand;
 import com.zephyrus.wind.commands.sql.CreateDeviceCommand;
 import com.zephyrus.wind.commands.sql.CreateNewPassComand;
@@ -29,6 +30,7 @@ import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
 import com.zephyrus.wind.commands.sql.NewConnectionPropertiesCommand;
+import com.zephyrus.wind.commands.sql.OrdersAndInstancesDisplayingCommand;
 import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
@@ -69,6 +71,8 @@ public class CommandManager {
 	private static final String DISCONNECT_CONNECTION_PROPERTIES_COMMAND = "disconnectConnectionProperties";
 	private static final String NEW_CONNECTION_PROPERTIES_COMMAND = "newConnectionProperties";
 	private static final String DEVICE_CREATION_PROPERTIES_COMMAND = "deviceCreationProperties";
+	private static final String ORDERS_AND_SERVICES_COMMAND = "ordersAndServices";
+	private static final String CREATE_CIRCUIT_VIEW_COMMAND = "createCircuitView";
 	
 
 
@@ -105,6 +109,8 @@ public class CommandManager {
 		commands.put(DISCONNECT_CONNECTION_PROPERTIES_COMMAND, new DeleteConnectionPropertiesCommand());
 		commands.put(NEW_CONNECTION_PROPERTIES_COMMAND, new NewConnectionPropertiesCommand());
 		commands.put(DEVICE_CREATION_PROPERTIES_COMMAND, new DeviceCreationPropertiesCommand());
+		commands.put(ORDERS_AND_SERVICES_COMMAND, new OrdersAndInstancesDisplayingCommand());
+		commands.put(CREATE_CIRCUIT_VIEW_COMMAND, new CreateCircuitViewCommand());
 
 
 

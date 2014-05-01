@@ -22,9 +22,8 @@
 	<form id="createdevice" name="form3" method="post"
 		action="/Zephyrus/changepass">
 		<div id="PersonTableContainer"></div>
-		<br /> <input type="button" name="view_si" id="view_si"
-			value="Service Instances and Service Orders" /> <input type="button"
-			name="button" id="changepass" value="Change password" class="button" />
+		<br /> <input type="button" name="view_si" id="view_si"	value="Service Instances and Service Orders" /> 
+			<input type="button" name="button" id="changepass" value="Change password" class="button" />
 	</form>
 </div>
 <div class="footer"></div>
@@ -34,6 +33,14 @@
 		if ($(":radio[name=radiobutton]").filter(":checked").val()) {
 			var userId = $('input[name=radiobutton]:checked').val();
 			document.location.href = "support/changepass.jsp?id=" + userId;
+		} else {
+			alert("Check user");
+		}
+	});
+	$(document).on('click', '#view_si', function() {
+		if ($(":radio[name=radiobutton]").filter(":checked").val()) {
+			var userId = $('input[name=radiobutton]:checked').val();
+			document.location.href = "/Zephyrus/ordersAndServices?id=" + userId;
 		} else {
 			alert("Check user");
 		}

@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.sql.Date;
 
 import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.User;
 																									// REVIEW: documentation expected, DAOException should be thrown
 public interface IServiceOrderDAO extends IDAO<ServiceOrder> {
 

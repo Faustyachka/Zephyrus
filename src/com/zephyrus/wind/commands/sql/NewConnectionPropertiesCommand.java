@@ -10,11 +10,13 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
+import com.zephyrus.wind.model.User;
 
 /**
  * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
@@ -54,14 +56,38 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 	 * @return {@linkNewWorkflowTasks.jsp} page
 	 */
 	
-	public int id;
+	public int taskID;
 	public Cable cable = null;
 	public Device device = null;
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+				
+		User user = (User) request.getSession().getAttribute("user");
 		
-		id = (Integer) request.getAttribute("taskId");
+		//checking is user authorized
+		if (user==null||user.getRole().getId()!=ROLE.INSTALLATION.getId()) {
+			request.setAttribute("errorMessage", "You should login under "
+					+ "Installation Engineer's account to view this page!"
+					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		} 
+		
+		//check the presence of task ID
+		if (request.getParameter("id")==null) {
+			request.setAttribute("errorMessage", "You must choose task from task's page!"
+					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		try {
+			taskID = Integer.parseInt(request.getParameter("id"));
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+			request.setAttribute("errorMessage", "Task ID is not valid. "
+					+ "You must choose task from task's page!"
+					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 				
 		if (request.getAttribute("cable")!=null) {
 			cable = (Cable) request.getAttribute("cable");
@@ -77,11 +103,11 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		task = taskDAO.findById(id);
+		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 		
 		
-		request.getSession().setAttribute("task", id);
+		request.getSession().setAttribute("task", taskID);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
 		request.setAttribute("order", order);

@@ -64,7 +64,8 @@ public class DeleteCableCommand extends SQLCommand {
 		    response.getWriter().write("Port for cable should be chosen.");
 			return "installation/deleteCable.jsp";
 		}
-		Cable cable = new Cable();
+		
+		/*Cable cable = new Cable();
 		
 		ServiceLocation so = new ServiceLocation();
 		
@@ -79,7 +80,7 @@ public class DeleteCableCommand extends SQLCommand {
 		cable.setPort(port);
 		cable.setServiceLocation(so);
 		ICableDAO dao = getOracleDaoFactory().getCableDAO();
-		dao.remove(cable);
+		dao.remove(cable);*/
 		
 		request.setAttribute("message", "Cable deleted <br> <a href='/Zephyrus/installation'>return to home page</a>");		
 		return PAGES.MESSAGE_PAGE.getValue();

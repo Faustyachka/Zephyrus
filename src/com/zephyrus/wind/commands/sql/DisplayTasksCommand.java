@@ -51,13 +51,20 @@ public class DisplayTasksCommand extends SQLCommand {
 		//checking is user authorized
 		if (request.getSession().getAttribute("user")==null) {
 			request.setAttribute("errorMessage", "You should login to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login");
+					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		//Get user from HTTP session
 		User user = (User) request.getSession().getAttribute("user");
 		UserRole userRole = user.getRole();
-
+		
+		//checking is user logged in under engineer's account
+		if (userRole.getId()!=ROLE.INSTALLATION.getId()&&userRole.getId()!=ROLE.PROVISION.getId()) {
+			request.setAttribute("errorMessage", "You should login under Provisioning or"
+					+ "Installation Engineer's account to view this page!"
+					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 		
 		//Find necessary lists of tasks for defined user
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
@@ -73,14 +80,7 @@ public class DisplayTasksCommand extends SQLCommand {
 		if (userRole.getId()==ROLE.INSTALLATION.getId()) {
 			return "installation/index.jsp";
 		}
-		if (userRole.getId()==ROLE.SUPPORT.getId()) {
-			return "support/index.jsp";
-		}
-
-		// If user is not authorized
-		request.setAttribute("errorMessage", "Please, login! <br/> <a href='view/login.jsp'> login");
-		return PAGES.MESSAGE_PAGE.getValue();
-
+		return null;
 	}
 
 }
