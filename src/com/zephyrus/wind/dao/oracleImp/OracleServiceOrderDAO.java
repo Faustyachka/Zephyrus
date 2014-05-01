@@ -18,6 +18,7 @@ import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.User;
 
 
 public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {
@@ -179,6 +180,26 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();		
 		return fetchMultiResults(rs);
+	}
+	
+	
+	/**
+	 * Method finds Service Orders object of User
+	 * 
+	 * @param User
+	 * @return collection of Service Orders
+	 * @author Miroshnychenko Nataliya
+	 */
+	@Override
+	public ArrayList<ServiceOrder> findServiceOrderByUser(User user) throws Exception {
+		ArrayList<ServiceOrder> serviceOrders = new ArrayList<ServiceOrder>(); 
+		ArrayList<ServiceLocation> serviceLocations = 
+				daoFactory.getServiceLocationDAO().getServiceLocationsByUserId(user.getId());
+		for(ServiceLocation serviceLocation: serviceLocations){
+			serviceOrders.addAll(daoFactory.getServiceOrderDAO().getServiceOrdersByServiceLocationId(serviceLocation.getId()));
+		}
+		return serviceOrders;
+		 
 	}
 	
 
