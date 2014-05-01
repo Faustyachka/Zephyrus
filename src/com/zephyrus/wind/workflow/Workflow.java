@@ -4,7 +4,6 @@ import java.io.Closeable;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
@@ -36,7 +35,7 @@ import com.zephyrus.wind.model.UserRole;
 public abstract class Workflow implements Closeable {
 	
 	/**
-	 * Static lock is used to achieve continuous
+	 * Lock is used to achieve continuous
 	 * code execution of some crucial code blocks that should not be
 	 * run simultaneously due to validation issues
 	 */
