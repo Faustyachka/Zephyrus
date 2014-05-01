@@ -49,8 +49,8 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 		stmt = connection.prepareStatement(SQL_UPDATE);
     	stmt.setInt(1, record.getDevice().getId());
     	stmt.setInt(2, record.getPortNumber()); 
-    	stmt.setLong(3, record.getId());
-    	stmt.setInt(4, record.getPortStatus().getId());
+    	stmt.setInt(3, record.getPortStatus().getId());
+    	stmt.setLong(4, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}
