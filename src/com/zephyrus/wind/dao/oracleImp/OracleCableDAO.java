@@ -12,7 +12,10 @@ import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceLocation;
+import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.Task;
 
 public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
@@ -134,11 +137,29 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	 */
 
 	@Override
-	public Cable findCableFromServLoc(int serviceLocationID) throws Exception{
+	public Cable findCableFromServLoc(int serviceLocationID) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
 		stmt.setInt(1, serviceLocationID);
 		rs = stmt.executeQuery();
 		return fetchSingleResult(rs);
+	}
+	
+	
+	/**
+	 * Method finds Cable object for Task
+	 * 
+	 * @param Task object
+	 * @return existing Cable, otherwise null
+	 * @author Miroshnychenko Nataliya
+	 */
+	
+	@Override
+	public Cable findCableByTask(Task task) throws Exception {
+		Cable cable = new Cable();
+		ServiceOrder serviceOrder = task.getServiceOrder();
+		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
+		cable =  findCableFromServLoc(serviceLocation.getId());
+		return cable;
 	}
 
 }
