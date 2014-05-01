@@ -103,8 +103,9 @@ public class NewScenarioWorkflow extends Workflow {
      * @param taskID ID of task for installation engineer        
      * @param serialNumber String representing serial number of device
      * @param portQuantity amount of Ports that Router accommodates
+     * @return created Device
      */
-    public void createRouter(int taskID, String serialNumber, int portQuantity) {
+    public Device createRouter(int taskID, String serialNumber, int portQuantity) {
         lock.lock();
     	try {
             if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
@@ -132,6 +133,8 @@ public class NewScenarioWorkflow extends Workflow {
                 port.setPortNumber(portNumber);
                 portDAO.insert(port);
             }
+            
+            return device;
         } catch (Exception exc) {
 			throw new WorkflowException("Router creation failed", exc);
 		} finally {
@@ -140,10 +143,11 @@ public class NewScenarioWorkflow extends Workflow {
     }
 
     /**
-     * This method creates Cable by specified service location and Cable type
+     * This method creates Cable for current Service Location
      * @param taskID ID of task for installation engineer
+     * @return created Cable
      */
-    public void createCable(int taskID) {
+    public Cable createCable(int taskID) {
     	lock.lock();
         try {
             if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
@@ -157,6 +161,8 @@ public class NewScenarioWorkflow extends Workflow {
             cable.setPort(null); // no port associated with device so far
             cable.setServiceLocation(order.getServiceLocation());
             cableDAO.insert(cable);
+            
+            return cable;
         } catch (Exception exc) {
         	throw new WorkflowException("Cable creation failed", exc);
 		} finally {
@@ -165,34 +171,39 @@ public class NewScenarioWorkflow extends Workflow {
     }
 
     /**
-     * This method plugs Cable to specified free Port.
+     * This method plugs Cable to available free Port.
      * It changes status of Task to "Completed" after execution
      * After it's done method automatically creates task for Provisioning Engineer
      * @param taskID taskID ID of task for installation engineer
-     * @param cable Cable to plug to the Port
-     * @param port Port to plug Cable to
      */
-    public void plugCableToPort(int taskID, Cable cable, Port port) {
+    public void plugCableToPort(int taskID) {
     	lock.lock();
         try {
             if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
             }
             
-            PortStatus portStatus = port.getPortStatus();
-            if(portStatus.getId() != PORT_STATUS.FREE.getId()) {
-            	throw new WorkflowException("Port isn't free at the moment");
+            IPortDAO portDAO = factory.getPortDAO();
+            int portID = portDAO.findFreePortID();
+            if (portID == 0) {
+                throw new WorkflowException("No free ports are available. "
+                		+ "Create Router first.");
             }
-            
-            ICableDAO cableDAO = factory.getCableDAO();
-            cable.setPort(port);
-            cableDAO.update(cable);
+            Port port = portDAO.findById(portID);
             
             // update Port status to "Busy"
-            IPortDAO portDAO = factory.getPortDAO();
-            portStatus = factory.getPortStatusDAO().findById(PORT_STATUS.BUSY.getId());
+            PortStatus portStatus = factory.getPortStatusDAO().findById(PORT_STATUS.BUSY.getId());
             port.setPortStatus(portStatus);
             portDAO.update(port);
+            
+            // link Cable with Port
+            ICableDAO cableDAO = factory.getCableDAO();
+            Cable cable = cableDAO.findCableFromServLoc(order.getServiceLocation().getId());
+            if(cable == null) {
+            	throw new WorkflowException("No Cable found for current SI");
+            }
+            cable.setPort(port);
+            cableDAO.update(cable);
 
             this.completeTask(taskID);
             this.createTask(ROLE.PROVISION);
@@ -209,8 +220,9 @@ public class NewScenarioWorkflow extends Workflow {
      * It also sets SI status to "Active".
      * @param taskID taskID ID of task for provisioning engineer
      * @param circuitConfig logical port configuration
+     * @return created Circuit
      */
-    public void createCircuit(int taskID, String circuitConfig) {
+    public Circuit createCircuit(int taskID, String circuitConfig) {
     	lock.lock();
         try {
         	if (!isTaskValid(taskID, ROLE.PROVISION.getId())) {
@@ -240,6 +252,8 @@ public class NewScenarioWorkflow extends Workflow {
             updateServiceInstanceDate(order.getServiceInstance());
             changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.ACTIVE);
             changeOrderStatus(ORDER_STATUS.COMPLETED);
+            
+            return circuit;
         } catch (Exception exc) {
         	throw new WorkflowException("Circuit creation failed", exc);
 		} finally {

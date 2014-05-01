@@ -6,12 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.ICableDAO;
-import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
-import com.zephyrus.wind.model.Cable;
-import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
@@ -63,35 +59,14 @@ public class CreateConnectionCommand extends SQLCommand {
 			System.out.println("no attr " );
 		}
 		
-		int cableID = 0;
-		
-		if (request.getParameter("cable")!=null) {
-			cableID =  Integer.parseInt(request.getParameter("cable"));
-		}else{
-			System.out.println("no cable " );
-		}
-		
-		int portID = 0;
-		
-		if (request.getParameter("port")!=null) {
-			portID =  Integer.parseInt(request.getParameter("port"));
-		}else{
-			System.out.println("no port" );
-		}
-		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
-		
-		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
-		Cable cable = cableDAO.findById(cableID);
-		
-		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
-		Port port = portDAO.findById(portID);
 				
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
-		wf.plugCableToPort(taskID, cable, port);
+		wf.plugCableToPort(taskID);
+		wf.close();
 		
 		request.setAttribute("message", "New connection successfully created" +
 				"<a href='/Zephyrus/installation'>home page");	

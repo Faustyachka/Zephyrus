@@ -1,8 +1,7 @@
 package com.zephyrus.wind.commands.sql;
 
 
-import java.sql.SQLException;																
-import java.util.ArrayList;
+import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -12,6 +11,7 @@ import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
+
 /**
  * 	
  * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
@@ -66,6 +66,7 @@ public class CreateDeviceCommand extends SQLCommand {
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		wf.createRouter(id, serialNum, portQuantity);
+		wf.close();
 		
 //		request.setAttribute("taskId", taskID);
 		return "newConnectionProperties";

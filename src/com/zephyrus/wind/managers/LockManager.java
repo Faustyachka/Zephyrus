@@ -20,7 +20,7 @@ public class LockManager {
 	
 	/**
 	 * This method allows to obtain Lock for specified object.
-	 * If no lock exist for given key new Lock associated with is created.
+	 * If no lock exist for given key new Lock associated with it is created.
 	 * @param key object associated with Lock
 	 * @return Lock for given key
 	 */

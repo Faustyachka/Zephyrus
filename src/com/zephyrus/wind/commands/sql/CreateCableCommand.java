@@ -6,7 +6,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.ServiceOrder;
@@ -54,20 +53,15 @@ public class CreateCableCommand extends SQLCommand {
 			System.out.println("no attr " );
 		}
 		
-		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		task = taskDAO.findById(id);
+		Task task = taskDAO.findById(id);
 		ServiceOrder order = task.getServiceOrder();
 		
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
-		wf.createCable(id);
+		Cable cable = wf.createCable(id);
+		wf.close();
 		
-		Cable cable = new Cable();
-		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
-		cable = cableDAO.findCableFromServLoc((order.getServiceLocation()).getId());
-		
-		request.setAttribute("cable",cable);
+		request.setAttribute("cable", cable);
 		return "newConnectionProperties";
-		}
-
+	}
 }

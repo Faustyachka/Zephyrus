@@ -66,6 +66,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		//creating circuit due to "New" scenario
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), so);
 		wf.createCircuit(taskID, circuitConfig);
+		wf.close();
 		
 		//sending redirect to page with confirmation
 		request.setAttribute("message", "New circuit successfully added" +
