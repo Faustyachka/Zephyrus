@@ -53,7 +53,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
     	stmt.setInt(1, record.getDevice().getId());
     	stmt.setInt(2, record.getPortNumber()); 
     	stmt.setLong(3, record.getId());
-    	stmt.setInt(4, record.getPortStatusID().getId());
+    	stmt.setInt(4, record.getPortStatus().getId());
         stmt.executeUpdate();
         stmt.close();
 	}
@@ -63,7 +63,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 		cs = connection.prepareCall(SQL_INSERT);
     	cs.setInt(1, record.getDevice().getId());
     	cs.setInt(2, record.getPortNumber());    
-    	cs.setInt(3, record.getPortStatusID().getId());
+    	cs.setInt(3, record.getPortStatus().getId());
     	cs.registerOutParameter(4, OracleTypes.VARCHAR);
         cs.execute();
         String rowId = cs.getString(4);
@@ -84,7 +84,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
     	item.setDevice(device);
     	IPortStatusDAO portStatusDAO = daoFactory.getPortStatusDAO();
 		PortStatus portStatus = portStatusDAO.findById(rs.getInt(PORT_STATUS_ID));
-		item.setPortStatusID(portStatus);
+		item.setPortStatus(portStatus);
 	}
 	
 	@Override
