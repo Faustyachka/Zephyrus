@@ -57,10 +57,11 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     	stmt.setDate(3, (java.sql.Date)record.getOrderDate());  
     	stmt.setInt(4, record.getProductCatalog().getId()); 
     	stmt.setInt(5, record.getServiceLocation().getId());  
-    	if(record.getServiceInstance().getId() != null)
-    		stmt.setInt(6, record.getServiceInstance().getId());  
-    	else
+    	if (record.getServiceInstance() == null){
     		stmt.setNull(6, java.sql.Types.INTEGER); 
+    	} else {
+    		stmt.setInt(6, record.getServiceInstance().getId());
+    	}
     	stmt.setLong(7, record.getId());
         stmt.executeUpdate();
         stmt.close();
