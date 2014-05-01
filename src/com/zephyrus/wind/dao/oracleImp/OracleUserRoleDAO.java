@@ -12,7 +12,7 @@ import com.zephyrus.wind.model.UserRole;
 
 public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleDAO{
 	private static final String TABLE_NAME = "USER_ROLES";
-    private final String SQL_SELECT = "SELECT ID, ROLE_NAME " + 
+    private final String SQL_SELECT = "SELECT ID, ROLE_NAME, ROWNUM AS ROW_NUM  " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -24,8 +24,6 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
                                       "VALUES (?) " + "RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_ROLE_NAME = 2;
     
 	public OracleUserRoleDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -59,8 +57,8 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
 
 	@Override
 	protected void fillItem(UserRole item, ResultSet rs) throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-    	item.setRoleName(rs.getString(COLUMN_ROLE_NAME));
+		item.setId(rs.getInt(1));
+    	item.setRoleName(rs.getString(2));
 		
 		
 	}

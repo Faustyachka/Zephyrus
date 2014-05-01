@@ -12,7 +12,7 @@ import com.zephyrus.wind.model.ProviderLocation;
 
 public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> implements IProviderLocationDAO{
 	private static final String TABLE_NAME = "PROVIDER_LOCATIONS";
-    private static final String SQL_SELECT = "SELECT ID, LOCATION_NAME, LOCATION_COORD " + 
+    private static final String SQL_SELECT = "SELECT ID, LOCATION_NAME, LOCATION_COORD, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -25,10 +25,6 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
 
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_LOCATION_NAME = 2;
-    private static final int COLUMN_LOCATION_COORD = 3;  
-
 	public OracleProviderLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ProviderLocation.class, connection, daoFactory);
 	}
@@ -63,9 +59,9 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
 	@Override
 	protected void fillItem(ProviderLocation item, ResultSet rs)
 			throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-		item.setLocationName(rs.getString(COLUMN_LOCATION_NAME));
-		item.setLocationCoord(rs.getString(COLUMN_LOCATION_COORD));
+		item.setId(rs.getInt(1));
+		item.setLocationName(rs.getString(2));
+		item.setLocationCoord(rs.getString(3));
 		
 	}
 	

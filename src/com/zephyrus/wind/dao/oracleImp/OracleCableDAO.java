@@ -17,7 +17,8 @@ import com.zephyrus.wind.model.ServiceLocation;
 public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
 	private static final String TABLE_NAME = "CABLES";
-	private static final String SQL_SELECT = "SELECT ID, PORT_ID, SERVICE_LOCATION_ID, CABLE_TYPE " + 
+	private static final String SQL_SELECT = "SELECT ID, PORT_ID, SERVICE_LOCATION_ID, CABLE_TYPE, "+
+			" ROWNUM AS ROW_NUM " + 
 			"FROM " + 
 			TABLE_NAME + " ";
 	private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -29,10 +30,6 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 			"RETURN ROWID INTO ?;END;";
 	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
 
-	private static final int COLUMN_ID = 1;
-	private static final int COLUMN_PORT_ID = 2;
-	private static final int COLUMN_SERVICE_LOCATION_ID = 3; 
-	private static final int CABLE_TYPE = 4;
 
 	public OracleCableDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -42,8 +39,16 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	@Override
 	public void update(Cable record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-		stmt.setInt(1, record.getPort().getId());
-		stmt.setInt(2, record.getServiceLocation().getId());  
+		if (record.getPort() == null){
+    		stmt.setNull(1, java.sql.Types.INTEGER); 
+    	} else {
+    		stmt.setInt(1, record.getPort().getId());
+    	}
+		if (record.getServiceLocation() == null){
+    		stmt.setNull(2, java.sql.Types.INTEGER); 
+    	} else {
+    		stmt.setInt(2, record.getServiceLocation().getId()); 
+    	}
 		stmt.setString(3, record.getCableType());
 		stmt.setLong(4, record.getId());
 		stmt.executeUpdate();
@@ -80,13 +85,13 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
 	@Override
 	protected void fillItem(Cable item, ResultSet rs) throws SQLException, Exception {
-		item.setId(rs.getInt(COLUMN_ID));
-		Port port = daoFactory.getPortDAO().findById(rs.getInt(COLUMN_PORT_ID));
+		item.setId(rs.getInt(1));
+		Port port = daoFactory.getPortDAO().findById(rs.getInt(2));
 		item.setPort(port);
 		IServiceLocationDAO serviceLocationDAO = daoFactory.getServiceLocationDAO();
-		ServiceLocation serviceLocation = serviceLocationDAO.findById(rs.getInt(COLUMN_SERVICE_LOCATION_ID));
+		ServiceLocation serviceLocation = serviceLocationDAO.findById(rs.getInt(3));
 		item.setServiceLocation(serviceLocation);
-		item.setCableType(rs.getString(CABLE_TYPE));
+		item.setCableType(rs.getString(4));
 	}
 
 	@Override

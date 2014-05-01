@@ -90,8 +90,8 @@ public abstract class OracleDAO<T> {
     
     public ArrayList<T> find(int firstItem, int count) throws Exception {
     	int lastItem = firstItem + count;
-        stmt = connection.prepareStatement(getSelect()  + 
-        		" WHERE ROWNUM BETWEEN " + firstItem + " AND " + lastItem);
+        stmt = connection.prepareStatement("SELECT * FROM " + getSelect()  + 
+        		" WHERE ROW_NUM BETWEEN " + firstItem + " AND " + lastItem);
         rs = stmt.executeQuery();
         return fetchMultiResults(rs);
     }

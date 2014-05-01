@@ -13,7 +13,7 @@ import com.zephyrus.wind.model.OrderType;
 public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTypeDAO {
 	
 	private static final String TABLE_NAME = "ORDER_TYPE";
-    private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_VALUE " + 
+    private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_VALUE, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -60,8 +60,8 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 
 	@Override
 	protected void fillItem(OrderType item, ResultSet rs) throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-    	item.setOrderType(rs.getString(COLUMN_ORDER_TYPE_VALUE));
+		item.setId(rs.getInt(1));
+    	item.setOrderType(rs.getString(2));
 		
 	}
 	

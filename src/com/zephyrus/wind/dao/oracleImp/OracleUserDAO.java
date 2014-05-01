@@ -13,28 +13,21 @@ import com.zephyrus.wind.model.UserRole;
 
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	private static final String TABLE_NAME = "USERS";
-    private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
-                                      "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID FROM " + 
-                                       TABLE_NAME + " ";
-    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET FIRST_NAME= ?, LAST_NAME = ?, " + 
-                                      "EMAIL = ?, PASSWORD = ?, REGISTRATION_DATA = ?, STATUS = ?, ROLE_ID = ? WHERE " + 
-                                      " ID = ?";
-    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
-                                      " (FIRST_NAME, LAST_NAME, " + 
-                                      "EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID) " +
-                                      "VALUES (?,?,?,?,?,?,?) " + 
-                                      "RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+	private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
+			"EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, " +
+			" ROLE_ID, ROWNUM AS ROW_NUM FROM " + 
+			TABLE_NAME + " ";
+	private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+			" SET FIRST_NAME= ?, LAST_NAME = ?, " + 
+			"EMAIL = ?, PASSWORD = ?, REGISTRATION_DATA = ?, STATUS = ?, ROLE_ID = ? WHERE " + 
+			" ID = ?";
+	private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
+			" (FIRST_NAME, LAST_NAME, " + 
+			"EMAIL, PASSWORD, REGISTRATION_DATA, STATUS, ROLE_ID) " +
+			"VALUES (?,?,?,?,?,?,?) " + 
+			"RETURN ROWID INTO ?;END;";
+	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_FIRST_NAME = 2;
-    private static final int COLUMN_LAST_NAME= 3;
-    private static final int COLUMN_EMAIL = 4;
-    private static final int COLUMN_PASSWORD = 5;
-    private static final int COLUMN_REGISTRATION_DATA = 6;
-    private static final int COLUMN_STATUS = 7;
-    private static final int COLUMN_ROLE_ID = 8;
 
 	public OracleUserDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -80,14 +73,14 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 
 	@Override
 	protected void fillItem(User item, ResultSet rs) throws Exception {
-		item.setId(rs.getInt(COLUMN_ID));
-		item.setFirstName(rs.getString(COLUMN_FIRST_NAME));
-		item.setLastName(rs.getString(COLUMN_LAST_NAME));
-		item.setEmail(rs.getString(COLUMN_EMAIL));
-		item.setPassword(rs.getString(COLUMN_PASSWORD));
-		item.setRegistrationData(rs.getDate(COLUMN_REGISTRATION_DATA));
-		item.setStatus(rs.getInt(COLUMN_STATUS));
-		UserRole role = daoFactory.getUserRoleDAO().findById(rs.getInt(COLUMN_ROLE_ID));
+		item.setId(rs.getInt(1));
+		item.setFirstName(rs.getString(2));
+		item.setLastName(rs.getString(3));
+		item.setEmail(rs.getString(4));
+		item.setPassword(rs.getString(5));
+		item.setRegistrationData(rs.getDate(6));
+		item.setStatus(rs.getInt(7));
+		UserRole role = daoFactory.getUserRoleDAO().findById(rs.getInt(8));
 		item.setRole(role);
 	}
 	
@@ -101,7 +94,13 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		return SQL_REMOVE;
 	}
 	
-
+	/**
+	 * Method find Users by Role ID
+	 * 
+	 * @param Role ID
+	 * @return users collection
+	 * @author Alexandra Beskorovaynaya
+	 */
 	@Override
 	public ArrayList<User> getUsersByRoleId(int roleId) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
@@ -112,6 +111,13 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		return users;
 	}
 
+	/**
+	 * Method find User by email
+	 * 
+	 * @param email
+	 * @return user object
+	 * @author unknown
+	 */
 	@Override
 	public User findByEmail(String email) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE EMAIL = ?");

@@ -15,7 +15,7 @@ import com.zephyrus.wind.model.PortStatus;
 public class OraclePortStatusDAO extends OracleDAO<PortStatus> implements IPortStatusDAO {
 	
 	private static final String TABLE_NAME = "PORT_STATUS";
-    private static final String SQL_SELECT = "SELECT ID, PORT_STATUS_VALUE " + 
+    private static final String SQL_SELECT = "SELECT ID, PORT_STATUS_VALUE, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 

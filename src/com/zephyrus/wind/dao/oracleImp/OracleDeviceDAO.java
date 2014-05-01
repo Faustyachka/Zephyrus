@@ -13,7 +13,7 @@ import com.zephyrus.wind.model.Device;
 public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	
 	private static final String TABLE_NAME = "DEVICES";
-    private static final String SQL_SELECT = "SELECT ID, SERIAL_NUM " + 
+    private static final String SQL_SELECT = "SELECT ID, SERIAL_NUM, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -26,9 +26,6 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
 
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_SERIAL_NUM = 2;
-
 	public OracleDeviceDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
 		super(Device.class, connection, daoFactory);
@@ -61,8 +58,8 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 
 	@Override
 	protected void fillItem(Device item, ResultSet rs) throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-    	item.setSerialNum(rs.getString(COLUMN_SERIAL_NUM));  		
+		item.setId(rs.getInt(1));
+    	item.setSerialNum(rs.getString(2));  		
 	}
 	
 	@Override

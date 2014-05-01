@@ -12,7 +12,7 @@ import com.zephyrus.wind.model.ServiceType;
 
 public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements IServiceTypeDAO {
 	private static final String TABLE_NAME = "SERVICE_TYPE";
-    private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_VALUE " + 
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_VALUE, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -58,8 +58,8 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
 
 	@Override
 	protected void fillItem(ServiceType item, ResultSet rs) throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-    	item.setServiceType(rs.getString(COLUMN_SERVICE_TYPE));
+		item.setId(rs.getInt(1));
+    	item.setServiceType(rs.getString(2));
 		
 	}
 	

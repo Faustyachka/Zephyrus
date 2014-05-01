@@ -25,7 +25,7 @@ import com.zephyrus.wind.model.Task;
 public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
 	private static final String TABLE_NAME = "PORTS";
-    private static final String SQL_SELECT = "SELECT ID, DEVICE_ID, PORT_NUMBER, PORT_STATUS_ID " + 
+    private static final String SQL_SELECT = "SELECT ID, DEVICE_ID, PORT_NUMBER, PORT_STATUS_ID, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -37,10 +37,6 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_DEVICE_ID = 2;
-    private static final int COLUMN_PORT_NUMBER = 3; 
-    private static final int PORT_STATUS_ID = 4;
 
 	public OraclePortDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -78,12 +74,13 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
 	@Override
 	protected void fillItem(Port item, ResultSet rs) throws SQLException, Exception {
-		item.setId(rs.getInt(COLUMN_ID));
+		item.setId(rs.getInt(1));
 		IDeviceDAO deviceDAO = daoFactory.getDeviceDAO();
-		Device device = deviceDAO.findById(rs.getInt(COLUMN_DEVICE_ID));
+		Device device = deviceDAO.findById(rs.getInt(2));
     	item.setDevice(device);
+    	item.setPortNumber(rs.getInt(3));
     	IPortStatusDAO portStatusDAO = daoFactory.getPortStatusDAO();
-		PortStatus portStatus = portStatusDAO.findById(rs.getInt(PORT_STATUS_ID));
+		PortStatus portStatus = portStatusDAO.findById(rs.getInt(4));
 		item.setPortStatus(portStatus);
 	}
 	

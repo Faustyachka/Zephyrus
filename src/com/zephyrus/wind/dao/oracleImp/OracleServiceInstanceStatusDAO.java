@@ -13,7 +13,7 @@ import com.zephyrus.wind.model.ServiceInstanceStatus;
 public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceStatus> implements IServiceInstanceStatusDAO {
 	
 	private static final String TABLE_NAME = "SERVICE_INSTANCE_STATUS";
-    private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_VALUE " + 
+    private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_VALUE, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -25,9 +25,6 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
                                       "VALUES (?)" + " RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_SERV_INSTANCE_STATUS_VALUE = 2;
-
 
 	public OracleServiceInstanceStatusDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -62,8 +59,8 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
 	@Override
 	protected void fillItem(ServiceInstanceStatus item, ResultSet rs)
 			throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-    	item.setServInstanceStatusValue(rs.getString(COLUMN_SERV_INSTANCE_STATUS_VALUE));
+		item.setId(rs.getInt(1));
+    	item.setServInstanceStatusValue(rs.getString(2));
 		
 	}
 	

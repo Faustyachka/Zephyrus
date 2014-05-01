@@ -23,28 +23,22 @@ import com.zephyrus.wind.model.ServiceOrder;
 public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {
 
 	private static final String TABLE_NAME = "SERVICE_ORDERS";
-    private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
-    								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID " +
-                                      "FROM " + 
-                                       TABLE_NAME + " ";
-    private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET ORDER_TYPE_ID = ?, ORDER_STATUS_ID = ?, " + 
-                                      " ORDER_DATE = ?, PRODUCT_CATALOG_ID = ?, SERVICE_LOCATION_ID = ?, SERVICE_INSTANCE_ID = ?"
-                                      + " WHERE " + 
-                                      " ID = ?";
-    private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
-                                      " (ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
-    								  "ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID) " +                                      
-                                      "VALUES (?,?,?,?,?,?)" + " RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+	private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
+			"ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, " +
+			"SERVICE_INSTANCE_ID, ROWNUM AS ROW_NUM " +
+			"FROM " + 
+			TABLE_NAME + " ";
+	private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
+			" SET ORDER_TYPE_ID = ?, ORDER_STATUS_ID = ?, " + 
+			" ORDER_DATE = ?, PRODUCT_CATALOG_ID = ?, SERVICE_LOCATION_ID = ?, SERVICE_INSTANCE_ID = ?"
+			+ " WHERE " + 
+			" ID = ?";
+	private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
+			" (ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
+			"ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID) " +                                      
+			"VALUES (?,?,?,?,?,?)" + " RETURN ROWID INTO ?;END;";
+	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_ORDER_TYPE_ID = 2;
-    private static final int COLUMN_ORDER_STATUS_ID = 3;  
-    private static final int COLUMN_ORDER_DATE = 4;  
-    private static final int COLUMN_PRODUCT_CATALOG_ID = 5;  
-    private static final int COLUMN_SERVICE_LOCATION_ID = 6;  
-    private static final int COLUMN_SERVICE_INSTANCE_ID = 7;  
 	public OracleServiceOrderDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ServiceOrder.class, connection, daoFactory);
 	}
@@ -94,19 +88,18 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	@Override
 	protected void fillItem(ServiceOrder item, ResultSet rs)
 			throws Exception {
-		item.setId(rs.getInt(COLUMN_ID));
-		item.setOrderDate(rs.getDate(COLUMN_ORDER_DATE));
-		OrderStatus os = daoFactory.getOrderStatusDAO().findById(rs.getInt(COLUMN_ORDER_STATUS_ID));
-		item.setOrderStatus(os);
-		OrderType ot = daoFactory.getOrderTypeDAO().findById(rs.getInt(COLUMN_ORDER_TYPE_ID));
+		item.setId(rs.getInt(1));
+		OrderType ot = daoFactory.getOrderTypeDAO().findById(rs.getInt(2));
 		item.setOrderType(ot);
-		ProductCatalog pc = daoFactory.getProductCatalogDAO().findById(rs.getInt(COLUMN_PRODUCT_CATALOG_ID));
+		OrderStatus os = daoFactory.getOrderStatusDAO().findById(rs.getInt(3));
+		item.setOrderStatus(os);
+		item.setOrderDate(rs.getDate(4));
+		ProductCatalog pc = daoFactory.getProductCatalogDAO().findById(rs.getInt(5));
 		item.setProductCatalog(pc);
-		ServiceInstance si = daoFactory.getServiceInstanceDAO().findById(rs.getInt(COLUMN_SERVICE_INSTANCE_ID));
-		item.setServiceInstance(si);
-		ServiceLocation sl = daoFactory.getServiceLocationDAO().findById(rs.getInt(COLUMN_SERVICE_LOCATION_ID));
+		ServiceLocation sl = daoFactory.getServiceLocationDAO().findById(rs.getInt(6));
 		item.setServiceLocation(sl);
-		
+		ServiceInstance si = daoFactory.getServiceInstanceDAO().findById(rs.getInt(7));
+		item.setServiceInstance(si);
 	}
 	
 	@Override
@@ -119,6 +112,14 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		return SQL_REMOVE;
 	}
 	
+	/**
+	 * Method finds Service Orders object for Service Instance ID
+	 * 
+	 * @param Service Instance ID
+	 * @return collection of Service Orders
+	 * @author unknown
+	 */
+	
 	@Override
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceInstanceId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_INSTANCE_ID = ?");
@@ -127,6 +128,14 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		return fetchMultiResults(rs);
 	}
 	
+	/**
+	 * Method finds Service Orders object for Service Location ID
+	 * 
+	 * @param Service Location ID
+	 * @return collection of Service Orders
+	 * @author unknown
+	 */
+	
 	@Override
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceLocationId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
@@ -134,6 +143,15 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
+	
+	/**
+	 * Method finds disconnected Service Orders object for period
+	 * 
+	 * @param Date startDate start of period
+	 * @param Date endDate end of period
+	 * @return collection of disconnected Service Orders
+	 * @author unknown
+	 */
 	@Override
 	//Returns orders for reports by period
 	public ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate, Date endDate) throws Exception {
@@ -144,6 +162,15 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		rs = stmt.executeQuery();		
 		return fetchMultiResults(rs);
 	}
+	
+	/**
+	 * Method finds new Service Orders object for period
+	 * 
+	 * @param Date startDate start of period
+	 * @param Date endDate end of period
+	 * @return collection of new Service Orders
+	 * @author unknown
+	 */
 	@Override
 	public ArrayList<ServiceOrder> getNewSOByPeriod(Date startDate, Date endDate) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "

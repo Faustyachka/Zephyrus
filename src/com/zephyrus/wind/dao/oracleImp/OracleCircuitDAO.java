@@ -15,7 +15,7 @@ import com.zephyrus.wind.model.Port;
 public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	
 	private static final String TABLE_NAME = "CIRCUITS";
-    private static final String SQL_SELECT = "SELECT ID, PORT_ID, CONFIG " + 
+    private static final String SQL_SELECT = "SELECT ID, PORT_ID, CONFIG, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -28,10 +28,6 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 											"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_PORT_ID = 2;
-    private static final int COLUMN_STATUS = 3; 
-    private static final int CONFIG = 4; 
 
 	public OracleCircuitDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {

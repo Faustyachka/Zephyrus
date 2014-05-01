@@ -18,7 +18,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 
 	private static final String TABLE_NAME = "PRODUCT_CATALOG";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_ID, PROVIDER_LOC_ID, " + 
-                                      " PRICE FROM " + 
+                                      " PRICE, ROWNUM AS ROW_NUM FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERVICE_TYPE_ID = ?, PROVIDER_LOC_ID = ?, " + 
@@ -29,10 +29,6 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_SERVICE_TYPE_ID = 2;
-    private static final int COLUMN_PROVIDER_LOC_ID = 3;
-    private static final int COLUMN_PRICE = 4;
     
 	public OracleProductCatalogDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ProductCatalog.class, connection, daoFactory);
@@ -70,13 +66,13 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 	@Override
 	protected void fillItem(ProductCatalog item, ResultSet rs)
 			throws SQLException, Exception {
-		item.setId(rs.getInt(COLUMN_ID));
+		item.setId(rs.getInt(1));
 		IServiceTypeDAO serviceTypeDAO = daoFactory.getServiceTypeDAO();
-		ServiceType serviceType = serviceTypeDAO.findById(rs.getInt(COLUMN_SERVICE_TYPE_ID));
+		ServiceType serviceType = serviceTypeDAO.findById(rs.getInt(2));
 		item.setServiceType(serviceType);
-    	item.setPrice(rs.getInt(COLUMN_PRICE));
+    	item.setPrice(rs.getInt(4));
     	IProviderLocationDAO providerLocationDAO = daoFactory.getProviderLocationDAO();
-    	ProviderLocation providerLoc = providerLocationDAO.findById(rs.getInt(COLUMN_PROVIDER_LOC_ID));
+    	ProviderLocation providerLoc = providerLocationDAO.findById(rs.getInt(3));
     	item.setProviderLoc(providerLoc);
 		
 	}

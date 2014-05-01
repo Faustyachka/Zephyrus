@@ -45,6 +45,7 @@ public class SendOrderCommand extends SQLCommand {
 		
 		NewScenarioWorkflow workflow = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		workflow.proceedOrder();
+		workflow.close();
 
 		request.setAttribute("message", "Order has been sent successfuly!");
 		return PAGES.MESSAGE_PAGE.getValue();

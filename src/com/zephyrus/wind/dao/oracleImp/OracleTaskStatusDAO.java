@@ -12,7 +12,7 @@ import com.zephyrus.wind.model.TaskStatus;
 
 public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskStatusDAO {
 	private static final String TABLE_NAME = "TASK_STATUS";
-    private static final String SQL_SELECT = "SELECT ID, TASK_STATUS_VALUE " + 
+    private static final String SQL_SELECT = "SELECT ID, TASK_STATUS_VALUE, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -58,8 +58,8 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
 
 	@Override
 	protected void fillItem(TaskStatus item, ResultSet rs) throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-    	item.setTaskStatusValue(rs.getString(COLUMN_TASK_STATUS_VALUE));
+		item.setId(rs.getInt(1));
+    	item.setTaskStatusValue(rs.getString(2));
 		
 	}
 	

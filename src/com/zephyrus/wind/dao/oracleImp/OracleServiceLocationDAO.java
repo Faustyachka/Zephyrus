@@ -15,7 +15,7 @@ import com.zephyrus.wind.model.User;
 
 public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> implements IServiceLocationDAO {
 	private static final String TABLE_NAME = "SERVICE_LOCATIONS";
-    private static final String SQL_SELECT = "SELECT ID, SERVICE_LOCATION_COORD, USER_ID " + 
+    private static final String SQL_SELECT = "SELECT ID, SERVICE_LOCATION_COORD, USER_ID, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -27,9 +27,8 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
     								"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_SERVICE_LOCATION_COORD = 2;
-    private static final int COLUMN_USER_ID = 3;  
+    
+    
 	public OracleServiceLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ServiceLocation.class, connection, daoFactory);
 	}
@@ -64,10 +63,10 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 	@Override
 	protected void fillItem(ServiceLocation item, ResultSet rs) 
 			throws SQLException, Exception {
-		item.setId(rs.getInt(COLUMN_ID));
-		item.setServiceLocationCoord(rs.getString(COLUMN_SERVICE_LOCATION_COORD));
+		item.setId(rs.getInt(1));
+		item.setServiceLocationCoord(rs.getString(2));
 		IUserDAO userDAO = daoFactory.getUserDAO();
-		User user = userDAO.findById(rs.getInt(COLUMN_USER_ID));
+		User user = userDAO.findById(rs.getInt(3));
 		item.setUser(user);
 		
 	}
@@ -82,11 +81,19 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 		return SQL_REMOVE;
 	}
 
+	/**
+	 * Method finds Service Location objects by User ID
+	 * 
+	 * @param User ID
+	 * @return existing Service Location
+	 * @author Miroshnychenko Nataliya
+	 */
+	
 	@Override
-	public ArrayList<ServiceLocation> getServiceLocationsByUserId(int id)
+	public ArrayList<ServiceLocation> getServiceLocationsByUserId(int userID)
 			throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
-		stmt.setInt(1, id);
+		stmt.setInt(1, userID);
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}

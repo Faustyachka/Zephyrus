@@ -18,7 +18,7 @@ import com.zephyrus.wind.model.UserRole;
 public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	private static final String TABLE_NAME = "TASKS";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, " + 
-    								  "USER_ID, TASK_STATUS_ID, ROLE_ID " +
+    								  "USER_ID, TASK_STATUS_ID, ROLE_ID, ROWNUM AS ROW_NUM " +
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -31,11 +31,6 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
                                       "VALUES (?,?,?,?) " + "RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_SERVICE_ORDER_ID = 2;
-    private static final int COLUMN_USER_ID = 3;  
-    private static final int COLUMN_TASK_STATUS_ID = 4;  
-    private static final int COLUMN_ROLE_ID = 5;  
 
 	public OracleTaskDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -45,8 +40,12 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	@Override
 	public void update(Task record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
-    	stmt.setInt(1, record.getServiceOrder().getId()); 
-    	stmt.setInt(2, record.getUser().getId());  
+    	stmt.setInt(1, record.getServiceOrder().getId());
+    	if (record.getUser() == null){
+    		stmt.setNull(2, java.sql.Types.INTEGER); 
+    	} else {
+    		stmt.setInt(2, record.getUser().getId()); 
+    	}
     	stmt.setInt(3, record.getTaskStatus().getId());  
     	stmt.setInt(4, record.getRole().getId());
     	stmt.setLong(5, record.getId());
@@ -78,16 +77,15 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 
 	@Override
 	protected void fillItem(Task item, ResultSet rs) throws Exception {
-		item.setId(rs.getInt(COLUMN_ID));
-		UserRole role = daoFactory.getUserRoleDAO().findById(rs.getInt(COLUMN_ROLE_ID));
-		item.setRole(role);
-		ServiceOrder so = daoFactory.getServiceOrderDAO().findById(rs.getInt(COLUMN_SERVICE_ORDER_ID));
+		item.setId(rs.getInt(1));
+		ServiceOrder so = daoFactory.getServiceOrderDAO().findById(rs.getInt(2));
 		item.setServiceOrder(so);
-		TaskStatus ts = daoFactory.getTaskStatusDAO().findById(rs.getInt(COLUMN_TASK_STATUS_ID));
-		item.setTaskStatus(ts);
-		User user = daoFactory.getUserDAO().findById(rs.getInt(COLUMN_USER_ID));
+		User user = daoFactory.getUserDAO().findById(rs.getInt(3));
 		item.setUser(user);
-		
+		TaskStatus ts = daoFactory.getTaskStatusDAO().findById(rs.getInt(4));
+		item.setTaskStatus(ts);
+		UserRole role = daoFactory.getUserRoleDAO().findById(rs.getInt(5));
+		item.setRole(role);
 	}
 	
 	@Override

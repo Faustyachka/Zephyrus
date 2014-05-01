@@ -18,7 +18,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	
 	private static final String TABLE_NAME = "SERVICE_INSTANCES";
     private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_ID, USER_ID, " + 
-    								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE " +
+    								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE, ROWNUM AS ROW_NUM " +
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -31,12 +31,6 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
                                       "VALUES (?,?,?,?,?)" + " RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_SERV_INSTANCE_STATUS_ID = 2;
-    private static final int COLUMN_USER_ID = 3;  
-    private static final int COLUMN_PRODUCT_CATALOG_ID = 4;  
-    private static final int COLUMN_CIRCUIT_ID = 5;  
-    private static final int COLUMN_START_DATE = 6;  
 
 	public OracleServiceInstanceDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ServiceInstance.class, connection, daoFactory);
@@ -84,16 +78,16 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	@Override
 	protected void fillItem(ServiceInstance item, ResultSet rs)
 			throws Exception {
-		item.setId(rs.getInt(COLUMN_ID));
-		Circuit circuit = daoFactory.getCircuitDAO().findById(rs.getInt(COLUMN_CIRCUIT_ID));
-		item.setCircuit(circuit);
-		ProductCatalog pc = daoFactory.getProductCatalogDAO().findById(rs.getInt(COLUMN_PRODUCT_CATALOG_ID));
-		item.setProductCatalog(pc);
-		ServiceInstanceStatus sis = daoFactory.getServiceInstanceStatusDAO().findById(rs.getInt(COLUMN_SERV_INSTANCE_STATUS_ID));
+		item.setId(rs.getInt(1));
+		ServiceInstanceStatus sis = daoFactory.getServiceInstanceStatusDAO().findById(rs.getInt(2));
 		item.setServInstanceStatus(sis);
-		User user = daoFactory.getUserDAO().findById(rs.getInt(COLUMN_USER_ID));
+		User user = daoFactory.getUserDAO().findById(rs.getInt(3));
 		item.setUser(user);
-		item.setStartDate(rs.getDate(COLUMN_START_DATE));
+		ProductCatalog pc = daoFactory.getProductCatalogDAO().findById(rs.getInt(4));
+		item.setProductCatalog(pc);
+		Circuit circuit = daoFactory.getCircuitDAO().findById(rs.getInt(5));
+		item.setCircuit(circuit);
+		item.setStartDate(rs.getDate(6));
 		
 	}
 	
@@ -106,6 +100,15 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	protected String getDelete() {
 		return SQL_REMOVE;
 	}
+	
+	/**
+	 * Method finds Service Instances by User ID
+	 * 
+	 * @param User ID
+	 * @return existing Service Instances
+	 * @author unknown
+	 */
+	
 	@Override
 	public ArrayList<ServiceInstance> getServiceInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");

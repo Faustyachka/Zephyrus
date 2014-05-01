@@ -13,7 +13,7 @@ import com.zephyrus.wind.model.OrderStatus;
 public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrderStatusDAO {
 	
 	private static final String TABLE_NAME = "ORDER_STATUS";
-    private static final String SQL_SELECT = "SELECT ID, ORDER_STATUS_VALUE " + 
+    private static final String SQL_SELECT = "SELECT ID, ORDER_STATUS_VALUE, ROWNUM AS ROW_NUM " + 
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -25,9 +25,6 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
     
-    private static final int COLUMN_ID = 1;
-    private static final int COLUMN_ORDER_STATUS_VALUE = 2;
-
 	public OracleOrderStatusDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(OrderStatus.class, connection, daoFactory);
 	}
@@ -60,8 +57,8 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 
 	@Override
 	protected void fillItem(OrderStatus item, ResultSet rs) throws SQLException {
-		item.setId(rs.getInt(COLUMN_ID));
-    	item.setOrderStatusValue(rs.getString(COLUMN_ORDER_STATUS_VALUE));
+		item.setId(rs.getInt(1));
+    	item.setOrderStatusValue(rs.getString(2));
 		
 	}
 	
