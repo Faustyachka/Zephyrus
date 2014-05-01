@@ -1,5 +1,6 @@
 package com.zephyrus.wind.workflow;
 
+import java.io.Closeable;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.concurrent.locks.Lock;
@@ -17,6 +18,7 @@ import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.enums.TASK_STATUS;
+import com.zephyrus.wind.managers.LockManager;
 import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
@@ -31,14 +33,14 @@ import com.zephyrus.wind.model.UserRole;
  * All task and order management focused here.
  * @author Igor Litvinenko
  */
-public abstract class Workflow {
+public abstract class Workflow implements Closeable {
 	
 	/**
 	 * Static lock is used to achieve continuous
 	 * code execution of some crucial code blocks that should not be
 	 * run simultaneously due to validation issues
 	 */
-    protected static Lock lock = new ReentrantLock();
+    protected Lock lock;
 	
     /** Service Order for which workflow was created */
     protected ServiceOrder order;
@@ -47,6 +49,7 @@ public abstract class Workflow {
     protected OracleDAOFactory factory;
 
     public Workflow(OracleDAOFactory factory, ServiceOrder order) {
+    	this.lock = LockManager.getLock(order.getId());
         this.factory = factory;
     	this.order = order;
     }
@@ -187,5 +190,9 @@ public abstract class Workflow {
         Date date = new Date(cal.getTimeInMillis());
         si.setStartDate(date);
         siDAO.update(si);
+    }
+    
+    public void close() {
+    	LockManager.removeLock(order.getId());
     }
 }
