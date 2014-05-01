@@ -193,6 +193,6 @@ public abstract class Workflow implements Closeable {
     }
     
     public void close() {
-    	LockManager.removeLock(order.getId());
+		LockManager.removeLock(order.getId());
     }
 }
