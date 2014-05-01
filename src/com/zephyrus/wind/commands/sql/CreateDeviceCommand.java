@@ -2,16 +2,21 @@ package com.zephyrus.wind.commands.sql;
 
 
 import java.sql.SQLException;																
-import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
+import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
+
 /**
  * 	
  * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
@@ -41,12 +46,32 @@ public class CreateDeviceCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int id = 0;
-		if (request.getParameter("taskID")!=null) {
-			id =  Integer.parseInt(request.getParameter("taskID"));
-			request.setAttribute("taskId", id);
-		}else{
-			System.out.println("no attr " );
+		
+		int taskID;
+		
+		User user = (User) request.getSession().getAttribute("user");
+		
+		//checking is user authorized
+		if (user==null||user.getRole().getId()!=ROLE.INSTALLATION.getId()) {
+			request.setAttribute("errorMessage", "You should login under "
+					+ "Installation Engineer's account to view this page!"
+					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		} 
+		
+		//check the presence of task ID
+		if (request.getParameter("taskId")==null) {
+			request.setAttribute("errorMessage", "You must choose task from task's page!"
+					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+		}
+		try {
+			taskID = Integer.parseInt(request.getParameter("taskId"));
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+			request.setAttribute("errorMessage", "Task ID is not valid. "
+					+ "You must choose task from task's page!"
+					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
 		String serialNum = request.getParameter("serialNum");
@@ -59,13 +84,25 @@ public class CreateDeviceCommand extends SQLCommand {
 			return "installation/createDevice.jsp";
 		}
 		
+		final Pattern pattern = Pattern.compile("^[A-Za-z]{3}[0-9]{4}[A-Za-z0-9]{4}");
+		final Matcher matcher = pattern.matcher(serialNum);
+
+		if (!matcher.find()) {
+			response.setContentType("text/plain");  
+		    response.setCharacterEncoding("UTF-8"); 
+		    response.getWriter().write("Bad serial number! Serial number format must be as 'LLLNNNNSSS' "
+		    		+ ", where L-letter symbol, N-number symbol, S-letter or number symbol"); 
+		    return "installation/createDevice.jsp";
+		}
+		
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		task = taskDAO.findById(id);
+		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
-		wf.createRouter(id, serialNum, portQuantity);
+		wf.createRouter(taskID, serialNum, portQuantity);
+		wf.close();
 		
 //		request.setAttribute("taskId", taskID);
 		return "newConnectionProperties";
