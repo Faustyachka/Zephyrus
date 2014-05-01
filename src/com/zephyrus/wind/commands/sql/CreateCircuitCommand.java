@@ -8,8 +8,10 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
+import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 
 /**
@@ -44,13 +46,30 @@ public class CreateCircuitCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+		int taskID;
+		
+		User user = (User) request.getSession().getAttribute("user");
+		
+		//checking is user authorized
+		if (user==null||user.getRole().getId()!=ROLE.PROVISION.getId()) {
+			request.setAttribute("errorMessage", "You should login under "
+					+ "Provisioning Engineer's account to view this page!"
+					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		} 
 		
 		//check the presence of task ID
-		if (request.getParameter("taskId").equals("")){
-			request.setAttribute("error", "Please, choose the task from Tasks page!");
-			return "provision/createCircuit.jsp";
-		}		
-		int taskID = Integer.parseInt(request.getParameter("taskId"));
+		if (request.getParameter("taskId")==null) {
+			request.setAttribute("errorMessage", "You must choose task from task's page!"
+					+ "<a href='/Zephyrus/provision'> Tasks </a>");
+		}
+		try {
+			taskID = Integer.parseInt(request.getParameter("taskId"));
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+			request.setAttribute("errorMessage", "Task ID is not valid");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 		
 		String circuitConfig= request.getParameter("circuit");
 		if (circuitConfig.equals("")) {
@@ -66,6 +85,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		//creating circuit due to "New" scenario
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), so);
 		wf.createCircuit(taskID, circuitConfig);
+		wf.close();
 		
 		//sending redirect to page with confirmation
 		request.setAttribute("message", "New circuit successfully added" +
