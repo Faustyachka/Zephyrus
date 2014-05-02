@@ -117,6 +117,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		} finally {
 			wf.close();
 		}
+		request.setAttribute("message", "New device succesfully created!");
 		request.setAttribute("taskId", taskID);
 		return "newConnectionProperties";
 	}

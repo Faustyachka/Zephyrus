@@ -84,7 +84,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		
 		taskID = (int)request.getAttribute("taskId");
 		
-		String error = (String)request.getAttribute("error");
+		String message = (String)request.getAttribute("message");
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		
@@ -105,7 +105,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
 		request.setAttribute("cable", cable);
-		request.setAttribute("error", error);
+		request.setAttribute("message", message);
 		
 		return PAGES.INSTALLATIONNEWWORKFLOW_PAGE.getValue();
 	}

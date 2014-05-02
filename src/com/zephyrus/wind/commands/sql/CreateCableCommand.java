@@ -9,7 +9,6 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
-import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
@@ -84,19 +83,19 @@ public class CreateCableCommand extends SQLCommand {
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
-				order);
-		Cable cable;
+				order);		
 		try {
-			 cable = wf.createCable(taskID);
+			 wf.createCable(taskID);
 		} catch (WorkflowException ex) {
-			request.setAttribute("error", ex.getCause().getMessage());
-			return "installation/newWorkflowTasks.jsp";
+			request.setAttribute("message", ex.getCause().getMessage());
+			request.setAttribute("taskId", taskID);
+			return "newConnectionProperties";
 		} finally {
 			wf.close();
 		}
 
 		request.setAttribute("taskId", taskID);
-		request.setAttribute("cable", cable);
+		request.setAttribute("message", "New cable succesfully created!");
 		return "newConnectionProperties";
 	}
 }

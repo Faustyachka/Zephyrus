@@ -96,7 +96,7 @@ public class CreateConnectionCommand extends SQLCommand {
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			request.setAttribute("taskId", task.getId());
-			request.setAttribute("error", ex.getMessage() + " "
+			request.setAttribute("message", ex.getMessage() + " "
 					+ ex.getCause().getMessage());
 			return "newConnectionProperties";
 		} finally {

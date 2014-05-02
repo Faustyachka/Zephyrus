@@ -87,7 +87,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		if (circuitConfig.equals("")) {
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
-			request.setAttribute("error", "Circuit field can not be empty!");
+			request.setAttribute("message", "Circuit field can not be empty!");
 			return "provision/createCircuit.jsp";
 		}
 
@@ -99,7 +99,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		} catch (WorkflowException ex) {
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
-			request.setAttribute("error", ex.getMessage() + " "
+			request.setAttribute("message", ex.getMessage() + " "
 					+ ex.getCause().getMessage());
 			return "provision/createCircuit.jsp";
 		} finally {
@@ -107,8 +107,9 @@ public class CreateCircuitCommand extends SQLCommand {
 		}
 
 		// sending redirect to page with confirmation
-		request.setAttribute("message", "New circuit successfully added"
-				+ "<a href='/Zephyrus/provision'>home page");
+		request.setAttribute("message", "Circuit successfully added <br>"
+				+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
+				+ " tasks' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 	

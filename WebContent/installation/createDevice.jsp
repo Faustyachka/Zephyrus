@@ -19,7 +19,9 @@
 	     });
 	     </script>
 <div class="navigation">
-  <div style="text-align:center"><a href="/Zephyrus/installation"> <input type="button"
+  <div style="text-align:center">
+  <a href="/Zephyrus/installation"> 
+  <input type="button"
 			value="Back to Tasks" class="button" /></a>
   </div></div>
   <div class="main">

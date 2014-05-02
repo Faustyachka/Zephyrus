@@ -7,12 +7,15 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
+import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
+import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
  * This class contains the method, that is declared in @link
@@ -80,9 +83,24 @@ public class AssignTaskCommand extends SQLCommand {
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskId);
 		ServiceOrder order = task.getServiceOrder();
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
-				order);
+		if (order.getOrderType().getId()==ORDER_TYPE.NEW.getId()) {
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 		wf.assignTask(taskId, user.getId());
+		wf.close();
+		}
+		
+		
+		if (order.getOrderType().getId()==ORDER_TYPE.DISCONNECT.getId()) {
+			DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(), order);
+			try {			
+			wf.assignTask(taskId, user.getId());
+			} catch (WorkflowException ex) {
+				request.setAttribute("message", "Error occured: " + ex.getMessage() + " "
+						+ ex.getCause().getMessage());
+			} finally {
+			wf.close();
+			}
+			}
 
 		if (user.getRole().getId() == ROLE.PROVISION.getId()) {
 			return "provision";

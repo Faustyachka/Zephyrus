@@ -54,6 +54,9 @@
     <url-pattern>/deviceCreationProperties</url-pattern>
     <url-pattern>/ordersAndServices</url-pattern>
     <url-pattern>/createCircuitView</url-pattern>
+    <url-pattern>/deleteCable</url-pattern>
+    <url-pattern>/deleteCircuit</url-pattern>
+    <url-pattern>/deleteCircuitView</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>
