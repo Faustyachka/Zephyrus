@@ -59,8 +59,12 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		
 		if (cable!=null) {
 		port = cable.getPort();
-		device = port.getDevice();
+		
 		}		
+		
+		if (port!=null) {
+			device = port.getDevice();
+		}
 		
 		request.getSession().setAttribute("task", task);
 		request.setAttribute("device", device);

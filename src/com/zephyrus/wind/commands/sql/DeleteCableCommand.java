@@ -68,6 +68,7 @@ public class DeleteCableCommand extends SQLCommand {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!"
 							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
@@ -88,9 +89,9 @@ public class DeleteCableCommand extends SQLCommand {
 		try {
 			wf.deleteCable(taskID);
 		} catch (WorkflowException ex) {
-			request.setAttribute("message", ex.getMessage() + " "
-					+ ex.getCause().getMessage());
-			request.setAttribute("taskID", taskID);
+			ex.printStackTrace();
+			request.setAttribute("message", ex.getCause().getMessage());
+			request.setAttribute("taskId", taskID);
 			return "disconnectConnectionProperties";
 		} finally {
 			wf.close();

@@ -6,14 +6,19 @@
 
 <div class="navigation">
   <div style="text-align:center"><a href="/Zephyrus/installation"> <input type="button"
-			value="Back to Tasks" class="button" /></a></div></div>
+			value="Back to Tasks" class="navibutton" /></a></div></div>
   <div class="main">
   <div style="text-align:center">
     <h2>Workflow for Order ${order.id} by Task ${task.id}</h2></div>
     <br>
+    <label>${message}</label>
+    <br>
+    <c:if test= "${device != null}">
+  	<c:if test="${port!=null}">
   <div style="text-align:center">Connection properties:</div>
   <br>
-  <label>${message}</label>
+ 
+  
   <form method="post" action="/Zephyrus/deleteConnection?taskId=${task.id}">
   <table>
   <tr>
@@ -30,14 +35,18 @@
   						value="Delete connection" class="button"/></c:if></c:if></td>
   	</table>
   	</form>
+  	</c:if> 
+  	</c:if> 
   	<c:if test= "${device == null}">
   	<c:if test="${port==null}">
+ 	<c:if test="${cable!=null}"> 
   	Delete cable ${cable.id} from service location: ${order.serviceLocation.address}
   	<a href="/Zephyrus/deleteCable?taskId=${task.id}">
   	<input type="button" class="button" value="Delete Cable"/>
   	</a>
+  	</c:if> 
   	</c:if> 	
-  	</c:if>
+  	</c:if> 
 </div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />
