@@ -4,14 +4,21 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 
 /**
- *
+ * This class provides basic structure for email templates
  * @author Igor Litvinenko
  */
-public class Email {
+public abstract class Email {
 
     protected String subject;
     protected String message;
-
+    
+    /**
+     * This constructor builds given email template by
+     * loading it into <code>message</code> field.
+     * It is assumed that email templates are stored in 
+     * <code>emailTemplates</code> folder.
+     * @param template name of template to build
+     */
     public Email(String template) {
         message = "";
         try {
@@ -27,7 +34,7 @@ public class Email {
             throw new RuntimeException("Template build failed", exc);
         }
     }
-
+    
     public String getSubject() {
         return subject;
     }

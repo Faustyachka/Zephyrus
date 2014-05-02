@@ -61,9 +61,9 @@ public class EmailSender {
     }
 
     /**
-     * 
-     * @param role
-     * @param mail
+     * This method sends emails to all users of specified user group
+     * @param role user group to send emails to
+     * @param mail message to send
      */
     public void sendEmail(ROLE role, Email mail) {
         Session session = getAuthSession();
@@ -92,6 +92,14 @@ public class EmailSender {
         } while(addresses.length == maxNumberToSend);
     }
     
+    /**
+     * This method obtains email addresses of users of specified user group
+     * in specified range
+     * @param role user group to get addresses for
+     * @param firstRow first index of range of user emails
+     * @param count number of records in range of user emails
+     * @return array of email addresses
+     */
     private Address[] getGroupAddresses(ROLE role, int firstRow, int count) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         List<String> addressList = null;
@@ -121,6 +129,11 @@ public class EmailSender {
         return addresses;
     }
     
+    /**
+     * This method authenticates into SMTP server using
+     * provided auth properties
+     * @return auth session
+     */
     private Session getAuthSession() {
     	Session session = Session.getInstance(props, new Authenticator() {
             @Override
@@ -133,6 +146,11 @@ public class EmailSender {
     	return session;
     }
     
+    /**
+     * This method gets email address of given user 
+     * @param user User to get email address for
+     * @return email address
+     */
     private Address getUserAddress(User user) {
         try {
             Address address = new InternetAddress(user.getEmail());

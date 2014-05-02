@@ -66,7 +66,6 @@ public class ModifyScenarioWorkflow extends Workflow {
             
             updateServiceInstanceDate(order.getServiceInstance());
             changeOrderStatus(ORDER_STATUS.COMPLETED);
-            // TODO: send email here
         } catch (Exception exc) {
         	throw new WorkflowException("Exception while proceeding order", exc);
 		} finally {
