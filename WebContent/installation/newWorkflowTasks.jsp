@@ -20,7 +20,7 @@
   <form method="post" action="/Zephyrus/createConnection?taskId=${task}&port=${port.id}&cable=${cable.id}">
   <table>
   <tr>
-  <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
+  <th width="300">Device serial number</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
   <tr>
   <td align="center">${device.serialNum}</td><td align="center">${port.portNumber}</td><td align="center">${cable.id}</td>
   </tr>

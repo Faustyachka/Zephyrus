@@ -9,12 +9,12 @@
   <center>
    <br />
    <a href="/Zephyrus/provision">
-   <input name="tasks" type="button" value="Tasks" class="button" />
+   <input name="tasks" type="button" value="Tasks" class="navibutton" />
    </a>
   <br />
   <br />
   <a href="/Zephyrus/reports/MostProfitableRouterReport.jsp">
-  <input name="reports" type="button" value="Reports" class="button" />
+  <input name="reports" type="button" value="Reports" class="navibutton" />
   </a>
   </center></div>
   <div class="main">

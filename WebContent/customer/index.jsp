@@ -7,15 +7,15 @@
 
 <div class="navigation">
   <a href="/Zephyrus/customerOrders" class="current">
-   <input type="button" value="My orders" />
+   <input type="button" value="My orders" class="navibutton"/>
    </a>
    <br>
    <a href="/Zephyrus/customerServices" class="current">
-   <input type="button" value="My Services" />
+   <input type="button" value="My Services" class="navibutton"/>
    </a>
    <br>
    <a href="/Zephyrus/chooseReport" class="current">
-   <input type="button" value="Reports" />
+   <input type="button" value="Reports" class="navibutton"/>
    </a>
    <br>
   </div>

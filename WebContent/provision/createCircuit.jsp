@@ -3,7 +3,7 @@
 <div class="navigation">
 	<center>
 		 <br /> <br />
-		<input name="tasks" type="button" value="Tasks" class="button" /> 
+		<input name="tasks" type="button" value="Tasks" class="navibutton" /> 
 	</center>
 </div>
 <div class="main">

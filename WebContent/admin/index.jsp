@@ -13,8 +13,8 @@
 	<div class="navigation">
 		<center>
 			<br /> <input name="reports" type="button" value="Reports"
-				class="button" /> <br /> <br /> <input name="accounts"
-				type="button" value="Accounts" class="button" />
+				class="navibutton" /> <br /> <br /> <input name="accounts"
+				type="button" value="Accounts" class="navibutton" />
 		</center>
 	</div>
 	<div class="main">

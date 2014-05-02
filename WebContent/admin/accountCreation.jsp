@@ -25,10 +25,10 @@
 <div class="navigation">
 <center>
   <br />
-  <input name="reports" type="button" value="Reports" class="button" />
+  <input name="reports" type="button" value="Reports" class="navibutton" />
   <br />
   <br /><a href="../admin">
-  <input name="accounts" type="button" value="Accounts" class="button" />
+  <input name="accounts" type="button" value="Accounts" class="navibutton" />
   </a>
   </center>
 </div>
@@ -69,7 +69,7 @@
 					</tr>
 				</table>
 				<input type="button" name="create" id="submitt"
-					value="Save new account" class="button" />
+					value="Save new account" class="bigbutton" />
 			</form>
 </div>
 

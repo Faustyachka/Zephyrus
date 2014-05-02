@@ -14,7 +14,7 @@
     <option value="2">To CSV</option>
   </select>
   <br>
-   <input type="submit" value="Export" />
+   <input type="submit" value="Export" class="button"/>
    </form>
   </div>
   <div class="main">

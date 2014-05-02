@@ -9,12 +9,12 @@
   <div style="text-align:center">
    <br />
    <a href="/Zephyrus/installation">
-   <input name="tasks" type="button" value="Tasks" class="button" />
+   <input name="tasks" type="button" value="Tasks" class="navibutton" />
    </a>
   <br />
   <br />
   <a href="">
-  <input name="reports" type="button" value="Reports" class="button" />
+  <input name="reports" type="button" value="Reports" class="navibutton" />
   </a>
   </div></div>
   <div class="main">

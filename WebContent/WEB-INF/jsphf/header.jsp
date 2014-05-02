@@ -11,28 +11,25 @@
     </head>
     <body>
         <div class="container">
-  <div class="header">
-  <c:choose>
-<c:when test="${user != null}">
-<div id="logout_link">
-Hello, ${user.email}
-<br>
-<a href="/Zephyrus/logout">logout</a>
+  			<div class="header">
+  				<c:choose>
+					<c:when test="${user != null}">
+					<div id="logout_link">
+							<a href="/Zephyrus/logout"><input type="button" value="Sign out" class="userbutton"></a>
+						</div>
+					<div  id="home_link">
+						<a href="/Zephyrus/login">
+				  		<input type="button" value="Profile" class="userbutton">
+				  		</a></div>
+					</c:when>
+					<c:otherwise>
+						<a href="/Zephyrus/login" id="login_link">
+	      				<input type="button" value="Log in" class="userbutton"/>
+						</a>
+						<a href="/Zephyrus/registerPage" id="register_link">
+						<input type="button" value="Register" class="userbutton"></a>
+					</c:otherwise>
+				</c:choose> 
+  <a href="/Zephyrus/home"><img src="/Zephyrus/resources/css/images/main_logo.jpg"></a>
+
 </div>
-</c:when>
-<c:otherwise>
-<a href="/Zephyrus/login" id="login_link">
-      <input type="button" value="Log in" />
-</a>
-<a href="/Zephyrus/registerPage" id="register_link">register</a>
-</c:otherwise>
-</c:choose> 
-  <a href="/Zephyrus/home" id="main_link">
-  <input type="button" value="Main">
-  </a>
-  <c:if test="${user != null }">
-   <a href="/Zephyrus/login" id="home_link">
-  <input type="button" value="Home">
-  </a>
-  </c:if>
-  </div>

@@ -57,7 +57,7 @@
   <td />
   <td>
   <br>
-  <input type="submit" value="Generate report" >
+  <input type="submit" value="Generate report" class="button">
   </td>
   </tr>
 </table>

@@ -13,7 +13,7 @@
 					<li>Order id: ${actualTask.serviceOrder.id}</li>
 				</ul>
 				<a href="/Zephyrus/taskRedirector?id=${actualTask.id}"> 
-					<input type="button" value="Complete">
+					<input type="button" value="Complete" class="button">
 				</a> 
 			</div>
 		</c:forEach>
@@ -31,7 +31,7 @@
 					<li>Order id: ${availableTask.serviceOrder.id}</li>
 				</ul>
 				<a href="/Zephyrus/assignTask?id=${availableTask.id}"> 
-				<input type="button" value="Take Task">
+				<input type="button" value="Take Task" class="button">
 				</a>
 			</div>
 		</c:forEach>

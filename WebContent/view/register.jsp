@@ -56,7 +56,7 @@
             </tr>
             </table>
             <br>
-            <input type="submit" value="Create an account" />
+            <input type="submit" value="Create an account" class="button"/>
             </form>
             
   </div>   

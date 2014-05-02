@@ -11,7 +11,7 @@
           <h3> Password: </h3>
             <input type="password" size="20" name="j_password">
 
-        <p><input type="submit" value="Log in"></p>
+        <p><input type="submit" value="Log in" class="button"></p>
     </div>
 </form>
 </center>

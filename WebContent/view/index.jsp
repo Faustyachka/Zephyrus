@@ -16,7 +16,7 @@
 			<input type="hidden" name="latitude" id="latitude" /> 
 			<input type="hidden" name="longitude" id="longitude" /> 
 			<div id="somediv">No service available</div>
-			<input type="submit" value="Proceed to order" id="proceed" />
+			<input type="submit" value="Proceed to order" id="proceed" class="button" />
 		</form>
 	</div>
 
