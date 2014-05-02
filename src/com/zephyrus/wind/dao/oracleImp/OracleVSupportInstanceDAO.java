@@ -16,7 +16,7 @@ public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> imple
                                       "SERVICE, PRICE, SI_STATUS FROM " + 
                                        TABLE_NAME + " ";
 
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
 	public OracleVSupportInstanceDAO(
 			Connection connection, OracleDAOFactory daoFactory)

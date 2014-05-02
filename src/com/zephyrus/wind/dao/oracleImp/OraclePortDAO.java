@@ -36,7 +36,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 											"(DEVICE_ID, PORT_NUMBER, PORT_STATUS_ID) VALUES(?,?,?)" +
 											"RETURN ROWID INTO ?;END;";
-	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
 
 	public OraclePortDAO( Connection connection, OracleDAOFactory daoFactory)

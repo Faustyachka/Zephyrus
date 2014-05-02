@@ -38,7 +38,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 			" (ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
 			"ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID) " +                                      
 			"VALUES (?,?,?,?,?,?)" + " RETURN ROWID INTO ?;END;";
-	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
 	public OracleServiceOrderDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ServiceOrder.class, connection, daoFactory);

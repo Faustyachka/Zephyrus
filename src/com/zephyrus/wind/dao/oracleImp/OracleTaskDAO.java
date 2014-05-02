@@ -29,7 +29,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
                                       " (SERVICE_ORDER_ID, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID) " +                                      
                                       "VALUES (?,?,?,?) " + "RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
 
 	public OracleTaskDAO(Connection connection, OracleDAOFactory daoFactory)

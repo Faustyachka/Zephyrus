@@ -25,7 +25,7 @@ public class OraclePortStatusDAO extends OracleDAO<PortStatus> implements IPortS
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 												"(PORT_STATUS_VALUE) VALUES(?)" +
 												"RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
     public OraclePortStatusDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(PortStatus.class, connection, daoFactory);

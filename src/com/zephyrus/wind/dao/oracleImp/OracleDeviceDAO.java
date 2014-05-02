@@ -23,7 +23,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
     private static final String SQL_INSERT =  "BEGIN INSERT INTO " + TABLE_NAME + 
 												"(SERIAL_NUM) VALUES(?)" +
 												"RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
     
 	public OracleDeviceDAO(Connection connection, OracleDAOFactory daoFactory)

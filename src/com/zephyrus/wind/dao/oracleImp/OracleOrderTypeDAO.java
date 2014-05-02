@@ -23,7 +23,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 												"(ORDER_TYPE_VALUE) VALUES(?)" +
 												"RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_ORDER_TYPE_VALUE = 2;

@@ -26,7 +26,7 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 											"(PORT_ID, CONFIG) VALUES(?, ?)" +
 											"RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
 
 	public OracleCircuitDAO(Connection connection, OracleDAOFactory daoFactory)

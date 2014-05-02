@@ -22,7 +22,7 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
                                       " (SERVICE_TYPE_VALUE) " +                                     
                                       "VALUES (?)" + " RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_SERVICE_TYPE = 2;
