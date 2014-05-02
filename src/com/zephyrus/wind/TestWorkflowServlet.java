@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.email.Email;
+import com.zephyrus.wind.email.EmailSender;
+import com.zephyrus.wind.email.RegistrationSuccessfulEmail;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
@@ -38,6 +41,7 @@ public class TestWorkflowServlet extends HttpServlet {
     	ServiceOrder order = null;
     	Cable cable = null;
     	Port port = null;
+    	User user = null;
     	OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
@@ -45,11 +49,16 @@ public class TestWorkflowServlet extends HttpServlet {
 			order = factory.getServiceOrderDAO().findById(orderID);
 			cable = factory.getCableDAO().findById(1);
 			port = factory.getPortDAO().findById(1);
+			user = factory.getUserDAO().findByEmail("zzzeeerrr0@gmail.com");
 		} catch (Exception exc) {
 			throw new WorkflowException("Assign task exception", exc);
 		} finally {
 			factory.endConnection();
 		}
+    	
+    	EmailSender sender = new EmailSender();
+    	Email email = new RegistrationSuccessfulEmail(user.getFirstName(), user.getEmail(), user.getPassword());
+    	sender.sendEmail(user, email);
 		
 		//NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		//wf.proceedOrder();
@@ -64,7 +73,7 @@ public class TestWorkflowServlet extends HttpServlet {
 		//int userID = 3; // prov engineer task
 		//wf.assignTask(taskID, userID);
 		//wf.createCircuit(taskID, "circuit config");
-		int taskID = 5; // support task
+		//int taskID = 5; // support task
 		//int userID = 2; // support user
 		//wf.assignTask(taskID, userID);
 		//wf.approveBill(taskID);

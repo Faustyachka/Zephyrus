@@ -9,6 +9,9 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.email.Email;
+import com.zephyrus.wind.email.EmailSender;
+import com.zephyrus.wind.email.RegistrationSuccessfulEmail;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.USER_STATUS;
@@ -50,6 +53,10 @@ public class RegisterCommand extends SQLCommand {												// REVIEW: CreateUs
 		user.setRole(role);
 		user = userDAO.insert(user);
 	
+		EmailSender sender = new EmailSender();
+    	Email emailMessage = new RegistrationSuccessfulEmail(firstName, email, password);
+    	sender.sendEmail(user, emailMessage);
+		
 	    request.setAttribute("message", "You have successfully registered!");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
