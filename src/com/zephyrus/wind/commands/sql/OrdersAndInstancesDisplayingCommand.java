@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceInstance;
+import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
 
 /**
@@ -47,10 +50,14 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 		} 
 		try {
 			int userID = Integer.parseInt(request.getParameter("id"));
+			IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
+			User customerUser = userDAO.findById(userID);
 			IServiceInstanceDAO siDAO = getOracleDaoFactory().getServiceInstanceDAO();
+			IServiceOrderDAO soDAO = getOracleDaoFactory().getServiceOrderDAO();
 			ArrayList<ServiceInstance> instances = siDAO.getServiceInstancesByUserId(userID);
-			//TODO get orders			
-			request.setAttribute("instances", instances);			
+			ArrayList<ServiceOrder> orders = soDAO.findServiceOrderByUser(customerUser);			
+			request.setAttribute("instances", instances);	
+			request.setAttribute("orders", orders);
 			return "support/ordersInstances.jsp";
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();

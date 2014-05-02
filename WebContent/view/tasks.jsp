@@ -18,7 +18,6 @@
 			</div>
 		</c:forEach>
 	</div>
-
 	<br>
 
 	<h2>Available Tasks</h2>
@@ -36,4 +35,5 @@
 			</div>
 		</c:forEach>
 	</div>
+
 

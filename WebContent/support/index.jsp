@@ -22,7 +22,7 @@
 	<form id="createdevice" name="form3" method="post"
 		action="/Zephyrus/changepass">
 		<div id="PersonTableContainer"></div>
-		<br /> <input type="button" name="view_si" id="view_si"	value="Service Instances and Service Orders" /> 
+		<br /> <input type="button" name="view_si" id="view_si"	value="Service Instances and Service Orders" class="button" /> 
 			<input type="button" name="button" id="changepass" value="Change password" class="button" />
 	</form>
 </div>

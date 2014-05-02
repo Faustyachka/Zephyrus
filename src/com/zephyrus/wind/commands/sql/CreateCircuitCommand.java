@@ -6,9 +6,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
@@ -69,22 +71,26 @@ public class CreateCircuitCommand extends SQLCommand {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid");
 			return PAGES.MESSAGE_PAGE.getValue();
-		}
+		}		
+		
+		//getting Task and Port and Service Order by task ID
+		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
+		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
+		Task task = taskDao.findById(taskID);			
+		ServiceOrder so =  task.getServiceOrder();
+		Port port = portDAO.findPortFromTaskID(task);
 		
 		String circuitConfig= request.getParameter("circuit");
 		if (circuitConfig.equals("")) {
+			request.setAttribute("port", port);
+			request.setAttribute("task", task);
 			request.setAttribute("error", "Circuit field can not be empty!");
 			return "provision/createCircuit.jsp";
 		}
 		
-		//getting Task and Port and Service Order by task ID
-		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
-		Task task = taskDao.findById(taskID);			
-		ServiceOrder so =  task.getServiceOrder();
-		
 		//creating circuit due to "New" scenario
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), so);
-		wf.createCircuit(taskID, circuitConfig);
+		wf.createCircuit(taskID, circuitConfig);  //TODO write try/catch
 		wf.close();
 		
 		//sending redirect to page with confirmation

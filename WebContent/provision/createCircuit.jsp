@@ -35,7 +35,7 @@
 	
 	</table>
 		<label>Circuit configuration: </label>
-		<input type="hidden" name="taskId" value="${taskId}"/>
+		<input type="hidden" name="taskId" value="${task.id}"/>
 		<input type = "text" id="circuit" name="circuit"/>
 		 <input type="submit" name="button" id="button"
 			value="Create Circuit" class="button" />
