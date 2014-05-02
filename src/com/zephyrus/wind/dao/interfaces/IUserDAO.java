@@ -14,9 +14,9 @@ public interface IUserDAO extends IDAO<User> {
 	 * 
 	 * @param Role ID
 	 * @return users collection
-	 * @author Alexandra Beskorovaynaya
+	 * @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya
 	 */
-	ArrayList<User> getUsersByRoleId(int roleId) throws Exception;
+	public ArrayList<User> getUsersByRoleId(int roleId, int firstItem, int count) throws Exception;
 	
 	/**
 	 * Method find User by email

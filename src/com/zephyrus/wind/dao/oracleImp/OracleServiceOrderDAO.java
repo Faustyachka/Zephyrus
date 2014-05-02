@@ -183,24 +183,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	}
 	
 	
-	/**
-	 * Method finds Service Orders object of User
-	 * 
-	 * @param User
-	 * @return collection of Service Orders
-	 * @author Miroshnychenko Nataliya
-	 */
-	@Override
-	public ArrayList<ServiceOrder> findServiceOrderByUser(User user) throws Exception {
-		ArrayList<ServiceOrder> serviceOrders = new ArrayList<ServiceOrder>(); 
-		ArrayList<ServiceLocation> serviceLocations = 
-				daoFactory.getServiceLocationDAO().getServiceLocationsByUserId(user.getId());
-		for(ServiceLocation serviceLocation: serviceLocations){
-			serviceOrders.addAll(daoFactory.getServiceOrderDAO().getServiceOrdersByServiceLocationId(serviceLocation.getId()));
-		}
-		return serviceOrders;
-		 
-	}
+	
 	
 
 }

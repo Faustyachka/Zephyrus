@@ -19,6 +19,5 @@ public interface IServiceOrderDAO extends IDAO<ServiceOrder> {
 
 	ArrayList<ServiceOrder> getNewSOByPeriod(java.sql.Date startDate,
 			java.sql.Date endDate) throws Exception;
-	ArrayList<ServiceOrder> findServiceOrderByUser(User user) throws Exception;
 
 }

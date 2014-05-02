@@ -106,9 +106,13 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	 * @author Alexandra Beskorovaynaya
 	 */
 	@Override
-	public ArrayList<User> getUsersByRoleId(int roleId) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
+	public ArrayList<User> getUsersByRoleId(int roleId, int firstItem, int count) throws Exception {
+		int lastItem = firstItem + count - 1;
+		stmt = connection.prepareStatement("SELECT EMAIL FROM ( " + SQL_SELECT + ") WHERE ROLE_ID = ? AND " +
+				" ROW_NUM BETWEEN ? AND ?" );
 		stmt.setInt(1, roleId);
+		stmt.setInt(2, firstItem);
+		stmt.setInt(3, lastItem);
 		rs = stmt.executeQuery();
 		ArrayList<User> users = fetchMultiResults(rs);
 		rs.close();

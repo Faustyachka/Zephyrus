@@ -16,6 +16,4 @@ public interface IPortDAO extends IDAO<Port> {
 	 */
 	int findFreePortID() throws Exception;
 
-	Port findPortFromTaskID(Task task) throws Exception;
-
 }

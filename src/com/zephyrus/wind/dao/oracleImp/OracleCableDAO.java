@@ -145,21 +145,4 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	}
 	
 	
-	/**
-	 * Method finds Cable object for Task
-	 * 
-	 * @param Task object
-	 * @return existing Cable, otherwise null
-	 * @author Miroshnychenko Nataliya
-	 */
-	
-	@Override
-	public Cable findCableByTask(Task task) throws Exception {
-		Cable cable = new Cable();
-		ServiceOrder serviceOrder = task.getServiceOrder();
-		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
-		cable =  findCableFromServLoc(serviceLocation.getId());
-		return cable;
-	}
-
 }

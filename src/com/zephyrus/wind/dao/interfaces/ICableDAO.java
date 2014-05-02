@@ -12,6 +12,4 @@ public interface ICableDAO extends IDAO<Cable> {
 
 	Cable findCableFromServLoc(int serviceLocationID) throws Exception;
 
-	Cable findCableByTask(Task task) throws Exception;
-
 }
