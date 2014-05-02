@@ -1,20 +1,26 @@
+body {
+	background-color: #3a75c4;
+}
 .container {
-	height: 675px;
-	width: 1000px;
-	border:solid;
-	margin: 0 auto;
+	height: 660px;
+	width: 1015px;
+	margin: 0 auto;		
 }
 .header {
 	float: left;
 	height: 100px;
 	width: 1000px;
-	border-bottom:solid;
+	background: #ffffff;
+	margin: 5px;
+	border-radius: 5px;
 }
 .navigation {
 	float: left;
 	height: 550px;
 	width: 190px;
-	border-right:solid;
+	background: #ffffff;
+	border-radius: 5px;
+	margin: 5px;
 }
 
 .main {
@@ -22,18 +28,41 @@
 	height: 550px;
 	width: 800px;
 	overflow:auto;
+	background: #ffffff;
+	border-radius: 5px;	
+	margin: 5px;
 }
 
 .footer {
 	float: left;
-	height: 25px;
+	height: 10px;
 	width: 1000px;
-	border-top:solid;
+	margin: 5px;
 }
 
 .button {
 	height: 30px;
 	width: 150px;
+	font-size: 14pt;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	color: #234c98;
+	border-radius: 5px;
+	background-color: #ffffff;
+	border: 2px solid #3a75c4;
+}
+
+.navibutton {
+	height: 50px;
+	width: 190px;
+	font-family: Tahoma, Verdana, Segoe, sans-serif;
+	color: #234c98;
+	font-size: 14pt;
+	border-top-style: none;
+	border-left-style: none;
+	border-right-style: none;
+	border-bottom: 1px dotted #3a75c4;
+	background-color: #ffffff;
+	margin: 5px 0px 0px 0px;
 }
 
 #login_link {
