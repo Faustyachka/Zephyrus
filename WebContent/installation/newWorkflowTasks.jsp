@@ -7,17 +7,18 @@
 <div class="navigation">
 	<div style="text-align: center">
 		<a href="/Zephyrus/installation"> <input type="button"
-			value="Back to Tasks" class="button" /></a>
+			value="Back to Tasks" class="navibutton" /></a>
 	</div>
 </div>
 <div class="main">
   <div style="text-align:center">
-    <h2>Workflow for Order ${order.id} by Task ${task}</h2>
+    <h2>Workflow for Order ${task.serviceOrder.id} by Task ${task.id}</h2>
     </div>
     <br>
+    <label>${error}</label> <br>
   <div style="text-align:center">Choose connection properties:</div>
   <br>
-  <form method="post" action="/Zephyrus/createConnection?taskId=${task}&port=${port.id}&cable=${cable.id}">
+  <form method="post" action="/Zephyrus/createConnection?taskId=${task.id}&port=${port.id}&cable=${cable.id}">
   <table>
   <tr>
   <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
@@ -26,14 +27,14 @@
   </tr>
   <tr>
   <td align="center"><c:if test= "${device.id == null}">
-  <a href="/Zephyrus/deviceCreationProperties?taskId=${task}"> 
+  <a href="/Zephyrus/deviceCreationProperties?taskId=${task.id}"> 
   <input type="button" value="Create device" class="button" />
   </a>
   </c:if>
   </td> <td> </td>
 		<td align="center"><c:if test= "${cable.id == null}">
 		<c:if test = "${device.id != null}">
-		<a href="/Zephyrus/createCable?taskId=${task}">
+		<a href="/Zephyrus/createCable?taskId=${task.id}">
 		<input type="button" value="Create cable" class="button" />
 		</a>
 		</c:if>
