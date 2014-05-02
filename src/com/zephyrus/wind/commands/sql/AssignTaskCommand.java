@@ -50,9 +50,11 @@ public class AssignTaskCommand extends SQLCommand {
 		User user = (User) request.getSession().getAttribute("user");
 		// checking is user authorized
 		if (user == null) {
-			request.setAttribute("errorMessage",
-					"You should login to view this page!"
-							+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+			request.setAttribute(
+					"errorMessage",
+					"You should login to view this page!<br>"
+							+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+							+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
@@ -62,15 +64,18 @@ public class AssignTaskCommand extends SQLCommand {
 			request.setAttribute(
 					"errorMessage",
 					"You should login under Provisioning or"
-							+ "Installation Engineer's account to view this page!"
-							+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+							+ "Installation Engineer's account to view this page!<br>"
+							+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+							+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
-		//check the presence of task ID
-		if (request.getParameter("taskId")==null) {
-			request.setAttribute("errorMessage", "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/provision'> Tasks </a>");
+
+		// check the presence of task ID
+		if (request.getParameter("id") == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/provision'><input type='"
+							+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
 			taskId = Integer.parseInt(request.getParameter("id"));
@@ -82,26 +87,39 @@ public class AssignTaskCommand extends SQLCommand {
 
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskId);
-		ServiceOrder order = task.getServiceOrder();
-		if (order.getOrderType().getId()==ORDER_TYPE.NEW.getId()) {
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
-		wf.assignTask(taskId, user.getId());
-		wf.close();
+		
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
-		
-		if (order.getOrderType().getId()==ORDER_TYPE.DISCONNECT.getId()) {
-			DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(), order);
-			try {			
-			wf.assignTask(taskId, user.getId());
-			} catch (WorkflowException ex) {
-				request.setAttribute("message", "Error occured: " + ex.getMessage() + " "
-						+ ex.getCause().getMessage());
-			} finally {
-			wf.close();
-			}
-			}
+		ServiceOrder order = task.getServiceOrder();
 
+		// check the scenario for given task
+		if (order.getOrderType().getId() == ORDER_TYPE.NEW.getId()) {
+			NewScenarioWorkflow wf = new NewScenarioWorkflow(
+					getOracleDaoFactory(), order);
+			wf.assignTask(taskId, user.getId());
+			wf.close();
+		}
+
+		if (order.getOrderType().getId() == ORDER_TYPE.DISCONNECT.getId()) {
+			DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(
+					getOracleDaoFactory(), order);
+			try {
+				wf.assignTask(taskId, user.getId());
+			} catch (WorkflowException ex) {
+				request.setAttribute("message",
+						"Error occured: " + ex.getMessage() + " "
+								+ ex.getCause().getMessage());
+			} finally {
+				wf.close();
+			}
+		}
+
+		// return the page in dependence of user's role
 		if (user.getRole().getId() == ROLE.PROVISION.getId()) {
 			return "provision";
 		}

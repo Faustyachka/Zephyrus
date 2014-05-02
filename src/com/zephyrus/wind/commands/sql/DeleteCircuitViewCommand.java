@@ -16,8 +16,24 @@ import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
+/**
+ * This class contains the method, that is declared in @link
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
+ * circuit deleting details to Provisioning engineer.
+ * 
+ * @return page with information about creation of circuit
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class DeleteCircuitViewCommand extends SQLCommand{
-
+	
+	/**
+	 * This method checks all necessary input data and forms the necessary
+	 * information for circuit deleting.
+	 * 
+	 * @return the page of circuit deleting. In error situations returns the page
+	 *         with message about error details.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -48,6 +64,13 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskID);
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
 		Port port =findPortFromTaskID(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);

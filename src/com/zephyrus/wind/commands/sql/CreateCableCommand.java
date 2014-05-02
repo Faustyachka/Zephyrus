@@ -57,24 +57,27 @@ public class CreateCableCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+					+ "Installation Engineer's account to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/installation'> <input type='"
+							+ "button' class='button' value='Tasks'/> </a>");
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					+ "You must choose task from task's page!<br>"
+					+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
@@ -83,9 +86,9 @@ public class CreateCableCommand extends SQLCommand {
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
-				order);		
+				order);
 		try {
-			 wf.createCable(taskID);
+			wf.createCable(taskID);
 		} catch (WorkflowException ex) {
 			request.setAttribute("message", ex.getCause().getMessage());
 			request.setAttribute("taskId", taskID);
@@ -95,7 +98,7 @@ public class CreateCableCommand extends SQLCommand {
 		}
 
 		request.setAttribute("taskId", taskID);
-		request.setAttribute("message", "New cable succesfully created!");
+		request.setAttribute("message", "New cable successfully created!");
 		return "newConnectionProperties";
 	}
 }

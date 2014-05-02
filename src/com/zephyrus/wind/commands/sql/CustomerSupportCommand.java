@@ -50,13 +50,13 @@ public class CustomerSupportCommand extends SQLCommand {
 			if (action.equals("list")) {
 				try {
 					int startPageIndex=
-					          Integer.parseInt(request.getParameter("jtStartIndex"))+1;
+					          Integer.parseInt(request.getParameter("jtStartIndex"))+1; //+1 because Oracle counts rows from 1st
 					       int numRecordsPerPage=
 					          Integer.parseInt(request.getParameter("jtPageSize"));
-					IUserDAO dao = getOracleDaoFactory().getUserDAO();
-					ArrayList<User> lstUser = dao
+					IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
+					ArrayList<User> lstUser = userDAO
 							.getUsersByRoleId(ROLE.CUSTOMER.getId(),startPageIndex, numRecordsPerPage); 
-					int userCount=dao.count();    // TODO counter
+					int userCount=userDAO.count();    // TODO counter
 					JsonElement element = gson.toJsonTree(lstUser,
 							new TypeToken<List<User>>() {
 							}.getType());

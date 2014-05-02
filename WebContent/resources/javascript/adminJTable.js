@@ -12,7 +12,8 @@ $(document).ready(function () {
             recordsLoaded: function(event, data) {
                 $('.serialcheck').click(function() {
                 	var id = parseInt($(this).val(), 10);
-                	$.post('blocking',{id:id},function(rsp){	                         
+                	$.post('blocking',{id:id},function(rsp){
+                			alert(rsp);
                     });                       	                                           
                 });
             },

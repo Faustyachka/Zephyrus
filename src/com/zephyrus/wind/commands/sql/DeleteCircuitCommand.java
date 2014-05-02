@@ -18,8 +18,24 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
+/**
+ * This class contains the method, that is declared in @link
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for deleting of
+ * circuit by provisioning engineer.
+ * 
+ * @return page with confirmation of successful deleting of circuit
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class DeleteCircuitCommand extends SQLCommand {
-
+	
+	/**
+	 * This method deletes the circuit from the database. Method gets parameter of
+	 * task's ID from JSP.
+	 * 
+	 * @return page with confirmation of successful deleting of circuit or
+	 * error message if it occurs.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -52,6 +68,14 @@ public class DeleteCircuitCommand extends SQLCommand {
 		// getting Task and Port and Service Order by task ID
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDao.findById(taskID);
+		
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
 		ServiceOrder so = task.getServiceOrder();
 		Port port = findPortFromTaskID(task);
 

@@ -23,34 +23,22 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for creating of
  * circuit by provisioning engineer.
  * 
- * @see com.zephyrus.wind.model.Task
- * @see com.zephyrus.wind.model.Port
- * @see com.zephyrus.wind.workflow.Workflow
- * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
- * @see com.zephyrus.wind.dao.interfaces.IPortDAO
- * 
  * @return page with confirmation of successful creation of circuit
  * 
  * @author Alexandra Beskorovaynaya
  */
-
 public class CreateCircuitCommand extends SQLCommand {
 
 	/**
 	 * This method creates the circuit in the database. Method gets parameter of
 	 * task's ID and Circuit configuration from JSP.
 	 * 
-	 * @see com.zephyrus.wind.model.Port
-	 * @see com.zephyrus.wind.model.Task
-	 * @see com.zephyrus.wind.workflow.Workflow
-	 * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
-	 * @see com.zephyrus.wind.dao.interfaces.IPortDAO
-	 * 
 	 * @return page with confirmation of successful creation of circuit
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+
 		int taskID;
 
 		User user = (User) request.getSession().getAttribute("user");
@@ -58,28 +46,39 @@ public class CreateCircuitCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+					+ "Provisioning Engineer's account to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/provision'> Tasks </a>");
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/provision'><input type='"
+							+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid");
+			request.setAttribute("errorMessage", "Task ID is not valid"
+					+ "<a href='/Zephyrus/provision'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// getting Task and Port and Service Order by task ID
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDao.findById(taskID);
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
 		ServiceOrder so = task.getServiceOrder();
 		Port port = findPortFromTaskID(task);
 
@@ -107,30 +106,33 @@ public class CreateCircuitCommand extends SQLCommand {
 		}
 
 		// sending redirect to page with confirmation
-		request.setAttribute("message", "Circuit successfully added <br>"
-				+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
-				+ " tasks' class='button'></a>");
+		request.setAttribute(
+				"message",
+				"Circuit successfully added <br>"
+						+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
+						+ " tasks' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
-	
+
 	/**
 	 * Method for searching port by order task
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given task
+	 * @param given
+	 *            task
 	 * @return port object if exist, otherwise null.
 	 * @author Miroshnychenko Nataliya
 	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception{
+	private Port findPortFromTaskID(Task task) throws Exception {
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
-		if (serviceLocation == null){
+		if (serviceLocation == null) {
 			return null;
-		} 
-		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLoc(serviceLocation.getId());
+		}
+		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLoc(
+				serviceLocation.getId());
 		return cable.getPort();
 	}
-
 
 }

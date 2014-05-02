@@ -83,6 +83,14 @@ public class DeleteCableCommand extends SQLCommand {
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
+		
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
 		ServiceOrder order = task.getServiceOrder();
 		
 		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(), order);
@@ -96,7 +104,8 @@ public class DeleteCableCommand extends SQLCommand {
 		} finally {
 			wf.close();
 		}
-				
+		
+		//return message page
 		request.setAttribute("message", "Cable deleted <br> <a href='/Zephyrus/installation'>return to home page</a>");		
 		return PAGES.MESSAGE_PAGE.getValue();
 	}

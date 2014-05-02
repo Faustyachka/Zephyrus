@@ -15,6 +15,16 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
+/**
+ * This class contains the method, that is declared in @link
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for deleting of
+ * connection by installation engineer.
+ * 
+ * @return page of tasks for current order with confirmation of successful 
+ * deleting of circuit in success case and error page if error occurs.
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class DeleteConnectionCommand extends SQLCommand {
 
 	@Override
@@ -50,7 +60,14 @@ public class DeleteConnectionCommand extends SQLCommand {
 
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		task = taskDAO.findById(taskID);
+		task = taskDAO.findById(taskID);		
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
 		ServiceOrder order = task.getServiceOrder();
 
 		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(
