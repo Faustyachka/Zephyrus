@@ -6,11 +6,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.ServiceLocation;
+import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
@@ -46,11 +48,29 @@ public class CreateCircuitViewCommand extends SQLCommand {
 		
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskID);
-		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
-		Port port = portDAO.findPortFromTaskID(task);
+		Port port =findPortFromTaskID(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
 		return "provision/createCircuit.jsp";
+	}
+	
+	/**
+	 * Method for searching port by order task
+	 * 
+	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
+	 * @param given task
+	 * @return port object if exist, otherwise null.
+	 * @author Miroshnychenko Nataliya
+	 */
+
+	private Port findPortFromTaskID(Task task) throws Exception{
+		ServiceOrder serviceOrder = task.getServiceOrder();
+		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
+		if (serviceLocation == null){
+			return null;
+		} 
+		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLoc(serviceLocation.getId());
+		return cable.getPort();
 	}
 
 }

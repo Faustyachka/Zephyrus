@@ -1,6 +1,7 @@
 package com.zephyrus.wind.commands.sql;
 
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,8 @@ import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.ServiceLocation;
+import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
@@ -85,7 +88,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		
-		Port port = portDAO.findById(portDAO.findFreePortID());
+		Port port = portDAO.findById(findFreePortID());
 		
 		if (port != null) {
 			device = port.getDevice();
@@ -95,8 +98,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
 
-		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
-		cable = cableDAO.findCableByTask(task);
+		cable = findCableByTask(task);
 		
 		
 		request.getSession().setAttribute("task", task);
@@ -106,6 +108,44 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		request.setAttribute("error", error);
 		
 		return PAGES.INSTALLATIONNEWWORKFLOW_PAGE.getValue();
+	}
+	
+	
+	/**
+	 * Method finds Cable object for Task
+	 * 
+	 * @param Task object
+	 * @return existing Cable, otherwise null
+	 * @author Miroshnychenko Nataliya
+	 * @throws Exception 
+	 */
+	private Cable findCableByTask(Task task) throws Exception {
+		Cable cable = new Cable();
+		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
+		ServiceOrder serviceOrder = task.getServiceOrder();
+		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
+		cable =  cableDAO.findCableFromServLoc(serviceLocation.getId());
+		return cable;
+	}
+	
+	/**
+	 * Method for searching ID of fist free port (without cable)
+	 * 
+	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO.getCableDAO
+	 * @return ID of first free port or 0 if it doesn't exist
+	 * @author Miroshnychenko Nataliya
+	 */
+	
+	private int findFreePortID() throws Exception {
+		ArrayList<Port> ports = getOracleDaoFactory().getPortDAO().findAll();
+		ICableDAO cable = getOracleDaoFactory().getCableDAO();
+			for (Port p: ports){
+					if (!cable.existConnectToPort(p.getId())){
+						return p.getId();
+					} 
+				}
+	
+		return 0;
 	}
 
 
