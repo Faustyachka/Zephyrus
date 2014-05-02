@@ -2,7 +2,6 @@ package com.zephyrus.wind.email;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -61,30 +60,45 @@ public class EmailSender {
         }
     }
 
+    /**
+     * 
+     * @param role
+     * @param mail
+     */
     public void sendEmail(ROLE role, Email mail) {
         Session session = getAuthSession();
-        Address[] addresses = getGroupAddresses(role);
-
-        /* Send mail */
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
-            message.setRecipients(Message.RecipientType.BCC, addresses);
-            message.setSubject(mail.getSubject());
-            message.setContent(mail.getMessage(), "text/html");
-            Transport.send(message);
-        } catch (MessagingException e) {
-            throw new RuntimeException(e);
-        }
+        
+        int index = 1;
+        int maxNumberToSend = Integer.parseInt(props.getProperty("mail.maxaddressesinrow"));
+        Address[] addresses;
+        do {
+        	addresses = getGroupAddresses(role, index, maxNumberToSend);
+        	index += maxNumberToSend;
+        	
+        	if(addresses.length != 0) {
+        		/* Send mail */
+    	        try {
+    	            Message message = new MimeMessage(session);
+    	            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
+    	            message.setRecipients(Message.RecipientType.BCC, addresses);
+    	            message.setSubject(mail.getSubject());
+    	            message.setContent(mail.getMessage(), "text/html");
+    	            Transport.send(message);
+    	        } catch (MessagingException e) {
+    	            throw new RuntimeException(e);
+    	        }
+        	}
+	        
+        } while(addresses.length == maxNumberToSend);
     }
     
-    private Address[] getGroupAddresses(ROLE role) {
+    private Address[] getGroupAddresses(ROLE role, int firstRow, int count) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         List<String> addressList = null;
         try {
         	factory.beginConnection();
             IUserDAO userDAO = factory.getUserDAO();
-            //addressList = userDAO.getGroupEmails(role);
+            addressList = userDAO.getGroupEmails(role, firstRow, count);
         } catch (Exception exc) {
         	Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, exc);
         	return null;

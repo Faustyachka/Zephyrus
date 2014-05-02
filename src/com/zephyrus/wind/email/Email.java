@@ -15,8 +15,8 @@ public class Email {
     public Email(String template) {
         message = "";
         try {
-            BufferedReader br = new BufferedReader(
-                    new InputStreamReader(getClass().getClassLoader().getResourceAsStream("emailTemplates/" + template)));
+            BufferedReader br = new BufferedReader(new InputStreamReader(
+            		getClass().getClassLoader().getResourceAsStream("emailTemplates/" + template)));
             String line = br.readLine();
             while(line != null) {
                 message += line;

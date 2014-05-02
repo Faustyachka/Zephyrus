@@ -13,6 +13,7 @@ import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.email.Email;
 import com.zephyrus.wind.email.EmailSender;
 import com.zephyrus.wind.email.RegistrationSuccessfulEmail;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.ServiceOrder;
@@ -49,7 +50,7 @@ public class TestWorkflowServlet extends HttpServlet {
 			order = factory.getServiceOrderDAO().findById(orderID);
 			cable = factory.getCableDAO().findById(1);
 			port = factory.getPortDAO().findById(1);
-			user = factory.getUserDAO().findByEmail("zzzeeerrr0@gmail.com");
+			//user = factory.getUserDAO().findByEmail("zzzeeerrr0@gmail.com");
 		} catch (Exception exc) {
 			throw new WorkflowException("Assign task exception", exc);
 		} finally {
@@ -57,8 +58,8 @@ public class TestWorkflowServlet extends HttpServlet {
 		}
     	
     	EmailSender sender = new EmailSender();
-    	Email email = new RegistrationSuccessfulEmail(user.getFirstName(), user.getEmail(), user.getPassword());
-    	sender.sendEmail(user, email);
+    	Email email = new RegistrationSuccessfulEmail("test", "test", "test");
+    	sender.sendEmail(ROLE.CUSTOMER, email);
 		
 		//NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		//wf.proceedOrder();

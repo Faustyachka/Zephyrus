@@ -15,6 +15,10 @@ import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
+/**
+ * 
+ * @author Miroshnycjenko Nataliya
+ */
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	private static final String TABLE_NAME = "USERS";
 	private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
@@ -103,7 +107,6 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	 * 
 	 * @param Role ID
 	 * @return users collection
-	 * @author Alexandra Beskorovaynaya
 	 */
 	@Override
 	public ArrayList<User> getUsersByRoleId(int roleId, int firstItem, int count) throws Exception {
@@ -124,7 +127,6 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	 * 
 	 * @param email
 	 * @return user object
-	 * @author unknown
 	 */
 	@Override
 	public User findByEmail(String email) throws Exception {
@@ -138,18 +140,18 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	
 	
 	/**
-	 * Method finds emails by Role and output result using pagination
-	 * 
-	 * @param Role, first page Item and count Item
-	 * @return emails collection
-	 * @author Miroshnycjenko Nataliya
+	 * Method obtains email addresses of specified user group
+	 * @param role group of users represented by Role
+	 * @param firstItem index of the first record to return, starting from 1
+	 * @param count number of records to return
+	 * @return collection of Strings representing user emails
 	 */	
 	@Override
 	public 	List<String> getGroupEmails(ROLE role, int firstItem, int count) throws SQLException{
 		List<String> emails = new ArrayList<String>();
 		int lastItem = firstItem + count - 1;
-		stmt = connection.prepareStatement("SELECT EMAIL FROM ( " + SQL_SELECT + ") WHERE ROLE_ID = ? AND " +
-		" ROW_NUM BETWEEN ? AND ?" );
+		stmt = connection.prepareStatement("SELECT EMAIL FROM ( " + SQL_SELECT + " WHERE ROLE_ID = ?) "
+				+ "WHERE ROW_NUM BETWEEN ? AND ?" );
 		stmt.setInt(1, role.getId());
 		stmt.setInt(2, firstItem);
 		stmt.setInt(3, lastItem);

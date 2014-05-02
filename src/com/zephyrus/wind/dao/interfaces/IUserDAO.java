@@ -6,7 +6,11 @@ import java.util.List;
 
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
-// REVIEW: documentation expected
+
+/**
+ * 
+ * @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya
+ */
 public interface IUserDAO extends IDAO<User> {
 
 	/**
@@ -14,7 +18,6 @@ public interface IUserDAO extends IDAO<User> {
 	 * 
 	 * @param Role ID
 	 * @return users collection
-	 * @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya
 	 */
 	public ArrayList<User> getUsersByRoleId(int roleId, int firstItem, int count) throws Exception;
 	
@@ -23,16 +26,15 @@ public interface IUserDAO extends IDAO<User> {
 	 * 
 	 * @param email
 	 * @return user object
-	 * @author unknown
 	 */
 	User findByEmail(String email) throws Exception;
 	
 	/**
-	 * Method finds emails by Role and output result using pagination
-	 * 
-	 * @param Role, first page Item and count Item
-	 * @return emails collection
-	 * @author Miroshnycjenko Nataliya
+	 * Method obtains email addresses of specified user group
+	 * @param role group of users represented by Role
+	 * @param firstItem index of the first record to return, starting from 1
+	 * @param count number of records to return
+	 * @return collection of Strings representing user emails
 	 */	
 	List<String> getGroupEmails(ROLE role, int firstItem, int count)  throws SQLException;
 
