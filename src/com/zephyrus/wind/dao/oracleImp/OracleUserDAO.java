@@ -2,12 +2,16 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
@@ -126,6 +130,31 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		User user = fetchSingleResult(rs);
 		rs.close();
 		return user;
+	}
+	
+	
+	/**
+	 * Method finds emails by Role and output result using pagination
+	 * 
+	 * @param Role, first page Item and count Item
+	 * @return emails collection
+	 * @author Miroshnycjenko Nataliya
+	 */	
+	@Override
+	public 	List<String> getGroupEmails(ROLE role, int firstItem, int count) throws SQLException{
+		List<String> emails = new ArrayList<String>();
+		int lastItem = firstItem + count - 1;
+		stmt = connection.prepareStatement("SELECT EMAIL FROM ( " + SQL_SELECT + ") WHERE ROLE_ID = ? AND " +
+		" ROW_NUM BETWEEN ? AND ?" );
+		stmt.setInt(1, role.getId());
+		stmt.setInt(2, firstItem);
+		stmt.setInt(3, lastItem);
+		rs = stmt.executeQuery();
+		 while (rs.next()) {
+	        	emails.add(rs.getString(1));
+	        }
+		rs.close();
+		return emails;
 	}
 
 }
