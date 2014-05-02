@@ -3,7 +3,7 @@ $(document).ready(function () {
         $('#PersonTableContainer').jtable({
             title: 'Table of people',
             paging: true, //Enable paging
-            pageSize: 10, //Set page size (default: 10)
+            pageSize: 2, //Set page size (default: 10)
             sorting: false, //Enable sorting
             defaultSorting: 'Name ASC',
             actions: {

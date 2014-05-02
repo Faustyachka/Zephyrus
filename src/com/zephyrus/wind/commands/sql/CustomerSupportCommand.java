@@ -49,9 +49,14 @@ public class CustomerSupportCommand extends SQLCommand {
 			//checking is this the AJAX request for users list getting from JSP
 			if (action.equals("list")) {
 				try {
+					int startPageIndex=
+					          Integer.parseInt(request.getParameter("jtStartIndex"))+1;
+					       int numRecordsPerPage=
+					          Integer.parseInt(request.getParameter("jtPageSize"));
 					IUserDAO dao = getOracleDaoFactory().getUserDAO();
 					ArrayList<User> lstUser = dao
-							.getUsersByRoleId(ROLE.CUSTOMER.getId()); // TODO pagination
+							.getUsersByRoleId(ROLE.CUSTOMER.getId(),startPageIndex, numRecordsPerPage); 
+					int userCount=dao.count();    // TODO counter
 					JsonElement element = gson.toJsonTree(lstUser,
 							new TypeToken<List<User>>() {
 							}.getType());
@@ -60,7 +65,7 @@ public class CustomerSupportCommand extends SQLCommand {
 					
 					//transforming data to form required in JTable
 					listData = "{\"Result\":\"OK\",\"Records\":" + listData
-							+ "}";
+							+ ",\"TotalRecordCount\":"+userCount+"}";
 					response.getWriter().print(listData);
 					return null;
 				} catch (Exception ex) {
