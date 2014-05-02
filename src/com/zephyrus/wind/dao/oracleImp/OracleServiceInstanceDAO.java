@@ -29,7 +29,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
                                       " (SERV_INSTANCE_STATUS_ID, USER_ID, " + 
     								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE) " +                                      
                                       "VALUES (?,?,?,?,?)" + " RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
 
 	public OracleServiceInstanceDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {

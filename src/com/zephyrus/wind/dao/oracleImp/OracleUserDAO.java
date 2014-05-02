@@ -2,15 +2,23 @@ package com.zephyrus.wind.dao.oracleImp;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.model.Port;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
+/**
+ * 
+ * @author Miroshnycjenko Nataliya
+ */
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	private static final String TABLE_NAME = "USERS";
 	private static final String SQL_SELECT = "SELECT ID, FIRST_NAME, LAST_NAME, " + 
@@ -99,12 +107,15 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	 * 
 	 * @param Role ID
 	 * @return users collection
-	 * @author Alexandra Beskorovaynaya
 	 */
 	@Override
-	public ArrayList<User> getUsersByRoleId(int roleId) throws Exception {
-		stmt = connection.prepareStatement(SQL_SELECT + "WHERE ROLE_ID = ?");
+	public ArrayList<User> getUsersByRoleId(int roleId, int firstItem, int count) throws Exception {
+		int lastItem = firstItem + count - 1;
+		stmt = connection.prepareStatement("SELECT * FROM ( " + SQL_SELECT + " WHERE ROLE_ID = ?) "
+				+ "WHERE ROW_NUM BETWEEN ? AND ?" );
 		stmt.setInt(1, roleId);
+		stmt.setInt(2, firstItem);
+		stmt.setInt(3, lastItem);
 		rs = stmt.executeQuery();
 		ArrayList<User> users = fetchMultiResults(rs);
 		rs.close();
@@ -116,7 +127,6 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	 * 
 	 * @param email
 	 * @return user object
-	 * @author unknown
 	 */
 	@Override
 	public User findByEmail(String email) throws Exception {
@@ -126,6 +136,31 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		User user = fetchSingleResult(rs);
 		rs.close();
 		return user;
+	}
+	
+	
+	/**
+	 * Method obtains email addresses of specified user group
+	 * @param role group of users represented by Role
+	 * @param firstItem index of the first record to return, starting from 1
+	 * @param count number of records to return
+	 * @return collection of Strings representing user emails
+	 */	
+	@Override
+	public 	List<String> getGroupEmails(ROLE role, int firstItem, int count) throws SQLException{
+		List<String> emails = new ArrayList<String>();
+		int lastItem = firstItem + count - 1;
+		stmt = connection.prepareStatement("SELECT EMAIL FROM ( " + SQL_SELECT + " WHERE ROLE_ID = ?) "
+				+ "WHERE ROW_NUM BETWEEN ? AND ?" );
+		stmt.setInt(1, role.getId());
+		stmt.setInt(2, firstItem);
+		stmt.setInt(3, lastItem);
+		rs = stmt.executeQuery();
+		 while (rs.next()) {
+	        	emails.add(rs.getString(1));
+	        }
+		rs.close();
+		return emails;
 	}
 
 }

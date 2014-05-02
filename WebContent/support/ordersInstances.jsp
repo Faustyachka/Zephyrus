@@ -6,11 +6,11 @@
 <script src="/Zephyrus/resources/javascript/accordion.js"></script>
 
 <div class="navigation">
-  <a href="/Zephyrus/customerOrders" class="current">
    <center>
-		<input name="reports" type="button" value="Reports" class="button" />
-		<br /> <br /> 
-		<input name="users" type="button" value="Users" class="button" />
+		<input name="reports" type="button" value="Reports" class="navibutton" />
+		<a href="/Zephyrus/customersupport">
+		<input name="users" type="button" value="Users" class="navibutton" />
+		</a>
 	</center>
   </div>
   <div class="main">
@@ -19,10 +19,12 @@
   <c:forEach items="${instances}" var="instance">
   <h5>Instance # ${instance.id}</h5>
   <div>
-   <ul>
+   <ul> 
+   	  <c:if test= "${instance.startDate != null}">
       <li>Start date: ${instance.startDate}</li>
+      </c:if>
       <li>Service name: ${instance.productCatalog.serviceType.serviceType}</li>
-      <li>Price: ${instance.productCatalog.price}</li>
+      <li>Price: ${instance.productCatalog.price} $</li>
       <li>Status: ${instance.servInstanceStatus.servInstanceStatusValue}</li>
     </ul>
   </div>
@@ -38,8 +40,7 @@
    <ul>
       <li>Start date: ${order.orderDate}</li>
       <li>Service name: ${order.productCatalog.serviceType.serviceType}</li>
-      <li>Address: ${order.serviceLocation.address}</li>
-      <li>Price: ${order.productCatalog.price}</li>
+      <li>Price: ${order.productCatalog.price} $</li>
       <li>Type: ${order.orderType.orderType}</li>
       <li>Status: ${order.orderStatus.orderStatusValue}</li>
     </ul>

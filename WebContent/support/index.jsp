@@ -13,16 +13,17 @@
 
 <div class="navigation">
 	<center>
-		<input name="reports" type="button" value="Reports" class="button" />
-		<br /> <br /> <input name="users" type="button" value="Users"
-			class="button" />
+		<input name="reports" type="navibutton" value="Reports" class="button" />
+		<a href="/Zephyrus/customersupport">
+		<input name="users" type="button" value="Users"
+			class="navibutton" /> </a> 
 	</center>
 </div>
 <div class="main">
 	<form id="createdevice" name="form3" method="post"
 		action="/Zephyrus/changepass">
 		<div id="PersonTableContainer"></div>
-		<br /> <input type="button" name="view_si" id="view_si"	value="Service Instances and Service Orders" /> 
+		<br /> <input type="button" name="view_si" id="view_si"	value="Service Instances and Service Orders" class="button" /> 
 			<input type="button" name="button" id="changepass" value="Change password" class="button" />
 	</form>
 </div>

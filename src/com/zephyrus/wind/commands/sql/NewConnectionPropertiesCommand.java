@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
@@ -14,6 +15,7 @@ import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
@@ -75,27 +77,19 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		} 
 		
 		//check the presence of task ID
-		if (request.getParameter("id")==null) {
+		if (request.getAttribute("taskId")==null) {
 			request.setAttribute("errorMessage", "You must choose task from task's page!"
 					+ "<a href='/Zephyrus/installation'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		try {
-			taskID = Integer.parseInt(request.getParameter("id"));
-		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/installation'> Tasks </a>");
-			return PAGES.MESSAGE_PAGE.getValue();
-		}
-				
-		if (request.getAttribute("cable")!=null) {
-			cable = (Cable) request.getAttribute("cable");
-		}
+		
+		taskID = (int)request.getAttribute("taskId");
+		
+		String message = (String)request.getAttribute("message");
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		
+
 		port = portDAO.findById(portDAO.findFreePortID());
 		
 		if (port != null) {
@@ -105,16 +99,55 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
-		ServiceOrder order = task.getServiceOrder();
+
+		cable = findCableByTask(task);
 		
 		
-		request.getSession().setAttribute("task", taskID);
+		request.getSession().setAttribute("task", task);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
-		request.setAttribute("order", order);
 		request.setAttribute("cable", cable);
+		request.setAttribute("message", message);
 		
 		return PAGES.INSTALLATIONNEWWORKFLOW_PAGE.getValue();
+	}
+	
+	
+	/**
+	 * Method finds Cable object for Task
+	 * 
+	 * @param Task object
+	 * @return existing Cable, otherwise null
+	 * @author Miroshnychenko Nataliya
+	 * @throws Exception 
+	 */
+	private Cable findCableByTask(Task task) throws Exception {
+		Cable cable = new Cable();
+		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
+		ServiceOrder serviceOrder = task.getServiceOrder();
+		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
+		cable =  cableDAO.findCableFromServLoc(serviceLocation.getId());
+		return cable;
+	}
+	
+	/**
+	 * Method for searching ID of fist free port (without cable)
+	 * 
+	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO.getCableDAO
+	 * @return ID of first free port or 0 if it doesn't exist
+	 * @author Miroshnychenko Nataliya
+	 */
+	
+	private int findFreePortID() throws Exception {
+		ArrayList<Port> ports = getOracleDaoFactory().getPortDAO().findAll();
+		ICableDAO cable = getOracleDaoFactory().getCableDAO();
+			for (Port p: ports){
+					if (!cable.existConnectToPort(p.getId())){
+						return p.getId();
+					} 
+				}
+	
+		return 0;
 	}
 
 

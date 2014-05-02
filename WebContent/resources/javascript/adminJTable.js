@@ -3,7 +3,7 @@ $(document).ready(function () {
         $('#PersonTableContainer').jtable({
             title: 'Table of people',
             paging: true,
-            pageSize: 2, 
+            pageSize: 10, 
             sorting: true, 
             actions: {
                 listAction: '/Zephyrus/admin?action=list',

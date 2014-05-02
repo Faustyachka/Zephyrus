@@ -22,6 +22,9 @@ import com.zephyrus.wind.commands.sql.CreateUserCommand;
 import com.zephyrus.wind.commands.sql.CustomerOrdersCommand;
 import com.zephyrus.wind.commands.sql.CustomerServicesCommand;
 import com.zephyrus.wind.commands.sql.CustomerSupportCommand;
+import com.zephyrus.wind.commands.sql.DeleteCableCommand;
+import com.zephyrus.wind.commands.sql.DeleteCircuitCommand;
+import com.zephyrus.wind.commands.sql.DeleteCircuitViewCommand;
 import com.zephyrus.wind.commands.sql.DeleteConnectionCommand;
 import com.zephyrus.wind.commands.sql.DeleteConnectionPropertiesCommand;
 import com.zephyrus.wind.commands.sql.DeviceCreationPropertiesCommand;
@@ -35,7 +38,7 @@ import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
-import com.zephyrus.wind.commands.nosql.TaskRedirectorCommand;
+import com.zephyrus.wind.commands.sql.TaskRedirectorCommand;
 																										// REVIEW: documentation expected
 public class CommandManager {
 
@@ -73,6 +76,9 @@ public class CommandManager {
 	private static final String DEVICE_CREATION_PROPERTIES_COMMAND = "deviceCreationProperties";
 	private static final String ORDERS_AND_SERVICES_COMMAND = "ordersAndServices";
 	private static final String CREATE_CIRCUIT_VIEW_COMMAND = "createCircuitView";
+	private static final String DELETE_CABLE_COMMAND = "deleteCable";
+	private static final String DELETE_CIRCUIT_VIEW_COMMAND = "deleteCircuitView";
+	private static final String DELETE_CIRCUIT_COMMAND = "deleteCircuit";
 	
 
 
@@ -111,6 +117,9 @@ public class CommandManager {
 		commands.put(DEVICE_CREATION_PROPERTIES_COMMAND, new DeviceCreationPropertiesCommand());
 		commands.put(ORDERS_AND_SERVICES_COMMAND, new OrdersAndInstancesDisplayingCommand());
 		commands.put(CREATE_CIRCUIT_VIEW_COMMAND, new CreateCircuitViewCommand());
+		commands.put(DELETE_CABLE_COMMAND, new DeleteCableCommand());
+		commands.put(DELETE_CIRCUIT_COMMAND, new DeleteCircuitCommand());
+		commands.put(DELETE_CIRCUIT_VIEW_COMMAND, new DeleteCircuitViewCommand());
 
 
 

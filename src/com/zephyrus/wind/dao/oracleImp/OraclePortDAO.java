@@ -36,7 +36,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 											"(DEVICE_ID, PORT_NUMBER, PORT_STATUS_ID) VALUES(?,?,?)" +
 											"RETURN ROWID INTO ?;END;";
-	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
 
 	public OraclePortDAO( Connection connection, OracleDAOFactory daoFactory)
@@ -117,26 +117,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 		return 0;
 	}
 	
-	/**
-	 * Method for searching port by order task
-	 * 
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given task
-	 * @return port object if exist, otherwise null.
-	 * @author Miroshnychenko Nataliya
-	 */
-
 	
-	@Override
-	public Port findPortFromTaskID(Task task) throws Exception{
-		ServiceOrder serviceOrder = task.getServiceOrder();
-		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
-		if (serviceLocation == null){
-			return null;
-		} 
-		Cable cable = daoFactory.getCableDAO().findCableFromServLoc(serviceLocation.getId());
-		return cable.getPort();
-	}
 
 
 }

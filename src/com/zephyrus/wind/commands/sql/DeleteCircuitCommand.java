@@ -15,43 +15,67 @@ import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
+import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
+import com.zephyrus.wind.workflow.WorkflowException;
 
-public class CreateCircuitViewCommand extends SQLCommand {
+public class DeleteCircuitCommand extends SQLCommand {
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		int taskID;
-		
+
 		User user = (User) request.getSession().getAttribute("user");
-		
-		//checking is user authorized
-		if (user==null||user.getRole().getId()!=ROLE.PROVISION.getId()) {
+
+		// checking is user authorized
+		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
 					+ "Provisioning Engineer's account to view this page!"
 					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
 			return PAGES.MESSAGE_PAGE.getValue();
-		} 
-		
-		//check the presence of task ID
-		if (request.getParameter("taskId")==null) {
-			request.setAttribute("errorMessage", "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/provision'> Tasks </a>");
+		}
+
+		// check the presence of task ID
+		if (request.getParameter("taskId") == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/provision'> Tasks </a>");
 		}
 		try {
-			taskID = Integer.parseInt(request.getParameter("id"));
+			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
-		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		Task task = taskDAO.findById(taskID);
-		Port port =findPortFromTaskID(task);
-		request.setAttribute("port", port);
-		request.setAttribute("task", task);
-		return "provision/createCircuit.jsp";
+
+		// getting Task and Port and Service Order by task ID
+		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
+		Task task = taskDao.findById(taskID);
+		ServiceOrder so = task.getServiceOrder();
+		Port port = findPortFromTaskID(task);
+
+
+		// creating circuit due to "New" scenario
+		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(),
+				so);
+		try {
+			wf.deleteCircuit(taskID);;
+		} catch (WorkflowException ex) {
+			request.setAttribute("port", port);
+			request.setAttribute("task", task);
+			request.setAttribute("message", ex.getMessage() + " "
+					+ ex.getCause().getMessage());
+			return "provision/deleteCircuit.jsp";
+		} finally {
+			wf.close();
+		}
+
+		// sending redirect to page with confirmation
+		request.setAttribute("message", "Circuit was successfully removed <br>"
+				+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
+				+ " tasks' class='button'></a>");
+		return PAGES.MESSAGE_PAGE.getValue();
 	}
 	
 	/**
@@ -72,5 +96,4 @@ public class CreateCircuitViewCommand extends SQLCommand {
 		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLoc(serviceLocation.getId());
 		return cable.getPort();
 	}
-
 }

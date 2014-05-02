@@ -16,7 +16,7 @@ import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
-public class CreateCircuitViewCommand extends SQLCommand {
+public class DeleteCircuitViewCommand extends SQLCommand{
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -51,7 +51,7 @@ public class CreateCircuitViewCommand extends SQLCommand {
 		Port port =findPortFromTaskID(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
-		return "provision/createCircuit.jsp";
+		return "provision/deleteCircuit.jsp";
 	}
 	
 	/**

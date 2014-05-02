@@ -27,7 +27,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
     private static final String SQL_INSERT =  "BEGIN INSERT INTO " + TABLE_NAME + 
 												"(SERVICE_TYPE_ID, PROVIDER_LOC_ID, PRICE) VALUES(?,?,?)" +
 												"RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
     
 	public OracleProductCatalogDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {

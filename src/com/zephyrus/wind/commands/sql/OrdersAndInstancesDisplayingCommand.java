@@ -8,9 +8,12 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
+import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceInstance;
+import com.zephyrus.wind.model.ServiceLocation;
+import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
 
 /**
@@ -47,10 +50,13 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 		} 
 		try {
 			int userID = Integer.parseInt(request.getParameter("id"));
+			IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
+			User customerUser = userDAO.findById(userID);
 			IServiceInstanceDAO siDAO = getOracleDaoFactory().getServiceInstanceDAO();
 			ArrayList<ServiceInstance> instances = siDAO.getServiceInstancesByUserId(userID);
-			//TODO get orders			
-			request.setAttribute("instances", instances);			
+			ArrayList<ServiceOrder> orders = findServiceOrderByUser(customerUser);			
+			request.setAttribute("instances", instances);	
+			request.setAttribute("orders", orders);
 			return "support/ordersInstances.jsp";
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
@@ -58,6 +64,24 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 				
+	}
+	
+	/**
+	 * Method finds Service Orders object of User
+	 * 
+	 * @param User
+	 * @return collection of Service Orders
+	 * @author Miroshnychenko Nataliya
+	 */
+	private ArrayList<ServiceOrder> findServiceOrderByUser(User user) throws Exception {
+		ArrayList<ServiceOrder> serviceOrders = new ArrayList<ServiceOrder>(); 
+		ArrayList<ServiceLocation> serviceLocations = 
+				getOracleDaoFactory().getServiceLocationDAO().getServiceLocationsByUserId(user.getId());
+		for(ServiceLocation serviceLocation: serviceLocations){
+			serviceOrders.addAll(getOracleDaoFactory().getServiceOrderDAO().getServiceOrdersByServiceLocationId(serviceLocation.getId()));
+		}
+		return serviceOrders;
+		 
 	}
 
 }

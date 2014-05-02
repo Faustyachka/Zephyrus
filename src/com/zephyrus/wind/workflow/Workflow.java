@@ -13,6 +13,9 @@ import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
+import com.zephyrus.wind.email.Email;
+import com.zephyrus.wind.email.EmailSender;
+import com.zephyrus.wind.email.NewTaskEmail;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
@@ -106,7 +109,14 @@ public abstract class Workflow implements Closeable {
         task.setServiceOrder(order);
         TaskStatus status = statusDAO.findById(TASK_STATUS.PROCESSING.getId());
         task.setTaskStatus(status);
-        taskDAO.insert(task);
+        task = taskDAO.insert(task);
+        
+        /* Send email to user group */
+        User user = order.getServiceInstance().getUser();
+        Email email = new NewTaskEmail(order.getOrderDate(), user.getFirstName(), 
+        		user.getLastName(), task.getId());
+        EmailSender sender = new EmailSender();
+        sender.sendEmail(role, email);
     }
 
     /**

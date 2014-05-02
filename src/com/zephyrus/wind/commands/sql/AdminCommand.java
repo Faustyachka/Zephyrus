@@ -49,7 +49,7 @@ public class AdminCommand extends SQLCommand  {
 			if (action.equals("list")) {
 				try {
 					int startPageIndex=
-					          Integer.parseInt(request.getParameter("jtStartIndex"));
+					          Integer.parseInt(request.getParameter("jtStartIndex"))+1;
 					       int numRecordsPerPage=
 					          Integer.parseInt(request.getParameter("jtPageSize"));
 					       

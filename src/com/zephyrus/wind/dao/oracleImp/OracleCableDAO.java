@@ -31,7 +31,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 			"(PORT_ID, SERVICE_LOCATION_ID, CABLE_TYPE) VALUES(?,?,?)" +
 			"RETURN ROWID INTO ?;END;";
-	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
 
 	public OracleCableDAO(Connection connection, OracleDAOFactory daoFactory)
@@ -145,21 +145,4 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	}
 	
 	
-	/**
-	 * Method finds Cable object for Task
-	 * 
-	 * @param Task object
-	 * @return existing Cable, otherwise null
-	 * @author Miroshnychenko Nataliya
-	 */
-	
-	@Override
-	public Cable findCableByTask(Task task) throws Exception {
-		Cable cable = new Cable();
-		ServiceOrder serviceOrder = task.getServiceOrder();
-		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
-		cable =  findCableFromServLoc(serviceLocation.getId());
-		return cable;
-	}
-
 }

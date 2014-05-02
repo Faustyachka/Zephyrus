@@ -22,7 +22,7 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
                                       " (ROLE_NAME) " +                                       
                                       "VALUES (?) " + "RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
     
 	public OracleUserRoleDAO(Connection connection, OracleDAOFactory daoFactory)

@@ -16,7 +16,7 @@ public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements 
                                       "SERVICE, SO_DATE, SO_VALUE  FROM " + 
                                        TABLE_NAME + " ";
   
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
 	public OracleVSupportOrderDAO(
 			Connection connection, OracleDAOFactory daoFactory)

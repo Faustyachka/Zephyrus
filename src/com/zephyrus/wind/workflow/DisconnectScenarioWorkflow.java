@@ -36,12 +36,6 @@ public class DisconnectScenarioWorkflow extends Workflow {
 		if (order.getOrderType().getId() != ORDER_TYPE.DISCONNECT.getId()) {
             throw new WorkflowException("Cannot proceed Order: wrong order scenario");
         }
-		
-		ServiceInstance si = order.getServiceInstance();
-		if(si.getServInstanceStatus().getId() != SERVICEINSTANCE_STATUS.ACTIVE.getId()) {
-			throw new WorkflowException("service Instance associated with current Order "
-					+ "is not Active");
-		}
     }
     
     /**
@@ -55,6 +49,12 @@ public class DisconnectScenarioWorkflow extends Workflow {
             if (order.getOrderStatus().getId() != ORDER_STATUS.ENTERING.getId()) {
                 throw new WorkflowException("Cannot proceed Order: wrong order state");
             }
+            
+            ServiceInstance si = order.getServiceInstance();
+    		if(si.getServInstanceStatus().getId() != SERVICEINSTANCE_STATUS.ACTIVE.getId()) {
+    			throw new WorkflowException("Service Instance associated with current Order "
+    					+ "is not Active");
+    		}
             
             changeOrderStatus(ORDER_STATUS.PROCESSING);
             changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.PENDINGDISCONNECTION);

@@ -22,7 +22,7 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
                                       " (TASK_STATUS_VALUE) " +                                      
                                       "VALUES (?)" + " RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
     private static final int COLUMN_ID = 1;
     private static final int COLUMN_TASK_STATUS_VALUE = 2;

@@ -31,9 +31,6 @@
       <li>Order date: ${actualOrder.orderDate}</li>
       <li>Order status:${actualOrder.orderStatus.orderStatusValue} </li>
     </ul>
-    <a href="/Zephyrus/locationServices?locationId=${actualOrder.serviceLocation.id}">
-    <input type="button" value="Location services">
-    </a>
     <c:if test="${actualOrder.orderStatus.id == 1}">
     <a href="/Zephyrus/cancelOrder?orderId=${actualOrder.id}">
     <input type="button" value="Cancel order">  

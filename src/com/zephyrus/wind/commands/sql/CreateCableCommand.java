@@ -7,14 +7,18 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
-import com.zephyrus.wind.model.Cable;
+import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
+import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
+import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
- * It is supposed to create the cable in the system.
+ * This class contains the method, that is declared in @link
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
+ * the cable in the system.
  * 
  * @see com.zephyrus.wind.model.Cable
  * @see com.zephyrus.wind.model.Device
@@ -29,9 +33,10 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 public class CreateCableCommand extends SQLCommand {
 
 	/**
-	 * This method creates the cable in the database. 
-	 * Method gets parameters of device's ID and port's ID, which cable will be connected to.
-	 * By means of workflow, new object Cable with mentioned parameters is created in the database.
+	 * This method creates the cable in the database. Method gets parameters of
+	 * device's ID and port's ID, which cable will be connected to. By means of
+	 * workflow, new object Cable with mentioned parameters is created in the
+	 * database.
 	 * 
 	 * @see com.zephyrus.wind.model.Cable
 	 * @see com.zephyrus.wind.model.Device
@@ -45,23 +50,52 @@ public class CreateCableCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int id = 0;
-		if (request.getParameter("task_id")!=null) {
-			id =  Integer.parseInt(request.getParameter("task_id"));
-			request.setAttribute("taskId", id);
-		}else{
-			System.out.println("no attr " );
+		int taskID;
+
+		User user = (User) request.getSession().getAttribute("user");
+
+		// checking is user authorized
+		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
+			request.setAttribute("errorMessage", "You should login under "
+					+ "Installation Engineer's account to view this page!"
+					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
+
+		// check the presence of task ID
+		if (request.getParameter("taskId") == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!"
+							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+		}
+		try {
+			taskID = Integer.parseInt(request.getParameter("taskId"));
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+			request.setAttribute("errorMessage", "Task ID is not valid. "
+					+ "You must choose task from task's page!"
+					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
-		Task task = taskDAO.findById(id);
+		Task task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
-		
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
-		Cable cable = wf.createCable(id);
-		wf.close();
-		
-		request.setAttribute("cable", cable);
+
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
+				order);		
+		try {
+			 wf.createCable(taskID);
+		} catch (WorkflowException ex) {
+			request.setAttribute("message", ex.getCause().getMessage());
+			request.setAttribute("taskId", taskID);
+			return "newConnectionProperties";
+		} finally {
+			wf.close();
+		}
+
+		request.setAttribute("taskId", taskID);
+		request.setAttribute("message", "New cable succesfully created!");
 		return "newConnectionProperties";
 	}
 }

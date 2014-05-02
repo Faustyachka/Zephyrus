@@ -22,7 +22,7 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 												"(LOCATION_NAME, LOCATION_COORD) VALUES(?,?)" +
 												"RETURN ROWID INTO ?;END;";
-    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + "WHERE ";
+    private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
     
 	public OracleProviderLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {

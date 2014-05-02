@@ -11,6 +11,8 @@
 				<ul>
 					<li>Order date: ${actualTask.serviceOrder.orderDate}</li>
 					<li>Order id: ${actualTask.serviceOrder.id}</li>
+					<li>Scenario: ${actualTask.serviceOrder.orderType.orderType } </li>
+					<li>Service: ${actualTask.serviceOrder.productCatalog.serviceType.serviceType} </li>
 				</ul>
 				<a href="/Zephyrus/taskRedirector?id=${actualTask.id}"> 
 					<input type="button" value="Complete" class="button">
@@ -18,7 +20,6 @@
 			</div>
 		</c:forEach>
 	</div>
-
 	<br>
 
 	<h2>Available Tasks</h2>
@@ -29,6 +30,8 @@
 				<ul>
 					<li>Order date: ${availableTask.serviceOrder.orderDate}</li>
 					<li>Order id: ${availableTask.serviceOrder.id}</li>
+					<li>Scenario: ${availableTask.serviceOrder.orderType.orderType } </li>
+					<li>Service: ${availableTask.serviceOrder.productCatalog.serviceType.serviceType} </li>
 				</ul>
 				<a href="/Zephyrus/assignTask?id=${availableTask.id}"> 
 				<input type="button" value="Take Task" class="button">
@@ -36,4 +39,5 @@
 			</div>
 		</c:forEach>
 	</div>
+
 
