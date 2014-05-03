@@ -1,5 +1,5 @@
 body {
-	background-color: lightGray;
+	background-color: #E0E0E0;
 	font-family: 'Open Sans', sans-serif;
 }
 
@@ -30,18 +30,21 @@ a {
 
 .navigation {
 	float: left;
-	height: 550px;
 	width: 200px;
 	background: white;
 	color: black;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 100%;
 }
 
 .main {
 	float: left;
-	height: 550px;
 	width: 800px;
 	background: white;
-	
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 100%;
 }
 
 .footer {
@@ -94,7 +97,7 @@ a {
 	width: 200px;
 	font-size: 14pt;
 	font-family: 'Open Sans', sans-serif;
-	color: white;
+	color: black;
 	background: none;
 	border: none;
 	cursor: pointer;

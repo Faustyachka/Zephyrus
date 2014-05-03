@@ -111,7 +111,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 			for (Port p: ports){
 					if (!cable.existConnectToPort(p.getId())){
 						return p.getId();
-					} 
+					}
 				}
 	
 		return 0;
