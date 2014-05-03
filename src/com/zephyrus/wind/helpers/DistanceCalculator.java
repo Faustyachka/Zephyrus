@@ -63,7 +63,6 @@ public class DistanceCalculator {
 
 		for (ProviderLocation entry: providerLocs) {
 			double distance = calculateDistance(entry, sl);
-			System.out.println(entry.getLocationName() + " " + distance);
 			if (distance < minimalDistance) {
 				minimalDistance = distance;
 				result= new ArrayList<>();

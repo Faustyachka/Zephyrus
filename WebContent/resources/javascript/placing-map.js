@@ -21,6 +21,10 @@ function initialize() {
   getProviders();
   autocomplete = new google.maps.places.Autocomplete(input);
   
+  google.maps.event.addListener(autocomplete, 'place_changed', function() {
+	  codeAddress();
+	    });
+  
 }
 
 function codeAddress() {
