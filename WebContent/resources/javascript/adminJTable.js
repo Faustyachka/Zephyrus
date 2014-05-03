@@ -13,6 +13,7 @@ $(document).ready(function () {
                 $('.serialcheck').click(function() {
                 	var id = parseInt($(this).val(), 10);
                 	$.post('blocking',{id:id},function(rsp){
+                		if (rsp!="User's status successfully changed!")
                 			alert(rsp);
                     });                       	                                           
                 });

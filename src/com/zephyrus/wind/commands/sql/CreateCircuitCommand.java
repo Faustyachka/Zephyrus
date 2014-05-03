@@ -96,11 +96,8 @@ public class CreateCircuitCommand extends SQLCommand {
 		try {
 			wf.createCircuit(taskID, circuitConfig);
 		} catch (WorkflowException ex) {
-			request.setAttribute("port", port);
-			request.setAttribute("task", task);
-			request.setAttribute("message", ex.getMessage() + " "
-					+ ex.getCause().getMessage());
-			return "provision/createCircuit.jsp";
+			ex.printStackTrace();
+			throw new Exception(ex.getCause().getMessage());
 		} finally {
 			wf.close();
 		}

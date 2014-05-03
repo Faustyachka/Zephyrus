@@ -14,9 +14,10 @@
 					<li>Scenario: ${actualTask.serviceOrder.orderType.orderType } </li>
 					<li>Service: ${actualTask.serviceOrder.productCatalog.serviceType.serviceType} </li>
 				</ul>
-				<a href="/Zephyrus/taskRedirector?id=${actualTask.id}"> 
-					<input type="button" value="Complete" class="button">
-				</a> 
+				<form method = "post" action="/Zephyrus/taskRedirector">
+				<input type="hidden" name="id" value="${actualTask.id}">				
+				<input type="submit" value="Complete" class="button">
+				</form> 
 			</div>
 		</c:forEach>
 	</div>
@@ -33,9 +34,10 @@
 					<li>Scenario: ${availableTask.serviceOrder.orderType.orderType } </li>
 					<li>Service: ${availableTask.serviceOrder.productCatalog.serviceType.serviceType} </li>
 				</ul>
-				<a href="/Zephyrus/assignTask?id=${availableTask.id}"> 
-				<input type="button" value="Take Task" class="button">
-				</a>
+				<form method = "post" action="/Zephyrus/assignTask">
+				<input type="hidden" name="id" value="${availableTask.id}">				
+				<input type="submit" value="Take Task" class="button">
+				</form>
 			</div>
 		</c:forEach>
 	</div>

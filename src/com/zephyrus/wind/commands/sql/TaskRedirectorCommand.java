@@ -44,30 +44,41 @@ public class TaskRedirectorCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null) {
 			request.setAttribute("errorMessage", "You should login "
-					+ " to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+					+ " to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("id") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("id"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					+ "You must choose task from task's page!<br>"
+					+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
+		
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 
 		request.setAttribute("taskId", taskID);
 		if (user.getRole().getId() == ROLE.INSTALLATION.getId()) {
@@ -90,8 +101,8 @@ public class TaskRedirectorCommand extends SQLCommand {
 				return "deleteCircuitView";
 			}
 
-		} 
-		
+		}
+
 		return null;
 	}
 

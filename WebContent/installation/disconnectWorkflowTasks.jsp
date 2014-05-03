@@ -19,7 +19,8 @@
   <br>
  
   
-  <form method="post" action="/Zephyrus/deleteConnection?taskId=${task.id}">
+  <form method="post" action="/Zephyrus/deleteConnection">
+  <input type="hidden" name="taskId" value="${task.id}"/>
   <table>
   <tr>
   <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
@@ -40,10 +41,12 @@
   	<c:if test= "${device == null}">
   	<c:if test="${port==null}">
  	<c:if test="${cable!=null}"> 
-  	Delete cable ${cable.id} from service location: ${order.serviceLocation.address}
-  	<a href="/Zephyrus/deleteCable?taskId=${task.id}">
-  	<input type="button" class="button" value="Delete Cable"/>
-  	</a>
+  	Delete cable ${cable.id} from service location: ${order.serviceLocation.address} <br>
+  	<form method="post" action="/Zephyrus/deleteCable">
+  	<input type="hidden" name="taskId" value="${task.id}"/> 
+  	<input type="submit" class="button" value="Delete Cable"/>
+  	</form>
+  	
   	</c:if> 
   	</c:if> 	
   	</c:if> 

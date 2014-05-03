@@ -30,7 +30,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
  * 
  * @return page with confirmation of successful deletion of cable
- * @author Ielyzaveta Zubacheva
+ * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 public class DeleteCableCommand extends SQLCommand {
 	
@@ -58,16 +58,18 @@ public class DeleteCableCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+					+ "Installation Engineer's account to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
@@ -75,8 +77,9 @@ public class DeleteCableCommand extends SQLCommand {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					+ "You must choose task from task's page!<br>"
+					+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
@@ -86,8 +89,9 @@ public class DeleteCableCommand extends SQLCommand {
 		
 		if (task == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
@@ -98,15 +102,14 @@ public class DeleteCableCommand extends SQLCommand {
 			wf.deleteCable(taskID);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			request.setAttribute("message", ex.getCause().getMessage());
-			request.setAttribute("taskId", taskID);
-			return "disconnectConnectionProperties";
+			throw new Exception(ex.getCause().getMessage());
 		} finally {
 			wf.close();
 		}
 		
 		//return message page
-		request.setAttribute("message", "Cable deleted <br> <a href='/Zephyrus/installation'>return to home page</a>");		
+		request.setAttribute("message", "Cable deleted <br> <a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Home'/></a>");		
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 

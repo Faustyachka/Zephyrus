@@ -87,22 +87,28 @@ public class AssignTaskCommand extends SQLCommand {
 
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskId);
-		
+
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!"
 							+ "<a href='/Zephyrus/installation'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
+
 		ServiceOrder order = task.getServiceOrder();
 
 		// check the scenario for given task
 		if (order.getOrderType().getId() == ORDER_TYPE.NEW.getId()) {
 			NewScenarioWorkflow wf = new NewScenarioWorkflow(
 					getOracleDaoFactory(), order);
-			wf.assignTask(taskId, user.getId());
-			wf.close();
+			try {
+				wf.assignTask(taskId, user.getId());
+			} catch (WorkflowException ex) {
+				ex.printStackTrace();
+				throw new Exception("Failed to assign task!");
+			} finally {
+				wf.close();
+			}
 		}
 
 		if (order.getOrderType().getId() == ORDER_TYPE.DISCONNECT.getId()) {
@@ -111,9 +117,8 @@ public class AssignTaskCommand extends SQLCommand {
 			try {
 				wf.assignTask(taskId, user.getId());
 			} catch (WorkflowException ex) {
-				request.setAttribute("message",
-						"Error occured: " + ex.getMessage() + " "
-								+ ex.getCause().getMessage());
+				ex.printStackTrace();
+				throw new Exception(ex.getCause().getMessage()); 
 			} finally {
 				wf.close();
 			}

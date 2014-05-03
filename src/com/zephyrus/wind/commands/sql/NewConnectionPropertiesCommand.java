@@ -1,7 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -35,7 +34,7 @@ import com.zephyrus.wind.model.User;
  * @see com.zephyrus.wind.dao.interfaces.IPortDAO
  * 
  * @return {@linkNewWorkflowTasks.jsp} page
- * @author Ielyzaveta Zubacheva
+ * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 
 public class NewConnectionPropertiesCommand extends SQLCommand {
@@ -71,15 +70,17 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		//checking is user authorized
 		if (user==null||user.getRole().getId()!=ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+					+ "Installation Engineer's account to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		} 
 		
 		//check the presence of task ID
 		if (request.getAttribute("taskId")==null) {
-			request.setAttribute("errorMessage", "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			request.setAttribute("errorMessage", "You must choose task from task's page!<br>"
+					+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
@@ -89,9 +90,10 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		
-
+		//find free port if it exist
 		port = portDAO.findById(portDAO.findFreePortID());
 		
+		//get port's device
 		if (port != null) {
 			device = port.getDevice();
 		}
@@ -99,10 +101,19 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
-
+		
+		if (task == null) {
+			request.setAttribute("errorMessage",
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
+		//find cable, connected by this task if it exist
 		cable = findCableByTask(task);
 		
-		
+		//set all necessary attributes
 		request.getSession().setAttribute("task", task);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
@@ -130,25 +141,8 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		return cable;
 	}
 	
-	/**
-	 * Method for searching ID of fist free port (without cable)
-	 * 
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO.getCableDAO
-	 * @return ID of first free port or 0 if it doesn't exist
-	 * @author Miroshnychenko Nataliya
-	 */
 	
-	private int findFreePortID() throws Exception {
-		ArrayList<Port> ports = getOracleDaoFactory().getPortDAO().findAll();
-		ICableDAO cable = getOracleDaoFactory().getCableDAO();
-			for (Port p: ports){
-					if (!cable.existConnectToPort(p.getId())){
-						return p.getId();
-					} 
-				}
-	
-		return 0;
-	}
+
 
 
 }

@@ -56,7 +56,7 @@ public class CustomerSupportCommand extends SQLCommand {
 					IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
 					ArrayList<User> lstUser = userDAO
 							.getUsersByRoleId(ROLE.CUSTOMER.getId(),startPageIndex, numRecordsPerPage); 
-					int userCount=userDAO.count();    // TODO counter
+					int userCount=lstUser.size();    //TODO counter
 					JsonElement element = gson.toJsonTree(lstUser,
 							new TypeToken<List<User>>() {
 							}.getType());

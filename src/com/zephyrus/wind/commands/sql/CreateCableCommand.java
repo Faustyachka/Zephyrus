@@ -28,7 +28,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
  * 
  * @return page with confirmation of successful creation of cable
- * @author Ielyzaveta Zubacheva
+ * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 public class CreateCableCommand extends SQLCommand {
 
@@ -90,9 +90,8 @@ public class CreateCableCommand extends SQLCommand {
 		try {
 			wf.createCable(taskID);
 		} catch (WorkflowException ex) {
-			request.setAttribute("message", ex.getCause().getMessage());
-			request.setAttribute("taskId", taskID);
-			return "newConnectionProperties";
+			ex.printStackTrace();
+			throw new Exception(ex.getCause().getMessage());
 		} finally {
 			wf.close();
 		}

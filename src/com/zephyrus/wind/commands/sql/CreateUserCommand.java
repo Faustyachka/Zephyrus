@@ -34,8 +34,7 @@ public class CreateUserCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		
-		
+				
 		User admin = (User) request.getSession().getAttribute("user");
 
 		// checking is user authorized

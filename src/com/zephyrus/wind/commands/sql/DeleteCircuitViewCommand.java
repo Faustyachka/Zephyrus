@@ -44,15 +44,17 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		//checking is user authorized
 		if (user==null||user.getRole().getId()!=ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+					+ "Provisioning Engineer's account to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		} 
 		
 		//check the presence of task ID
 		if (request.getParameter("taskId")==null) {
-			request.setAttribute("errorMessage", "You must choose task from task's page!"
-					+ "<a href='/Zephyrus/provision'> Tasks </a>");
+			request.setAttribute("errorMessage", "You must choose task from task's page!<br>"
+					+ "<a href='/Zephyrus/provision'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("id"));
@@ -66,8 +68,9 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		Task task = taskDAO.findById(taskID);
 		if (task == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+					"You must choose task from task's page!<br>"
+							+ "<a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		

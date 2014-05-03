@@ -50,8 +50,9 @@ public class DisplayTasksCommand extends SQLCommand {
 		
 		//checking is user authorized
 		if (request.getSession().getAttribute("user")==null) {
-			request.setAttribute("errorMessage", "You should login to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+			request.setAttribute("errorMessage", "You should login to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		//Get user from HTTP session
@@ -61,8 +62,9 @@ public class DisplayTasksCommand extends SQLCommand {
 		//checking is user logged in under engineer's account
 		if (userRole.getId()!=ROLE.INSTALLATION.getId()&&userRole.getId()!=ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under Provisioning or"
-					+ "Installation Engineer's account to view this page!"
-					+ " <a href='/Zephyrus/view/login.jsp'>login</a>");
+					+ "Installation Engineer's account to view this page!<br>"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		

@@ -6,8 +6,6 @@ public enum PAGES {
 	MESSAGE_PAGE("view/message.jsp"),
 	ADMIN_PAGE("admin/index.jsp"),
 	SUPPORT_PAGE("support/index.jsp"),
-	SUPPORT_VIEW_SO_PAGE("support/viewUserSO"),
-	SUPPORT_VIEW_SI_PAGE("support/viewUserSI"),
 	PROVISION_PAGE("provision/index.jsp"),
 	INSTALLATION_PAGE("installation/index.jsp"),
 	INSTALLATIONNEWWORKFLOW_PAGE("installation/newWorkflowTasks.jsp"),

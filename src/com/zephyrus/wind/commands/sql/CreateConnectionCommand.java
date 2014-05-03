@@ -30,7 +30,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.workflow.NewScenarioWorkflow
  * 
  * @return page with confirmation of successful creation of connection
- * @author Ielyzaveta Zubacheva
+ * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 
 public class CreateConnectionCommand extends SQLCommand {
@@ -73,7 +73,7 @@ public class CreateConnectionCommand extends SQLCommand {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
 							+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+							+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
@@ -89,34 +89,32 @@ public class CreateConnectionCommand extends SQLCommand {
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
-		
+
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!"
 							+ "<a href='/Zephyrus/installation'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
+
 		ServiceOrder order = task.getServiceOrder();
 
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
 				order);
 		try {
 			wf.plugCableToPort(taskID);
-			
+
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			request.setAttribute("taskId", task.getId());
-			request.setAttribute("message", ex.getMessage() + " "
-					+ ex.getCause().getMessage());
-			return "newConnectionProperties";
+			throw new Exception(ex.getCause().getMessage());
 		} finally {
 			wf.close();
 		}
 
-		request.setAttribute("message", "New connection successfully created!<br>"
-				+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+		request.setAttribute("message",
+				"New connection successfully created!<br>"
+						+ "<a href='/Zephyrus/installation'><input type='"
+						+ "button' class='button' value='Tasks'/></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 

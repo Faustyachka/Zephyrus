@@ -28,7 +28,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
  * 
  * @return page with confirmation of successful creation of device
- * @author Ielyzaveta Zubacheva
+ * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 
 public class CreateDeviceCommand extends SQLCommand {
@@ -83,9 +83,8 @@ public class CreateDeviceCommand extends SQLCommand {
 		int portQuantity = 60;
 
 		if (serialNum.isEmpty()) {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Serial number cannot be empty.");
+			request.setAttribute("message", "Serial number can not be empty!");
+			request.setAttribute("taskId", taskID);
 			return "installation/createDevice.jsp";
 		}
 
@@ -94,11 +93,8 @@ public class CreateDeviceCommand extends SQLCommand {
 		final Matcher matcher = pattern.matcher(serialNum);
 
 		if (!matcher.find()) {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter()
-					.write("Bad serial number! Serial number format must be as 'LLLNNNNSSS' "
-							+ ", where L-letter symbol, N-number symbol, S-letter or number symbol");
+			request.setAttribute("message", "Serial number is not valid!");
+			request.setAttribute("taskId", taskID);
 			return "installation/createDevice.jsp";
 		}
 
@@ -112,11 +108,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		try {
 			wf.createRouter(taskID, serialNum, portQuantity);
 		} catch (WorkflowException ex) {
-			String message = ex.getMessage() + " " + ex.getCause().getMessage();
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(message);
-			return "installation/createDevice.jsp";
+			throw new Exception(ex.getCause().getMessage());
 		} finally {
 			wf.close();
 		}
