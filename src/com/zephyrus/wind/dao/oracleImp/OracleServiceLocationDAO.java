@@ -13,17 +13,26 @@ import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.User;
 
+/**
+ * 
+ * 
+ * @author Miroshnychenko Nataliya
+ */
+
 public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> implements IServiceLocationDAO {
 	private static final String TABLE_NAME = "SERVICE_LOCATIONS";
-    private static final String SQL_SELECT = "SELECT ID, SERVICE_LOCATION_COORD, USER_ID, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
-                                       TABLE_NAME + " ";
+	private static final String SQL_SELECT = "SELECT ID, SERVICE_LOCATION_COORD, SERVICE_LOCATION_ADD, " +
+											" USER_ID, ROWNUM AS ROW_NUM " + 
+											"FROM " + 
+											TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET SERVICE_LOCATION_COORD = ?, USER_ID = ? " + 
+                                      " SET SERVICE_LOCATION_COORD = ?, " + 
+                                      " SET SERVICE_LOCATION_ADD = ?, " + 
+                                      " USER_ID = ? " + 
                                       " WHERE " + 
                                       " ID = ?";
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
-    								"(SERVICE_LOCATION_COORD, USER_ID) VALUES(?,?) " +
+    								"(SERVICE_LOCATION_COORD, SERVICE_LOCATION_ADD, USER_ID) VALUES(?,?,?) " +
     								"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
@@ -37,8 +46,13 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 	public void update(ServiceLocation record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
     	stmt.setString(1, record.getServiceLocationCoord());
-    	stmt.setInt(2, record.getUser().getId());    	
-    	stmt.setLong(3, record.getId());
+    	if (record.getAddress() == null){
+    		stmt.setNull(2, java.sql.Types.INTEGER); 
+    	} else {
+    		stmt.setString(2, record.getAddress());
+    	}
+    	stmt.setInt(3, record.getUser().getId());    	
+    	stmt.setLong(4, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}
@@ -47,10 +61,16 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 	public ServiceLocation insert(ServiceLocation record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
     	cs.setString(1, record.getServiceLocationCoord());
-    	cs.setInt(2, record.getUser().getId());    
-    	cs.registerOutParameter(3, OracleTypes.VARCHAR);
+    	if(record.getAddress() == null){
+			cs.setNull(2, java.sql.Types.INTEGER);
+		}
+		else {
+			cs.setString(2, record.getAddress());
+		}
+    	cs.setInt(3, record.getUser().getId());    
+    	cs.registerOutParameter(4, OracleTypes.VARCHAR);
         cs.execute();
-        String rowId = cs.getString(3);
+        String rowId = cs.getString(4);
         cs.close();
 		return findByRowId(rowId);
 	}
@@ -65,8 +85,9 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 			throws SQLException, Exception {
 		item.setId(rs.getInt(1));
 		item.setServiceLocationCoord(rs.getString(2));
+		item.setAddress(rs.getString(3));
 		IUserDAO userDAO = daoFactory.getUserDAO();
-		User user = userDAO.findById(rs.getInt(3));
+		User user = userDAO.findById(rs.getInt(4));
 		item.setUser(user);
 		
 	}
