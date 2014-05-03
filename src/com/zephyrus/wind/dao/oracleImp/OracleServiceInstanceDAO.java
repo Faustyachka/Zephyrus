@@ -43,10 +43,12 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
     	stmt.setInt(1, record.getServInstanceStatus().getId());   
     	stmt.setInt(2, record.getUser().getId());  
     	stmt.setInt(3, record.getProductCatalog().getId());  
-    	if(record.getCircuit().getId() != null)
-    		stmt.setInt(4, record.getCircuit().getId());  
-    	else
-    		stmt.setNull(4, java.sql.Types.INTEGER); 
+    	if(record.getCircuit().getId() == null){
+    		stmt.setNull(4, java.sql.Types.INTEGER);
+    		} 
+    	else {
+    		stmt.setInt(4, record.getCircuit().getId()); 
+    		}
     	stmt.setDate(5, (java.sql.Date)record.getStartDate());
     	stmt.setLong(6, record.getId());
         stmt.executeUpdate();
