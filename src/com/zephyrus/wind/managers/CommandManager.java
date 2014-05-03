@@ -82,6 +82,7 @@ public class CommandManager {
 	private static final String DELETE_CIRCUIT_VIEW_COMMAND = "deleteCircuitView";
 	private static final String DELETE_CIRCUIT_COMMAND = "deleteCircuit";
 	private static final String DISCONNECT_SERVICE_INSTANCE = "disconnectServiceInstance";
+	private static final String PROVIDERS_COMMAND = "providerLocations";
 	
 
 
@@ -124,6 +125,7 @@ public class CommandManager {
 		commands.put(DELETE_CIRCUIT_COMMAND, new DeleteCircuitCommand());
 		commands.put(DELETE_CIRCUIT_VIEW_COMMAND, new DeleteCircuitViewCommand());
 		commands.put(DISCONNECT_SERVICE_INSTANCE, new DisconnectServiceInstanceCommand());
+		commands.put(PROVIDERS_COMMAND, new ProviderLocationsDisplayingCommand());
 
 
 

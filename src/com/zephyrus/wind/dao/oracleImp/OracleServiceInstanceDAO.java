@@ -8,6 +8,7 @@ import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
+import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.model.Circuit;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceInstance;
@@ -105,7 +106,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	 * Method finds Service Instances by User ID
 	 * 
 	 * @param User ID
-	 * @return existing Service Instances
+	 * @return collection of existing Service Instances
 	 * @author unknown
 	 */
 	
@@ -113,6 +114,22 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	public ArrayList<ServiceInstance> getServiceInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
 		stmt.setInt(1, id);
+		rs = stmt.executeQuery();	
+		return fetchMultiResults(rs);
+	}
+
+	/**
+	 * Method finds Service Instances by User in all status expect DISCONNECTED
+	 * 
+	 * @param User
+	 * @return ArrayList of existing Service Instances in all status expect DISCONNECTED
+	 * @author Miroshnychenko Nataliya
+	 */
+	@Override
+	public ArrayList<ServiceInstance> getActiveServiceInstancesByUser(User user) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ? AND SERV_INSTANCE_STATUS_ID != ?");
+		stmt.setInt(1, user.getId());
+		stmt.setInt(2, SERVICEINSTANCE_STATUS.DISCONNECTED.getId());
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}

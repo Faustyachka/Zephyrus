@@ -35,7 +35,7 @@ public class MappingCommand extends SQLCommand{
         address = request.getParameter("address");
      
         ServiceLocation sl = new ServiceLocation();
-        String s = longitude+","+latitude;
+        String s = latitude+","+longitude;
         sl.setServiceLocationCoord(s);
         sl.setAddress(address);
         request.getSession().setAttribute("serviceLocation", sl);

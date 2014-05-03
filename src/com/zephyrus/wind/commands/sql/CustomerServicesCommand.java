@@ -24,20 +24,11 @@ public class CustomerServicesCommand extends SQLCommand {
 
 		IServiceInstanceDAO serviceDAO = getOracleDaoFactory().getServiceInstanceDAO();
 		User user = (User) request.getSession().getAttribute("user");
-		ArrayList<ServiceInstance> services = serviceDAO.getServiceInstancesByUserId(user.getId());
-		ArrayList<ServiceInstance> actualServices = new ArrayList<ServiceInstance>();
-		ArrayList<ServiceInstance> workedOutServices = new ArrayList<ServiceInstance>();
-		for(ServiceInstance service : services){													  // REVIEW: this cycle could and should be transformed into DAO method
-			if(service.getServInstanceStatus().getId() == SERVICEINSTANCE_STATUS.ACTIVE.getId() ||
-					service.getServInstanceStatus().getId() == SERVICEINSTANCE_STATUS.PLANNED.getId()){
-				actualServices.add(service);
-			} else {
-				workedOutServices.add(service);
-			}
-		}
+		
+		
+		ArrayList<ServiceInstance> actualServices = serviceDAO.getActiveServiceInstancesByUser(user);
 		
 		request.setAttribute("actualServices", actualServices);
-		request.setAttribute("workedOutServices", workedOutServices);
 		
 		return PAGES.CUSTOMERSERVICES_PAGE.getValue();
 	}

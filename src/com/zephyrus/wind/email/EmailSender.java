@@ -44,20 +44,20 @@ public class EmailSender {
      * @param mail Email to send
      */
     public void sendEmail(User user, Email email) {
-    	Session session = getAuthSession();
-        Address address = getUserAddress(user);
-
-        /* Send mail */
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
-            message.setRecipient(Message.RecipientType.BCC, address);
-            message.setSubject(email.getSubject());
-            message.setContent(email.getMessage(), "text/html");
-            Transport.send(message);
-        } catch (MessagingException exc) {
-            throw new RuntimeException(exc);
-        }
+//    	Session session = getAuthSession();
+//        Address address = getUserAddress(user);
+//
+//        /* Send mail */
+//        try {
+//            Message message = new MimeMessage(session);
+//            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
+//            message.setRecipient(Message.RecipientType.BCC, address);
+//            message.setSubject(email.getSubject());
+//            message.setContent(email.getMessage(), "text/html");
+//            Transport.send(message);
+//        } catch (MessagingException exc) {
+//            throw new RuntimeException(exc);
+//        }
     }
 
     /**
@@ -66,30 +66,30 @@ public class EmailSender {
      * @param mail message to send
      */
     public void sendEmail(ROLE role, Email mail) {
-        Session session = getAuthSession();
-        
-        int index = 1;
-        int maxNumberToSend = Integer.parseInt(props.getProperty("mail.maxaddressesinrow"));
-        Address[] addresses;
-        do {
-        	addresses = getGroupAddresses(role, index, maxNumberToSend);
-        	index += maxNumberToSend;
-        	
-        	if(addresses.length != 0) {
-        		/* Send mail */
-    	        try {
-    	            Message message = new MimeMessage(session);
-    	            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
-    	            message.setRecipients(Message.RecipientType.BCC, addresses);
-    	            message.setSubject(mail.getSubject());
-    	            message.setContent(mail.getMessage(), "text/html");
-    	            Transport.send(message);
-    	        } catch (MessagingException e) {
-    	            throw new RuntimeException(e);
-    	        }
-        	}
-	        
-        } while(addresses.length == maxNumberToSend);
+//        Session session = getAuthSession();
+//        
+//        int index = 1;
+//        int maxNumberToSend = Integer.parseInt(props.getProperty("mail.maxaddressesinrow"));
+//        Address[] addresses;
+//        do {
+//        	addresses = getGroupAddresses(role, index, maxNumberToSend);
+//        	index += maxNumberToSend;
+//        	
+//        	if(addresses.length != 0) {
+//        		/* Send mail */
+//    	        try {
+//    	            Message message = new MimeMessage(session);
+//    	            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
+//    	            message.setRecipients(Message.RecipientType.BCC, addresses);
+//    	            message.setSubject(mail.getSubject());
+//    	            message.setContent(mail.getMessage(), "text/html");
+//    	            Transport.send(message);
+//    	        } catch (MessagingException e) {
+//    	            throw new RuntimeException(e);
+//    	        }
+//        	}
+//	        
+//        } while(addresses.length == maxNumberToSend);
     }
     
     /**

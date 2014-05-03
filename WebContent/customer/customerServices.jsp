@@ -20,7 +20,7 @@
    <br>
   </div>
   <div class="main">
-  <h2> Planned and active Service Instances </h2>
+  <h2> My Service Instances </h2>
   <div id="actual">
   <c:forEach items="${actualServices}" var="actualService">
   <h5>Service ${actualService.id}</h5>
@@ -34,29 +34,17 @@
     <a href="/Zephyrus/modifyService?id=${actualService.id}">
     <input type="button" value="Modify">  
     </a>  
-    <a href="/Zephyrus/deleteService?id=${actualService.id}">
+    <c:if test="${actualService.servInstanceStatus.id == 2}">
+    <a href="/Zephyrus/disconnectServiceInstance?id=${actualService.id}">
     <input type="button" value="Delete">  
     </a>  
+    </c:if>
   </div>
   </c:forEach>
   </div>
 
 <br>
 
-<h2> Disconnected Service Instances </h2>
-<div id="workedOut">
-  <c:forEach items="${workedOutServices}" var="workedOutService">
-  <h5>Service ${workedOutService.id}</h5>
-  <div>
-   <ul>
-      <li>Start date: ${workedOutService.startDate}</li>
-      <li>Service name: ${workedOutService.productCatalog.serviceType.serviceType}</li>
-      <li>Price: ${workedOutService.productCatalog.price}</li>
-    </ul>
-  </div>
-  </c:forEach>
-  </div>
-
-  </div>
+ </div>
   
   <jsp:include page="../WEB-INF/jsphf/footer.jsp" />
