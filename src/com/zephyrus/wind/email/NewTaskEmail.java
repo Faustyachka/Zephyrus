@@ -3,7 +3,8 @@ package com.zephyrus.wind.email;
 import java.util.Date;
 
 /**
- * This class represents email template for new task in system
+ * This class represents email template for notification
+ * about new task in system
  * @author Igor Litvinenko
  */
 public class NewTaskEmail extends Email {

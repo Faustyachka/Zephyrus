@@ -7,6 +7,7 @@
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
         <title>Zephyrus</title>
         <link href="/Zephyrus/resources/css/zephyrus_css.css" type="text/css" rel="stylesheet" />
+        <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
 		<script src="/Zephyrus/resources/javascript/jquery-1.11.0.min.js"></script>
     </head>
     <body>
@@ -15,21 +16,28 @@
   				<c:choose>
 					<c:when test="${user != null}">
 					<div id="logout_link">
-							<a href="/Zephyrus/logout"><input type="button" value="Sign out" class="userbutton"></a>
-						</div>
+						<a href="/Zephyrus/logout">
+							<input type="button" value="Sign out" class="userbutton">
+						</a>
+					</div>
 					<div  id="home_link">
 						<a href="/Zephyrus/login">
-				  		<input type="button" value="Profile" class="userbutton">
-				  		</a></div>
+				  			<input type="button" value="Profile" class="userbutton">
+				  		</a>
+				  		<span class="split">|</span>
+				  	</div>
 					</c:when>
 					<c:otherwise>
 						<a href="/Zephyrus/login" id="login_link">
-	      				<input type="button" value="Log in" class="userbutton"/>
+	      					<input type="button" value="Log in" class="userbutton"/>
 						</a>
 						<a href="/Zephyrus/registerPage" id="register_link">
-						<input type="button" value="Register" class="userbutton"></a>
+							<input type="button" value="Register" class="userbutton">
+							<span class="split">|</span>
+						</a>
 					</c:otherwise>
-				</c:choose> 
-  <a href="/Zephyrus/home"><img src="/Zephyrus/resources/css/images/main_logo.jpg"></a>
-
-</div>
+				</c:choose>
+				<div id = "logo">
+	  				<a href="/Zephyrus/home"><img src="/Zephyrus/resources/css/images/zephyrus_logo.png"></a>
+	  			</div>
+			</div>
