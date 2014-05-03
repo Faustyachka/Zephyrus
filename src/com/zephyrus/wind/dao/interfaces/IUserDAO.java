@@ -38,4 +38,12 @@ public interface IUserDAO extends IDAO<User> {
 	 */	
 	List<String> getGroupEmails(ROLE role, int firstItem, int count)  throws SQLException;
 
+	/**
+	 * Method find count of Users by Role ID
+	 * 
+	 * @param Role ID
+	 * @return count of users for given Role ID. If users don`t exist return 0.
+	 */
+	int getCountUsersForRoleId(int roleId) throws Exception;
+
 }

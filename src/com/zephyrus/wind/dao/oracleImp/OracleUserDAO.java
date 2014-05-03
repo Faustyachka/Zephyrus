@@ -121,6 +121,25 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 		rs.close();
 		return users;
 	}
+	
+	/**
+	 * Method find count of Users by Role ID
+	 * 
+	 * @param Role ID
+	 * @return count of users for given Role ID. If users don`t exist return 0.
+	 */
+	@Override
+	public int getCountUsersForRoleId(int roleId) throws Exception {
+		int result = 0;
+		stmt = connection.prepareStatement("SELECT COUNT(*) FROM " + TABLE_NAME + " WHERE ROLE_ID = ? ");
+		stmt.setInt(1, roleId);
+		rs = stmt.executeQuery();
+		if (rs.next()) {
+    		result = rs.getInt(1);
+    	}
+		rs.close();
+    	return result;
+	}
 
 	/**
 	 * Method find User by email

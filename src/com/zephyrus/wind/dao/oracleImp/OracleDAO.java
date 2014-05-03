@@ -112,6 +112,7 @@ public abstract class OracleDAO<T> {
     	if (rs.next()) {
     		result = rs.getInt(1);
     	}
+    	rs.close();
     	return result;
     }
     ;
