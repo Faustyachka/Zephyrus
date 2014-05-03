@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        $('#email').blur(function() {
+        $('#email').change(function() {
             if($(this).val() != '') {
                 var pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
                 if(pattern.test($(this).val())){
@@ -16,9 +16,9 @@ $(document).ready(function() {
         });
     }); 
  $(document).ready(function() {
-     $('#confirmpass').blur(function() {
+     $('#confirmpass').change(function() {
    	 $(".error").hide();
-    	    var valueX = $("#pass").val();
+    	    var valueX = $("#password").val();
     	    var valueY = $("#confirmpass").val();
     	    if (valueX != valueY) {
     	    	$(this).css({'border' : '1px solid #ff0000'});
@@ -30,9 +30,9 @@ $(document).ready(function() {
      });
  });
  $(document).ready(function() {
-     $('#serialNum').blur(function() {
+     $('#serialNum').change(function() {
     	 if($(this).val() != '') {
-             var pattern = /^([A-Z0-9]){11}$/;
+             var pattern = /^([A-Za-z]){3}([0-9]){4}([A-Za-z0-9]){4}$/;
              if(pattern.test($(this).val())){
                  $(this).css({'border' : '1px solid #569b44'});
                  $('#valid').text('Ok');
