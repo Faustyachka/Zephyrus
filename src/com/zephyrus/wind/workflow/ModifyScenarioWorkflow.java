@@ -65,7 +65,7 @@ public class ModifyScenarioWorkflow extends Workflow {
             siDAO.update(si);
             
             updateServiceInstanceDate(order.getServiceInstance());
-            changeOrderStatus(ORDER_STATUS.COMPLETED);
+            this.completeOrder();
         } catch (Exception exc) {
         	throw new WorkflowException("Exception while proceeding order", exc);
 		} finally {

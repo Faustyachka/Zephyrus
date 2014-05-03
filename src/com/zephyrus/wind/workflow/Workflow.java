@@ -16,6 +16,7 @@ import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.email.Email;
 import com.zephyrus.wind.email.EmailSender;
 import com.zephyrus.wind.email.NewTaskEmail;
+import com.zephyrus.wind.email.OrderCompletedEmail;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
@@ -161,6 +162,20 @@ public abstract class Workflow implements Closeable {
         OrderStatus orderStatus = orderStatusDAO.findById(status.getId());
         order.setOrderStatus(orderStatus);
         orderDAO.update(order);
+    }
+    
+    /**
+     * This method completes current order by setting order status to "Completed"
+     * and sends email notification to the user.
+     */
+    protected void completeOrder() throws Exception {
+    	this.changeOrderStatus(ORDER_STATUS.COMPLETED);
+    	
+    	User user = order.getServiceInstance().getUser();
+    	Email email = new OrderCompletedEmail(user.getFirstName(), order.getOrderDate(),
+    			order.getOrderType().getOrderType(), order.getServiceLocation().getAddress());
+    	EmailSender sender = new EmailSender();
+    	sender.sendEmail(user, email);
     }
 
     /**

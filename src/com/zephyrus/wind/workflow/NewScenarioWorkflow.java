@@ -251,7 +251,7 @@ public class NewScenarioWorkflow extends Workflow {
 
             updateServiceInstanceDate(order.getServiceInstance());
             changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.ACTIVE);
-            changeOrderStatus(ORDER_STATUS.COMPLETED);
+            this.completeOrder();
             
             return circuit;
         } catch (Exception exc) {

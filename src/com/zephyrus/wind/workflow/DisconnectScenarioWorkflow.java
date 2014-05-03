@@ -158,7 +158,7 @@ public class DisconnectScenarioWorkflow extends Workflow {
             cableDAO.remove(cable);
             
             completeTask(taskID);
-            changeOrderStatus(ORDER_STATUS.COMPLETED);
+            this.completeOrder();
         } catch (Exception exc) {
 			throw new WorkflowException("Cable deletion failed: " + exc, exc);
 		} finally {
