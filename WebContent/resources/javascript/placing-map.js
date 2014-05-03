@@ -17,7 +17,8 @@ function initialize() {
   google.maps.event.addListener(map, 'click', function (event) {
       placeMarker(event.latLng);
   });
-
+  
+  getProviders();
   autocomplete = new google.maps.places.Autocomplete(input);
   
 }
@@ -53,6 +54,26 @@ function placeMarker(location) {
         } else {
             alert("Geocode was not successful for the following reason: " + status);
         }
+    });
+}
+
+function getProviders(){
+	$.post('/Zephyrus/providerLocations',function(rsp){
+    	$.each(rsp, function(key, provider) { 
+    		var coord = provider.locationCoord;
+    		var arr = coord.split(',');
+    		var lat = parseFloat(arr[0]);
+    		var lng = parseFloat(arr[1]);
+    		var position = new google.maps.LatLng(lat, lng);
+    		
+    		marker2 = new google.maps.Marker({
+                position: position,
+                map: map,
+                icon: 'resources/javascript/blue_MarkerP.png'
+            });
+        	                         
+        });
+
     });
 }
 

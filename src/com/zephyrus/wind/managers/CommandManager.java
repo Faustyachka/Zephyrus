@@ -35,6 +35,7 @@ import com.zephyrus.wind.commands.sql.MappingCommand;
 import com.zephyrus.wind.commands.sql.NewConnectionPropertiesCommand;
 import com.zephyrus.wind.commands.sql.OrdersAndInstancesDisplayingCommand;
 import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
+import com.zephyrus.wind.commands.sql.ProviderLocationsDisplayingCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
@@ -79,6 +80,7 @@ public class CommandManager {
 	private static final String DELETE_CABLE_COMMAND = "deleteCable";
 	private static final String DELETE_CIRCUIT_VIEW_COMMAND = "deleteCircuitView";
 	private static final String DELETE_CIRCUIT_COMMAND = "deleteCircuit";
+	private static final String PROVIDERS_COMMAND = "providerLocations";
 	
 
 
@@ -120,6 +122,7 @@ public class CommandManager {
 		commands.put(DELETE_CABLE_COMMAND, new DeleteCableCommand());
 		commands.put(DELETE_CIRCUIT_COMMAND, new DeleteCircuitCommand());
 		commands.put(DELETE_CIRCUIT_VIEW_COMMAND, new DeleteCircuitViewCommand());
+		commands.put(PROVIDERS_COMMAND, new ProviderLocationsDisplayingCommand());
 
 
 

@@ -7,7 +7,7 @@ $().ready(function(){
                     $("#somediv").empty();
                 	$.each(rsp, function(key, prodcatalog) { 
                 		var serviceName = prodcatalog.serviceType;
-                    	$("#somediv").append("<input type='radio' name='services' id='"+prodcatalog.id+"' value = '"+prodcatalog.id+"'> "+ serviceName.serviceType + ", " + prodcatalog.price + "$ month" +" <br>");
+                    	$("#somediv").append("<input type='radio' class='radio' name='services' id='"+prodcatalog.id+"' value = '"+prodcatalog.id+"'> "+ serviceName.serviceType + ", " + prodcatalog.price + "$ month" +" <br>");
                     	                         
                     });
 
@@ -23,3 +23,14 @@ $().ready(function(){
               codeAddress();
             });
         }); 
+        $(document).ready(function(){
+        $('.somediv').on('click', '.radio', function() {
+            if (this.getAttribute('checked')) {
+                $(this).removeAttr('checked');
+                $(this).siblings('.radio').attr('checked', false);
+            } else {
+                $(this).attr('checked', true);
+                $(this).siblings('.radio').removeAttr('checked');
+            }
+        });
+        });

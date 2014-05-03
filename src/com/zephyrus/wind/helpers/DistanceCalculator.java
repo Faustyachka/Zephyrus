@@ -32,11 +32,11 @@ public class DistanceCalculator {
 
 		// Calculate the distance between points
 		String[] prCoords = providerLocation.getLocationCoord().split(",");
-		double providerLongitude = Double.parseDouble(prCoords[0]);
-		double providerLatitude = Double.parseDouble(prCoords[1]);
+		double providerLongitude = Double.parseDouble(prCoords[1]);
+		double providerLatitude = Double.parseDouble(prCoords[0]);
 		String[] serCoords = serviceLocation.getServiceLocationCoord().split(",");
-		double servLongitude = Double.parseDouble(serCoords[0]);
-		double servLatitude = Double.parseDouble(serCoords[1]);
+		double servLongitude = Double.parseDouble(serCoords[1]);
+		double servLatitude = Double.parseDouble(serCoords[0]);
 		final double dlng = deg2rad(providerLongitude - servLongitude);
 		final double dlat = deg2rad(providerLatitude - servLatitude);
 		final double a = java.lang.Math.sin(dlat / 2) * java.lang.Math.sin(dlat / 2) + java.lang.Math.cos(deg2rad(servLatitude))
@@ -63,7 +63,9 @@ public class DistanceCalculator {
 
 		for (ProviderLocation entry: providerLocs) {
 			double distance = calculateDistance(entry, sl);
+			System.out.println(entry.getLocationName() + " " + distance);
 			if (distance < minimalDistance) {
+				minimalDistance = distance;
 				result= new ArrayList<>();
 				for(ProductCatalog pc: productCatalogs) {
 					if(pc.getProviderLoc().getId() == entry.getId()) {
