@@ -19,9 +19,26 @@ import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
-																								// REVIEW: documentation expected
-public class RegisterCommand extends SQLCommand {												// REVIEW: CreateUserCommand implements data check functionality but this command - doesn't
 
+/**
+ * This class contains the method, that is declared in @link
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
+ * new Customer User account in system.
+ * 
+ * @return null because all request to this command are AJAX. Command only
+ *         return messages about errors or success.
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
+public class RegisterCommand extends SQLCommand {											
+	
+	/**
+	 * This method allows to create new Customer User account in Data Base. It
+	 * checks all necessary input data to avoid the exceptions. 
+	 * 
+	 * @return null because all request to this command are AJAX. Method only
+     *         return messages about errors or success.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -102,7 +119,7 @@ public class RegisterCommand extends SQLCommand {												// REVIEW: CreateUs
 					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write("Account created!");
-					EmailSender sender = new EmailSender();
+			     	EmailSender sender = new EmailSender();
 			    	Email emailMessage = new RegistrationSuccessfulEmail(name, email, password);
 			    	sender.sendEmail(user, emailMessage);
 				}

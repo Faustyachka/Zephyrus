@@ -13,7 +13,7 @@
 	             $("#somediv").empty();
 	             $('#somediv').text(rsp);	 
 	             if (rsp == 'Account created!') {
-	            	 document.forms["form1"].reset();
+	            	 window.location = "view/successfullRegister.jsp";
 	             }
 	             });
 	         });
