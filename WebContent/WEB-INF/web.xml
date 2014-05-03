@@ -57,6 +57,8 @@
     <url-pattern>/deleteCable</url-pattern>
     <url-pattern>/deleteCircuit</url-pattern>
     <url-pattern>/deleteCircuitView</url-pattern>
+    <url-pattern>/disconnectServiceInstance</url-pattern>
+    <url-pattern>/providerLocations</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>
