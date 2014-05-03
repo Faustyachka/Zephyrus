@@ -1,5 +1,5 @@
 $(document).ready(function() {
-        $('#email').change(function() {
+        $('#email').blur(function() {
             if($(this).val() != '') {
                 var pattern = /^([a-z0-9_\.-])+@[a-z0-9-]+\.([a-z]{2,4}\.)?[a-z]{2,4}$/i;
                 if(pattern.test($(this).val())){
@@ -16,7 +16,7 @@ $(document).ready(function() {
         });
     }); 
  $(document).ready(function() {
-     $('#confirmpass').change(function() {
+     $('#confirmpass').blur(function() {
    	 $(".error").hide();
     	    var valueX = $("#pass").val();
     	    var valueY = $("#confirmpass").val();
@@ -30,7 +30,7 @@ $(document).ready(function() {
      });
  });
  $(document).ready(function() {
-     $('#serialNum').change(function() {
+     $('#serialNum').blur(function() {
     	 if($(this).val() != '') {
              var pattern = /^([A-Z0-9]){11}$/;
              if(pattern.test($(this).val())){

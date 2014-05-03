@@ -1,9 +1,11 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 		<div class="navigation">
 			<center>
-				<input name="reports" type="button" value="Reports" class="button" />
-				<br /> <br /> <input name="users" type="button" value="Users"
-					class="button" />
+				<input name="reports" type="button" value="Reports" class="navibutton" />
+				<br > 
+				<a href="/Zephyrus/customersupport">
+		<input name="users" type="button" value="Users" class="navibutton" />
+		</a>
 			</center>
 		</div>
 		<div class="main">

@@ -4,13 +4,13 @@
 	<script>
 	 $().ready(function(){
 	     $('#submitt').click(function(){
-	    	 var fname = $('#fname').val();
-	    	 var sname = $('#sname').val();
+	    	 var fname = $('#firstname').val();
+	    	 var sname = $('#secondname').val();
 	         var email = $('#email').val();
-	         var pass = $('#pass').val();
+	         var pass = $('#password').val();
 	         var cpass = $('#confirmpass').val();
 	         var etype = $('#engtype').val();
-	         $.post('/Zephyrus/createaccount',{firstname:fname,secondname:sname,email:email,pass:pass,confirmpass:cpass,engtype:etype},function(rsp){
+	         $.post('/Zephyrus/createaccount',{firstname:fname,secondname:sname,email:email,password:pass,confirmpass:cpass,engtype:etype},function(rsp){
 	             $("#somediv").empty();
 	             $('#somediv').text(rsp);	 
 	             if (rsp == 'Account created!') {
@@ -39,11 +39,11 @@
 				<table>
 					<tr>
 						<td><label>First name: </label></td>
-						<td><input type="text" name="name" id="fname" value="${fname}"/></td>
+						<td><input type="text" name="firstname" id="firstname" value="${fname}"/></td>
 					</tr>
 					<tr>
 						<td><label>Second name: </label></td>
-						<td><input type="text" name="surname" id="sname" value="${sname}"/></td>
+						<td><input type="text" name="secondname" id="secondname" value="${sname}"/></td>
 					</tr>
 					<tr>
 						<td><label>E-mail: </label></td>
@@ -52,11 +52,11 @@
 					</tr>
 					<tr>
 						<td><label>Password: </label></td>
-						<td><input type="password" name="password" id="pass" value="${pass}" /></td>
+						<td><input type="password" name="password" id="password" value="${pass}" /></td>
 					</tr>
 					<tr>
 						<td><label>Confirm password: </label></td>
-						<td><input type="password" name="password2" id="confirmpass"  value="${cpass}"/><span id="validpass"></span></td>
+						<td><input type="password" name="confirmpass" id="confirmpass"  value="${cpass}"/><span id="validpass"></span></td>
 					</tr>
 					<tr>
 						<td><label>User role: </label></td>

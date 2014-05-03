@@ -1,19 +1,39 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
 <script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
+<script>
+	 $().ready(function(){
+	     $('#submitt').click(function(){
+	    	 var fname = $('#firstname').val();
+	    	 var sname = $('#secondname').val();
+	         var email = $('#email').val();
+	         var pass = $('#password').val();
+	         var cpass = $('#confirmpass').val();
+	         $.post('/Zephyrus/register',{firstname:fname,secondname:sname,email:email,password:pass,confirmpass:cpass},function(rsp){
+	             $("#somediv").empty();
+	             $('#somediv').text(rsp);	 
+	             if (rsp == 'Account created!') {
+	            	 document.forms["form1"].reset();
+	             }
+	             });
+	         });
 
+	         return false;
+	     });
+	     </script>
 <div class="navigation"></div>
   <div class="main"> 
   <div id="registerBox">
             <h3> Registration </h3>
-            <form action="/Zephyrus/register" method="post">
+            <form action="" method="post" id="form1">
+            <div id="somediv"></div>
             <table align="center" id="registerTable" >
             <tr>
             <td>
             First name:
             </td>
             <td>
-            <input type="text" name="fname" id="fname" value="${firstname}" />
+            <input type="text" name="firstname" id="firstname" value="${firstname}" />
             </td>
             </tr>
             <tr>
@@ -21,7 +41,7 @@
             Last name:
             </td>
             <td>
-            <input type="text" name="lname" id="sname" value="${lastname}" />
+            <input type="text" name="secondname" id="secondname" value="${lastname}" />
             </td>
             </tr>
             <tr>
@@ -40,7 +60,7 @@
             Password:
             </td>
             <td>
-            <input type="password" name="password" id="pass"/>
+            <input type="password" name="password" id="password"/>
             </td>
             </tr>
             <tr>
@@ -48,7 +68,7 @@
             Confirm password:
             </td>
             <td>
-            <input type="password" name="cpassword" id="confirmpass" />
+            <input type="password" name="confirmpass" id="confirmpass" />
             </td>
             <td>
             <span id="validpass"></span>
@@ -56,7 +76,8 @@
             </tr>
             </table>
             <br>
-            <input type="submit" value="Create an account" class="button"/>
+            <input type="button" name="create" id="submitt"
+					value="Create account" class="bigbutton" />
             </form>
             
   </div>   

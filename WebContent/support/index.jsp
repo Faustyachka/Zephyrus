@@ -13,10 +13,10 @@
 
 <div class="navigation">
 	<center>
-	<br>
 	<a href="">
 		<input name="reports" type="button" value="Reports" class="navibutton" />
 		</a>
+		<br>
 		<a href="/Zephyrus/customersupport">
 		<input name="users" type="button" value="Users"
 			class="navibutton" /> </a> 
