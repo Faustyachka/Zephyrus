@@ -10,8 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
-import com.zephyrus.wind.enums.PAGES;
-import com.zephyrus.wind.helpers.MailSend;															
+import com.zephyrus.wind.enums.PAGES;													
 import com.zephyrus.wind.managers.CommandManager;
 import com.zephyrus.wind.managers.MessageManager;
 
