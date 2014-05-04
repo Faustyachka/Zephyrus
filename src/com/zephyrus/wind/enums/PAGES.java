@@ -16,7 +16,11 @@ public enum PAGES {
 	REGISTER_PAGE("view/register.jsp"),
 	REPORT_PAGE("view/report.jsp"),
 	ORDERDETAIL_PAGE("customer/orderDetail.jsp"),
-	CREATEDEVICE_PAGE("installation/createDevice.jsp");
+	CREATEDEVICE_PAGE("installation/createDevice.jsp"),
+	CONTACTS_PAGE("view/contacts.jsp"),
+	SERVICES_PAGE("view/services.jsp"),
+	ABOUT_PAGE("view/about.jsp"),
+	START_PAGE("view/start.jsp");
 
 	String value;
 	PAGES(String page){

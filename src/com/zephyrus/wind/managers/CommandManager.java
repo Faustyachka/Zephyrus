@@ -5,10 +5,14 @@ import java.util.HashMap;
 import javax.servlet.http.HttpServletRequest;
 
 import com.zephyrus.wind.commands.interfaces.Command;
+import com.zephyrus.wind.commands.nosql.AboutCommand;
+import com.zephyrus.wind.commands.nosql.ContactsCommand;
 import com.zephyrus.wind.commands.nosql.HomeCommand;
 import com.zephyrus.wind.commands.nosql.LogoutCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
 import com.zephyrus.wind.commands.nosql.RegisterPageCommand;
+import com.zephyrus.wind.commands.nosql.ServicesCommand;
+import com.zephyrus.wind.commands.nosql.StartCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
 import com.zephyrus.wind.commands.sql.AssignTaskCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
@@ -85,6 +89,10 @@ public class CommandManager {
 	private static final String DISCONNECT_SERVICE_INSTANCE = "disconnectServiceInstance";
 	private static final String PROVIDERS_COMMAND = "providerLocations";
 	private static final String CANCEL_ORDER_COMMAND = "cancelOrder";
+	private static final String CONTACTS_COMMAND = "contacts";
+	private static final String ABOUT_COMMAND = "about";
+	private static final String SERVICES_COMMAND = "services";
+	private static final String START_COMMAND = "start";
 
 
 	public CommandManager() {
@@ -128,6 +136,11 @@ public class CommandManager {
 		commands.put(DISCONNECT_SERVICE_INSTANCE, new DisconnectServiceInstanceCommand());
 		commands.put(PROVIDERS_COMMAND, new ProviderLocationsDisplayingCommand());
 		commands.put(CANCEL_ORDER_COMMAND, new CancelOrderCommand());
+		commands.put(ABOUT_COMMAND, new AboutCommand());
+		commands.put(SERVICES_COMMAND, new ServicesCommand());
+		commands.put(CONTACTS_COMMAND, new ContactsCommand());
+		commands.put(START_COMMAND, new StartCommand());
+		
 
 
 	}

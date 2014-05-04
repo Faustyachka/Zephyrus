@@ -60,6 +60,10 @@
     <url-pattern>/disconnectServiceInstance</url-pattern>
     <url-pattern>/providerLocations</url-pattern>
     <url-pattern>/cancelOrder</url-pattern>
+    <url-pattern>/start</url-pattern>
+    <url-pattern>/about</url-pattern>
+    <url-pattern>/services</url-pattern>
+    <url-pattern>/contacts</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>

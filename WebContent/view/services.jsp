@@ -5,10 +5,6 @@
 <script src="resources/javascript/placing-map.js"></script>
 <script src="resources/javascript/jquery-placingRequest.js"></script>
 <style type ="text/css" >
-#loader {
-display: none;
-opacity: 0; 
-}
 </style>
 <div class="navigation">
 <div style="text-align:center"><a href="/Zephyrus/about"> 

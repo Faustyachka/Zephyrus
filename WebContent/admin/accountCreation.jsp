@@ -69,7 +69,7 @@
 					</tr>
 				</table>
 				<input type="button" name="create" id="submitt"
-					value="Save new account" class="bigbutton" />
+					value="Save new account" class="button" />
 			</form>
 </div>
 

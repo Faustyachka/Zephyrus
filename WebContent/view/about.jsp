@@ -5,10 +5,6 @@
 <script src="resources/javascript/placing-map.js"></script>
 <script src="resources/javascript/jquery-placingRequest.js"></script>
 <style type ="text/css" >
-#loader {
-display: none;
-opacity: 0; 
-}
 </style>
 <div class="navigation">
 <div style="text-align:center"><a href="/Zephyrus/about"> 
@@ -19,13 +15,12 @@ opacity: 0;
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
   </div>
 <div class="main">
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
+Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
 tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
 quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
 Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
 nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
 deserunt mollit anim id est laborum.
-	
 
 </div>
 
