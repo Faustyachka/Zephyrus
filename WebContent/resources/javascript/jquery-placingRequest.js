@@ -12,7 +12,7 @@ $().ready(function(){
                 	$('#submit').attr("disabled", false); 
                 	$("#loading").empty();
                 	if (rsp=='noServices') {
-                		alert('No services available. You are too far from provider location.');
+                		$("#somediv").append('<font color="red">No services available. You are too far from provider location.</font>');
                 	}                                      
                 	$.each(rsp, function(index, prodcatalog) { 
                 		var serviceName = prodcatalog.serviceType;
