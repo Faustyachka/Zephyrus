@@ -56,7 +56,6 @@ public class AdminCommand extends SQLCommand {
 					IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
 					ArrayList<User> lstUser = userDAO.find(startPageIndex,
 							numRecordsPerPage);
-					//lstUser.remove(request.getSession().getAttribute("user"));
 					// Get Total Record Count for Pagination
 					int userCount = userDAO.count();
 					JsonElement element = gson.toJsonTree(lstUser,

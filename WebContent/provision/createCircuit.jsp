@@ -34,6 +34,10 @@
 	<td> Device serial number </td>
 	<td> ${port.device.serialNum} </td>
 	</tr>
+	<tr>
+	<td> Customer's address: </td>
+	<td> ${task.serviceOrder.serviceLocation.address} </td>
+	</tr>
 	
 	</table>
 		<label>Circuit configuration: </label>

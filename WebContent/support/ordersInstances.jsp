@@ -18,15 +18,16 @@
   <h2> Service Instances </h2>
   <div id="actual">
   <c:forEach items="${instances}" var="instance">
-  <h5>Instance # ${instance.id}</h5>
+  <h5>Instance # ${instance.key.id}</h5>
   <div>
    <ul> 
-   	  <c:if test= "${instance.startDate != null}">
-      <li>Start date: ${instance.startDate}</li>
+   	  <c:if test= "${instance.key.startDate != null}">
+      <li>Start date: ${instance.key.startDate}</li>
       </c:if>
-      <li>Service name: ${instance.productCatalog.serviceType.serviceType}</li>
-      <li>Price: ${instance.productCatalog.price} $</li>
-      <li>Status: ${instance.servInstanceStatus.servInstanceStatusValue}</li>
+      <li>Service name: ${instance.key.productCatalog.serviceType.serviceType}</li>
+      <li>Price: ${instance.key.productCatalog.price} $</li>
+      <li>Status: ${instance.key.servInstanceStatus.servInstanceStatusValue}</li>
+      <li>Address: ${instance.value}</li>
     </ul>
   </div>
   </c:forEach>
@@ -44,6 +45,7 @@
       <li>Price: ${order.productCatalog.price} $</li>
       <li>Type: ${order.orderType.orderType}</li>
       <li>Status: ${order.orderStatus.orderStatusValue}</li>
+      <li>Address: ${order.serviceLocation.address }</li>
     </ul>
   </div>
   </c:forEach>
