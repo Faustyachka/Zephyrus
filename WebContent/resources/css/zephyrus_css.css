@@ -102,6 +102,16 @@ a {
 	border: none;
 	cursor: pointer;
 }
+.button[disabled] {
+ height: 30px;
+ font-size: 14pt;
+ font-family: 'Open Sans', sans-serif;
+ color: white;
+ background-color: #abcdef;
+ border: none;
+ border-radius: 3px;
+ cursor: pointer;
+}
 
 #login_link {
 	float:right;
