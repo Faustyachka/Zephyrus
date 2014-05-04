@@ -11,11 +11,11 @@ opacity: 0;
 }
 </style>
 <div class="navigation">
-<div style="text-align:center"><a href="/Zephyrus/about.jsp"> 
+<div style="text-align:center"><a href="/Zephyrus/about"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>
-<div style="text-align:center"><a href="/Zephyrus/services.jsp">
+<div style="text-align:center"><a href="/Zephyrus/services">
 <input type="button"	value="Services" class="navibutton" /></a></div>
-<div style="text-align:center"><a href="/Zephyrus/contacts.jsp">
+<div style="text-align:center"><a href="/Zephyrus/contacts">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
   </div>
 <div class="main">
