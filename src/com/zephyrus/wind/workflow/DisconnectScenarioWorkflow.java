@@ -4,6 +4,7 @@ import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.ICircuitDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PORT_STATUS;
@@ -83,13 +84,16 @@ public class DisconnectScenarioWorkflow extends Workflow {
             	throw new WorkflowException("No Circuit exist for current SI");
             }
             
+            // unlink Circuit from SI
+            IServiceInstanceDAO siDAO = factory.getServiceInstanceDAO();
+            si.setCircuit(null);
+            siDAO.update(si);
+            
             // delete Circuit
             ICircuitDAO circuitDAO = factory.getCircuitDAO();
             circuitDAO.remove(si.getCircuit());
             
-            // unlink Circuit from SI
-            si.setCircuit(null);
-            this.changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.DISCONNECTED);
+            changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.DISCONNECTED);
             
             completeTask(taskID);
             createTask(ROLE.INSTALLATION);
