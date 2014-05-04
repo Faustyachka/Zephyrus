@@ -26,6 +26,7 @@ import com.zephyrus.wind.model.User;
  */
 public class DistanceCalculator {
 	private static final double EARTH_RADIUS = 6371.;
+	private static final int COVERAGE_RADIUS = 10;
 																									// REVIEW: documentation expected
 	public double calculateDistance(ProviderLocation providerLocation, ServiceLocation serviceLocation){
 
@@ -81,6 +82,9 @@ public class DistanceCalculator {
 					result.add(pc);
 				}
 			}
+		}
+		if (minimalDistance > COVERAGE_RADIUS) {
+			return null;
 		}
 		return result;
 	}

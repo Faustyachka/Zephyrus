@@ -4,19 +4,27 @@
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&sensor=false&language=en"></script>
 <script src="resources/javascript/placing-map.js"></script>
 <script src="resources/javascript/jquery-placingRequest.js"></script>
-
+<style type ="text/css" >
+#loader {
+display: none;
+opacity: 0; 
+}
+</style>
 <div class="navigation"></div>
 <div class="main">
 	<div id="map-canvas"></div>
 	<div id="location">
 			Your desired location: 
 			<input type="text" name="address" id="address" size="50" />
-			<input type="button" value="Accept" id="submit" />  
+			<input type="button" value="Accept" id="submit" disabled="disabled" class="button"/>  
 			<form action="/Zephyrus/proceedOrder" method="POST">
 			<input type="hidden" name="latitude" id="latitude" /> 
 			<input type="hidden" name="longitude" id="longitude" /> 
-			<div id="somediv" class="somediv">No service available</div>
-			<input type="submit" value="Proceed to order" id="proceed" class="button" />
+			<center>
+			<div id="loading"></div>
+			</center>		
+			<div id="somediv" class="somediv"></div>			
+			<input type="submit" value="Proceed to order" id="proceed" disabled="disabled" class="button"/>
 		</form>
 	</div>
 

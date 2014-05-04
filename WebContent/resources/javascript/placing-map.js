@@ -7,9 +7,9 @@ function initialize() {
 			var input = document.getElementById('address');
 			
   geocoder = new google.maps.Geocoder();
-  var latlng = new google.maps.LatLng(50.4020355, 30.5326905);
+  var latlng = new google.maps.LatLng(50.42020355, 30.5326905);
   var mapOptions = {
-    zoom: 8,
+    zoom: 10,
     center: latlng
   };
   map = new google.maps.Map(document.getElementById('map-canvas'), mapOptions);
@@ -49,6 +49,8 @@ function placeMarker(location) {
               map: map
           });
       }
+  	
+  	$('#submit').attr("disabled", false); 
   	$("#longitude").val(location.lng());
     $("#latitude").val(location.lat());
 
@@ -73,7 +75,7 @@ function getProviders(){
     		marker2 = new google.maps.Marker({
                 position: position,
                 map: map,
-                icon: 'resources/javascript/blue_MarkerP.png'
+                icon: 'resources/css/images/blue_MarkerP.png'
             });
         	                         
         });

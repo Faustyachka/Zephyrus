@@ -13,6 +13,7 @@
 					<li>Order id: ${actualTask.serviceOrder.id}</li>
 					<li>Scenario: ${actualTask.serviceOrder.orderType.orderType } </li>
 					<li>Service: ${actualTask.serviceOrder.productCatalog.serviceType.serviceType} </li>
+					<li>Address: ${actualTask.serviceOrder.serviceLocation.address}</li>
 				</ul>
 				<form method = "post" action="/Zephyrus/taskRedirector">
 				<input type="hidden" name="id" value="${actualTask.id}">				
@@ -33,6 +34,7 @@
 					<li>Order id: ${availableTask.serviceOrder.id}</li>
 					<li>Scenario: ${availableTask.serviceOrder.orderType.orderType } </li>
 					<li>Service: ${availableTask.serviceOrder.productCatalog.serviceType.serviceType} </li>
+					<li>Address: ${availableTask.serviceOrder.serviceLocation.address}</li>
 				</ul>
 				<form method = "post" action="/Zephyrus/assignTask">
 				<input type="hidden" name="id" value="${availableTask.id}">				
