@@ -80,7 +80,8 @@ public class DisconnectScenarioWorkflow extends Workflow {
             }
             
             ServiceInstance si = order.getServiceInstance();
-            if(si.getCircuit() == null) {
+            Circuit circuit = si.getCircuit();
+            if(circuit == null) {
             	throw new WorkflowException("No Circuit exist for current SI");
             }
             
@@ -91,7 +92,7 @@ public class DisconnectScenarioWorkflow extends Workflow {
             
             // delete Circuit
             ICircuitDAO circuitDAO = factory.getCircuitDAO();
-            circuitDAO.remove(si.getCircuit());
+            circuitDAO.remove(circuit);
             
             changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.DISCONNECTED);
             
