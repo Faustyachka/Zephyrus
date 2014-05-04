@@ -130,6 +130,23 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	}
 	
 	/**
+	 * Method finds creation Service Orders object for Service Instance
+	 * 
+	 * @param Service Instance
+	 * @return Service Orders on which basis the SI create 
+	 * @author Mirosjnychenko Nataliya
+	 */
+	
+	@Override
+	public ServiceOrder getSICreateOrder(ServiceInstance serviceInstance) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_INSTANCE_ID = ? AND ORDER_TYPE_ID = ? ");
+		stmt.setInt(1, serviceInstance.getId());
+		stmt.setInt(2, ORDER_TYPE.NEW.getId());
+		rs = stmt.executeQuery();
+		return fetchSingleResult(rs);
+	}
+	
+	/**
 	 * Method finds Service Orders object for Service Location ID
 	 * 
 	 * @param Service Location ID
@@ -144,6 +161,8 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
+	
+	
 	
 	/**
 	 * Method finds disconnected Service Orders object for period
