@@ -64,6 +64,7 @@
     <url-pattern>/about</url-pattern>
     <url-pattern>/services</url-pattern>
     <url-pattern>/contacts</url-pattern>
+    <url-pattern>/modifyService</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>

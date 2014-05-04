@@ -38,6 +38,7 @@ import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
+import com.zephyrus.wind.commands.sql.ModifyServiceCommand;
 import com.zephyrus.wind.commands.sql.NewConnectionPropertiesCommand;
 import com.zephyrus.wind.commands.sql.OrdersAndInstancesDisplayingCommand;
 import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
@@ -93,6 +94,7 @@ public class CommandManager {
 	private static final String ABOUT_COMMAND = "about";
 	private static final String SERVICES_COMMAND = "services";
 	private static final String START_COMMAND = "start";
+	private static final String MODIFY_SERVICE_COMMAND = "modifyService";
 
 
 	public CommandManager() {
@@ -140,7 +142,7 @@ public class CommandManager {
 		commands.put(SERVICES_COMMAND, new ServicesCommand());
 		commands.put(CONTACTS_COMMAND, new ContactsCommand());
 		commands.put(START_COMMAND, new StartCommand());
-		
+		commands.put(MODIFY_SERVICE_COMMAND, new ModifyServiceCommand());
 
 
 	}
