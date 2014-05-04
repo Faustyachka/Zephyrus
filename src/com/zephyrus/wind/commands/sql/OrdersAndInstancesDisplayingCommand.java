@@ -2,12 +2,15 @@ package com.zephyrus.wind.commands.sql;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
+import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
@@ -63,9 +66,14 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 			User customerUser = userDAO.findById(userID);
 			IServiceInstanceDAO siDAO = getOracleDaoFactory()
 					.getServiceInstanceDAO();
-			ArrayList<ServiceInstance> instances = siDAO
+			ArrayList<ServiceInstance> serviceInstances = siDAO
 					.getServiceInstancesByUserId(userID);
 			ArrayList<ServiceOrder> orders = findServiceOrderByUser(customerUser);
+			IServiceOrderDAO soDAO = getOracleDaoFactory().getServiceOrderDAO();
+			Map<ServiceInstance, String> instances = new HashMap<ServiceInstance, String>();
+			for (ServiceInstance instance: serviceInstances) {
+				instances.put(instance, soDAO.getSICreateOrder(instance).getServiceLocation().getAddress());
+			}			
 			request.setAttribute("instances", instances);
 			request.setAttribute("orders", orders);
 			return "support/ordersInstances.jsp";
