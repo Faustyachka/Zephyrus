@@ -36,7 +36,7 @@ import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
  */
 
 public class DisconnectServiceInstanceCommand extends SQLCommand {
-	
+
 	private ServiceOrder disconnectOrder = null;
 
 	/**
@@ -52,23 +52,23 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		
+
 		IServiceInstanceDAO serviceInstanceDAO = getOracleDaoFactory().getServiceInstanceDAO();
-		
+
 		int serviceInstanceID = Integer.parseInt(request.getParameter("id"));
 		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);
-		
+
 		disconnectOrder =  createDisconnectOrder(serviceInstance);
-		
+
 		DisconnectScenarioWorkflow workflow =  new DisconnectScenarioWorkflow(getOracleDaoFactory(), disconnectOrder);
 		workflow.proceedOrder();
 		workflow.close();
-		
+
 		request.setAttribute("message", "Disconnect order has been created successfuly");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
-	
-	
+
+
 	/**
 	 * This method create disconnect order for disconnect scenario workflow 
 	 * Method gets parameter of service instance that will be disconnect
@@ -79,10 +79,9 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 	 * 
 	 * @return disconnect service order
 	 */
-	
+
 	private ServiceOrder createDisconnectOrder (ServiceInstance serviceInstance) throws Exception{
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
-		ArrayList<ServiceOrder> serviceInstanceOrders = new ArrayList<ServiceOrder>();
 		ServiceOrder order = new ServiceOrder();
 		OrderStatus orderStatus = new OrderStatus();
 		orderStatus.setId(ORDER_STATUS.ENTERING.getId());	
@@ -92,8 +91,8 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 		orderType.setId(ORDER_TYPE.DISCONNECT.getId());	
 		order.setOrderType(orderType);
 		order.setProductCatalog(serviceInstance.getProductCatalog());
-		serviceInstanceOrders = orderDAO.getServiceOrdersByServiceInstanceId(serviceInstance.getId());
-		order.setServiceLocation(serviceInstanceOrders.get(0).getServiceLocation());
+		ServiceOrder createServiceOrders = orderDAO.getSICreateOrder(serviceInstance);
+		order.setServiceLocation(createServiceOrders.getServiceLocation());
 		order.setServiceInstance(serviceInstance);
 		disconnectOrder = orderDAO.insert(order);
 		return disconnectOrder;
