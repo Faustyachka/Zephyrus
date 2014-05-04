@@ -15,12 +15,10 @@
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
   </div>
 <div class="main">
-Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-deserunt mollit anim id est laborum.
+Zephyrus provides services of broadband internet access on the basis of FTTB (Fiber to the Building).
+<br>
+The company started its history in early 2014.
+
 
 </div>
 
