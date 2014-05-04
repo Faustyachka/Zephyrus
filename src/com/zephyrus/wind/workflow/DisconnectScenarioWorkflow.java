@@ -117,8 +117,18 @@ public class DisconnectScenarioWorkflow extends Workflow {
                 throw new WorkflowException("Given Task is not valid");
             }
             
-            Circuit circuit = order.getServiceInstance().getCircuit();
-            Port port = circuit.getPort();
+            // unlink Cable from Port
+            ICableDAO cableDAO = factory.getCableDAO();
+            Cable cable = cableDAO.findCableFromServLoc(order.getServiceLocation().getId());
+            
+            Port port = cable.getPort();
+            if(port == null) {
+            	throw new WorkflowException("Connection between service location "
+            			+ "and provider does not exist");
+            }
+            
+            cable.setPort(null);
+            cableDAO.update(cable);
             
             PortStatus portStatus = port.getPortStatus();
             if(portStatus.getId() != PORT_STATUS.BUSY.getId()) {
@@ -130,12 +140,6 @@ public class DisconnectScenarioWorkflow extends Workflow {
             portStatus = factory.getPortStatusDAO().findById(PORT_STATUS.FREE.getId());
             port.setPortStatus(portStatus);
             portDAO.update(port);
-            
-            // unlink Cable from Port
-            ICableDAO cableDAO = factory.getCableDAO();
-            Cable cable = cableDAO.findCableFromServLoc(order.getServiceLocation().getId());
-            cable.setPort(null);
-            cableDAO.update(cable);
             
         } catch (Exception exc) {
         	throw new WorkflowException("Failed to unplug Cable from Port", exc);
