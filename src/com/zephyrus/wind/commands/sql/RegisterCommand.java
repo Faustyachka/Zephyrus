@@ -121,7 +121,7 @@ public class RegisterCommand extends SQLCommand {
 					response.getWriter().write("Account created!");
 			     	EmailSender sender = new EmailSender();
 			    	Email emailMessage = new RegistrationSuccessfulEmail(name, email, password);
-			    	sender.sendEmail(user, emailMessage);
+			    	sender.sendEmail(user.getEmail(), emailMessage);
 				}
 				return null;
 	}

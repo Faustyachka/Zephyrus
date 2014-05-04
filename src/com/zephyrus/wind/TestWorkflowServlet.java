@@ -50,7 +50,7 @@ public class TestWorkflowServlet extends HttpServlet {
 			order = factory.getServiceOrderDAO().findById(orderID);
 			cable = factory.getCableDAO().findById(1);
 			port = factory.getPortDAO().findById(1);
-			//user = factory.getUserDAO().findByEmail("zzzeeerrr0@gmail.com");
+			user = factory.getUserDAO().findByEmail("zzzeeerrr0@gmail.com");
 		} catch (Exception exc) {
 			throw new WorkflowException("Assign task exception", exc);
 		} finally {
@@ -59,7 +59,7 @@ public class TestWorkflowServlet extends HttpServlet {
     	
     	EmailSender sender = new EmailSender();
     	Email email = new RegistrationSuccessfulEmail("test", "test", "test");
-    	sender.sendEmail(ROLE.CUSTOMER, email);
+    	sender.sendEmail(ROLE.SUPPORT, email);
 		
 		//NewScenarioWorkflow wf = new NewScenarioWorkflow(order);
 		//wf.proceedOrder();

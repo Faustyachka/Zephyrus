@@ -175,7 +175,7 @@ public abstract class Workflow implements Closeable {
     	Email email = new OrderCompletedEmail(user.getFirstName(), order.getOrderDate(),
     			order.getOrderType().getOrderType(), order.getServiceLocation().getAddress());
     	EmailSender sender = new EmailSender();
-    	sender.sendEmail(user, email);
+    	sender.sendEmail(user.getEmail(), email);
     }
 
     /**

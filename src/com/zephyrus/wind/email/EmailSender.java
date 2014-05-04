@@ -21,7 +21,6 @@ import javax.mail.internet.MimeMessage;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.enums.ROLE;
-import com.zephyrus.wind.model.User;
 
 /**
  * This class provides functionality for email sending
@@ -31,33 +30,41 @@ public class EmailSender {
 	
 	/** SMTP server properties */
     private static Properties props;
-
+    private Session session;
+    
     public EmailSender() throws IOException {
     	InputStream input = getClass().getResourceAsStream("email.properties");
     	props = new Properties();
     	props.load(input);
+    	
+    	session = getAuthSession();
     }
     
     /**
      * This method sends email to specified user
-     * @param user User to send email to
+     * @param emailAddress email address to send email to
      * @param mail Email to send
      */
-    public void sendEmail(User user, Email email) {
-//    	Session session = getAuthSession();
-//        Address address = getUserAddress(user);
-//
-//        /* Send mail */
-//        try {
-//            Message message = new MimeMessage(session);
-//            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
-//            message.setRecipient(Message.RecipientType.BCC, address);
-//            message.setSubject(email.getSubject());
-//            message.setContent(email.getMessage(), "text/html");
-//            Transport.send(message);
-//        } catch (MessagingException exc) {
-//            throw new RuntimeException(exc);
-//        }
+    public void sendEmail(String emailAddress, Email email) {
+    	Address address = null;
+    	try {
+            address = new InternetAddress(emailAddress);
+        } catch (AddressException exc) {
+            Logger.getLogger(EmailSender.class.getName()).log(Level.WARNING, null, exc);
+            return;
+        }
+
+        /* Send mail */
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(props.getProperty("mail.systemaddress")));
+            message.setRecipient(Message.RecipientType.BCC, address);
+            message.setSubject(email.getSubject());
+            message.setContent(email.getMessage(), "text/html");
+            Transport.send(message);
+        } catch (MessagingException exc) {
+        	Logger.getLogger(EmailSender.class.getName()).log(Level.WARNING, null, exc);
+        }
     }
 
     /**
@@ -66,30 +73,23 @@ public class EmailSender {
      * @param mail message to send
      */
     public void sendEmail(ROLE role, Email mail) {
-//        Session session = getAuthSession();
-//        
-//        int index = 1;
-//        int maxNumberToSend = Integer.parseInt(props.getProperty("mail.maxaddressesinrow"));
-//        Address[] addresses;
-//        do {
-//        	addresses = getGroupAddresses(role, index, maxNumberToSend);
-//        	index += maxNumberToSend;
-//        	
-//        	if(addresses.length != 0) {
-//        		/* Send mail */
-//    	        try {
-//    	            Message message = new MimeMessage(session);
-//    	            message.setFrom(new InternetAddress(props.getProperty("mail.user")));
-//    	            message.setRecipients(Message.RecipientType.BCC, addresses);
-//    	            message.setSubject(mail.getSubject());
-//    	            message.setContent(mail.getMessage(), "text/html");
-//    	            Transport.send(message);
-//    	        } catch (MessagingException e) {
-//    	            throw new RuntimeException(e);
-//    	        }
-//        	}
-//	        
-//        } while(addresses.length == maxNumberToSend);
+        int index = 1;
+        /*
+         * Variable is used to load recipient addresses several in a row,
+         * because in requires less queries to DB
+         */
+        int maxNumberToSendInRow = 100;
+        List<String> addresses;
+        do {
+        	addresses = getGroupAddresses(role, index, maxNumberToSendInRow);
+        	index += maxNumberToSendInRow;
+        	
+        	if(!addresses.isEmpty()) {
+        		for(int i = 0; i < addresses.size(); i++) {
+            		sendEmail(addresses.get(i), mail);
+            	}
+        	}
+        } while(addresses.size() == maxNumberToSendInRow);
     }
     
     /**
@@ -100,33 +100,20 @@ public class EmailSender {
      * @param count number of records in range of user emails
      * @return array of email addresses
      */
-    private Address[] getGroupAddresses(ROLE role, int firstRow, int count) {
+    private List<String> getGroupAddresses(ROLE role, int firstRow, int count) {
     	OracleDAOFactory factory = new OracleDAOFactory();
         List<String> addressList = null;
         try {
         	factory.beginConnection();
             IUserDAO userDAO = factory.getUserDAO();
             addressList = userDAO.getGroupEmails(role, firstRow, count);
+            return addressList;
         } catch (Exception exc) {
         	Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, exc);
-        	return null;
+        	throw new RuntimeException("DAO exception", exc);
 		} finally {
             factory.endConnection();
         }
-        
-        Address[] addresses = new Address[addressList.size()];
-        
-        /* Get the array of users' addresses */
-        for (int i = 0; i < addressList.size(); i++) {
-            try {
-                addresses[i] = new InternetAddress(addressList.get(i));
-            } catch (AddressException ex) {
-                Logger.getLogger(EmailSender.class.getName()).log(Level.WARNING,
-                        null, ex);
-            }
-        }
-        
-        return addresses;
     }
     
     /**
@@ -144,20 +131,5 @@ public class EmailSender {
     	});
     	
     	return session;
-    }
-    
-    /**
-     * This method gets email address of given user 
-     * @param user User to get email address for
-     * @return email address
-     */
-    private Address getUserAddress(User user) {
-        try {
-            Address address = new InternetAddress(user.getEmail());
-            return address;
-        } catch (AddressException ex) {
-            Logger.getLogger(EmailSender.class.getName()).log(Level.SEVERE, null, ex);
-            return null;
-        }
     }
 }
