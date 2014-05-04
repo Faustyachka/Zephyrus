@@ -27,9 +27,10 @@
   <div>
     <ul>
       <li>Order service: ${actualOrder.productCatalog.serviceType.serviceType} </li>
-      <li>Order type:${actualOrder.orderType.orderType} </li>
+      <li>Order type: ${actualOrder.orderType.orderType} </li>
       <li>Order date: ${actualOrder.orderDate}</li>
-      <li>Order status:${actualOrder.orderStatus.orderStatusValue} </li>
+      <li>Order status: ${actualOrder.orderStatus.orderStatusValue} </li>
+      <li>Address: ${actualOrder.serviceLocation.address} </li>
     </ul>
     <c:if test="${actualOrder.orderStatus.id == 1}">
     <a href="/Zephyrus/cancelOrder?orderId=${actualOrder.id}">
@@ -55,6 +56,7 @@
       <li>Order type:${workedOutOrder.orderType.orderType} </li>
       <li>Order date: ${workedOutOrder.orderDate}</li>
       <li>Order status:${workedOutOrder.orderStatus.orderStatusValue} </li>
+      <li>Address: ${actualOrder.serviceLocation.address} </li>
     </ul>
    </div>
   </c:forEach>

@@ -23,19 +23,20 @@
   <h2> My Service Instances </h2>
   <div id="actual">
   <c:forEach items="${actualServices}" var="actualService">
-  <h5>Service ${actualService.id}</h5>
+  <h5>Service ${actualService.key.id}</h5>
   <div>
    <ul>
-      <li>Start date: ${actualService.startDate}</li>
-      <li>Service name: ${actualService.productCatalog.serviceType.serviceType}</li>
-      <li>Price: ${actualService.productCatalog.price}</li>
-      <li>Status: ${actualService.servInstanceStatus.servInstanceStatusValue}</li>
-    </ul>
-    <a href="/Zephyrus/modifyService?id=${actualService.id}">
+      <li>Start date: ${actualService.key.startDate}</li>
+      <li>Service name: ${actualService.key.productCatalog.serviceType.serviceType}</li>
+      <li>Price: ${actualService.key.productCatalog.price} $</li>
+      <li>Status: ${actualService.key.servInstanceStatus.servInstanceStatusValue}</li>
+      <li>Address: ${actualService.value}</li>
+</ul>
+    <a href="/Zephyrus/modifyService?id=${actualService.key.id}">
     <input type="button" value="Modify">  
     </a>  
-    <c:if test="${actualService.servInstanceStatus.id == 2}">
-    <a href="/Zephyrus/disconnectServiceInstance?id=${actualService.id}">
+    <c:if test="${actualService.key.servInstanceStatus.id == 2}">
+    <a href="/Zephyrus/disconnectServiceInstance?id=${actualService.key.id}">
     <input type="button" value="Delete">  
     </a>  
     </c:if>
