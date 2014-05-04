@@ -17,14 +17,15 @@ opacity: 0;
 <input type="button"	value="Services" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/contacts">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
+<br>
+<br>
+<div style="text-align:center"><a href="/Zephyrus/start">
+<input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
 <div class="main">
-	Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod 
-tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, 
-quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. 
-Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat 
-nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia 
-deserunt mollit anim id est laborum.
+Welcome to the website of internet service provider Zephyrus!
+<br>
+Here you can find all the information you need about our company and its services
 	
 
 </div>
