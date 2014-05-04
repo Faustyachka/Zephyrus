@@ -12,6 +12,7 @@ import com.zephyrus.wind.commands.nosql.RegisterPageCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
 import com.zephyrus.wind.commands.sql.AssignTaskCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
+import com.zephyrus.wind.commands.sql.CancelOrderCommand;
 import com.zephyrus.wind.commands.sql.CreateCableCommand;
 import com.zephyrus.wind.commands.sql.CreateCircuitCommand;
 import com.zephyrus.wind.commands.sql.CreateCircuitViewCommand;
@@ -83,7 +84,7 @@ public class CommandManager {
 	private static final String DELETE_CIRCUIT_COMMAND = "deleteCircuit";
 	private static final String DISCONNECT_SERVICE_INSTANCE = "disconnectServiceInstance";
 	private static final String PROVIDERS_COMMAND = "providerLocations";
-	
+	private static final String CANCEL_ORDER_COMMAND = "cancelOrder";
 
 
 	public CommandManager() {
@@ -126,7 +127,7 @@ public class CommandManager {
 		commands.put(DELETE_CIRCUIT_VIEW_COMMAND, new DeleteCircuitViewCommand());
 		commands.put(DISCONNECT_SERVICE_INSTANCE, new DisconnectServiceInstanceCommand());
 		commands.put(PROVIDERS_COMMAND, new ProviderLocationsDisplayingCommand());
-
+		commands.put(CANCEL_ORDER_COMMAND, new CancelOrderCommand());
 
 
 	}
