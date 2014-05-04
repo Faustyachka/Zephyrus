@@ -25,7 +25,8 @@ opacity: 0;
 <div class="main">
 Welcome to the website of internet service provider Zephyrus!
 <br>
-Here you can find all the information you need about our company and its services
+<br>
+Here you can find all the information you need about our company and its services.
 	
 
 </div>
