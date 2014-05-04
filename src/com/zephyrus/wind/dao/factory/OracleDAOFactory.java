@@ -97,6 +97,17 @@ public class OracleDAOFactory implements IDAOFactory {											// REVIEW: docu
         	connection.commit();
         }
     }
+    
+    /**
+     * This function rolls back current transaction, presented by executions between 
+     * <code>beginConnection()</code> and <code>endConnection()</code>
+     * @throws SQLException if failed to roll back
+     */
+    public void rollbackTransaction() throws SQLException {
+    	if(connection != null) {
+        	connection.rollback();
+        }
+    }
 
 	@Override
 	public ICableDAO getCableDAO() throws Exception {
