@@ -56,10 +56,7 @@
       <li>Order date: ${workedOutOrder.orderDate}</li>
       <li>Order status:${workedOutOrder.orderStatus.orderStatusValue} </li>
     </ul>
-    <a href="/Zephyrus/locationServices?locationId=${workedOutOrder.serviceLocation.id}">
-    <input type="button" value="Location services">
-    </a>
-  </div>
+   </div>
   </c:forEach>
   </div>
   

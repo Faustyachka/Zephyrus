@@ -19,15 +19,15 @@ Location: ${serviceLocation.address};
 The name of your service: ${service.serviceType.serviceType};
 </li>
 <li>
-The price is: ${service.price};
+The price is: ${service.price} $;
 </li>
 </ul>
 <a href="/Zephyrus/saveOrder">
-<input type="button" value="Save Order" />
+<input type="button" value="Save Order"  class="button" />
 </a>
 
 <a href="/Zephyrus/sendOrder">
-<input type="button" value="Send Order" />
+<input type="button" value="Send Order"  class="button"/>
 </a>
 </div>
 
