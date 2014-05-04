@@ -8,6 +8,8 @@
         <title>Zephyrus</title>
         <link href="/Zephyrus/resources/css/zephyrus_css.css" type="text/css" rel="stylesheet" />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>
+		<link rel="shortcut icon" href="/Zephyrus/resources/css/images/favicon.ico" type="image/x-icon">
+		<link rel="icon" href="/Zephyrus/resources/css/images/favicon.ico" type="image/x-icon">
 		<script src="/Zephyrus/resources/javascript/jquery-1.11.0.min.js"></script>
     </head>
     <body>
