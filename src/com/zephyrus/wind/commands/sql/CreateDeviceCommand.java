@@ -108,7 +108,11 @@ public class CreateDeviceCommand extends SQLCommand {
 		try {
 			wf.createRouter(taskID, serialNum, portQuantity);
 		} catch (WorkflowException ex) {
-			throw new Exception(ex.getCause().getMessage());
+			ex.printStackTrace();
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("taskId", taskID);
+			request.setAttribute("message", "Failed to create device");
+			return "newConnectionProperties";
 		} finally {
 			wf.close();
 		}

@@ -105,7 +105,9 @@ public class AssignTaskCommand extends SQLCommand {
 				wf.assignTask(taskId, user.getId());
 			} catch (WorkflowException ex) {
 				ex.printStackTrace();
-				throw new Exception("Failed to assign task!");
+				getOracleDaoFactory().rollbackTransaction();
+				request.setAttribute("message", "Failed to assign task");
+				return PAGES.MESSAGE_PAGE.getValue();
 			} finally {
 				wf.close();
 			}

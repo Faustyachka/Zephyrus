@@ -106,13 +106,16 @@ public class CreateConnectionCommand extends SQLCommand {
 
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			throw new Exception(ex.getCause().getMessage());
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("taskId", taskID);
+			request.setAttribute("message", "Failed to create connection");
+			return "newConnectionProperties";
 		} finally {
 			wf.close();
 		}
 
 		request.setAttribute("message",
-				"New connection successfully created!<br>"
+				"New connection successfully created! Task completed!<br>"
 						+ "<a href='/Zephyrus/installation'><input type='"
 						+ "button' class='button' value='Tasks'/></a>");
 		return PAGES.MESSAGE_PAGE.getValue();

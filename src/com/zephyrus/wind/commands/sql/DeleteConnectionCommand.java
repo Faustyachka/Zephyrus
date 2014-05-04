@@ -80,7 +80,10 @@ public class DeleteConnectionCommand extends SQLCommand {
 			wf.unplugCableFromPort(taskID);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			throw new Exception(ex.getCause().getMessage());
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("taskId", taskID);
+			request.setAttribute("message", "Failed to delete connection");
+			return "disconnectConnectionProperties";
 		} finally {
 			wf.close();
 		}

@@ -89,7 +89,7 @@ public class CreateCircuitCommand extends SQLCommand {
 			request.setAttribute("message", "Circuit field can not be empty!");
 			return "provision/createCircuit.jsp";
 		}
-
+		
 		// creating circuit due to "New" scenario
 		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
 				so);
@@ -97,7 +97,11 @@ public class CreateCircuitCommand extends SQLCommand {
 			wf.createCircuit(taskID, circuitConfig);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			throw new Exception(ex.getCause().getMessage());
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("port", port);
+			request.setAttribute("task", task);
+			request.setAttribute("message", "Failed to create circuit!");
+			return "provision/createCircuit.jsp";
 		} finally {
 			wf.close();
 		}
@@ -105,7 +109,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		// sending redirect to page with confirmation
 		request.setAttribute(
 				"message",
-				"Circuit successfully added <br>"
+				"Circuit successfully added. Task completed! <br>"
 						+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
 						+ " tasks' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();

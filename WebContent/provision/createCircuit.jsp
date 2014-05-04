@@ -12,7 +12,7 @@
 	<center>
 		<h2>Create Circuit</h2>
 	</center>
-	<div> ${message}</div>
+	<div><font color="red"> ${message} </font></div>
 	<form method="post" action="/Zephyrus/createCircuit">
 	<table>
 	<tr>

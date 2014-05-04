@@ -9,6 +9,9 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.model.Cable;
+import com.zephyrus.wind.model.Port;
+import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
@@ -77,7 +80,7 @@ public class DeleteCircuitCommand extends SQLCommand {
 		}
 		
 		ServiceOrder so = task.getServiceOrder();
-
+		Port port = findPortFromTaskID(task);
 
 		// creating circuit due to "New" scenario
 		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(),
@@ -86,16 +89,41 @@ public class DeleteCircuitCommand extends SQLCommand {
 			wf.deleteCircuit(taskID);;
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			throw new Exception(ex.getCause().getMessage());
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("port", port);
+			request.setAttribute("task", task);
+			request.setAttribute("message", "Failed to delete circuit!");
+			return "provision/deleteCircuit.jsp";
 		} finally {
 			wf.close();
 		}
 
 		// sending redirect to page with confirmation
-		request.setAttribute("message", "Circuit was successfully removed <br>"
+		request.setAttribute("message", "Circuit was successfully removed. Task completed! <br>"
 				+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
 				+ " tasks' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
+	}
+	
+	/**
+	 * Method for searching port by order task
+	 * 
+	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
+	 * @param given
+	 *            task
+	 * @return port object if exist, otherwise null.
+	 * @author Miroshnychenko Nataliya
+	 */
+
+	private Port findPortFromTaskID(Task task) throws Exception {
+		ServiceOrder serviceOrder = task.getServiceOrder();
+		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
+		if (serviceLocation == null) {
+			return null;
+		}
+		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLoc(
+				serviceLocation.getId());
+		return cable.getPort();
 	}
 	
 	

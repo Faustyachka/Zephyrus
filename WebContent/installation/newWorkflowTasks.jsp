@@ -15,7 +15,7 @@
     <h2>Workflow for Order ${task.serviceOrder.id} by Task ${task.id}</h2>
     </div>
     <br>
-    <label>${message}</label> <br>
+    <div><font color="red"> ${message} </font></div> <br>
   <div style="text-align:center">Choose connection properties:</div>
   <br>
   <form method="post" action="/Zephyrus/createConnection?taskId=${task.id}&port=${port.id}&cable=${cable.id}">

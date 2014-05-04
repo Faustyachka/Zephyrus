@@ -91,7 +91,10 @@ public class CreateCableCommand extends SQLCommand {
 			wf.createCable(taskID);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			throw new Exception(ex.getCause().getMessage());
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("taskId", taskID);
+			request.setAttribute("message", "Failed to create cable!");
+			return "newConnectionProperties";
 		} finally {
 			wf.close();
 		}

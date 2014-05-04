@@ -102,14 +102,17 @@ public class DeleteCableCommand extends SQLCommand {
 			wf.deleteCable(taskID);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
-			throw new Exception(ex.getCause().getMessage());
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("taskId", taskID);
+			request.setAttribute("message", "Failed to delete cable");
+			return "disconnectConnectionProperties";
 		} finally {
 			wf.close();
 		}
 		
 		//return message page
-		request.setAttribute("message", "Cable deleted <br> <a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Home'/></a>");		
+		request.setAttribute("message", "Cable deleted. Task completed! <br> <a href='/Zephyrus/installation'><input type='"
+					+ "button' class='button' value='Bak to tasks'/></a>");		
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 
