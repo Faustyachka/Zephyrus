@@ -3,6 +3,7 @@ package com.zephyrus.wind.dao.oracleImp;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 
 import oracle.jdbc.OracleTypes;
 
@@ -10,6 +11,7 @@ import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceTypeDAO;
+import com.zephyrus.wind.enums.TASK_STATUS;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.model.ServiceType;
@@ -87,4 +89,18 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 		return SQL_REMOVE;
 	}
 
+	/**
+	 * Method allows to get products for given Provider Location.
+	 * @param Provider Location for which it is necessary to find products
+	 * @return list of products from Product Catalog
+	 * @author Miroshnychenko Nataliya
+	 */
+	@Override
+	public ArrayList<ProductCatalog> getProductsByProviderLocation(ProviderLocation providerLocation) throws Exception {
+		stmt = connection.prepareStatement(SQL_SELECT + " WHERE PROVIDER_LOC_ID = ? ");
+		stmt.setInt(1, providerLocation.getId()); 
+		rs = stmt.executeQuery();	
+		return fetchMultiResults(rs);
+	}
+	
 }

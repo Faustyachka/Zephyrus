@@ -65,7 +65,7 @@ public class CancelOrderCommand extends SQLCommand {
 			ServiceLocation serviceLocation = order.getServiceLocation();
 			orderDAO.remove(order);
 			if (serviceLocation == null){
-				request.setAttribute("error", "Service Location don`t exist!");
+				request.setAttribute("error", "Service Location doesn`t exist!");
 				return PAGES.MESSAGE_PAGE.getValue();
 			} else {
 				serviceLocationDAO.remove(serviceLocation);

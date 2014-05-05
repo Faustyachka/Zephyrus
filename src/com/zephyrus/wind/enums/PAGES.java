@@ -20,7 +20,8 @@ public enum PAGES {
 	CONTACTS_PAGE("view/contacts.jsp"),
 	SERVICES_PAGE("view/services.jsp"),
 	ABOUT_PAGE("view/about.jsp"),
-	START_PAGE("view/start.jsp");
+	START_PAGE("view/start.jsp"),
+	MODIFYSERVICE_PAGE("customer/modifyService.jsp");
 
 	String value;
 	PAGES(String page){

@@ -65,6 +65,7 @@
     <url-pattern>/services</url-pattern>
     <url-pattern>/contacts</url-pattern>
     <url-pattern>/modifyService</url-pattern>
+    <url-pattern>/modifyOrder</url-pattern>
     <url-pattern>/reportChoosing</url-pattern>
     <url-pattern>/showReport</url-pattern>
     <url-pattern>/newOrders</url-pattern>

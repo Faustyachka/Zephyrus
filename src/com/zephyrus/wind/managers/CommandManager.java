@@ -49,6 +49,7 @@ import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
 import com.zephyrus.wind.commands.sql.ModifyCircuitCommand;
 import com.zephyrus.wind.commands.sql.ModifyCircuitViewCommand;
+import com.zephyrus.wind.commands.sql.ModifyOrderCreateCommand;
 import com.zephyrus.wind.commands.sql.ModifyServiceCommand;
 import com.zephyrus.wind.commands.sql.NewConnectionPropertiesCommand;
 import com.zephyrus.wind.commands.sql.NewOrdersCommand;
@@ -111,6 +112,7 @@ public class CommandManager {
 	private static final String SERVICES_COMMAND = "services";
 	private static final String START_COMMAND = "start";
 	private static final String MODIFY_SERVICE_COMMAND = "modifyService";
+	private static final String MODIFY_ORDER_CREATE_COMMAND = "modifyOrder";
 	private static final String REPORTS_CHOOSING_COMMAND = "reportChoosing";
 	private static final String SHOW_REPORT_COMMAND = "showReport";
 	private static final String NEW_ORDERS_REPORT_COMMAND = "newOrders";
@@ -175,6 +177,7 @@ public class CommandManager {
 		commands.put(CONTACTS_COMMAND, new ContactsCommand());
 		commands.put(START_COMMAND, new StartCommand());
 		commands.put(MODIFY_SERVICE_COMMAND, new ModifyServiceCommand());
+		commands.put(MODIFY_ORDER_CREATE_COMMAND, new ModifyOrderCreateCommand());
 		commands.put(REPORTS_CHOOSING_COMMAND, new ReportChoosingCommand());
 		commands.put(SHOW_REPORT_COMMAND, new ShowReportCommand());
 		commands.put(NEW_ORDERS_REPORT_COMMAND, new NewOrdersCommand());
