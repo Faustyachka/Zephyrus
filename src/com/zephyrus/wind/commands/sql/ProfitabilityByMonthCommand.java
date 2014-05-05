@@ -24,7 +24,7 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 		String dateWithDay="";
 		if (dateString != null) {
 			final Pattern pattern = Pattern
-					.compile("^([0-9]){4}-([0-9]){2}");
+					.compile("^([0-9]){4}-([0-9]){2}$");
 			final Matcher matcherFromDate = pattern.matcher(dateString);
 			if (!matcherFromDate.find()) {
 				request.setAttribute("message", "Wrong format of date!");

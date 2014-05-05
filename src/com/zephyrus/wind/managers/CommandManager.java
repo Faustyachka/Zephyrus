@@ -40,9 +40,11 @@ import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.GetCSVDisconnectOrdersCommand;
 import com.zephyrus.wind.commands.sql.GetCSVNewOrdersCommand;
 import com.zephyrus.wind.commands.sql.GetCSVProfitabilityCommand;
+import com.zephyrus.wind.commands.sql.GetCSVUtilizationCommand;
 import com.zephyrus.wind.commands.sql.GetExcelDisconnectOrdersCommand;
 import com.zephyrus.wind.commands.sql.GetExcelNewOrdersCommand;
 import com.zephyrus.wind.commands.sql.GetExcelProfitabilityCommand;
+import com.zephyrus.wind.commands.sql.GetExcelUtilizationCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
 import com.zephyrus.wind.commands.sql.ModifyCircuitCommand;
@@ -60,6 +62,7 @@ import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
 import com.zephyrus.wind.commands.sql.ShowReportCommand;
 import com.zephyrus.wind.commands.sql.TaskRedirectorCommand;
+import com.zephyrus.wind.commands.sql.UtilizationReportCommand;
 																										// REVIEW: documentation expected
 public class CommandManager {
 
@@ -121,6 +124,9 @@ public class CommandManager {
 	private static final String GET_CSV_PROFITABILITY_COMMAND = "getCSVProfitability";
 	private static final String MODIFY_CIRCUIT_VIEW_COMMAND = "modifyCircuitView";
 	private static final String MODIFY_CIRCUIT_COMMAND = "modifyCircuit";
+	private static final String UTILIZATION_REPORT_COMMAND = "utilizationReport";
+	private static final String GET_EXCEL_UTILIZATION_COMMAND = "getUtilizationExcel";
+	private static final String GET_CSV_UTILIZATION_COMMAND = "getUtilizationCSV";
 
 
 	public CommandManager() {
@@ -182,6 +188,9 @@ public class CommandManager {
 		commands.put(GET_CSV_PROFITABILITY_COMMAND, new GetCSVProfitabilityCommand());
 		commands.put(MODIFY_CIRCUIT_COMMAND, new ModifyCircuitCommand());
 		commands.put(MODIFY_CIRCUIT_VIEW_COMMAND, new ModifyCircuitViewCommand());
+		commands.put(UTILIZATION_REPORT_COMMAND, new UtilizationReportCommand());
+		commands.put(GET_EXCEL_UTILIZATION_COMMAND, new GetExcelUtilizationCommand());
+		commands.put(GET_CSV_UTILIZATION_COMMAND, new GetCSVUtilizationCommand());
 
 	}
 																										// REVIEW: documentation expected

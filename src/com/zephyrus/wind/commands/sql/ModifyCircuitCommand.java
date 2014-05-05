@@ -100,7 +100,7 @@ public class ModifyCircuitCommand extends SQLCommand {
 			getOracleDaoFactory().rollbackTransaction();
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
-			request.setAttribute("message", "Failed to create circuit!");
+			request.setAttribute("message", "Failed to modify circuit!");
 			return "provision/modifyCircuit.jsp";
 		} finally {
 			wf.close();
