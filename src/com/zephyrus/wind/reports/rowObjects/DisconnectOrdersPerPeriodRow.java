@@ -1,5 +1,4 @@
 package com.zephyrus.wind.reports.rowObjects;
-import java.sql.Date;
 
 /**
  * This class needed to save data for reports row
@@ -8,12 +7,10 @@ import java.sql.Date;
 
 public class DisconnectOrdersPerPeriodRow {
 	private String username;
-	private String orderID;
+	private int orderID;
 	private String orderStatus;
 	private String productName;
 	private String providerLocation;
-	private Date startPeriod;
-	private Date endPeriod;
 
 	public String getUsername() {
 		return username;
@@ -23,11 +20,11 @@ public class DisconnectOrdersPerPeriodRow {
 		this.username = username;
 	}
 
-	public String getOrderID() {
+	public int getOrderID() {
 		return orderID;
 	}
 
-	public void setOrderID(String orderID) {
+	public void setOrderID(int orderID) {
 		this.orderID = orderID;
 	}
 
@@ -53,21 +50,5 @@ public class DisconnectOrdersPerPeriodRow {
 
 	public void setProviderLocation(String providerLocation) {
 		this.providerLocation = providerLocation;
-	}
-
-	public Date getStartPeriod() {
-		return startPeriod;
-	}
-
-	public void setStartPeriod(Date startPeriod) {
-		this.startPeriod = startPeriod;
-	}
-
-	public Date getEndPeriod() {
-		return endPeriod;
-	}
-
-	public void setEndPeriod(Date endPeriod) {
-		this.endPeriod = endPeriod;
 	}
 }

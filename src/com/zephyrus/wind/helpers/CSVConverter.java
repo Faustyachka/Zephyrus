@@ -1,8 +1,9 @@
-package com.zephyrus.wind.reports;
+package com.zephyrus.wind.helpers;
 
 import java.io.BufferedWriter;
-import java.io.FileWriter;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DateUtil;
@@ -12,15 +13,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 /**
  * This class provides functionality for convert POI Workbook to CSV outfile
  * @author Kostya Trukhan
- */											// REVIEW: documentation expected. Class should be refactored and included in ExcelReportGenerator or similar 
-public class XLStoCSV {
-	static String path = "E:\\reports\\";
-	/**
-	 * Return type - need refactor
-	 */
-	public static String convertCSV(Workbook workbook) throws IOException {
-		BufferedWriter output = new BufferedWriter(new FileWriter(path
-				+ "new.csv"));
+ */											
+public class CSVConverter {
+	
+	public static byte[] convert(Workbook workbook) throws IOException {
+		ByteArrayOutputStream byteOutputStream = new ByteArrayOutputStream();
+		BufferedWriter output = new BufferedWriter(new OutputStreamWriter(byteOutputStream));
+		
 		Sheet sheet = workbook.getSheetAt(0);
 		for (Row row : sheet) {
 			int minCol = row.getFirstCellNum();
@@ -63,11 +62,12 @@ public class XLStoCSV {
 			}
 			output.write("\n");
 		}
+		output.flush();
 		output.close();
-		return null;
+		return byteOutputStream.toByteArray();
 	}
 
-	public static String toCSV(String value) {
+	private static String toCSV(String value) {
 		String v = null;
 		boolean doWrap = false;
 		if (value != null) {

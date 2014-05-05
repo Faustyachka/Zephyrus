@@ -25,10 +25,10 @@ public interface IReportDAO extends IDAO<IReport> {
 			throws SQLException;
 
 	ArrayList<DisconnectOrdersPerPeriodRow> getDisconnectSOPerPeriodReport(
-			Date startDate, Date endDate) throws SQLException, Exception;
+			Date startDate, Date endDate, int offset, int count) throws SQLException;
 
 	ArrayList<NewOrdersPerPeriodRow> getNewSOPerPeriodReport(
-			Date startDate, Date endDate) throws Exception;
+			Date startDate, Date endDate, int offset, int count) throws SQLException;
 
 
 }

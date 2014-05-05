@@ -1,13 +1,9 @@
 package com.zephyrus.wind.reports;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import java.io.InputStream;
 import java.sql.Date;
-import java.util.Iterator;
+import java.util.ArrayList;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -20,87 +16,76 @@ import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.reports.rowObjects.NewOrdersPerPeriodRow;
 
 /**
- * This class provides functionality for create and convert "New SO per period"
- * @author Kostya Trukhan
+ * This class provides functionality for create and convert "Disconnect SO per period"
+ * @author Kostya Trukhan & Igor Litvinenko
  */
-public class NewOrdersPerPeriodReport {
-	static String path = "E:\\reports\\"; // REVIEW: hardcode path
+public class NewOrdersPerPeriodReport implements IReport {
+	
+	private Date startDate;
+	private Date endDate;
 
-	private ArrayList<NewOrdersPerPeriodRow> report = new ArrayList<NewOrdersPerPeriodRow>();
-
-	public ArrayList<NewOrdersPerPeriodRow> getReport() {
-		return report;
+    /**
+     * 
+     * @param startDate - start of period
+     * @param endDate - end of period
+     */
+	public NewOrdersPerPeriodReport(Date startDate, Date endDate) throws Exception {
+		this.startDate = startDate;
+		this.endDate = endDate;
 	}
-
-	public void setReport(ArrayList<NewOrdersPerPeriodRow> report) {
-		this.report = report;
-	}
-
-	/**
-	 * This constructor generate report into private parameter report
-	 * 
-	 * @param startDate- start of period
-	 * @param endDate - end of period
-	 * @throws If get some trouble with connection to DB
-	 */
-	public NewOrdersPerPeriodReport(Date startDate, Date endDate)
-			throws Exception {
+	
+	public ArrayList<NewOrdersPerPeriodRow> getReportData(int offset, int count) {
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
 			IReportDAO dao = factory.getReportDAO();
-			setReport(dao.getNewSOPerPeriodReport(startDate, endDate));
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+			return dao.getNewSOPerPeriodReport(startDate, endDate, offset, count);
+		} catch (Exception exc) {
+			throw new RuntimeException("Report generation failed", exc);
 		} finally {
 			factory.endConnection();
 		}
 	}
-
-	public Workbook convertToExel() throws IOException {
-		Workbook workbook = null;
-		Row row = null;
-		Cell cell = null;
+	
+	@Override
+	public Workbook convertToExel(int maxRowsNumber) throws IOException {
+		
+		ArrayList<NewOrdersPerPeriodRow> report = getReportData(1, maxRowsNumber);
+		
 		// Read template file
-		FileInputStream template = null;
-		try {
-			template = new FileInputStream(new File(path
-					+ "_NewOrdersPerPeriod.xls")); // REVIEW: hardcode path
-		} catch (FileNotFoundException e) {
-			// REVIEW: no error correction
-		}
-		workbook = new HSSFWorkbook(template);
+		InputStream templateInput = getClass().getClassLoader().
+				getResourceAsStream("xls/_NewOrdersPerPeriod.xls");
+		Workbook workbook = new HSSFWorkbook(templateInput);
 		Sheet sheet = workbook.getSheetAt(0);
+		
 		// Write data to workbook
-		Iterator<NewOrdersPerPeriodRow> iterator = getReport().iterator();
-		row = sheet.getRow(0);
-		cell = row.createCell(1);
-		cell.setCellValue(iterator.next().getStartPeriod());
-		cell = row.createCell(2);
-		cell.setCellValue(iterator.next().getEndPeriod());
-		NewOrdersPerPeriodRow item = null;
-		int rowIndex = 2;
-		while (iterator.hasNext()) {
-			item = iterator.next();
-			row = sheet.createRow(rowIndex++);
-			cell = row.createCell(0);
-			cell.setCellValue(item.getUsername());
-			cell = row.createCell(1);
-			cell.setCellValue(item.getOrderID());
-			cell = row.createCell(2);
-			cell.setCellValue(item.getOrderStatus());
-			cell = row.createCell(3);
-			cell.setCellValue(item.getProductName());
-			cell = row.createCell(4);
-			cell.setCellValue(item.getProviderLocation());
+		Row sheetRow = sheet.getRow(0);
+		Cell cell = sheetRow.createCell(1);
+		cell.setCellValue(startDate.toString());
+		cell = sheetRow.createCell(2);
+		cell.setCellValue(endDate.toString());
+		
+		/* starting from the second row because of the template layout */
+		int rowIndex = 2; 
+		for(NewOrdersPerPeriodRow row : report) {
+			sheetRow = sheet.createRow(rowIndex++);
+			cell = sheetRow.createCell(0);
+			cell.setCellValue(row.getUsername());
+			cell = sheetRow.createCell(1);
+			cell.setCellValue(row.getOrderID());
+			cell = sheetRow.createCell(2);
+			cell.setCellValue(row.getOrderStatus());
+			cell = sheetRow.createCell(3);
+			cell.setCellValue(row.getProductName());
+			cell = sheetRow.createCell(4);
+			cell.setCellValue(row.getProviderLocation());
 		}
+		
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);
 		sheet.autoSizeColumn(2);
 		sheet.autoSizeColumn(3);
 		sheet.autoSizeColumn(4);
 		return workbook;
-
 	}
-
 }

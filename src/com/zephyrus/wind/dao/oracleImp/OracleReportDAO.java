@@ -5,14 +5,15 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
-import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
-import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.reports.IReport;
-import com.zephyrus.wind.reports.rowObjects.*;
+import com.zephyrus.wind.reports.rowObjects.DisconnectOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rowObjects.MostProfitableRouterRow;
+import com.zephyrus.wind.reports.rowObjects.NewOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rowObjects.ProfitabilityByMonthRow;
+import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
 
 /**
  * This class gives functionality to generate report from DAO
@@ -45,6 +46,44 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			+ "ON PROVIDER_LOCATIONS.ID=PRODUCT_CATALOG.PROVIDER_LOC_ID "
 			+ "WHERE SERVICE_INSTANCES.START_DATE < ? "
 			+ "GROUP BY PROVIDER_LOCATIONS.LOCATION_NAME";
+	
+	private static final String SQL_DISCONNECT_ORDERS =   
+			  "SELECT * FROM (  "
+			+ "  SELECT a.*, ROWNUM rnum FROM (  "
+			+ "      SELECT u.first_name, u.last_name, so.id, os.order_status_value,  "
+			+ "          st.service_type_value, pl.location_name "
+			+ "      FROM service_orders so  "
+			+ "      INNER JOIN order_type ot ON so.order_type_id = ot.id "
+			+ "      INNER JOIN service_instances si ON so.service_instance_id = si.id "
+			+ "      INNER JOIN users u ON si.user_id = u.id "
+			+ "      INNER JOIN order_status os ON so.order_status_id = os.id "
+			+ "      INNER JOIN product_catalog pc ON so.product_catalog_id = pc.id "
+			+ "      INNER JOIN service_type st ON pc.service_type_id = st.id "
+			+ "      INNER JOIN provider_locations pl ON pc.provider_loc_id = pl.id  "
+			+ "      WHERE so.order_date BETWEEN ? AND ? "
+			+ "          AND ot.order_type_value = 'DISCONNECT'  "
+			+ "      ORDER BY so.order_date "
+			+ "  ) a where ROWNUM <= ? "
+			+ ") WHERE rnum  >= ?";
+	
+	private static final String SQL_NEW_ORDERS =   
+			  "SELECT * FROM (  "
+			+ "  SELECT a.*, ROWNUM rnum FROM (  "
+			+ "      SELECT u.first_name, u.last_name, so.id, os.order_status_value,  "
+			+ "          st.service_type_value, pl.location_name "
+			+ "      FROM service_orders so  "
+			+ "      INNER JOIN order_type ot ON so.order_type_id = ot.id "
+			+ "      INNER JOIN service_instances si ON so.service_instance_id = si.id "
+			+ "      INNER JOIN users u ON si.user_id = u.id "
+			+ "      INNER JOIN order_status os ON so.order_status_id = os.id "
+			+ "      INNER JOIN product_catalog pc ON so.product_catalog_id = pc.id "
+			+ "      INNER JOIN service_type st ON pc.service_type_id = st.id "
+			+ "      INNER JOIN provider_locations pl ON pc.provider_loc_id = pl.id  "
+			+ "      WHERE so.order_date BETWEEN ? AND ? "
+			+ "          AND ot.order_type_value = 'NEW'  "
+			+ "      ORDER BY so.order_date "
+			+ "  ) a where ROWNUM <= ? "
+			+ ") WHERE rnum  >= ?";
 
 	public OracleReportDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
@@ -134,55 +173,74 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		}
 		return report;
 	}
-
+	
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public ArrayList<DisconnectOrdersPerPeriodRow> getDisconnectSOPerPeriodReport(
-			Date startDate, Date endDate) throws Exception {
-		OracleDAOFactory factory = new OracleDAOFactory();
-		factory.beginConnection();
-		IServiceOrderDAO dao = factory.getServiceOrderDAO();
-		ArrayList<ServiceOrder> list = dao.getDisconnectSOByPeriod(startDate,
-				endDate);
-		ArrayList<DisconnectOrdersPerPeriodRow> report = new ArrayList<DisconnectOrdersPerPeriodRow>();
-		DisconnectOrdersPerPeriodRow item = new DisconnectOrdersPerPeriodRow();
-		item.setStartPeriod(startDate);
-		item.setEndPeriod(endDate);
-		for (Iterator<ServiceOrder> i = list.iterator(); i.hasNext();) {
-			item.setOrderID(i.next().getId().toString());
-			item.setOrderStatus(i.next().getOrderStatus().getOrderStatusValue());
-			item.setProductName(i.next().getProductCatalog().getServiceType()
-					.getServiceType());
-			item.setProviderLocation(i.next().getProductCatalog()
-					.getProviderLoc().getLocationName());
-			item.setUsername(i.next().getServiceLocation().getUser().getEmail());
-			report.add(item);
+			Date startDate, Date endDate, int offset, int count) throws SQLException {
+		
+		int lastRow = offset + count - 1;
+		stmt = connection.prepareStatement(SQL_DISCONNECT_ORDERS);
+		stmt.setDate(1, startDate);
+		stmt.setDate(2, endDate);
+		stmt.setInt(3, lastRow);
+		stmt.setInt(4, offset);
+		rs = stmt.executeQuery();
+		
+		ArrayList<DisconnectOrdersPerPeriodRow> list = new ArrayList<>();
+		while(rs.next()) {
+			DisconnectOrdersPerPeriodRow row = new DisconnectOrdersPerPeriodRow();
+			row.setOrderID(rs.getInt("id"));
+			row.setOrderStatus(rs.getString("order_status_value"));
+			row.setProductName(rs.getString("service_type_value"));
+			row.setProviderLocation(rs.getString("location_name"));
+			row.setUsername(rs.getString("first_name") + " " + rs.getString("last_name"));
+			list.add(row);
 		}
-		return report;
-
+		rs.close();
+		return list;
 	}
 
+	/**
+	 * 
+	 * @param startDate
+	 * @param endDate
+	 * @param offset
+	 * @param count
+	 * @return
+	 * @throws Exception
+	 */
 	@Override
 	public ArrayList<NewOrdersPerPeriodRow> getNewSOPerPeriodReport(
-			Date startDate, Date endDate) throws Exception {
-		OracleDAOFactory factory = new OracleDAOFactory();
-		factory.beginConnection();
-		IServiceOrderDAO dao = factory.getServiceOrderDAO();
-		ArrayList<ServiceOrder> list = dao.getNewSOByPeriod(startDate, endDate);
-		ArrayList<NewOrdersPerPeriodRow> report = new ArrayList<NewOrdersPerPeriodRow>();
-		NewOrdersPerPeriodRow item = new NewOrdersPerPeriodRow();
-		item.setStartPeriod(startDate);
-		item.setEndPeriod(endDate);
-		for (Iterator<ServiceOrder> i = list.iterator(); i.hasNext();) {
-			item.setOrderID(i.next().getId().toString());
-			item.setOrderStatus(i.next().getOrderStatus().getOrderStatusValue());
-			item.setProductName(i.next().getProductCatalog().getServiceType()
-					.getServiceType());
-			item.setProviderLocation(i.next().getProductCatalog()
-					.getProviderLoc().getLocationName());
-			item.setUsername(i.next().getServiceLocation().getUser().getEmail());
-			report.add(item);
+			Date startDate, Date endDate, int offset, int count) throws SQLException {
+		
+		int lastRow = offset + count - 1;
+		stmt = connection.prepareStatement(SQL_NEW_ORDERS);
+		stmt.setDate(1, startDate);
+		stmt.setDate(2, endDate);
+		stmt.setInt(3, lastRow);
+		stmt.setInt(4, offset);
+		rs = stmt.executeQuery();
+		
+		ArrayList<NewOrdersPerPeriodRow> list = new ArrayList<>();
+		while(rs.next()) {
+			NewOrdersPerPeriodRow row = new NewOrdersPerPeriodRow();
+			row.setOrderID(rs.getInt("id"));
+			row.setOrderStatus(rs.getString("order_status_value"));
+			row.setProductName(rs.getString("service_type_value"));
+			row.setProviderLocation(rs.getString("location_name"));
+			row.setUsername(rs.getString("first_name") + " " + rs.getString("last_name"));
+			list.add(row);
 		}
-		return report;
-
+		rs.close();
+		return list;
 	}
 }

@@ -1,13 +1,9 @@
 package com.zephyrus.wind.reports;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.sql.SQLException;
+import java.io.InputStream;
 import java.sql.Date;
 import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
@@ -21,86 +17,75 @@ import com.zephyrus.wind.reports.rowObjects.DisconnectOrdersPerPeriodRow;
 
 /**
  * This class provides functionality for create and convert "Disconnect SO per period"
- * @author Kostya Trukhan
+ * @author Kostya Trukhan & Igor Litvinenko
  */
-public class DisconnectOrdersPerPeriodReport implements IReport{
-	static String path = "E:\\reports\\"; // REVIEW: what the path is that?
-	private ArrayList<DisconnectOrdersPerPeriodRow> report = new ArrayList<DisconnectOrdersPerPeriodRow>();
+public class DisconnectOrdersPerPeriodReport implements IReport {
+	
+	private Date startDate;
+	private Date endDate;
 
     /**
-     * This constructor generate report into private parameter report 
+     * 
      * @param startDate - start of period
      * @param endDate - end of period
-     * @throws If get some trouble with connection to DB
      */
-	public DisconnectOrdersPerPeriodReport(Date startDate, Date endDate)
-			throws Exception {
+	public DisconnectOrdersPerPeriodReport(Date startDate, Date endDate) throws Exception {
+		this.startDate = startDate;
+		this.endDate = endDate;
+	}
+	
+	public ArrayList<DisconnectOrdersPerPeriodRow> getReportData(int offset, int count) {
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
 			IReportDAO dao = factory.getReportDAO();
-			setReport(dao.getDisconnectSOPerPeriodReport(startDate, endDate));
-		} catch (SQLException ex) {
-			ex.printStackTrace();
+			return dao.getDisconnectSOPerPeriodReport(startDate, endDate, offset, count);
+		} catch (Exception exc) {
+			throw new RuntimeException("Report generation failed", exc);
 		} finally {
 			factory.endConnection();
 		}
 	}
-
-
-	public Workbook convertToExel() throws IOException {
-		Workbook workbook = null;
-		Row row = null;
-		Cell cell = null; 
+	
+	@Override
+	public Workbook convertToExel(int maxRowsNumber) throws IOException {
+		
+		ArrayList<DisconnectOrdersPerPeriodRow> report = getReportData(1, maxRowsNumber);
+		
 		// Read template file
-		FileInputStream template = null;
-		try {
-			template = new FileInputStream(new File(path
-					+ "_NewOrdersPerPeriod.xls")); // REVIEW: hardcode path
-		} catch (FileNotFoundException e) {
-
-		}
-		workbook = new HSSFWorkbook(template);
+		InputStream templateInput = getClass().getClassLoader().
+				getResourceAsStream("xls/_DisconnectOrdersPerPeriod.xls");
+		Workbook workbook = new HSSFWorkbook(templateInput);
 		Sheet sheet = workbook.getSheetAt(0);
+		
 		// Write data to workbook
-		Iterator<DisconnectOrdersPerPeriodRow> iterator = getReport().iterator();
-		row = sheet.getRow(0);
-		cell = row.createCell(1);
-		cell.setCellValue(iterator.next().getStartPeriod());
-		cell = row.createCell(2);
-		cell.setCellValue(iterator.next().getEndPeriod());
-		DisconnectOrdersPerPeriodRow item = null;
-		int rowIndex = 2;
-		while (iterator.hasNext()) {
-			item = iterator.next();
-			row = sheet.createRow(rowIndex++);
-			cell = row.createCell(0);
-			cell.setCellValue(item.getUsername());
-			cell = row.createCell(1);
-			cell.setCellValue(item.getOrderID());
-			cell = row.createCell(2);
-			cell.setCellValue(item.getOrderStatus());
-			cell = row.createCell(3);
-			cell.setCellValue(item.getProductName());
-			cell = row.createCell(4);
-			cell.setCellValue(item.getProviderLocation());
+		Row sheetRow = sheet.getRow(0);
+		Cell cell = sheetRow.createCell(1);
+		cell.setCellValue(startDate.toString());
+		cell = sheetRow.createCell(2);
+		cell.setCellValue(endDate.toString());
+		
+		/* starting from the second row because of the template layout */
+		int rowIndex = 2; 
+		for(DisconnectOrdersPerPeriodRow row : report) {
+			sheetRow = sheet.createRow(rowIndex++);
+			cell = sheetRow.createCell(0);
+			cell.setCellValue(row.getUsername());
+			cell = sheetRow.createCell(1);
+			cell.setCellValue(row.getOrderID());
+			cell = sheetRow.createCell(2);
+			cell.setCellValue(row.getOrderStatus());
+			cell = sheetRow.createCell(3);
+			cell.setCellValue(row.getProductName());
+			cell = sheetRow.createCell(4);
+			cell.setCellValue(row.getProviderLocation());
 		}
+		
 		sheet.autoSizeColumn(0);
 		sheet.autoSizeColumn(1);
 		sheet.autoSizeColumn(2);
 		sheet.autoSizeColumn(3);
 		sheet.autoSizeColumn(4);
 		return workbook;
-
-	}
-
-
-	public ArrayList<DisconnectOrdersPerPeriodRow> getReport() {
-		return report;
-	}
-
-
-	public void setReport(ArrayList<DisconnectOrdersPerPeriodRow> report) {
-		this.report = report;
 	}
 }
