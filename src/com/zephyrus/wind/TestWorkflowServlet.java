@@ -27,6 +27,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
 import com.zephyrus.wind.reports.IReport;
 import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
+import com.zephyrus.wind.reports.ProfitabilityByMonthReport;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
@@ -47,9 +48,9 @@ public class TestWorkflowServlet extends HttpServlet {
     
     private void processRequest(HttpServletRequest request, HttpServletResponse response)			
 		    throws ServletException, IOException {
-    	NewOrdersPerPeriodReport report = null;
+    	ProfitabilityByMonthReport report = null;
 		try {
-			report = new NewOrdersPerPeriodReport(new Date(99, 12, 10), new Date(114, 12, 10));
+			report = new ProfitabilityByMonthReport(new Date(114, 5, 01));
 			//report.getReportData(offset, count);
 		} catch (Exception e) {
 			// TODO Auto-generated catch block

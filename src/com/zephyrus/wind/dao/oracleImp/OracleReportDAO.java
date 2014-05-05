@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Calendar;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
@@ -38,14 +39,20 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			+ "INNER JOIN CABLES ON CABLES.PORT_ID=PORTS.ID "
 			+ "GROUP BY DEVICES.SERIAL_NUM";
 
-	private static final String SQL_MONTH_PROFIT = "SELECT PROVIDER_LOCATIONS.LOCATION_NAME, "
-			+ "SUM (PRODUCT_CATALOG.PRICE) AS SUM "
-			+ "FROM PRODUCT_CATALOG INNER JOIN SERVICE_INSTANCES "
-			+ "ON PRODUCT_CATALOG.ID=SERVICE_INSTANCES.PRODUCT_CATALOG_ID "
-			+ "INNER JOIN PROVIDER_LOCATIONS "
-			+ "ON PROVIDER_LOCATIONS.ID=PRODUCT_CATALOG.PROVIDER_LOC_ID "
-			+ "WHERE SERVICE_INSTANCES.START_DATE < ? "
-			+ "GROUP BY PROVIDER_LOCATIONS.LOCATION_NAME";
+	private static final String SQL_PROFIT_BY_MONTH = 
+			"SELECT PROVIDER_LOCATIONS.LOCATION_NAME, SUM (PRODUCT_CATALOG.PRICE) AS SUM "
+		  + "FROM PRODUCT_CATALOG  "
+		  + "INNER JOIN SERVICE_INSTANCES SI ON PRODUCT_CATALOG.ID=SI.PRODUCT_CATALOG_ID "
+		  + "INNER JOIN PROVIDER_LOCATIONS ON PROVIDER_LOCATIONS.ID=PRODUCT_CATALOG.PROVIDER_LOC_ID "
+		  + "WHERE SI.START_DATE < ? "
+		  + "    AND NOT EXISTS(SELECT * "
+		  + "                   FROM SERVICE_ORDERS SO "
+		  + "                   INNER JOIN ORDER_TYPE OT ON SO.ORDER_TYPE_ID = OT.ID "
+		  + "                   WHERE SO.SERVICE_INSTANCE_ID = SI.ID "
+		  + "                      AND SO.ORDER_DATE < ADD_MONTHS(?, 1) "
+		  + "                      AND OT.ORDER_TYPE_VALUE = 'DISCONNECT' "
+		  + "                  ) "
+		  + "GROUP BY PROVIDER_LOCATIONS.LOCATION_NAME";
 	
 	private static final String SQL_DISCONNECT_ORDERS =   
 			  "SELECT * FROM (  "
@@ -159,11 +166,13 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date month)
+	public ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date startOfMonth)
 			throws SQLException {
-		stmt = connection.prepareStatement(SQL_MONTH_PROFIT);
-		stmt.setDate(1, month);
+		stmt = connection.prepareStatement(SQL_PROFIT_BY_MONTH);
+		stmt.setDate(1, startOfMonth);
+	    stmt.setDate(2, startOfMonth);
 		rs = stmt.executeQuery();
+		
 		ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();
 		ProfitabilityByMonthRow item = new ProfitabilityByMonthRow();
 		while (rs.next()) {
@@ -174,15 +183,6 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		return report;
 	}
 	
-	/**
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @param offset
-	 * @param count
-	 * @return
-	 * @throws Exception
-	 */
 	@Override
 	public ArrayList<DisconnectOrdersPerPeriodRow> getDisconnectSOPerPeriodReport(
 			Date startDate, Date endDate, int offset, int count) throws SQLException {
@@ -208,16 +208,7 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		rs.close();
 		return list;
 	}
-
-	/**
-	 * 
-	 * @param startDate
-	 * @param endDate
-	 * @param offset
-	 * @param count
-	 * @return
-	 * @throws Exception
-	 */
+	
 	@Override
 	public ArrayList<NewOrdersPerPeriodRow> getNewSOPerPeriodReport(
 			Date startDate, Date endDate, int offset, int count) throws SQLException {
