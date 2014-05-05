@@ -38,10 +38,12 @@ import com.zephyrus.wind.commands.sql.DisconnectServiceInstanceCommand;
 import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.GetCSVDisconnectOrdersCommand;
+import com.zephyrus.wind.commands.sql.GetCSVMostProfitableRouterCommand;
 import com.zephyrus.wind.commands.sql.GetCSVNewOrdersCommand;
 import com.zephyrus.wind.commands.sql.GetCSVProfitabilityCommand;
 import com.zephyrus.wind.commands.sql.GetCSVUtilizationCommand;
 import com.zephyrus.wind.commands.sql.GetExcelDisconnectOrdersCommand;
+import com.zephyrus.wind.commands.sql.GetExcelMostProfitableRouterCommand;
 import com.zephyrus.wind.commands.sql.GetExcelNewOrdersCommand;
 import com.zephyrus.wind.commands.sql.GetExcelProfitabilityCommand;
 import com.zephyrus.wind.commands.sql.GetExcelUtilizationCommand;
@@ -51,6 +53,7 @@ import com.zephyrus.wind.commands.sql.ModifyCircuitCommand;
 import com.zephyrus.wind.commands.sql.ModifyCircuitViewCommand;
 import com.zephyrus.wind.commands.sql.ModifyOrderCreateCommand;
 import com.zephyrus.wind.commands.sql.ModifyServiceCommand;
+import com.zephyrus.wind.commands.sql.MostProfitableRouterReportCommand;
 import com.zephyrus.wind.commands.sql.NewConnectionPropertiesCommand;
 import com.zephyrus.wind.commands.sql.NewOrdersCommand;
 import com.zephyrus.wind.commands.sql.OrdersAndInstancesDisplayingCommand;
@@ -128,7 +131,10 @@ public class CommandManager {
 	private static final String MODIFY_CIRCUIT_COMMAND = "modifyCircuit";
 	private static final String UTILIZATION_REPORT_COMMAND = "utilizationReport";
 	private static final String GET_EXCEL_UTILIZATION_COMMAND = "getUtilizationExcel";
-	private static final String GET_CSV_UTILIZATION_COMMAND = "getUtilizationCSV";
+	private static final String GET_CSV_UTILIZATION_COMMAND = "getUtilizationCSV"; 
+	private static final String MOST_PROFITABLE_ROUTER_COMMAND = "mostProfitableRouter";
+    private static final String MOST_PROFITABLE_ROUTER_EXCEL_COMMAND = "getMostProfitableRouterExcel";
+    private static final String MOST_PROFITABLE_ROUTER_CSV_COMMAND = "getMostProfitableRouterCSV";
 
 
 	public CommandManager() {
@@ -194,6 +200,9 @@ public class CommandManager {
 		commands.put(UTILIZATION_REPORT_COMMAND, new UtilizationReportCommand());
 		commands.put(GET_EXCEL_UTILIZATION_COMMAND, new GetExcelUtilizationCommand());
 		commands.put(GET_CSV_UTILIZATION_COMMAND, new GetCSVUtilizationCommand());
+		commands.put(MOST_PROFITABLE_ROUTER_COMMAND, new MostProfitableRouterReportCommand());
+		commands.put(MOST_PROFITABLE_ROUTER_EXCEL_COMMAND, new GetExcelMostProfitableRouterCommand());
+		commands.put(MOST_PROFITABLE_ROUTER_CSV_COMMAND, new GetCSVMostProfitableRouterCommand());
 
 	}
 																										// REVIEW: documentation expected

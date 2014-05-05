@@ -20,7 +20,7 @@
 		</a>
 	</form>
 	<table border="1"
-		style="border: 1px solid black; border-collapse: collapse;">
+		style="border: 1px solid black; border-collapse: collapse; width: 100%">
 		<tr style="background-color: blue">
 			<td>Router Serial number</td>
 			<td>Capacity</td>
