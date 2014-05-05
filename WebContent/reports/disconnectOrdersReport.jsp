@@ -57,7 +57,7 @@
 			onclick="downloadCSV()">
 	</form>
 	<table border="1"
-		style="border: 1px solid black; border-collapse: collapse;">
+		style="border: 1px solid black; border-collapse: collapse; width: 100%">
 		<tr style="background-color: blue">
 			<td>User Name</td>
 			<td>Order ID</td>

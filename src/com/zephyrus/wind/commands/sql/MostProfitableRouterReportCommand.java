@@ -10,21 +10,22 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
-import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
-import com.zephyrus.wind.reports.rowObjects.NewOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.MostProfitableRouterReport;
+import com.zephyrus.wind.reports.rowObjects.MostProfitableRouterRow;
 
-public class NewOrdersCommand extends SQLCommand {
+public class MostProfitableRouterReportCommand extends SQLCommand {
+	
 	private static Date fromDate;
 	private static Date toDate;
 	private final int NUMBER_RECORDS_PER_PAGE = 10;
-
+	
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		int last;
 		if (request.getParameter("last")==null) {
 			request.setAttribute("message", "Failed to create report");
-			return "reports/utilizationReport.jsp";
+			return "reports/mostProfitableRouterReport.jsp";
 		}
 		
 		try {
@@ -32,7 +33,7 @@ public class NewOrdersCommand extends SQLCommand {
 			
 		} catch (NumberFormatException ex) {
 			request.setAttribute("message", "Failed to create report");
-			return "reports/utilizationReport.jsp";
+			return "reports/mostProfitableRouterReport.jsp";
 		}
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
@@ -43,17 +44,18 @@ public class NewOrdersCommand extends SQLCommand {
 			final Matcher matcherToDate = pattern.matcher(toDateString);
 			if (!matcherFromDate.find()||!matcherToDate.find()) {
 				request.setAttribute("message", "Wrong format of date!");
-				return "reports/newOrdersReport.jsp";
+				return "reports/mostProfitableRouterReport.jsp";
 			}
 			fromDate = Date.valueOf(fromDateString);
 			toDate = Date.valueOf(toDateString);
 		}
-		NewOrdersPerPeriodReport report = null;
+		MostProfitableRouterReport report = null;
 
-		ArrayList<NewOrdersPerPeriodRow> records = new ArrayList<>();
-		ArrayList<NewOrdersPerPeriodRow> checkRecords = new ArrayList<>();
+		ArrayList<MostProfitableRouterRow> records = new ArrayList<>();
+		ArrayList<MostProfitableRouterRow> checkRecords = new ArrayList<>();
 		try {
-			report = new NewOrdersPerPeriodReport(fromDate, toDate);
+			report = new MostProfitableRouterReport(fromDate, toDate);
+
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
 					+ 1, 1);
@@ -61,7 +63,7 @@ public class NewOrdersCommand extends SQLCommand {
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Failed to form report");
-			return "reports/newOrdersReport.jsp";
+			return "reports/mostProfitableRouterReport.jsp";
 		}
 		if (checkRecords.isEmpty()) {
 			request.setAttribute("next", "0");
@@ -73,7 +75,7 @@ public class NewOrdersCommand extends SQLCommand {
 		request.setAttribute("toDate", toDate.toString());
 		request.setAttribute("last", last);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
-		return "reports/newOrdersReport.jsp";
+		return "reports/mostProfitableRouterReport.jsp";
 	}
 
 }
