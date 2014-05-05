@@ -14,6 +14,7 @@ import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
+import com.zephyrus.wind.workflow.ModifyScenarioWorkflow;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
@@ -116,6 +117,18 @@ public class AssignTaskCommand extends SQLCommand {
 
 		if (order.getOrderType().getId() == ORDER_TYPE.DISCONNECT.getId()) {
 			DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(
+					getOracleDaoFactory(), order);
+			try {
+				wf.assignTask(taskId, user.getId());
+			} catch (WorkflowException ex) {
+				ex.printStackTrace();
+				throw new Exception(ex.getCause().getMessage()); 
+			} finally {
+				wf.close();
+			}
+		}
+		if (order.getOrderType().getId() == ORDER_TYPE.MODIFY.getId()) {
+			ModifyScenarioWorkflow wf = new ModifyScenarioWorkflow(
 					getOracleDaoFactory(), order);
 			try {
 				wf.assignTask(taskId, user.getId());
