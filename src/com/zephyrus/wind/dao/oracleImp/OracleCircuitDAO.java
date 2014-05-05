@@ -19,8 +19,8 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
                                       "FROM " + 
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-                                      " SET PORT_ID = ?" + 
-                                      " SET CONFIG = ?" +
+                                      " SET PORT_ID = ?, " + 
+                                      " CONFIG = ? " +
                                       " WHERE " + 
                                       " ID = ?";
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
