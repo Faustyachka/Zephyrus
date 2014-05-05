@@ -21,17 +21,23 @@ import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
  * @author Kostya Trukhan
  */
 public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
-	private static final String SQL_ROUTER_PROFIT = "SELECT DEVICES.SERIAL_NUM, "
-			+ "SUM(PRODUCT_CATALOG.PRICE) AS SUM "
-			+ "FROM DEVICES INNER JOIN PORTS "
-			+ "ON DEVICES.ID = PORTS.DEVICE_ID "
-			+ "INNER JOIN CIRCUITS "
-			+ "ON PORTS.ID = CIRCUITS.PORT_ID "
-			+ "INNER JOIN SERVICE_INSTANCES "
-			+ "ON CIRCUITS.ID = SERVICE_INSTANCES.CIRCUIT_ID "
-			+ "INNER JOIN PRODUCT_CATALOG "
-			+ "ON PRODUCT_CATALOG.ID = SERVICE_INSTANCES.PRODUCT_CATALOG_ID "
-			+ "GROUP BY DEVICES.SERIAL_NUM";
+	private static final String SQL_MOST_PROFIT_ROUTER =   
+			  "SELECT D.SERIAL_NUM, SUM (PRODUCT_CATALOG.PRICE) AS DEVICE_PROFIT "
+			+ "FROM PRODUCT_CATALOG  "
+			+ "INNER JOIN SERVICE_INSTANCES SI ON PRODUCT_CATALOG.ID=SI.PRODUCT_CATALOG_ID "
+			+ "INNER JOIN CIRCUITS C ON SI.CIRCUIT_ID = C.ID "
+			+ "INNER JOIN PORTS P ON C.PORT_ID = P.ID "
+			+ "INNER JOIN DEVICES D ON P.DEVICE_ID = D.ID "
+			+ "WHERE SI.START_DATE < ? "
+			+ "    AND NOT EXISTS(SELECT * "
+			+ "                   FROM SERVICE_ORDERS SO "
+			+ "                   INNER JOIN ORDER_TYPE OT ON SO.ORDER_TYPE_ID = OT.ID "
+			+ "                   WHERE SO.SERVICE_INSTANCE_ID = SI.ID "
+			+ "                      AND SO.ORDER_DATE < ? "
+			+ "                      AND OT.ORDER_TYPE_VALUE = 'DISCONNECT' "
+			+ "                  ) "
+			+ "GROUP BY D.SERIAL_NUM "
+			+ "ORDER BY DEVICE_PROFIT DESC";
 
 	private static final String SQL_ROUTER_UTIL = 
 			"SELECT * FROM (  "
@@ -152,17 +158,21 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public ArrayList<MostProfitableRouterRow> getMostProfitableRouterReport()
+	public ArrayList<MostProfitableRouterRow> getMostProfitableRouterReport(Date startDate, Date endDate)
 			throws SQLException {
-		stmt = connection.prepareStatement(SQL_ROUTER_PROFIT);
+		
+		stmt = connection.prepareStatement(SQL_MOST_PROFIT_ROUTER);
+		stmt.setDate(1, startDate);
+		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();
 		ArrayList<MostProfitableRouterRow> report = new ArrayList<MostProfitableRouterRow>();
 		MostProfitableRouterRow item = new MostProfitableRouterRow();
-		while (rs.next()) {
-			item.setRouterSN(rs.getString(1));
-			item.setProfit(rs.getLong(2));
+		if (rs.next()) {
+			item.setRouterSN(rs.getString("serial_num"));
+			item.setProfit(rs.getLong("device_profit"));
 			report.add(item);
 		}
+		rs.close();
 		return report;
 	}
 
@@ -185,6 +195,7 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			item.setCapacity(rs.getInt("capacity"));
 			report.add(item);
 		}
+		rs.close();
 		return report;
 	}
 
@@ -203,6 +214,7 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			item.setProfit(rs.getLong("sum"));
 			report.add(item);
 		}
+		rs.close();
 		return report;
 	}
 	

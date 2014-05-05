@@ -17,7 +17,8 @@ import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
 
 public interface IReportDAO extends IDAO<IReport> {
 
-	ArrayList<MostProfitableRouterRow> getMostProfitableRouterReport() throws SQLException;
+	public ArrayList<MostProfitableRouterRow> getMostProfitableRouterReport(
+			Date startDate, Date endDate) throws SQLException;
 
 	ArrayList<RouterUtilRow> getRouterUtilReport(int offset, int count) 
 			throws SQLException;
