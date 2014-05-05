@@ -7,13 +7,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.model.ServiceInstance;
 
 public class ModifyOrderCreateCommand extends SQLCommand {
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		// TODO Auto-generated method stub
+		String si = request.getParameter("si");
+		String product = request.getParameter("products");
+		System.out.println(si);
+		System.out.println(product);
 		return null;
 	}
 

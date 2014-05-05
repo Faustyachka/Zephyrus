@@ -21,12 +21,13 @@
   <div class="main">
   <h2> Available services </h2>
   <div id="prod">
+  <form action="/Zephyrus/modifyOrder">
 	<c:forEach items="${products}" var="products">
-	<div><input type='radio' class='radio' name='services' id='" + products.id + "' value = '" + products.id + "'> ${products.serviceType.serviceType}, ${products.price} $ month <br></div>
+	<input type="hidden" value="${serviceInstance.id}" name="si"/>
+	<div><input type='radio' class='radio' name='products' id='${products.id }' value = '${products.id }'> ${products.serviceType.serviceType}, ${products.price} $ month <br></div>
 	</c:forEach>
-	<a href="/Zephyrus/modifyOrder?product=${products.id}">
-    <input type="button" value="Modify service">  
-    </a> 
+    <input type="submit" value="Modify service"/>  
+    </form>
   </div>
 
 <br>
