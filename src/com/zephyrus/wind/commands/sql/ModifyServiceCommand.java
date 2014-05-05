@@ -11,6 +11,7 @@ import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.ProductCatalog;
+import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 
@@ -21,9 +22,9 @@ public class ModifyServiceCommand extends SQLCommand{
 			HttpServletResponse response) throws SQLException, Exception {
 		
 		IServiceInstanceDAO serviceInstanceDAO = getOracleDaoFactory().getServiceInstanceDAO();
+		IProductCatalogDAO productCatalogDAO = getOracleDaoFactory().getProductCatalogDAO();
 		ServiceInstance serviceInstance = null;
 		Integer serviceInstanceID = null; 
-		IProductCatalogDAO productCatalogDAO = getOracleDaoFactory().getProductCatalogDAO();
 		ArrayList<ProductCatalog> products = null;
 
 		if (request.getParameter("id") != null){
@@ -36,7 +37,8 @@ public class ModifyServiceCommand extends SQLCommand{
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
-		products =  productCatalogDAO.getProductsByProviderLocation(serviceInstance.getProductCatalog().getProviderLoc());
+		ProviderLocation providerLocation = serviceInstance.getProductCatalog().getProviderLoc();
+		products =  productCatalogDAO.getProductsByProviderLocation(providerLocation);
 		
 		request.setAttribute("serviceInstance", serviceInstance);
 		request.setAttribute("products", products);

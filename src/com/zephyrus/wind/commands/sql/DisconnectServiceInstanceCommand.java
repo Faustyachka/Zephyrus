@@ -2,12 +2,10 @@ package com.zephyrus.wind.commands.sql;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
@@ -18,7 +16,6 @@ import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.OrderType;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
-import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 
 /**
@@ -31,7 +28,7 @@ import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
  * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
  * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
  * 
- * @return massage of successful createion order
+ * @return massage of successful disconnect order creation
  * @author Miroshnychenko Nataliya
  */
 
@@ -53,9 +50,14 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 
+		if(request.getParameter("id") == null){
+        	request.setAttribute("message", "Service Instance is not selected");
+        	return PAGES.MESSAGE_PAGE.getValue();
+        }
+		
 		IServiceInstanceDAO serviceInstanceDAO = getOracleDaoFactory().getServiceInstanceDAO();
 
-		int serviceInstanceID = Integer.parseInt(request.getParameter("id"));
+		Integer serviceInstanceID = Integer.parseInt(request.getParameter("id"));
 		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);
 
 		disconnectOrder =  createDisconnectOrder(serviceInstance);

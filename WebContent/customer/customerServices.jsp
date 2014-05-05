@@ -32,10 +32,10 @@
       <li>Status: ${actualService.key.servInstanceStatus.servInstanceStatusValue}</li>
       <li>Address: ${actualService.value}</li>
 </ul>
+	<c:if test="${actualService.key.servInstanceStatus.id == 2}">
     <a href="/Zephyrus/modifyService?id=${actualService.key.id}">
     <input type="button" value="Modify">  
     </a>  
-    <c:if test="${actualService.key.servInstanceStatus.id == 2}">
     <a href="/Zephyrus/disconnectServiceInstance?id=${actualService.key.id}">
     <input type="button" value="Delete">  
     </a>  
