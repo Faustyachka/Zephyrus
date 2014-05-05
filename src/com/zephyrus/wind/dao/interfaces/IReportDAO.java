@@ -19,7 +19,8 @@ public interface IReportDAO extends IDAO<IReport> {
 
 	ArrayList<MostProfitableRouterRow> getMostProfitableRouterReport() throws SQLException;
 
-	ArrayList<RouterUtilRow> getRouterUtilReport() throws SQLException;
+	ArrayList<RouterUtilRow> getRouterUtilReport(int offset, int count) 
+			throws SQLException;
 
 	ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date month)
 			throws SQLException;

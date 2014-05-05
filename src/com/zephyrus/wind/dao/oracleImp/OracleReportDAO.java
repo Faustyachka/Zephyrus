@@ -33,11 +33,27 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			+ "ON PRODUCT_CATALOG.ID = SERVICE_INSTANCES.PRODUCT_CATALOG_ID "
 			+ "GROUP BY DEVICES.SERIAL_NUM";
 
-	private static final String SQL_ROUTER_UTIL = "SELECT DEVICES.SERIAL_NUM, "
-			+ "COUNT(PORTS.PORT_NUMBER) AS COUNT FROM DEVICES "
-			+ "INNER JOIN PORTS ON DEVICES.ID = PORTS.DEVICE_ID "
-			+ "INNER JOIN CABLES ON CABLES.PORT_ID=PORTS.ID "
-			+ "GROUP BY DEVICES.SERIAL_NUM";
+	private static final String SQL_ROUTER_UTIL = 
+			"SELECT * FROM (  "
+		  + "  SELECT a.*, ROWNUM rnum FROM ( "
+		  + "      SELECT serial_num,  "
+		  + "        (SELECT COUNT(*) "
+		  + "          FROM ports "
+		  + "          INNER JOIN devices d ON ports.device_id = d.id "
+		  + "          WHERE d.serial_num = serial_num "
+		  + "        ) capacity, "
+		  + "        ROUND(COUNT(p.port_number) / (SELECT COUNT(*) "
+		  + "          FROM ports "
+		  + "          INNER JOIN devices d ON ports.device_id = d.id "
+		  + "          WHERE d.serial_num = serial_num "
+		  + "        ) * 100, 0) AS utilization "
+		  + "      FROM ports p  "
+		  + "      INNER JOIN devices d ON p.device_id = d.id  "
+		  + "      INNER JOIN port_status ps ON p.port_status_id = ps.id "
+		  + "      WHERE ps.port_status_value = 'BUSY' "
+		  + "      GROUP BY d.serial_num "
+		  + "  ) a where ROWNUM <= ?  "
+		  + ") WHERE rnum  >= ? ";
 
 	private static final String SQL_PROFIT_BY_MONTH = 
 			"SELECT PROVIDER_LOCATIONS.LOCATION_NAME, SUM (PRODUCT_CATALOG.PRICE) AS SUM "
@@ -151,15 +167,22 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	}
 
 	@Override
-	public ArrayList<RouterUtilRow> getRouterUtilReport() throws SQLException {
+	public ArrayList<RouterUtilRow> getRouterUtilReport(int offset, int count) 
+			throws SQLException {
+
+		int lastRow = offset + count - 1;
+		
 		stmt = connection.prepareStatement(SQL_ROUTER_UTIL);
+		stmt.setInt(1, lastRow);
+		stmt.setInt(2, offset);
 		rs = stmt.executeQuery();
+		
 		ArrayList<RouterUtilRow> report = new ArrayList<RouterUtilRow>();
 		RouterUtilRow item = new RouterUtilRow();
 		while (rs.next()) {
-			item.setRouterSN(rs.getString(1));
-			item.setRouterUtil(rs.getLong(2));
-			item.setCapacity(0.6);
+			item.setRouterSN(rs.getString("serial_num"));
+			item.setRouterUtil(rs.getDouble("utilization"));
+			item.setCapacity(rs.getInt("capacity"));
 			report.add(item);
 		}
 		return report;
@@ -176,8 +199,8 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();
 		ProfitabilityByMonthRow item = new ProfitabilityByMonthRow();
 		while (rs.next()) {
-			item.setProviderLocation(rs.getString(1));
-			item.setProfit(rs.getLong(2));
+			item.setProviderLocation(rs.getString("location_name"));
+			item.setProfit(rs.getLong("sum"));
 			report.add(item);
 		}
 		return report;

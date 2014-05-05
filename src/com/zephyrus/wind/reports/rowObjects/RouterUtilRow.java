@@ -5,7 +5,7 @@ package com.zephyrus.wind.reports.rowObjects;
  */		
 public class RouterUtilRow {
 	private String routerSN;
-	private double capacity;
+	private int capacity;
 	private double routerUtil;
 
 	public String getRouterSN() {
@@ -16,11 +16,11 @@ public class RouterUtilRow {
 		this.routerSN = routerSN;
 	}
 
-	public double getCapacity() {
+	public int getCapacity() {
 		return capacity;
 	}
 
-	public void setCapacity(double capacity) {
+	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
 
