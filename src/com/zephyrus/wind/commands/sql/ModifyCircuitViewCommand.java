@@ -19,19 +19,19 @@ import com.zephyrus.wind.model.User;
 /**
  * This class contains the method, that is declared in @link
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
- * circuit creation details to provisioning engineer.
+ * circuit updating details to provisioning engineer.
  * 
- * @return page with information about creation of circuit
+ * @return page with information about updating of circuit
  * 
  * @author Alexandra Beskorovaynaya
  */
-public class CreateCircuitViewCommand extends SQLCommand {
+public class ModifyCircuitViewCommand extends SQLCommand {
 
 	/**
 	 * This method checks all necessary input data and forms the necessary
-	 * information for circuit creation.
+	 * information for circuit updating.
 	 * 
-	 * @return the page of circuit creation. In error situation returns the page
+	 * @return the page of circuit updating. In error situation returns the page
 	 *         with message about error details.
 	 */
 	@Override
@@ -77,7 +77,7 @@ public class CreateCircuitViewCommand extends SQLCommand {
 		Port port = findPortFromTaskID(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
-		return "provision/createCircuit.jsp";
+		return "provision/modifyCircuit.jsp";
 	}
 
 	/**

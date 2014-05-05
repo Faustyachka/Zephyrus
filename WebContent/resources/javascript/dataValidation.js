@@ -46,3 +46,37 @@ $(document).ready(function() {
          }
      });
  });
+ $(document).ready(function() {
+     $('#from').change(function() {
+    	 if($(this).val() != '') {
+             var pattern = /^([0-9]){4}-([0-9]){2}-([0-9]){2}$/;
+             if(pattern.test($(this).val())){
+                 $(this).css({'border' : '1px solid #569b44'});
+                 $('#valid').text('Ok');
+             } else {
+                 $(this).css({'border' : '1px solid #ff0000'});
+                 $('#valid').text('Not valid');
+             }
+         } else {
+             $(this).css({'border' : '1px solid #ff0000'});
+             $('#valid').text('Can not be empty');
+         }
+     });
+ });
+ $(document).ready(function() {
+     $('#to').change(function() {
+    	 if($(this).val() != '') {
+             var pattern = /^([0-9]){4}-([0-9]){2}-([0-9]){2}$/;
+             if(pattern.test($(this).val())){
+                 $(this).css({'border' : '1px solid #569b44'});
+                 $('#valid').text('Ok');
+             } else {
+                 $(this).css({'border' : '1px solid #ff0000'});
+                 $('#valid').text('Not valid');
+             }
+         } else {
+             $(this).css({'border' : '1px solid #ff0000'});
+             $('#valid').text('Can not be empty');
+         }
+     });
+ });

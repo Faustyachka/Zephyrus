@@ -65,6 +65,19 @@
     <url-pattern>/services</url-pattern>
     <url-pattern>/contacts</url-pattern>
     <url-pattern>/modifyService</url-pattern>
+    <url-pattern>/reportChoosing</url-pattern>
+    <url-pattern>/showReport</url-pattern>
+    <url-pattern>/newOrders</url-pattern>
+    <url-pattern>/getExcelNewOrders</url-pattern>
+    <url-pattern>/getCSVNewOrders</url-pattern>
+    <url-pattern>/disconnectOrders</url-pattern>
+    <url-pattern>/getExcelDisconnectOrders</url-pattern>
+    <url-pattern>/getCSVDisconnectOrders</url-pattern>
+    <url-pattern>/profitabilityReport</url-pattern>
+    <url-pattern>/getExcelProfitability</url-pattern>
+    <url-pattern>/getCSVProfitability</url-pattern>
+    <url-pattern>/modifyCircuit</url-pattern>
+    <url-pattern>/modifyCircuitView</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>
