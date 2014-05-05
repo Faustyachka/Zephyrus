@@ -78,6 +78,9 @@
     <url-pattern>/getCSVProfitability</url-pattern>
     <url-pattern>/modifyCircuit</url-pattern>
     <url-pattern>/modifyCircuitView</url-pattern>
+    <url-pattern>/utilizationReport</url-pattern>
+    <url-pattern>/getUtilizationExcel</url-pattern>
+    <url-pattern>/getUtilizationCSV</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>

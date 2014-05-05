@@ -31,7 +31,7 @@ public class GetExcelNewOrdersCommand extends SQLCommand{
 		String toDateString = request.getParameter("to");	
 		
 		final Pattern pattern = Pattern
-				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}");
+				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
 		final Matcher matcherToDate = pattern.matcher(fromDateString);
 		if (!matcherFromDate.find() || !matcherToDate.find()) {

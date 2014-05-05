@@ -1,9 +1,6 @@
-<jsp:include page="../WEB-INF/jsphf/header.jsp" />
+
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
-<br>
-<br>
-<div class="main">
+
 <br>
 <br>
 			<label><font color="red">${message}</font></label>
@@ -15,4 +12,3 @@
 			</form>
 </div>
 
-<jsp:include page="../WEB-INF/jsphf/footer.jsp" />

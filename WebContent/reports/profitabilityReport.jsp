@@ -5,6 +5,9 @@
 <br>
 <div class="main">
 	<br> <br>
+	<a href="/Zephyrus/reportChoosing">
+	<input type="button" class="button" value="Back to Reports"/>
+	</a>
 	<form id="form" method="post" action="">
 	<label><font color="red">${message}</font></label><br>
 		<table>

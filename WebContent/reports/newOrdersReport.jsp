@@ -4,7 +4,11 @@
 <div class="navigation"></div>
 <br>
 <div class="main">
+
 	<br> <br>
+	<a href="/Zephyrus/reportChoosing">
+	<input type="button" class="button" value="Back to Reports"/>
+	</a>
 	<form id="form" method="post" action="">
 	<label><font color="red">${message}</font></label><br>
 		<table>
@@ -49,7 +53,7 @@
 			value="Download CSV" id="csv" class="button" onclick="downloadCSV()">
 	</form>
 	<table border="1"
-		style="border: 1px solid black; border-collapse: collapse;">
+		style="border: 1px solid black; border-collapse: collapse; width: 100%">
 		<tr style="background-color: blue">
 			<td>User Name</td>
 			<td>Order ID</td>
@@ -67,10 +71,25 @@
 			</tr>
 		</c:forEach>
 	</table>
-	<a href="/Zephyrus/newOrders?last=${last}"> <input type="button"
-		value="Next page" />
+	<table style="width: 100%">
+	<tr>
+	<td style="width: 50%;" align="left">
+	<c:if test="${last > (count*2)}">
+	<a href="/Zephyrus/newOrders?last=${last-(count*2)}"> <input type="button"
+		value="Previous page" class="button"/>
 	</a>
-
+	</c:if>
+	</td>
+	<td style="width: 50%" align="right">
+	<c:if test="${next==1}">
+	<a href="/Zephyrus/newOrders?last=${last}"> <input type="button"
+		value="Next page" class="button" />
+	</a>
+	</c:if>
+	</td>
+	</tr>
+	</table>
+	
 </div>
 
 

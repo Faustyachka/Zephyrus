@@ -39,6 +39,9 @@ public class ShowReportCommand extends SQLCommand {
 		if (reportType == REPORT_TYPE.PROFITABILITY_BY_MONTH.getId()) {
 			return "reports/profitabilityReport.jsp";
 		}
+		if (reportType == REPORT_TYPE.ROUTER_UTILIZATION.getId()) {
+			return "utilizationReport?last=1";
+		}
 		return null;
 	}
 
