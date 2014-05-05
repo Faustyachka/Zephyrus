@@ -100,6 +100,10 @@ public class TaskRedirectorCommand extends SQLCommand {
 					.getId()) {
 				return "deleteCircuitView";
 			}
+			if (task.getServiceOrder().getOrderType().getId() == ORDER_TYPE.MODIFY
+					.getId()) {
+				return "modifyCircuitView";
+			}
 
 		}
 

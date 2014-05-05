@@ -75,7 +75,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+							+ "<a href='/Zephyrus/provision'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		

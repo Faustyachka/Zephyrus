@@ -12,8 +12,11 @@
 	type="text/javascript"></script>
 	<div class="navigation">
 		<center>
-			<br /> <input name="reports" type="button" value="Reports"
-				class="navibutton" /> <br /> <br /> <input name="accounts"
+			<br />
+			<a href="/Zephyrus/reportChoosing">
+			<input name="reports" type="button" value="Reports"
+				class="navibutton" /> 
+				</a> <br /> <br /> <input name="accounts"
 				type="button" value="Accounts" class="navibutton" />
 		</center>
 	</div>

@@ -33,19 +33,32 @@ import com.zephyrus.wind.commands.sql.DeleteCircuitViewCommand;
 import com.zephyrus.wind.commands.sql.DeleteConnectionCommand;
 import com.zephyrus.wind.commands.sql.DeleteConnectionPropertiesCommand;
 import com.zephyrus.wind.commands.sql.DeviceCreationPropertiesCommand;
+import com.zephyrus.wind.commands.sql.DisconnectOrdersCommand;
 import com.zephyrus.wind.commands.sql.DisconnectServiceInstanceCommand;
 import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
 import com.zephyrus.wind.commands.sql.GenerateReportCommand;
+import com.zephyrus.wind.commands.sql.GetCSVDisconnectOrdersCommand;
+import com.zephyrus.wind.commands.sql.GetCSVNewOrdersCommand;
+import com.zephyrus.wind.commands.sql.GetCSVProfitabilityCommand;
+import com.zephyrus.wind.commands.sql.GetExcelDisconnectOrdersCommand;
+import com.zephyrus.wind.commands.sql.GetExcelNewOrdersCommand;
+import com.zephyrus.wind.commands.sql.GetExcelProfitabilityCommand;
 import com.zephyrus.wind.commands.sql.LoginCommand;
 import com.zephyrus.wind.commands.sql.MappingCommand;
+import com.zephyrus.wind.commands.sql.ModifyCircuitCommand;
+import com.zephyrus.wind.commands.sql.ModifyCircuitViewCommand;
 import com.zephyrus.wind.commands.sql.ModifyServiceCommand;
 import com.zephyrus.wind.commands.sql.NewConnectionPropertiesCommand;
+import com.zephyrus.wind.commands.sql.NewOrdersCommand;
 import com.zephyrus.wind.commands.sql.OrdersAndInstancesDisplayingCommand;
 import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
+import com.zephyrus.wind.commands.sql.ProfitabilityByMonthCommand;
 import com.zephyrus.wind.commands.sql.ProviderLocationsDisplayingCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
+import com.zephyrus.wind.commands.sql.ReportChoosingCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
+import com.zephyrus.wind.commands.sql.ShowReportCommand;
 import com.zephyrus.wind.commands.sql.TaskRedirectorCommand;
 																										// REVIEW: documentation expected
 public class CommandManager {
@@ -95,6 +108,19 @@ public class CommandManager {
 	private static final String SERVICES_COMMAND = "services";
 	private static final String START_COMMAND = "start";
 	private static final String MODIFY_SERVICE_COMMAND = "modifyService";
+	private static final String REPORTS_CHOOSING_COMMAND = "reportChoosing";
+	private static final String SHOW_REPORT_COMMAND = "showReport";
+	private static final String NEW_ORDERS_REPORT_COMMAND = "newOrders";
+	private static final String GET_EXCEL_NEW_ORDERS_COMMAND = "getExcelNewOrders";
+	private static final String GET_CSV_NEW_ORDERS_COMMAND = "getCSVNewOrders";
+	private static final String DISCONNECT_ORDERS_REPORT_COMMAND = "disconnectOrders";
+	private static final String GET_EXCEL_DISCONNECT_ORDERS_COMMAND = "getExcelDisconnectOrders";
+	private static final String GET_CSV_DISCONNECT_ORDERS_COMMAND = "getCSVDisconnectOrders";
+	private static final String PROFITABILITY_REPORT_COMMAND = "profitabilityReport";
+	private static final String GET_EXCEL_PROFITABILITY_COMMAND = "getExcelProfitability";
+	private static final String GET_CSV_PROFITABILITY_COMMAND = "getCSVProfitability";
+	private static final String MODIFY_CIRCUIT_VIEW_COMMAND = "modifyCircuitView";
+	private static final String MODIFY_CIRCUIT_COMMAND = "modifyCircuit";
 
 
 	public CommandManager() {
@@ -143,7 +169,19 @@ public class CommandManager {
 		commands.put(CONTACTS_COMMAND, new ContactsCommand());
 		commands.put(START_COMMAND, new StartCommand());
 		commands.put(MODIFY_SERVICE_COMMAND, new ModifyServiceCommand());
-
+		commands.put(REPORTS_CHOOSING_COMMAND, new ReportChoosingCommand());
+		commands.put(SHOW_REPORT_COMMAND, new ShowReportCommand());
+		commands.put(NEW_ORDERS_REPORT_COMMAND, new NewOrdersCommand());
+		commands.put(GET_EXCEL_NEW_ORDERS_COMMAND, new GetExcelNewOrdersCommand());
+		commands.put(GET_CSV_NEW_ORDERS_COMMAND, new GetCSVNewOrdersCommand());
+		commands.put(DISCONNECT_ORDERS_REPORT_COMMAND, new DisconnectOrdersCommand());
+		commands.put(GET_EXCEL_DISCONNECT_ORDERS_COMMAND, new GetExcelDisconnectOrdersCommand());
+		commands.put(GET_CSV_DISCONNECT_ORDERS_COMMAND, new GetCSVDisconnectOrdersCommand());
+		commands.put(PROFITABILITY_REPORT_COMMAND, new ProfitabilityByMonthCommand());
+		commands.put(GET_EXCEL_PROFITABILITY_COMMAND, new GetExcelProfitabilityCommand());
+		commands.put(GET_CSV_PROFITABILITY_COMMAND, new GetCSVProfitabilityCommand());
+		commands.put(MODIFY_CIRCUIT_COMMAND, new ModifyCircuitCommand());
+		commands.put(MODIFY_CIRCUIT_VIEW_COMMAND, new ModifyCircuitViewCommand());
 
 	}
 																										// REVIEW: documentation expected
