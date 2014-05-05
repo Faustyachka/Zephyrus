@@ -23,11 +23,16 @@ opacity: 0;
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
 <div class="main">
-Welcome to the website of internet service provider Zephyrus!
+Welcome to the website of Internet service provider Zephyrus!
 <br>
 <br>
 Here you can find all the information you need about our company and its services.
-	
+<br>
+<br>
+Today we can offer you broadband internet access with the price from $40/month!
+<br>
+<br>
+Find out more about range of coverage in the city of Kyiv and our tariffs.	
 
 </div>
 

@@ -21,7 +21,7 @@
 <div class="main">
 	<div id="map-canvas"></div>
 	<br>
-	Contact us on +38(044)432-16-63 or zephyrus.info@gmail.com.
+	<div style="text-align:center">Contact us on +38(044)432-16-63 or zephyrus.info@gmail.com.</div>
 
 </div>
 

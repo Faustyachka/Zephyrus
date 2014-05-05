@@ -21,7 +21,16 @@
 <div class="main">
 Zephyrus provides services of broadband internet access on the basis of FTTB (Fiber to the Building).
 <br>
-The company started its history in early 2014.
+<br>
+The company started its history in early 2014 as a part of studying in NetCracket educational center.
+<br>
+<br>
+The first meeting of Zephyrus's founders held place on April 1st, 2014. In a process of work on the project,
+the team lost more that a half of participants due to different miseries.
+<br>
+<br>
+Anyway, with the strong craving to the victory, the team composed of only 4 people, successfully finished 
+project development.
 
 
 </div>

@@ -1,7 +1,7 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-<div class="navigation"></div>
-<div class="main">
+>
+<div class="home">
 
     <p class="error">Invalid username or password.</p>
     <a href="/Zephyrus/login">return to login page</a>

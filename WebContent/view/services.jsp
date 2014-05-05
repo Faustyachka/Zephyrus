@@ -22,13 +22,24 @@
 	Zephyrus provides services of broadband internet access on the basis of FTTB (Fiber to the Building).
 	<br>
 	<br>
-	Today the broadband internet access network operates in 5 districts of Kyiv. Zephyrus is one of the not numerous 
-	internet providers of Ukraine which use FTTB technology (Fiber to the Building): optical cable is put to the building 
+	<img src="/Zephyrus/resources/css/images/fttb.gif" alt="Here was image of FTTB technology." align="left" width="200">
+	Today the broadband Internet access network operates in 5 districts of Kyiv. Zephyrus is one of the not numerous 
+	Internet providers of Ukraine which use FTTB technology (Fiber to the Building): optical cable is put to the building 
 	and allocated among apartments by means of Ethernet copper cable. It allows providing in each apartment a qualitative 
-	internet access on a maximal speed up to 100 Mbit/s. The service is provided with a use of dynamic IP address.
+	Internet access on a maximal speed up to 100 Mbit/s. The service is provided with a use of dynamic IP address.
 	<br>
 	<br>
-	Zephyrus offers 5 tariffs for broadband internet access:
+	<br>
+	<br>
+	<img  src="/Zephyrus/resources/css/images/C7606.jpg" alt="Here was image of CISCO 7606 router." align="right" width="150">
+	In our company only the best equipment is used. For the purpose to provide out clients with the stable access to 
+	the Internet, we use CISCO 7606 routers, which are compact, high-performance routers designed in a 6-slot form 
+	factor for deployment at the network edge.
+	<br>
+	<br>
+	<br>
+	<br>
+	Zephyrus offers 5 tariffs for broadband Internet access:
 	<ul>
 	<li>LARGO 40 MBIT</li>
 	<li>ADAJIO 50 MBIT</li>

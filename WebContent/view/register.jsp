@@ -21,7 +21,18 @@
 	         return false;
 	     });
 	     </script>
-<div class="navigation"></div>
+  <div class="navigation">
+  <div style="text-align:center"><a href="/Zephyrus/about"> 
+<input type="button"	value="About Us" class="navibutton" /></a></div>
+<div style="text-align:center"><a href="/Zephyrus/services">
+<input type="button"	value="Services" class="navibutton" /></a></div>
+<div style="text-align:center"><a href="/Zephyrus/contacts">
+<input type="button"	value="Contacts" class="navibutton" /></a></div>
+<br>
+<br>
+<div style="text-align:center"><a href="/Zephyrus/start">
+<input type="button"	value="Get connected" class="meganavibutton" /></a></div>
+  </div>
   <div class="main"> 
   <div id="registerBox">
             <h3> Registration </h3>
@@ -77,7 +88,7 @@
             </table>
             <br>
             <input type="button" name="create" id="submitt"
-					value="Create account" class="bigbutton" />
+					value="Create account" class="button" />
             </form>
             
   </div>   
