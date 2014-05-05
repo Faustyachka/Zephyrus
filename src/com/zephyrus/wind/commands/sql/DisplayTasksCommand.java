@@ -73,9 +73,17 @@ public class DisplayTasksCommand extends SQLCommand {
 		ArrayList<Task> activeTasks = taskDao.findActualTasksByUser(user);
 		ArrayList<Task> availableTasks = taskDao
 				.findAvailableTasksByRole(userRole);
-
-		request.setAttribute("activeTasks", activeTasks);
-		request.setAttribute("availableTasks", availableTasks);
+		
+		if (activeTasks.size()==0) {
+			request.setAttribute("activeTasks", null);
+		} else {
+			request.setAttribute("activeTasks", activeTasks);
+		}
+		if (availableTasks.size()==0) {
+			request.setAttribute("availableTasks", null);
+		} else {
+			request.setAttribute("availableTasks", availableTasks);
+		}
 		if (userRole.getId()==ROLE.PROVISION.getId()) {
 			return "provision/index.jsp";
 		}

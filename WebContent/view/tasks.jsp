@@ -1,11 +1,10 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
 <link rel="stylesheet" href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
 <script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
 <script src="/Zephyrus/resources/javascript/accordion.js"></script>
 
 	<h2>Current tasks:</h2>
-	<c:if test= "${fn:length(activeTasks) gt 0}">
+	<c:if test= "${activeTasks != null}">
 	<div id="actual">
 		<c:forEach items="${activeTasks}" var="actualTask">
 			<h5>Task# ${actualTask.id}</h5>
@@ -25,13 +24,13 @@
 		</c:forEach>
 	</div>
 	</c:if>
-	<c:if test= "${fn:length(activeTasks) == 0}">
+	<c:if test= "${activeTasks == null}">
 	<label>No active tasks</label>
 	</c:if>
 	<br>
 
 	<h2>Available Tasks:</h2>
-	<c:if test= "${fn:length(availableTasks) gt 0}">
+	<c:if test= "${availableTasks != null}">
 	<div id="workedOut">
 		<c:forEach items="${availableTasks}" var="availableTask">
 			<h5>Task# ${availableTask.id}</h5>
@@ -51,7 +50,7 @@
 		</c:forEach>
 	</div>
 	</c:if>
-	<c:if test= "${fn:length(availableTasks) == 0}">
+	<c:if test= "${availableTasks == null}">
 	<label>No tasks available yet</label>
 	</c:if>
 
