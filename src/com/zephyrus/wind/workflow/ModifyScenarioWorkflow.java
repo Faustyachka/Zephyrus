@@ -2,19 +2,12 @@ package com.zephyrus.wind.workflow;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ICircuitDAO;
-import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
-import com.zephyrus.wind.dao.interfaces.IPortDAO;
-import com.zephyrus.wind.dao.interfaces.IPortStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
-import com.zephyrus.wind.enums.PORT_STATUS;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
 import com.zephyrus.wind.model.Circuit;
-import com.zephyrus.wind.model.Device;
-import com.zephyrus.wind.model.Port;
-import com.zephyrus.wind.model.PortStatus;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 
@@ -62,6 +55,7 @@ public class ModifyScenarioWorkflow extends Workflow {
     		}
             
             changeOrderStatus(ORDER_STATUS.PROCESSING);
+            changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.PENDINGMODIFICATION);
             createTask(ROLE.PROVISION);
         } catch (Exception exc) {
         	throw new WorkflowException("Exception while proceeding order", exc);
@@ -104,6 +98,7 @@ public class ModifyScenarioWorkflow extends Workflow {
             completeTask(taskID);
 
             updateServiceInstanceDate(order.getServiceInstance());
+            changeServiceInstanceStatus(SERVICEINSTANCE_STATUS.ACTIVE);
             this.completeOrder();
         } catch (Exception exc) {
 			throw new WorkflowException("Circuit configuration failed", exc);
