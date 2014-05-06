@@ -23,7 +23,9 @@ public class LoginCommand extends SQLCommand {
 				request.logout();
 				request.setAttribute("message", "Your account " + userName + "is blocked!");
 				return PAGES.MESSAGE_PAGE.getValue();
-			} else {
+			} 
+			if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&
+					request.isUserInRole("PROVISION")==false && request.isUserInRole("SUPPORT")==false) {
 				if(request.getSession().getAttribute("user") == null)
 					request.getSession().setAttribute("user", user);
 				if(request.getSession().getAttribute("service") != null){
@@ -33,9 +35,14 @@ public class LoginCommand extends SQLCommand {
 					if(user.getRole().getId() == role.getId()){
 						response.sendRedirect(role.getHome());
 						return null;
+					}
 				}
 			}
-		}																						// REVIEW: bad formatting
+			if (request.isUserInRole("ADMIN")==true || request.isUserInRole("INSTALLATION")==true ||
+					request.isUserInRole("PROVISION")==true || request.isUserInRole("SUPPORT")==true) {
+				request.setAttribute("message", "Access to this page is prohibited.");
+				return PAGES.MESSAGE_PAGE.getValue();
+			}
 		}
 		
 		return PAGES.HOME_PAGE.getValue();
