@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.enums.ORDER_STATUS;
@@ -14,6 +15,7 @@ import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.OrderType;
+import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.workflow.ModifyScenarioWorkflow;
@@ -66,9 +68,11 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 		Integer serviceInstanceID = Integer.parseInt(request.getParameter("serviceInstance"));
 		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);
 		
+		IProductCatalogDAO productCatalogDAO = getOracleDaoFactory().getProductCatalogDAO();
 		Integer productCatalogId = Integer.parseInt(request.getParameter("product"));
+		ProductCatalog productCatalog = productCatalogDAO.findById(productCatalogId);
 		
-		modifyOrder = createModifyOrder(serviceInstance, productCatalogId);
+		modifyOrder = createModifyOrder(serviceInstance, productCatalog);
 		
 		ModifyScenarioWorkflow workflow = new ModifyScenarioWorkflow(getOracleDaoFactory(), modifyOrder);
 		workflow.proceedOrder();
@@ -78,8 +82,19 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 		return PAGES.MESSAGE_PAGE.getValue();
 		
 	}
+	
+	/**
+	 * This method create order for modify scenario workflow 
+	 * Method gets parameter of service instance that will be disconnect and new Product Catalog
+	 * In the processes of modify SI will be created Service Order with type MODIFY and status ENTERING
+	 * 
+	 * @see com.zephyrus.wind.model.ServiceOrder
+	 * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
+	 * 
+	 * @return modify service order
+	 */
 
-	private ServiceOrder createModifyOrder(ServiceInstance serviceInstance, Integer productCatalogId) throws Exception {
+	private ServiceOrder createModifyOrder(ServiceInstance serviceInstance, ProductCatalog productCatalog) throws Exception {
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
 		ServiceOrder order = new ServiceOrder();
 		OrderStatus orderStatus = new OrderStatus();
@@ -89,7 +104,7 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 		OrderType orderType = new OrderType();
 		orderType.setId(ORDER_TYPE.MODIFY.getId());	
 		order.setOrderType(orderType);
-		order.setProductCatalog(serviceInstance.getProductCatalog());
+		order.setProductCatalog(productCatalog);
 		ServiceOrder modifyServiceOrders = orderDAO.getSICreateOrder(serviceInstance);
 		order.setServiceLocation(modifyServiceOrders.getServiceLocation());
 		order.setServiceInstance(serviceInstance);
