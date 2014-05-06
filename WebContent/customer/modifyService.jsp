@@ -6,11 +6,11 @@
 
 <div class="navigation">
    <div style="text-align:center"><a href="/Zephyrus/customerOrders" class="current">
-   <input type="button" value="My orders" class="navibutton"/> </a>
+   <input type="button" value="My orders" class="navibutton"/> </a></div>
    <div style="text-align:center"><a href="/Zephyrus/customerServices" class="current">
-   <input type="button" value="My Services" class="navibutton"/></a>
+   <input type="button" value="My Services" class="navibutton"/></a></div>
    <div style="text-align:center"><a href="/Zephyrus/chooseReport" class="current">
-   <input type="button" value="Reports" class="navibutton"/></a>
+   <input type="button" value="Reports" class="navibutton"/></a></div>
   </div>
   <div class="main">
   <h2> Available services </h2>
