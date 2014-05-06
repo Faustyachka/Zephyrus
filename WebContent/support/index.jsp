@@ -12,13 +12,10 @@
 	type="text/javascript"></script>
 
 <div class="navigation">
-	<center>
-		<a href="/Zephyrus/reportChoosing"> <input name="reports"
-			type="button" value="Reports" class="navibutton" />
-		</a> <br> <a href="/Zephyrus/customersupport"> <input
-			name="users" type="button" value="Users" class="navibutton" />
-		</a>
-	</center>
+	<div style="text-align: center"><a href="/Zephyrus/reportChoosing"> 
+	<input name="reports" type="button" value="Reports" class="navibutton" /></a></div>
+	<div style="text-align: center"><a href="/Zephyrus/customersupport"> 
+	<input name="users" type="button" value="Users" class="navibutton" /></a></div>
 </div>
 <div class="main">
 	<form id="createdevice" name="form3" method="post"
