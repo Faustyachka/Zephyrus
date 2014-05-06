@@ -18,16 +18,21 @@ public class ProceedOrderCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		HttpSession session = request.getSession();
-        if(request.getParameter("services") == null){
-        	request.setAttribute("message", "Choose at least one service");
-        	return PAGES.MESSAGE_PAGE.getValue();
-        }
+        
+		if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&
+				request.isUserInRole("PROVISION")==false && request.isUserInRole("SUPPORT")==false) {
+				if(request.getParameter("services") == null){
+		        	request.setAttribute("message", "Choose at least one service");
+		        	return PAGES.MESSAGE_PAGE.getValue();
+		        }
         Integer productId = Integer.parseInt(request.getParameter("services"));
         ArrayList<ProductCatalog> services = ( ArrayList<ProductCatalog>) session.getAttribute("products");
         ProductCatalog service = null;
-        for(ProductCatalog ser : services)															// REVIEW: single instructions also should be in braces
-        	if(ser.getId() == productId)															// REVIEW: DAO method should be written to do this
+        for(ProductCatalog ser : services)	{														// REVIEW: single instructions also should be in braces
+        	if(ser.getId() == productId) {															// REVIEW: DAO method should be written to do this
         		service = ser;
+        	}
+        }
         session.setAttribute("service", service);
         if(session.getAttribute("user") != null){
         	return PAGES.ORDERDETAIL_PAGE.getValue();
@@ -36,5 +41,11 @@ public class ProceedOrderCommand extends SQLCommand {
         	return null;
         }
 	}
+		else {
+			request.setAttribute("message", "Access to this page is prohibited.");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+	}
+		
 
 }
