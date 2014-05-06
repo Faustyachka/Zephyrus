@@ -47,7 +47,9 @@ public class SendOrderCommand extends SQLCommand {
 		workflow.proceedOrder();
 		workflow.close();
 
-		request.setAttribute("message", "Order has been sent successfuly!");
+		request.setAttribute("message", "Order has been sent successfuly! <br>"
+						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"
+						+ " orders' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 }

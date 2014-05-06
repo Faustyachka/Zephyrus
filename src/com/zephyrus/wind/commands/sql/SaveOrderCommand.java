@@ -31,7 +31,9 @@ public class SaveOrderCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		returnOrder(request, response, getOracleDaoFactory());
-		request.setAttribute("message", "Order successfuly saved!");
+		request.setAttribute("message", "Order successfuly saved! <br>"
+						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"
+						+ " orders' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 	

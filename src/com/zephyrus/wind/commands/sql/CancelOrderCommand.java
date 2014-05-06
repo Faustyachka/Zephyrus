@@ -74,7 +74,9 @@ public class CancelOrderCommand extends SQLCommand {
 			request.setAttribute("error", "Order can`t be cancel!");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		request.setAttribute("message", "Order has been canceled!");
+		request.setAttribute("message", "Order has been canceled! <br>"
+						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"
+						+ " orders' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 

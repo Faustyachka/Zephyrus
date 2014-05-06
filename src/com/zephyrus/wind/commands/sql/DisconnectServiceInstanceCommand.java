@@ -66,7 +66,9 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 		workflow.proceedOrder();
 		workflow.close();
 
-		request.setAttribute("message", "Disconnect order has been created successfuly");
+		request.setAttribute("message", "Disconnect order has been created successfuly <br>"
+						+ "<br><a href='/Zephyrus/customerServices'> <input type='button' value='Back to"
+						+ " services' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 
