@@ -50,7 +50,7 @@
       <li>Order type:${workedOutOrder.orderType.orderType} </li>
       <li>Order date: ${workedOutOrder.orderDate}</li>
       <li>Order status:${workedOutOrder.orderStatus.orderStatusValue} </li>
-      <li>Address: ${actualOrder.serviceLocation.address} </li>
+      <li>Address: ${workedOutOrder.serviceLocation.address} </li>
     </ul>
    </div>
   </c:forEach>
