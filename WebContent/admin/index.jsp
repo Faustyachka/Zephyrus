@@ -12,9 +12,9 @@
 	type="text/javascript"></script>
 <div class="navigation">
   <div style="text-align:center"><a href="/Zephyrus/reportChoosing">
-  <input name="reports" type="button" value="Reports" class="navibutton" /></a>
+  <input name="reports" type="button" value="Reports" class="navibutton" /></a></div>
   <div style="text-align:center"><a href="../admin">
-  <input name="accounts" type="button" value="Accounts" class="navibutton" /></a>
+  <input name="accounts" type="button" value="Accounts" class="navibutton" /></a></div>
 </div>
 	<div class="main">
 	<div id="PersonTableContainer"></div>

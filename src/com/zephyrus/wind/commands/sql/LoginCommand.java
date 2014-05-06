@@ -40,12 +40,16 @@ public class LoginCommand extends SQLCommand {
 			}
 			if (request.isUserInRole("ADMIN")==true || request.isUserInRole("INSTALLATION")==true ||
 					request.isUserInRole("PROVISION")==true || request.isUserInRole("SUPPORT")==true) {
+				
 				if(request.getSession().getAttribute("user") == null) {
 					request.getSession().setAttribute("user", user);
 				}
-				
-				request.setAttribute("message", "Access to this page is prohibited.");
-				return PAGES.MESSAGE_PAGE.getValue();
+				for(ROLE role : ROLE.values()){
+					if(user.getRole().getId() == role.getId()){
+						response.sendRedirect(role.getHome());
+						return null;
+					}
+				}
 			}
 		}
 		
