@@ -1,12 +1,8 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
 <div class="navigation">
-	<center>
-		 <br /> 
-		 <a href="/Zephyrus/provision">
-		<input name="tasks" type="button" value="Back to Tasks" class="navibutton" /> 
-		</a>
-	</center>
+	<div style="text-align: center"><a href="/Zephyrus/provision">
+		<input name="tasks" type="button" value="Back to Tasks" class="navibutton" /></a></div>
 </div>
 <div class="main">
 	<center>

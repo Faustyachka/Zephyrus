@@ -7,13 +7,10 @@
 <script src="/Zephyrus/resources/javascript/accordion.js"></script>
 
 <div class="navigation">
-	<center>
-		<br /> <a href="/Zephyrus/provision"> <input name="tasks"
-			type="button" value="Tasks" class="navibutton" />
-		</a> <br /> <br /> <a href="/Zephyrus/reportChoosing"> <input
-			name="reports" type="button" value="Reports" class="navibutton" />
-		</a>
-	</center>
+	<div style="text-align: center"><a href="/Zephyrus/provision"> 
+	<input name="tasks" type="button" value="Tasks" class="navibutton" /></a></div>
+	<div style="text-align: center"><a href="/Zephyrus/reportChoosing"> 
+	<input name="reports" type="button" value="Reports" class="navibutton" /></a></div>
 </div>
 <div class="main">
 	<jsp:include page="../view/tasks.jsp" />

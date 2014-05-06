@@ -23,14 +23,10 @@
 	     });
 	     </script>
 <div class="navigation">
-<center>
-  <br />
-  <input name="reports" type="button" value="Reports" class="navibutton" />
-  <br />
-  <br /><a href="../admin">
-  <input name="accounts" type="button" value="Accounts" class="navibutton" />
-  </a>
-  </center>
+  <div style="text-align:center"><a href="/Zephyrus/reportChoosing">
+  <input name="reports" type="button" value="Reports" class="navibutton" /></a>
+  <div style="text-align:center"><a href="../admin">
+  <input name="accounts" type="button" value="Accounts" class="navibutton" /></a>
 </div>
 <div class="main">
 <center><h2>Create new account</h2></center>
