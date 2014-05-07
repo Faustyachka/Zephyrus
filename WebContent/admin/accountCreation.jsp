@@ -3,7 +3,7 @@
 <script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
 	<script>
 	 $().ready(function(){
-	     $('#submitt').click(function(){
+	     $('#submit').click(function(){
 	    	 var fname = $('#firstname').val();
 	    	 var sname = $('#secondname').val();
 	         var email = $('#email').val();
@@ -11,10 +11,13 @@
 	         var cpass = $('#confirmpass').val();
 	         var etype = $('#engtype').val();
 	         $.post('/Zephyrus/createaccount',{firstname:fname,secondname:sname,email:email,password:pass,confirmpass:cpass,engtype:etype},function(rsp){
-	             $("#somediv").empty();
-	             $('#somediv').text(rsp);	 
+	             $("#errordiv").empty();
+	             
 	             if (rsp == 'Account created!') {
 	            	 document.forms["form1"].reset();
+	            	 $('#messagediv').text(rsp);	
+	             } else {
+	            	 $('#errordiv').text(rsp);	
 	             }
 	             });
 	         });
@@ -23,15 +26,19 @@
 	     });
 	     </script>
 <div class="navigation">
-  ><a href="/Zephyrus/reportChoosing">
+  <a href="/Zephyrus/reportChoosing">
   <input name="reports" type="button" value="Reports" class="navibutton" /></a>
-  <a href="../admin">
+  <a href="/Zephyrus/admin">
   <input name="accounts" type="button" value="Accounts" class="navibutton" /></a>
+  <a href="/Zephyrus/admin/accountCreation.jsp"> <input type="button"
+			value="Create account" class="navibutton" />
+		</a>
 </div>
 <div class="main">
 <center><h2>Create new account</h2></center>
   			<form id="createaccount" name="form1" method="post" action="" id="form1">
-					<div id="somediv"></div>
+					<font color="red"><div id="errordiv"></div></font>
+					<font color="green"><div id="messagediv"></div></font>
 				<table>
 					<tr>
 						<td><label>First name: </label></td>
@@ -64,7 +71,7 @@
 						</select></td>
 					</tr>
 				</table>
-				<input type="button" name="create" id="submitt"
+				<input type="button" name="create" id="submit"
 					value="Save new account" class="button" />
 			</form>
 </div>

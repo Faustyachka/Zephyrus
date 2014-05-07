@@ -13,13 +13,14 @@
 <div class="navigation">
   <a href="/Zephyrus/reportChoosing">
   <input name="reports" type="button" value="Reports" class="navibutton" /></a>
-  <a href="../admin">
+  <a href="/Zephyrus/admin">
   <input name="accounts" type="button" value="Accounts" class="navibutton" /></a>
+  <a href="/Zephyrus/admin/accountCreation.jsp"> <input type="button"
+			value="Create account" class="navibutton" />
+		</a>
 </div>
 	<div class="main">
 	<div id="PersonTableContainer"></div>
-		<a href="/Zephyrus/admin/accountCreation.jsp"> <input type="button"
-			value="Create account" class="button" />
-		</a>
+		
 	</div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />
