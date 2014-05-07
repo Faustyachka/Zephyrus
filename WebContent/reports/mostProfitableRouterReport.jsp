@@ -2,7 +2,6 @@
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
 <div class="navigation"></div>
-<br>
 <div class="main">
 
 	<br> <br>

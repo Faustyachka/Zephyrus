@@ -2,12 +2,12 @@
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
 <div class="navigation">
-   <div style="text-align:center"><a href="/Zephyrus/customerOrders" class="current">
-   <input type="button" value="My orders" class="navibutton"/> </a></div>
-   <div style="text-align:center"><a href="/Zephyrus/customerServices" class="current">
-   <input type="button" value="My Services" class="navibutton"/></a></div>
-   <div style="text-align:center"><a href="/Zephyrus/chooseReport" class="current">
-   <input type="button" value="Reports" class="navibutton"/></a></div>
+   <a href="/Zephyrus/customerOrders" class="current">
+   <input type="button" value="My orders" class="navibutton"/> </a>
+   <a href="/Zephyrus/customerServices" class="current">
+   <input type="button" value="My Services" class="navibutton"/></a>
+   <a href="/Zephyrus/chooseReport" class="current">
+   <input type="button" value="Reports" class="navibutton"/></a>
   </div>
 <div class="main">
 Details of your order are:

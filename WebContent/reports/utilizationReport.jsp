@@ -5,9 +5,7 @@
 	
 </script>
 <div class="navigation"></div>
-<br>
 <div class="main">
-	<br> <br>
 	<a href="/Zephyrus/reportChoosing">
 	<input type="button" class="button" value="Back to Reports"/>
 	</a>

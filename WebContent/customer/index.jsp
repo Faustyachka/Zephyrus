@@ -6,12 +6,12 @@
 <script src="/Zephyrus/resources/javascript/accordion.js"></script> 
 
 <div class="navigation">
-   <div style="text-align:center"><a href="/Zephyrus/customerOrders" class="current">
-   <input type="button" value="My orders" class="navibutton"/> </a></div>
-   <div style="text-align:center"><a href="/Zephyrus/customerServices" class="current">
-   <input type="button" value="My Services" class="navibutton"/></a></div>
-   <div style="text-align:center"><a href="/Zephyrus/chooseReport" class="current">
-   <input type="button" value="Reports" class="navibutton"/></a></div>
+   <a href="/Zephyrus/customerOrders" class="current">
+   <input type="button" value="My orders" class="navibutton"/> </a>
+   <a href="/Zephyrus/customerServices" class="current">
+   <input type="button" value="My Services" class="navibutton"/></a>
+   <a href="/Zephyrus/chooseReport" class="current">
+   <input type="button" value="Reports" class="navibutton"/></a>
   </div>
   <div class="main">
   <h2> Actual orders </h2>

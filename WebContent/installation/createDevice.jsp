@@ -4,9 +4,9 @@
 <script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
 	
 <div class="navigation">
-  <div style="text-align:center"><a href="/Zephyrus/installation"> 
+  <a href="/Zephyrus/installation"> 
   <input type="button"	value="Back to Tasks" class="navibutton" /></a>
-  </div></div>
+  </div>
   <div class="main">
   <div style="text-align:center">
     <h2>Create a Device for Task# ${taskId}</h2></div>

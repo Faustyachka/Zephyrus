@@ -8,13 +8,13 @@ a {
 }
 
 .container {
-	height: 660px;
+	min-height: 600px;
 	width: 1015px;
 	margin: 0 auto;		
 }
 .header {
 	float: left;
-	height: 260px;
+	height: 230px;
 	width: 1000px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 15px 15px 0px 0px;
@@ -23,28 +23,25 @@ a {
 }
 #logo {
 	float: left;
-	height: 100%;
+	height: 190px;
 	width: 1000px;
 	background: #508eeb;
 }
 
 .navigation {
 	float: left;
-	height: 100%;
-	width: 200px;
+	min-height: 40px;
+	width: 1000px;
 	background: white;
 	color: black;
-	padding-top: 20px;
-	padding-bottom: 20px;
 }
 
 .main {
 	float: left;
-	height: 100%;
-	width: 800px;
+	min-height: 250px;
+	width: 960px;
 	background: white;
-	padding-top: 20px;
-	padding-bottom: 20px;
+	padding: 20px;
 }
 
 .footer {
@@ -95,10 +92,32 @@ a {
 
 .navibutton {
 	height: 30px;
-	width: 200px;
+	width: 230px;
 	font-size: 14pt;
 	font-family: 'Open Sans', sans-serif;
 	color: black;
+	background: none;
+	border: none;
+	cursor: pointer;
+}
+
+.navibutton:hover {
+	height: 30px;
+	width: 230px;
+	font-size: 14pt;
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	background-color: #508eeb;
+	border: none;
+	cursor: pointer;
+}
+
+.meganavibutton {
+	height: 30px;
+	width: 230px;
+	font-size: 17pt;
+	font-family: 'Open Sans', sans-serif;
+	color: #508eeb;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -106,9 +125,9 @@ a {
 	margin-bottom: 10px;
 }
 
-.meganavibutton {
-	height: 60px;
-	width: 200px;
+.meganavibutton:hover {
+	height: 30px;
+	width: 230px;
 	font-size: 17pt;
 	font-family: 'Open Sans', sans-serif;
 	color: white;
@@ -128,6 +147,14 @@ a {
  border: none;
  border-radius: 3px;
  cursor: none;
+}
+
+#menu_link{
+	float:left;
+	margin-right:20px;
+	margin-left:20px;
+	margin-bottom:10px;
+	margin-top:5px;
 }
 
 #login_link {

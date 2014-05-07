@@ -5,10 +5,9 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
 <div class="navigation">
-	<div style="text-align: center">
+	
 		<a href="/Zephyrus/installation"> <input type="button"
 			value="Back to Tasks" class="navibutton" /></a>
-	</div>
 </div>
 <div class="main">
   <div style="text-align:center">
