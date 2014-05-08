@@ -5,13 +5,21 @@
 	href="/Zephyrus/resources/css/jquery-ui-1.10.4.min.css">
 <script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
 <script src="/Zephyrus/resources/javascript/accordion.js"></script>
-
+<style>
+hr {
+    border: none;
+    background-color: #508eeb; 
+    color: #508eeb; 
+    height: 2px;
+   }
+</style>
 <div class="navigation">
 	<div style="text-align:center"><a href="/Zephyrus/installation"> 
 	<input name="tasks"	type="button" value="Tasks" class="navibutton" /></a></div>
 	<div style="text-align:center"><a href="/Zephyrus/reportChoosing"> 
 	<input name="reports" type="button" value="Reports" class="navibutton" /></a></div>
 	<br>
+	<hr>
 	<br>
 			<div style="text-align:center"><a href="/Zephyrus/about"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>

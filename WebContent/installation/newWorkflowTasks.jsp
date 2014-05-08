@@ -3,11 +3,19 @@
 <script src="/Zephyrus/resources/javascript/jquery-ui-1.10.4.min.js"></script>
 
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
-
+<style>
+hr {
+    border: none;
+    background-color: #508eeb; 
+    color: #508eeb; 
+    height: 2px;
+   }
+</style>
 <div class="navigation">
   <div style="text-align:center"><a href="/Zephyrus/installation"> <input type="button"
 			value="Back to Tasks" class="navibutton" /></a></div>
 			<br>
+			<hr>
 			<br>
 			<div style="text-align:center"><a href="/Zephyrus/about"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>
