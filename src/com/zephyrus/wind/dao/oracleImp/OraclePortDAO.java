@@ -13,6 +13,7 @@ import com.zephyrus.wind.dao.interfaces.IDAO;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.IPortStatusDAO;
+import com.zephyrus.wind.enums.PORT_STATUS;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Device;
 import com.zephyrus.wind.model.Port;
@@ -25,10 +26,8 @@ import com.zephyrus.wind.model.Task;
 public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
 	private static final String TABLE_NAME = "PORTS";
-	private static final String SQL_SELECT = "SELECT ID, DEVICE_ID, PORT_NUMBER, PORT_STATUS_ID, " +
-													" ROWNUM AS ROW_NUM " + 
-													" FROM " + 
-													TABLE_NAME + " ";
+	private static final String SQL_SELECT = "SELECT ID, DEVICE_ID, PORT_NUMBER, PORT_STATUS_ID, ROWNUM AS ROW_NUM " + 
+													" FROM " + TABLE_NAME + " ";
 	private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
 													" SET DEVICE_ID = ?, PORT_NUMBER = ?, PORT_STATUS_ID = ? " + 
 													" WHERE " + 
@@ -106,15 +105,19 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	
 	@Override
 	public int findFreePortID() throws Exception {
-		ArrayList<Port> ports = daoFactory.getPortDAO().findAll();
-		ICableDAO cable = daoFactory.getCableDAO();
-			for (Port p: ports){
-					if (!cable.existConnectToPort(p.getId())){
-						return p.getId();
-					}
-				}
-	
-		return 0;
+		int freePortId = 0;
+		stmt = connection.prepareStatement("SELECT ID FROM " + 
+											TABLE_NAME 
+											+ " WHERE ROWNUM = 1 AND  "
+											+ " PORT_STATUS_ID = ? "
+											+ " ORDER BY DEVICE_ID, PORT_NUMBER");
+		stmt.setInt(1, PORT_STATUS.FREE.getId());
+		rs = stmt.executeQuery();	
+		if (rs.next()) {
+			freePortId = rs.getInt(1);
+		}
+		rs.close();
+		return freePortId;
 	}
 	
 	
