@@ -17,8 +17,6 @@ hr {
    <input type="button" value="My orders" class="navibutton"/> </a></div>
    <div style="text-align:center"><a href="/Zephyrus/customerServices" class="current">
    <input type="button" value="My Services" class="navibutton"/></a></div>
-  <div style="text-align:center"><a href="/Zephyrus/chooseReport" class="current">
-   <input type="button" value="Reports" class="navibutton"/></a></div>
    <br>
    <hr>
    <br>
