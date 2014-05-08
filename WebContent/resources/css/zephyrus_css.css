@@ -8,7 +8,8 @@ a {
 }
 
 .container {
-	height: 660px;
+	min-height: 660px;
+	height:auto;
 	width: 1015px;
 	margin: 0 auto;		
 }
@@ -35,16 +36,16 @@ a {
 	color: black;
 	padding-top: 20px;
 	padding-bottom: 20px;
-	height: 360px;;
+	min-height: 360px;
 }
 
 .main {
 	float: left;
-	overflow: auto;
 	width: 700px;
 	background: white;
 	padding: 20px 50px 20px 50px;
-	height: 360px;
+	min-height: 360px;
+	height: auto;
 }
 
 .footer {
