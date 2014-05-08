@@ -36,7 +36,6 @@ import com.zephyrus.wind.commands.sql.DeviceCreationPropertiesCommand;
 import com.zephyrus.wind.commands.sql.DisconnectOrdersCommand;
 import com.zephyrus.wind.commands.sql.DisconnectServiceInstanceCommand;
 import com.zephyrus.wind.commands.sql.DisplayTasksCommand;
-import com.zephyrus.wind.commands.sql.GenerateReportCommand;
 import com.zephyrus.wind.commands.sql.GetCSVDisconnectOrdersCommand;
 import com.zephyrus.wind.commands.sql.GetCSVMostProfitableRouterCommand;
 import com.zephyrus.wind.commands.sql.GetCSVNewOrdersCommand;
@@ -95,7 +94,6 @@ public class CommandManager {
 	private static final String PROVISION_COMMAND = "provision";
 	private static final String ASSIGN_TASK_COMMAND = "assignTask";
 	private static final String TASK_REDIRECTOR_COMMAND = "taskRedirector";
-	private static final String GENERATEREPORT_COMMAND = "generateReport";
 	private static final String CREATE_CIRCUIT_COMMAND = "createCircuit";
 	private static final String CREATE_CONNECTION_COMMAND = "createConnection";
 	private static final String DELETE_CONNECTION_COMMAND = "deleteConnection";
@@ -158,7 +156,6 @@ public class CommandManager {
 		commands.put(CUSTOMER_SUPPORT_COMMAND, new CustomerSupportCommand());
 		commands.put(CREATE_DEVICE_COMMAND, new CreateDeviceCommand());
 		commands.put(CREATE_CABLE_COMMAND, new CreateCableCommand());
-		commands.put(GENERATEREPORT_COMMAND, new GenerateReportCommand());
 		commands.put(SUPPORT_COMMAND, new DisplayTasksCommand());
 		commands.put(INSTALLATION_COMMAND, new DisplayTasksCommand());
 		commands.put(PROVISION_COMMAND, new DisplayTasksCommand());

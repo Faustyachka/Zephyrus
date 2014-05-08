@@ -17,7 +17,6 @@ $(document).ready(function() {
     }); 
  $(document).ready(function() {
      $('#confirmpass').change(function() {
-   	 $(".error").hide();
     	    var valueX = $("#password").val();
     	    var valueY = $("#confirmpass").val();
     	    if (valueX != valueY) {
@@ -25,6 +24,19 @@ $(document).ready(function() {
     	    	$('#validpass').text('Dont matches');
     	    } else {
     	    	$(this).css({'border' : '1px solid #569b44'});
+    	    	$('#validpass').text('Ok');
+    	    }
+     });
+ });
+ $(document).ready(function() {
+     $('#password').change(function() {
+    	    var valueX = $("#password").val();
+    	    var valueY = $("#confirmpass").val();
+    	    if (valueX != valueY) {
+    	    	$('#confirmpass').css({'border' : '1px solid #ff0000'});
+    	    	$('#validpass').text('Dont matches');
+    	    } else {
+    	    	$('#confirmpass').css({'border' : '1px solid #569b44'});
     	    	$('#validpass').text('Ok');
     	    }
      });
