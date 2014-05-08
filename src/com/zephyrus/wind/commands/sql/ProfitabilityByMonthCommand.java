@@ -10,9 +10,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 
+
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.ProfitabilityByMonthReport;
-import com.zephyrus.wind.reports.rowObjects.ProfitabilityByMonthRow;
+import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
 
 public class ProfitabilityByMonthCommand extends SQLCommand {
 	private static Date date;
@@ -38,7 +39,8 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 		ArrayList<ProfitabilityByMonthRow> records = new ArrayList<>();
 		try {
 			report = new ProfitabilityByMonthReport(date);
-			records = report.getReportData();
+			final int MAX_PROVIDER_LOC_NUMBER = 10;
+			records = report.getReportData(1, MAX_PROVIDER_LOC_NUMBER);  // REVIEW: this params should be changed - paging should be implemented in this command
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Failed to form report");

@@ -13,25 +13,35 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
-import com.zephyrus.wind.reports.rowObjects.ProfitabilityByMonthRow;
+import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
 
 /**
- * 
+ * This class provides functionality of generating "Profitability by month" report.
+ * It allows to convert report to xls format as well as fetch report data using paging.
+ * @author Kostya Trukhan & Igor Litvinenko
  */
 public class ProfitabilityByMonthReport implements IReport {
 	
+	/** Date representing start of month to generate report for */
 	private Date month;
 	
     /**
-     * 
-     * @param startDate - start of period
-     * @param endDate - end of period
+     * Initializes Report with given month report will be provided for
+     * @param month Date representing start of month to generate report for
      */
 	public ProfitabilityByMonthReport(Date month) throws Exception {
 		this.month = month;
 	}
 	
-	public ArrayList<ProfitabilityByMonthRow> getReportData() {
+	/**
+	 * Method returns list of records that form current report
+	 * @param offset index of the first record to be fetched, starting from 1
+	 * @param count number of records to be fetched
+	 * @return list of records associated with report
+	 * @throws RuntimeException if report generation failed
+	 */
+	@Override
+	public ArrayList<ProfitabilityByMonthRow> getReportData(int offset, int count) {
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
 			factory.beginConnection();
@@ -44,10 +54,16 @@ public class ProfitabilityByMonthReport implements IReport {
 		}
 	}
 	
+	/**
+	 * Converts current report to xls format using predefined template
+	 * @param maxRowsNumber maximum number of rows that can be fetched to excel
+	 * @return Workbook representing Excel document
+	 * @throws IOException if failed to read template
+	 */
 	@Override
 	public Workbook convertToExel(int maxRowsNumber) throws IOException {
 		
-		ArrayList<ProfitabilityByMonthRow> report = getReportData();
+		ArrayList<ProfitabilityByMonthRow> report = getReportData(1, maxRowsNumber);
 		
 		// Read template file
 		InputStream templateInput = getClass().getClassLoader().

@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
-import com.zephyrus.wind.reports.rowObjects.DisconnectOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rows.DisconnectOrdersPerPeriodRow;
 
 public class DisconnectOrdersCommand extends SQLCommand {
 	

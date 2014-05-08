@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.MostProfitableRouterReport;
-import com.zephyrus.wind.reports.rowObjects.MostProfitableRouterRow;
+import com.zephyrus.wind.reports.rows.MostProfitableRouterRow;
 
 public class MostProfitableRouterReportCommand extends SQLCommand {
 	
@@ -56,7 +56,7 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 		try {
 			report = new MostProfitableRouterReport(fromDate, toDate);
 
-			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
+			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);			// REVIEW: no paging should be used here - report returns single router
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
 					+ 1, 1);
 			last = last + records.size();

@@ -5,11 +5,11 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import com.zephyrus.wind.reports.IReport;
-import com.zephyrus.wind.reports.rowObjects.DisconnectOrdersPerPeriodRow;
-import com.zephyrus.wind.reports.rowObjects.MostProfitableRouterRow;
-import com.zephyrus.wind.reports.rowObjects.NewOrdersPerPeriodRow;
-import com.zephyrus.wind.reports.rowObjects.ProfitabilityByMonthRow;
-import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
+import com.zephyrus.wind.reports.rows.DisconnectOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rows.MostProfitableRouterRow;
+import com.zephyrus.wind.reports.rows.NewOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
+import com.zephyrus.wind.reports.rows.RouterUtilRow;
 /**
  * This interface describe all method needed to generate report from DAO
  * @author Kostya Trukhan

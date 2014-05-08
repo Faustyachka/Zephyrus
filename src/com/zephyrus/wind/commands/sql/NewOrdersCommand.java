@@ -11,7 +11,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
-import com.zephyrus.wind.reports.rowObjects.NewOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rows.NewOrdersPerPeriodRow;
 
 public class NewOrdersCommand extends SQLCommand {
 	private static Date fromDate;

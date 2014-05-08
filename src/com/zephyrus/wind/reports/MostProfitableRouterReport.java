@@ -13,26 +13,39 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
-import com.zephyrus.wind.reports.rowObjects.MostProfitableRouterRow;
+import com.zephyrus.wind.reports.rows.MostProfitableRouterRow;
 
 /**
- * 
+ * This class provides functionality of generating "Most profitable router" report.
+ * It allows to convert report to xls format as well as fetch report data using paging.
+ * @author Kostya Trukhan & Igor Litvinenko
  */
 public class MostProfitableRouterReport implements IReport {
 	
+	/** Start date of fetching period */
 	private Date startDate;
+	
+	/** End date of fetching period */
 	private Date endDate;
 
-    /**
-     * 
-     * @param startDate - start of period
-     * @param endDate - end of period
+	/**
+     * Initializes Report with date range report will be provided for
+     * @param startDate start of period
+     * @param endDate end of period
      */
 	public MostProfitableRouterReport(Date startDate, Date endDate) throws Exception {
 		this.startDate = startDate;
 		this.endDate = endDate;
 	}
 	
+	/**
+	 * Method returns list of records that form current report
+	 * @param offset index of the first record to be fetched, starting from 1
+	 * @param count number of records to be fetched
+	 * @return list of records associated with report
+	 * @throws RuntimeException if report generation failed
+	 */
+	@Override
 	public ArrayList<MostProfitableRouterRow> getReportData(int offset, int count) {
 		OracleDAOFactory factory = new OracleDAOFactory();
 		try {
@@ -46,6 +59,12 @@ public class MostProfitableRouterReport implements IReport {
 		}
 	}
 	
+	/**
+	 * Converts current report to xls format using predefined template
+	 * @param maxRowsNumber maximum number of rows that can be fetched to excel
+	 * @return Workbook representing Excel document
+	 * @throws IOException if failed to read template
+	 */
 	@Override
 	public Workbook convertToExel(int maxRowsNumber) throws IOException {
 		

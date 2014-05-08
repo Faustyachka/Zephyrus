@@ -1,9 +1,9 @@
-package com.zephyrus.wind.reports.rowObjects;
+package com.zephyrus.wind.reports.rows;
 /**
  * This class needed to save data for reports row
  * @author Kostya Trukhan
  */		
-public class ProfitabilityByMonthRow {
+public class ProfitabilityByMonthRow implements IRow {
 	private String providerLocation;
 	private Long profit;
 

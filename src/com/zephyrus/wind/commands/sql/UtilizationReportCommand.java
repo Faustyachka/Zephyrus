@@ -8,7 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.RouterUtilizationReport;
-import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
+import com.zephyrus.wind.reports.rows.RouterUtilRow;
 
 public class UtilizationReportCommand extends SQLCommand {
 

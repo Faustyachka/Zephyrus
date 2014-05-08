@@ -10,11 +10,11 @@ import java.util.Calendar;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
 import com.zephyrus.wind.reports.IReport;
-import com.zephyrus.wind.reports.rowObjects.DisconnectOrdersPerPeriodRow;
-import com.zephyrus.wind.reports.rowObjects.MostProfitableRouterRow;
-import com.zephyrus.wind.reports.rowObjects.NewOrdersPerPeriodRow;
-import com.zephyrus.wind.reports.rowObjects.ProfitabilityByMonthRow;
-import com.zephyrus.wind.reports.rowObjects.RouterUtilRow;
+import com.zephyrus.wind.reports.rows.DisconnectOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rows.MostProfitableRouterRow;
+import com.zephyrus.wind.reports.rows.NewOrdersPerPeriodRow;
+import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
+import com.zephyrus.wind.reports.rows.RouterUtilRow;
 
 /**
  * This class gives functionality to generate report from DAO

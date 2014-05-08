@@ -1,11 +1,10 @@
-package com.zephyrus.wind.reports.rowObjects;
+package com.zephyrus.wind.reports.rows;
 
 /**
  * This class needed to save data for reports row
  * @author Kostya Trukhan
  */		
-
-public class DisconnectOrdersPerPeriodRow {
+public class NewOrdersPerPeriodRow implements IRow {
 	private String username;
 	private int orderID;
 	private String orderStatus;
@@ -51,4 +50,5 @@ public class DisconnectOrdersPerPeriodRow {
 	public void setProviderLocation(String providerLocation) {
 		this.providerLocation = providerLocation;
 	}
+
 }
