@@ -11,9 +11,15 @@ $(document).ready(function () {
             },
             recordsLoaded: function(event, data) {
                 $('.serialcheck').click(function() {
-                	var id = parseInt($(this).val(), 10);
-                	$.post('blocking',{id:id},function(rsp){
-                		if (rsp!="User's status successfully changed!")
+                	var id = $(this).val();
+                	var status;
+                	if ($(this).is(':checked')) {
+                		status=1;
+                	} else {
+                		status=0;
+                	}
+                	$.post('blocking',{id:id, status:status},function(rsp){
+                		if (rsp!="success")
                 			alert(rsp);
                     });                       	                                           
                 });
