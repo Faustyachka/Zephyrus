@@ -7,14 +7,16 @@
 <style type ="text/css" >
 </style>
 <div class="navigation">
-<a href="/Zephyrus/about"> 
-<input type="button"	value="About Us" class="navibutton" /></a>
-<a href="/Zephyrus/services">
-<input type="button"	value="Services" class="navibutton" /></a>
-<a href="/Zephyrus/contacts">
-<input type="button"	value="Contacts" class="navibutton" /></a>
-<a href="/Zephyrus/start">
-<input type="button"	value="Get connected" class="meganavibutton" /></a>
+<div style="text-align:center"><a href="/Zephyrus/about"> 
+<input type="button"	value="About Us" class="navibutton" /></a></div>
+<div style="text-align:center"><a href="/Zephyrus/services">
+<input type="button"	value="Services" class="navibutton" /></a></div>
+<div style="text-align:center"><a href="/Zephyrus/contacts">
+<input type="button"	value="Contacts" class="navibutton" /></a></div>
+<br>
+<br>
+<div style="text-align:center"><a href="/Zephyrus/start">
+<input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
 <div class="main">
 Zephyrus provides services of broadband internet access on the basis of FTTB (Fiber to the Building).

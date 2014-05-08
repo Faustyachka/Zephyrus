@@ -8,13 +8,13 @@ a {
 }
 
 .container {
-	min-height: 600px;
+	height: 660px;
 	width: 1015px;
 	margin: 0 auto;		
 }
 .header {
 	float: left;
-	height: 230px;
+	height: 260px;
 	width: 1000px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 15px 15px 0px 0px;
@@ -23,25 +23,35 @@ a {
 }
 #logo {
 	float: left;
-	height: 190px;
+	height: 100%;
 	width: 1000px;
 	background: #508eeb;
 }
 
 .navigation {
 	float: left;
-	min-height: 40px;
-	width: 1000px;
+	width: 200px;
 	background: white;
 	color: black;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 100%;
 }
 
 .main {
 	float: left;
-	min-height: 250px;
-	width: 960px;
+	width: 800px;
 	background: white;
-	padding: 20px;
+	padding-top: 20px;
+	padding-bottom: 20px;
+	height: 100%;
+}
+
+.home {
+	width: 1000px;
+	background: white;
+	padding-top: 20px;
+	padding-bottom: 20px;
 }
 
 .footer {
@@ -59,7 +69,6 @@ a {
 	border-radius: 0px 0px 15px 15px;
 	margin-bottom: 10px;
 }
-
 
 .button {
 	height: 30px;
@@ -92,32 +101,10 @@ a {
 
 .navibutton {
 	height: 30px;
-	width: 230px;
+	width: 200px;
 	font-size: 14pt;
 	font-family: 'Open Sans', sans-serif;
 	color: black;
-	background: none;
-	border: none;
-	cursor: pointer;
-}
-
-.navibutton:hover {
-	height: 30px;
-	width: 230px;
-	font-size: 14pt;
-	font-family: 'Open Sans', sans-serif;
-	color: white;
-	background-color: #508eeb;
-	border: none;
-	cursor: pointer;
-}
-
-.meganavibutton {
-	height: 30px;
-	width: 230px;
-	font-size: 17pt;
-	font-family: 'Open Sans', sans-serif;
-	color: #508eeb;
 	background: none;
 	border: none;
 	cursor: pointer;
@@ -125,9 +112,22 @@ a {
 	margin-bottom: 10px;
 }
 
-.meganavibutton:hover {
+.navibutton:hover {
 	height: 30px;
-	width: 230px;
+	width: 200px;
+	font-size: 14pt;
+	font-family: 'Open Sans', sans-serif;
+	color: white;
+	background: #508eeb;
+	border: none;
+	cursor: pointer;
+	margin-top: 10px;
+	margin-bottom: 10px;
+}
+
+.meganavibutton {
+	height: 60px;
+	width: 200px;
 	font-size: 17pt;
 	font-family: 'Open Sans', sans-serif;
 	color: white;
@@ -149,14 +149,15 @@ a {
  cursor: none;
 }
 
-#menu_link{
-	float:left;
-	margin-right:20px;
-	margin-left:20px;
+#user_name {
+	float:right;
+	color: white;
+	font-size: 14pt;
+	font-family: 'Open Sans', sans-serif;
+	margin-right:10px;
 	margin-bottom:10px;
 	margin-top:5px;
 }
-
 #login_link {
 	float:right;
 	margin-right:10px;

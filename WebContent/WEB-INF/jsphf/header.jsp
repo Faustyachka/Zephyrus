@@ -17,13 +17,6 @@
   			<div class="header">
   				<c:choose>
 					<c:when test="${user != null}">
-					<div id="menu_link">
-					<a href="/Zephyrus/about"><input type="button"	value="About Us" class="userbutton" /></a>
-					<span class="split">|</span>
-					<a href="/Zephyrus/services"><input type="button"	value="Services" class="userbutton" /></a>
-					<span class="split">|</span>
-					<a href="/Zephyrus/contacts"><input type="button"	value="Contacts" class="userbutton" /></a>
-					</div>
 					<div id="logout_link">
 						<a href="/Zephyrus/logout">
 							<input type="button" value="Sign out" class="userbutton">
@@ -35,6 +28,9 @@
 				  		</a>
 				  		<span class="split">|</span>
 				  	</div>
+				  	<div id="user_name">
+					${user.email}
+					</div>
 					</c:when>
 					<c:otherwise>
 						<a href="/Zephyrus/login" id="login_link">
