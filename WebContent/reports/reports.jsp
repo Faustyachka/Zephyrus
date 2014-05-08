@@ -10,5 +10,5 @@
 			</c:forEach>
 			<input type="submit" class="button" value="Show report" name="show" id="show"/>
 			</form>
-</div>
+
 

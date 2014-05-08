@@ -17,6 +17,10 @@ opacity: 0;
 <input type="button"	value="Services" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/contacts">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
+<br>
+<br>
+<div style="text-align:center"><a href="/Zephyrus/start">
+<input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
 <div class="main">
 	<div id="map-canvas"></div>

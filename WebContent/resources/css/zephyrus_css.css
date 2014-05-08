@@ -106,19 +106,6 @@ a {
 	margin-bottom: 10px;
 }
 
-.navibutton:hover {
-	height: 30px;
-	width: 200px;
-	font-size: 14pt;
-	font-family: 'Open Sans', sans-serif;
-	color: white;
-	background: #508eeb;
-	border: none;
-	cursor: pointer;
-	margin-top: 10px;
-	margin-bottom: 10px;
-}
-
 .meganavibutton {
 	height: 60px;
 	width: 200px;

@@ -4,11 +4,20 @@
 	src="/Zephyrus/resources/javascript/dataValidation.js">
 	
 </script>
-<div class="navigation"></div>
+<div class="navigation">
+	<div style="text-align:center"><a href="/Zephyrus/reportChoosing">
+	<input type="button" class="button" value="Back to Reports"/></a></div>
+	<br>
+   <hr>
+   <br>
+   <div style="text-align:center"><a href="/Zephyrus/about"> 
+<input type="button"	value="About Us" class="navibutton" /></a></div>
+<div style="text-align:center"><a href="/Zephyrus/services">
+<input type="button"	value="Services" class="navibutton" /></a></div>
+<div style="text-align:center"><a href="/Zephyrus/contacts">
+<input type="button"	value="Contacts" class="navibutton" /></a></div>
+</div>
 <div class="main">
-	<a href="/Zephyrus/reportChoosing">
-	<input type="button" class="button" value="Back to Reports"/>
-	</a>
 	<form id="form" method="post" action="">
 		<label><font color="red">${message}</font></label><br> <a
 			href="/Zephyrus/getUtilizationExcel"> <input type="button"

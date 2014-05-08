@@ -66,12 +66,12 @@ hr {
 					</tr>
 					<tr>
 						<td><label>E-mail: </label></td>
-						<td><input type="text" name="email" id="email" value="${mail}" /><span id="valid"></span></td>
+						<td><input type="text" name="email" id="email" value="${mail}"/><span id="valid"></span></td>
 						
 					</tr>
 					<tr>
 						<td><label>Password: </label></td>
-						<td><input type="password" name="password" id="password" value="${pass}" /></td>
+						<td><input type="password" name="password" id="password" value="${pass}"/></td>
 					</tr>
 					<tr>
 						<td><label>Confirm password: </label></td>
@@ -86,9 +86,16 @@ hr {
 								<option value="1">Administrator</option>
 						</select></td>
 					</tr>
-				</table>
+				<tr>
+				</tr>
+				<tr>
+				<td></td>
+				<td>
 				<input type="button" name="create" id="submit"
 					value="Save new account" class="button" />
+					</td>
+					</tr>
+					</table>
 			</form>
 </div>
 
