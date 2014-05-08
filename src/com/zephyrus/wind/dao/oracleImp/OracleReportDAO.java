@@ -5,7 +5,6 @@ import java.sql.Date;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Calendar;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IReportDAO;
@@ -17,10 +16,20 @@ import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
 import com.zephyrus.wind.reports.rows.RouterUtilRow;
 
 /**
- * This class gives functionality to generate report from DAO
- * @author Kostya Trukhan
+ * This class provides functionality of report data fetching to 
+ * report generation classes. It allows to perform queries to DB
+ * in order to obtain specific report data.
+ * @author Kostya Trukhan & Igor Litvinenko
  */
 public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
+	
+	/**
+	 * This query allows to fetch data for Most profitable router report.
+	 * It's done by obtaining serial number and summary profit of all routers
+	 * in descending order by their profit in specified period. The period
+	 * starts from given start date and ends after given end date. Note that 
+	 * SI should be active during that period to be placed into the report.
+	 */
 	private static final String SQL_MOST_PROFIT_ROUTER =   
 			  "SELECT D.SERIAL_NUM, SUM (PRODUCT_CATALOG.PRICE) AS DEVICE_PROFIT "
 			+ "FROM PRODUCT_CATALOG  "
@@ -29,7 +38,7 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			+ "INNER JOIN PORTS P ON C.PORT_ID = P.ID "
 			+ "INNER JOIN DEVICES D ON P.DEVICE_ID = D.ID "
 			+ "WHERE SI.START_DATE < ? "
-			+ "    AND NOT EXISTS(SELECT * "
+			+ "    AND NOT EXISTS(SELECT NULL "
 			+ "                   FROM SERVICE_ORDERS SO "
 			+ "                   INNER JOIN ORDER_TYPE OT ON SO.ORDER_TYPE_ID = OT.ID "
 			+ "                   WHERE SO.SERVICE_INSTANCE_ID = SI.ID "
@@ -38,7 +47,14 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			+ "                  ) "
 			+ "GROUP BY D.SERIAL_NUM "
 			+ "ORDER BY DEVICE_PROFIT DESC";
-
+	
+	/**
+	 * This query obtains serial number, capacity and utilization
+	 * every router in system. Capacity is calculated as the number of ports,
+	 * linked with current device whereas utilization is number of ports that are
+	 * currently used, divided by capacity of router. Paging is used to fetch only
+	 * specified range of results.
+	 */
 	private static final String SQL_ROUTER_UTIL = 
 			"SELECT * FROM (  "
 		  + "  SELECT a.*, ROWNUM rnum FROM ( "
@@ -60,14 +76,20 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		  + "      GROUP BY d.serial_num "
 		  + "  ) a where ROWNUM <= ?  "
 		  + ") WHERE rnum  >= ? ";
-
+	
+	/**
+	 * This query obtains summary profit of every provider location, based on the 
+	 * prices of all service instances, connected to it. Note that only service instances
+	 * that were active in specified period are considered. Given period starts from
+	 * given start date and ends one month later. 
+	 */
 	private static final String SQL_PROFIT_BY_MONTH = 
 			"SELECT PROVIDER_LOCATIONS.LOCATION_NAME, SUM (PRODUCT_CATALOG.PRICE) AS SUM "
 		  + "FROM PRODUCT_CATALOG  "
 		  + "INNER JOIN SERVICE_INSTANCES SI ON PRODUCT_CATALOG.ID=SI.PRODUCT_CATALOG_ID "
 		  + "INNER JOIN PROVIDER_LOCATIONS ON PROVIDER_LOCATIONS.ID=PRODUCT_CATALOG.PROVIDER_LOC_ID "
 		  + "WHERE SI.START_DATE < ? "
-		  + "    AND NOT EXISTS(SELECT * "
+		  + "    AND NOT EXISTS(SELECT NULL "
 		  + "                   FROM SERVICE_ORDERS SO "
 		  + "                   INNER JOIN ORDER_TYPE OT ON SO.ORDER_TYPE_ID = OT.ID "
 		  + "                   WHERE SO.SERVICE_INSTANCE_ID = SI.ID "
@@ -76,6 +98,12 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		  + "                  ) "
 		  + "GROUP BY PROVIDER_LOCATIONS.LOCATION_NAME";
 	
+	/**
+	 * This query obtains all service orders of specified period,
+	 * which type is "DISCONNECT". Additional information connected with
+	 * current order also is retrieved in order to form report.
+	 * Paging is used to fetch only specified range of results.
+	 */
 	private static final String SQL_DISCONNECT_ORDERS =   
 			  "SELECT * FROM (  "
 			+ "  SELECT a.*, ROWNUM rnum FROM (  "
@@ -95,6 +123,12 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			+ "  ) a where ROWNUM <= ? "
 			+ ") WHERE rnum  >= ?";
 	
+	/**
+	 * This query obtains all service orders of specified period,
+	 * which type is "NEW". Additional information connected with
+	 * current order also is retrieved in order to form report.
+	 * Paging is used to fetch only specified range of results.
+	 */
 	private static final String SQL_NEW_ORDERS =   
 			  "SELECT * FROM (  "
 			+ "  SELECT a.*, ROWNUM rnum FROM (  "
@@ -117,46 +151,43 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	public OracleReportDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
 		super(IReport.class, connection, daoFactory);
-
 	}
 
 	@Override
-	protected void fillItem(IReport item, ResultSet rs) throws SQLException,
-			Exception {
-		// TODO Auto-generated method stub
-
-	}
+	protected void fillItem(IReport item, ResultSet rs) { }
 
 	@Override
 	protected String getSelect() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	protected String getDelete() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
-	public void update(IReport record) throws Exception {
-		// TODO Auto-generated method stub
-
-	}
+	public void update(IReport record) { }
 
 	@Override
-	public IReport insert(IReport record) throws Exception {
-		// TODO Auto-generated method stub
+	public IReport insert(IReport record) {
 		return null;
 	}
 
 	@Override
-	public int remove(IReport record) throws Exception {
-		// TODO Auto-generated method stub
+	public int remove(IReport record) {
 		return 0;
 	}
-
+	
+	/**
+	 * This method is used to fetch results of corresponding query in order to form 
+	 * list of records used to form the report about given period. 
+	 * Note that this report obtains single row as the most profitable router, 
+	 * but list of rows is returned to consider possible requirement change.
+	 * @param startDate start of period
+     * @param endDate end of period
+     * @return List of fetched records that comprise report data set
+	 */
 	@Override
 	public ArrayList<MostProfitableRouterRow> getMostProfitableRouterReport(Date startDate, Date endDate)
 			throws SQLException {
@@ -175,7 +206,15 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		rs.close();
 		return report;
 	}
-
+	
+	/**
+	 * This method is used to fetch results of corresponding query in order to form 
+	 * list of records used to form the report. Paging is used to fetch only
+	 * specified range of records.
+	 * @param offset index of the first record to be fetched, starting from 1
+	 * @param count number of records to be fetched
+     * @return List of fetched records that comprise report data set
+	 */
 	@Override
 	public ArrayList<RouterUtilRow> getRouterUtilReport(int offset, int count) 
 			throws SQLException {
@@ -198,7 +237,13 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		rs.close();
 		return report;
 	}
-
+	
+	/**
+	 * This method is used to fetch results of corresponding query in order to form 
+	 * list of records used to form the report. 
+	 * @param startOfMonth Date representing start of month to obtain report for
+     * @return List of fetched records that comprise report data set
+	 */
 	@Override
 	public ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date startOfMonth)
 			throws SQLException {
@@ -218,6 +263,16 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		return report;
 	}
 	
+	/**
+	 * This method is used to fetch results of corresponding query in order to form 
+	 * list of records used to form the report about given period. Paging is used 
+	 * to fetch only specified range of records.
+	 * @param startDate start of period
+     * @param endDate end of period
+	 * @param offset index of the first record to be fetched, starting from 1
+	 * @param count number of records to be fetched
+     * @return List of fetched records that comprise report data set
+	 */
 	@Override
 	public ArrayList<DisconnectOrdersPerPeriodRow> getDisconnectSOPerPeriodReport(
 			Date startDate, Date endDate, int offset, int count) throws SQLException {
@@ -244,6 +299,16 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		return list;
 	}
 	
+	/**
+	 * This method is used to fetch results of corresponding query in order to form 
+	 * list of records used to form the report about given period. Paging is used 
+	 * to fetch only specified range of records.
+	 * @param startDate start of period
+     * @param endDate end of period
+	 * @param offset index of the first record to be fetched, starting from 1
+	 * @param count number of records to be fetched
+     * @return List of fetched records that comprise report data set
+	 */
 	@Override
 	public ArrayList<NewOrdersPerPeriodRow> getNewSOPerPeriodReport(
 			Date startDate, Date endDate, int offset, int count) throws SQLException {
