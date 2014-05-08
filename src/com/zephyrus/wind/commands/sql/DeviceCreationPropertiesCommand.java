@@ -22,7 +22,7 @@ import com.zephyrus.wind.model.User;
 public class DeviceCreationPropertiesCommand extends SQLCommand {
 	
 	/**
-	 * This method checks all necessary input data and forms the necessary
+	 * This method checks all necessary input data and forms the 
 	 * information for device creation.
 	 * 
 	 * @return the page of device creation. In error situation returns the page

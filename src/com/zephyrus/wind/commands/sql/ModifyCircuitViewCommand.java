@@ -56,6 +56,7 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 					"You must choose task from task's page!<br>"
 							+ "<a href='/Zephyrus/provision'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("id"));

@@ -1,4 +1,6 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
+<script type="text/javascript" src="/Zephyrus/resources/javascript/dataValidation.js" > </script>
+<%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <style>
 hr {
     border: none;
@@ -26,23 +28,24 @@ hr {
 			<center>
 				<h2>Change password for Customer user</h2>
 			</center>
-			<label>${error}</label>
+			<label><font color="red">${error}</font></label>
 			<form id="changepassword" name="form2" method="post" action="/Zephyrus/createnewpass">
 				<table>
 					<tr>
 						<td><label>New password: </label></td>
-						<td><input type="password" name="pass" id="pass" /></td>
+						<td><input type="password" name="password" id="password" /></td>
 					</tr>
 					<tr>
 						<td><label>Confirm password: </label></td>
-						<td><input type="password" name="confpass" id="confpass" />
-						<input type="hidden" value ="${userId}" id="userId" /></td>
+						<td><input type="password" name="confirmpass" id="confirmpass" /> <span id="validpass"></span>
+						<input type="hidden" 						
+						value =<c:if test= '${param.id != null}'>${param.id}</c:if>
+						<c:if test= "${userId != null}">${userId}</c:if>
+						 id="userId" name="userId" /></td>
 					</tr>
 				</table>
 				<input type="submit" name="button" id="button"
 					value="Change password" class="button" />
-					<input type="hidden" id="userId" name="userId" value="${param.id}"/>
-					<input type="hidden" id="userId" name="userId2" value="${id}"/>
 			</form>
 	</div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

@@ -15,21 +15,39 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.helpers.CSVConverter;
 import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
 
+/**
+ * This class contains the method, that is declared in @link
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * "Disconnect orders per period" report data in CSV format.
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class GetCSVDisconnectOrdersCommand extends SQLCommand {
-
+	
+	/**
+	 * This method checks all necessary input data, get all data for the "Disconnect 
+	 * orders per period" report and transform it to CSV format for downloading by user.
+	 * Returns the downloading stream of "Disconnect orders per period" report in CSV format.
+	 * 
+	 * @return String url of page for redirecting. Always return null because there is no necessity 
+	 * to redirect user on other page after report downloading.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-	
+		
+		//check the presence of dates
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
 			request.setAttribute("message", "Date fields can not be empty!");
 			return "reports/disconnectOrdersReport.jsp";
 		}
-
+		
+		//get the start and end dates of fetching period in String format
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
-
+		
+		//check the dates on format corresponding 
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
@@ -38,7 +56,8 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/disconnectOrdersReport.jsp";
 		}
-
+		
+		//transform dates strings into Date format
 		Date fromDate = Date.valueOf(fromDateString);
 		Date toDate = Date.valueOf(toDateString);
 		

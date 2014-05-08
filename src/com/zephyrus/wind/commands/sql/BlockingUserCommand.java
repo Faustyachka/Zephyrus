@@ -75,7 +75,7 @@ public class BlockingUserCommand extends SQLCommand {
 			if (status == user.getStatus()) {
 				response.setContentType("text/plain");
 				response.setCharacterEncoding("UTF-8");
-				response.getWriter().write("User's statys already changed!");
+				response.getWriter().write("User already have this status");
 				return null;
 			}
 
@@ -97,5 +97,5 @@ public class BlockingUserCommand extends SQLCommand {
 		}
 		
 	}
-
+	
 }

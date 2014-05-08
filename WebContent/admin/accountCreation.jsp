@@ -92,7 +92,7 @@ hr {
 				<td></td>
 				<td>
 				<input type="button" name="create" id="submit"
-					value="Save new account" class="button" />
+					value="Create account" class="button" />
 					</td>
 					</tr>
 					</table>

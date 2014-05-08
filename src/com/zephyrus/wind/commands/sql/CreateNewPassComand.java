@@ -22,75 +22,81 @@ import com.zephyrus.wind.model.User;
  * @author Alexandra Beskorovaynaya
  */
 public class CreateNewPassComand extends SQLCommand {
-	
+
 	/**
-	 * This method allows to change password for Customer User by
-	 * Customer Support Engineer. It check's the correctness of
-	 * input data and if everything is OK changes the password
-	 * to given user.
+	 * This method allows to change password for Customer User by Customer
+	 * Support Engineer. It check's the correctness of input data and if
+	 * everything is OK changes the password to given user.
 	 * 
-	 * @return in success case the page of changing password 
-	 * confirmation. In the case of error returns the page of new 
-	 * password input with the message about error.
+	 * @return in success case the page of changing password confirmation. In
+	 *         the case of error returns the page of new password input with the
+	 *         message about error.
 	 * 
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		
+
 		User support = (User) request.getSession().getAttribute("user");
 
 		// checking is user authorized
-		if (support == null || support.getRole().getId() != ROLE.SUPPORT.getId()) {
+		if (support == null
+				|| support.getRole().getId() != ROLE.SUPPORT.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
 					+ "Support's account to view this page!<br>"
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
+
 		int userId;
-		
+
 		if (request.getParameter("userId") == null) {
-			request.setAttribute("errorMessage",
-					"Such user does not exist. <br>"
-							+ "<a href='/Zephyrus/installation'> <input type='"
-							+ "button' class='button' value='Tasks'/> </a>");
+			request.setAttribute(
+					"errorMessage",
+					"Such user does not exist.<br>"
+							+ "<a href='/Zephyrus/support/index.jsp'> <input type='"
+							+ "button' class='button' value='Home'/> </a>");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			userId = Integer.parseInt(request.getParameter("userId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "User ID is not valid. "
-					+ "You must choose task from task's page!<br>"
-					+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+					+ "You must choose user from the table!<br>"
+					+ "<a href='/Zephyrus/support/index.jsp'><input type='"
+					+ "button' class='button' value='Home'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
+
 		IUserDAO dao = getOracleDaoFactory().getUserDAO();
 		User user = dao.findById(userId);
-		if (user == null){
-			request.setAttribute("error", "No such user!");
+		if (user == null) {
+			request.setAttribute("error", "User does not exist");
 			return "support/changepass.jsp";
 		}
 		String pass = request.getParameter("pass");
 		String confPass = request.getParameter("confpass");
-		if(pass==null || confPass==null) {
+		if (pass.equals("")) {
 			request.setAttribute("error", "Password can not be empty");
 			request.setAttribute("userId", userId);
 			return "support/changepass.jsp";
 		}
-		if (!(pass.equals(confPass))){
+		if (!(pass.equals(confPass))) {
 			request.setAttribute("error", "Passwords do not coincide");
 			request.setAttribute("userId", userId);
-			return "support/changepass.jsp";
-		} 
+			return "support/changepass.jsp"; // TODO javascript checking
+		}
 		String password = SHAHashing.getHash(pass);
 		user.setPassword(password);
+
 		dao.update(user);
-		request.setAttribute("message", "Password changed <br> <a href='/Zephyrus/support'><input type='"
-					+ "button' class='button' value='Home'/></a>");		
+		request.setAttribute("message",
+				"Password changed <br> <a href='/Zephyrus/customersupport'><input type='"
+						+ "button' class='button' value='Home'/></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
+
 	}
 
 }
