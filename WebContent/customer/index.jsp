@@ -29,7 +29,7 @@ hr {
 <br>
 <br>
 <div style="text-align:center"><a href="/Zephyrus/start">
-<input type="button"	value="Get connected" class="meganavibutton" /></a></div>>
+<input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
   <div class="main">
   <h2> Actual orders </h2>
