@@ -14,22 +14,44 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
-																									 // REVIEW: documentation expected
+															
+
+/**
+ * This class contains the method, that is declared in @link
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
+ * defined user's Service Orders to Customer User.
+ * 
+ * @return page with all Service Orders of defined user.
+ * @author Miroshnychenko Nataliya
+ * 
+ */
+
 public class CustomerOrdersCommand extends SQLCommand {
 
+	/**
+	 * This method gets the data about Service Orders for
+	 * defines user from database and sends it to the page of viewing.
+	 * 
+	 * @return Customer User page with Service Orders. Also can return the error page if the received
+	 *         user ID is not valid
+	 */
+	
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
-		IServiceLocationDAO locationDAO = getOracleDaoFactory().getServiceLocationDAO();
 		User user = (User) request.getSession().getAttribute("user");
-		ArrayList<ServiceLocation> locations = locationDAO.getServiceLocationsByUserId(user.getId());
-		ArrayList<ServiceOrder> orders = new ArrayList<ServiceOrder>();								
-		for(ServiceLocation location : locations){																
-			orders.addAll(orderDAO.getServiceOrdersByServiceLocationId(location.getId()));			// REVIEW: do you really need all orders for all locations? if so, why don't you write corresponding DAO method
+		
+		if (user == null) {
+			request.setAttribute("errorMessage", "User doesn't exist!");
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
+		
+		ArrayList<ServiceOrder> orders = orderDAO.getOrdersByUser(user);		
+		
 		ArrayList<ServiceOrder> actualOrders = new ArrayList<ServiceOrder>();
 		ArrayList<ServiceOrder> workedOutOrders = new ArrayList<ServiceOrder>();
+		
 		for(ServiceOrder order : orders){
 			if(order.getOrderStatus().getId() == ORDER_STATUS.ENTERING.getId() ||
 			   order.getOrderStatus().getId() == ORDER_STATUS.PROCESSING.getId()){

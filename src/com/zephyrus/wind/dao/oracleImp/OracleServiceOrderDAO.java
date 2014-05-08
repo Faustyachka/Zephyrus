@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import oracle.jdbc.OracleTypes;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
+import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.model.OrderStatus;
@@ -27,16 +28,13 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
 			"ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, " +
 			"SERVICE_INSTANCE_ID, ROWNUM AS ROW_NUM " +
-			"FROM " + 
-			TABLE_NAME + " ";
+			"FROM " + TABLE_NAME + " ";
 	private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
-			" SET ORDER_TYPE_ID = ?, ORDER_STATUS_ID = ?, " + 
-			" ORDER_DATE = ?, PRODUCT_CATALOG_ID = ?, SERVICE_LOCATION_ID = ?, SERVICE_INSTANCE_ID = ?"
-			+ " WHERE " + 
-			" ID = ?";
+			" SET ORDER_TYPE_ID = ?, ORDER_STATUS_ID = ?, ORDER_DATE = ?, "
+			+ " PRODUCT_CATALOG_ID = ?, SERVICE_LOCATION_ID = ?, SERVICE_INSTANCE_ID = ?"
+			+ " WHERE  ID = ?";
 	private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
-			" (ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
-			"ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID) " +                                      
+			" (ORDER_TYPE_ID, ORDER_STATUS_ID, ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, SERVICE_INSTANCE_ID) " +                                      
 			"VALUES (?,?,?,?,?,?)" + " RETURN ROWID INTO ?;END;";
 	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
@@ -201,7 +199,33 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		return fetchMultiResults(rs);
 	}
 	
-	
+	/**
+	 * Method finds Service Orders for user
+	 * 
+	 * @param User
+	 * @return collection of Service Orders 
+	 */
+	public ArrayList<ServiceOrder> getOrdersByUser(User user) throws Exception{
+		
+		IServiceLocationDAO locationDAO = daoFactory.getServiceLocationDAO();
+		ArrayList<ServiceLocation> locations = locationDAO.getServiceLocationsByUserId(user.getId());
+		
+		StringBuilder builder = new StringBuilder();
+		for( int i = 0 ; i < locations.size(); i++ ) {
+		    builder.append("?,");
+		}
+		
+		stmt = connection.prepareStatement(SQL_SELECT + 
+				" WHERE SERVICE_LOCATION_ID IN (" + builder.deleteCharAt( builder.length() -1).toString() + ")");
+		
+		int index = 1;
+		for(ServiceLocation serviceLocation : locations) {
+		   stmt.setInt(index++, serviceLocation.getId()); 
+		}
+		
+		rs = stmt.executeQuery();	
+		return fetchMultiResults(rs);
+	};
 	
 	
 

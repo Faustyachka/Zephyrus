@@ -1,6 +1,5 @@
 package com.zephyrus.wind.dao.interfaces;
 
-import java.sql.SQLException;																		// REVIEW: unused import
 import java.util.ArrayList;	
 import java.sql.Date;
 
@@ -15,19 +14,26 @@ public interface IServiceOrderDAO extends IDAO<ServiceOrder> {
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceLocationId(int id) throws Exception;
 
 
-	ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate,
+	public ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate,
 			Date endDate) throws Exception;
 
-	ArrayList<ServiceOrder> getNewSOByPeriod(java.sql.Date startDate,
+	public ArrayList<ServiceOrder> getNewSOByPeriod(java.sql.Date startDate,
 			java.sql.Date endDate) throws Exception;
 	
 	/**
-	 * Method finds creation Service Orders object for Service Instance
+	 * Method finds creation Service Orders instances for Service Instance
 	 * 
 	 * @param Service Instance
 	 * @return Service Orders on which basis the SI create 
-	 * @author Mirosjnychenko Nataliya
 	 */
-	ServiceOrder getSICreateOrder(ServiceInstance serviceInstance) throws Exception;
+	public ServiceOrder getSICreateOrder(ServiceInstance serviceInstance) throws Exception;
+	
+	/**
+	 * Method finds Service Orders for user
+	 * 
+	 * @param User
+	 * @return collection of Service Orders 
+	 */
+	public ArrayList<ServiceOrder> getOrdersByUser(User user)  throws Exception;
 
 }
