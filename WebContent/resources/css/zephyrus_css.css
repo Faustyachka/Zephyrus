@@ -15,7 +15,7 @@ a {
 }
 .header {
 	float: left;
-	height: 200px;
+	height: 220px;
 	width: 1000px;
 	-moz-border-radius: 0px;
 	-webkit-border-radius: 15px 15px 0px 0px;
@@ -27,6 +27,7 @@ a {
 	height: 80%;
 	width: 1000px;
 	background: #508eeb;
+	padding-bottom:20px;
 }
 
 .navigation {
