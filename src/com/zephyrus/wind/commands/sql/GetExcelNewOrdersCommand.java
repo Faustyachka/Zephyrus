@@ -13,7 +13,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
-
+																			// REVIEW: documentation expected 
 public class GetExcelNewOrdersCommand extends SQLCommand{
 
 	@Override
@@ -33,8 +33,8 @@ public class GetExcelNewOrdersCommand extends SQLCommand{
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);
-		if (!matcherFromDate.find() || !matcherToDate.find()) {
+		final Matcher matcherToDate = pattern.matcher(fromDateString);		// REVIEW: error: you mixed up "toDateString" with "fromDateString"
+		if (!matcherFromDate.find() || !matcherToDate.find()) {				// REVIEW: matches() should be used
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/newOrdersReport.jsp";
 		}
@@ -49,7 +49,7 @@ public class GetExcelNewOrdersCommand extends SQLCommand{
 					"Error occured during report downloading");
 			return "reports/newOrdersReport.jsp";
 		}
-		final int MAX_ROWS_IN_EXCEL = 65535;
+		final int MAX_ROWS_IN_EXCEL = 65535;								// REVIEW: separate method should be used
     	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
     	//write workbook to outputstream
         //offer the user the option of opening or downloading the resulting Excel file

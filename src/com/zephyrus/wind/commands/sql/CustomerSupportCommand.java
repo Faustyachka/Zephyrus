@@ -17,11 +17,11 @@ import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link									// REVIEW: link is not working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
  * the list of customer users on the index page of Customer Support Engineer.
  * 
- * @return index page of Customer Support Engineer with JTable of Customer
+ * @return index page of Customer Support Engineer with JTable of Customer						// REVIEW: return in class docs
  *         Users.
  * @author Alexandra Beskorovaynaya
  */
@@ -32,7 +32,7 @@ public class CustomerSupportCommand extends SQLCommand {
 	 * gets the list of customer users from the DB, transform it to Json
 	 * Array and send on the jsp page.
 	 * 
-	 * @return index page of Customer Support Engineer with JTable of Customer
+	 * @return index page of Customer Support Engineer with JTable of Customer					// REVIEW: always?
 	 *         Users.
 	 */
 	@Override
@@ -48,7 +48,7 @@ public class CustomerSupportCommand extends SQLCommand {
 		} else {
 			//checking is this the AJAX request for users list getting from JSP
 			if (action.equals("list")) {
-				try {
+				try {																			// REVIEW: formatting of this code block should be enhanced
 					int startPageIndex=
 					          Integer.parseInt(request.getParameter("jtStartIndex"))+1; //+1 because Oracle counts rows from 1st
 					       int numRecordsPerPage=
@@ -57,7 +57,7 @@ public class CustomerSupportCommand extends SQLCommand {
 					ArrayList<User> lstUser = userDAO
 							.getUsersByRoleId(ROLE.CUSTOMER.getId(),startPageIndex, numRecordsPerPage); 
 					int userCount=userDAO.getCountUsersForRoleId(ROLE.CUSTOMER.getId()); 
-					JsonElement element = gson.toJsonTree(lstUser,
+					JsonElement element = gson.toJsonTree(lstUser,								// REVIEW: what's going on down here?
 							new TypeToken<List<User>>() {
 							}.getType());
 					JsonArray jsonArray = element.getAsJsonArray();
@@ -67,11 +67,11 @@ public class CustomerSupportCommand extends SQLCommand {
 					listData = "{\"Result\":\"OK\",\"Records\":" + listData
 							+ ",\"TotalRecordCount\":"+userCount+"}";
 					response.getWriter().print(listData);
-					return null;
+					return null;															// REVIEW: multiple return statements form "spaghetti code"
 				} catch (Exception ex) {
 					String error = "{\"Result\":\"ERROR\",\"Message\":"
 							+ ex.getMessage() + "}";
-
+																							// REVIEW: extra line
 					response.getWriter().print(error);
 
 					ex.printStackTrace();

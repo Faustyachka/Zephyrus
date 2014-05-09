@@ -17,11 +17,11 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link							// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * circuit deleting details to Provisioning engineer.
  * 
- * @return page with information about creation of circuit
+ * @return page with information about creation of circuit								// REVIEW: return in class docs
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -44,7 +44,7 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		//checking is user authorized
 		if (user==null||user.getRole().getId()!=ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page!<br>"
+					+ "Provisioning Engineer's account to view this page!<br>"		// REVIEW: HTML 
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -53,7 +53,7 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		//check the presence of task ID
 		if (request.getParameter("taskId")==null) {
 			request.setAttribute("errorMessage", "You must choose task from task's page!<br>"
-					+ "<a href='/Zephyrus/provision'><input type='"
+					+ "<a href='/Zephyrus/provision'><input type='"								// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
@@ -69,7 +69,7 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"				// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -77,19 +77,19 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		Port port =findPortFromTaskID(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
-		return "provision/deleteCircuit.jsp";
+		return "provision/deleteCircuit.jsp";												// REVIEW: hardcoded page name
 	}
 	
 	/**
 	 * Method for searching port by order task
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given task
+	 * @param given task																// REVIEW: param name omitted
 	 * @return port object if exist, otherwise null.
-	 * @author Miroshnychenko Nataliya
+	 * @author Miroshnychenko Nataliya													// REVIEW: no author tag here
 	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception{
+	private Port findPortFromTaskID(Task task) throws Exception{						// REVIEW: wrong method name
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null){

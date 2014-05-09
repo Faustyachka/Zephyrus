@@ -42,7 +42,7 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 			final Pattern pattern = Pattern
 					.compile("^([0-9]){4}-([0-9]){2}$");
 			final Matcher matcherFromDate = pattern.matcher(dateString);
-			if (!matcherFromDate.find()) {
+			if (!matcherFromDate.find()) {											// REVIEW: matches() should be used
 				request.setAttribute("message", "Wrong format of date!");
 				return "reports/profitabilityReport.jsp";
 			}
@@ -51,7 +51,7 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 		}
 		ProfitabilityByMonthReport report = null;
 		try {
-			report = new ProfitabilityByMonthReport(date);
+			report = new ProfitabilityByMonthReport(date);								// REVIEW: date is null if dateString is null
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message",
@@ -59,9 +59,9 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 			return "reports/profitabilityReport.jsp";
 
 		}
-		final int MAX_ROWS_IN_EXCEL = 65535;
+		final int MAX_ROWS_IN_EXCEL = 65535;											// REVIEW: form as separate method
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
-		// write workbook to outputstream
+		// write workbook to outputstream								
 		// offer the user the option of opening or downloading the resulting
 		// Excel file
 		response.setContentType("application/vnd.ms-excel");

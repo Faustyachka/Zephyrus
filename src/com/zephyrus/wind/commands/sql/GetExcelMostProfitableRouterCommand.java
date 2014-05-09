@@ -13,13 +13,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.MostProfitableRouterReport;
-
+																					// REVIEW: documentation expected 
 public class GetExcelMostProfitableRouterCommand extends SQLCommand{
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		MostProfitableRouterReport report = null;
+		MostProfitableRouterReport report = null;									// REVIEW: error: implementation is too far from usage
 		
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
@@ -32,9 +32,9 @@ public class GetExcelMostProfitableRouterCommand extends SQLCommand{
 		
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
-		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);
-		if (!matcherFromDate.find() || !matcherToDate.find()) {
+		final Matcher matcherFromDate = pattern.matcher(fromDateString);	
+		final Matcher matcherToDate = pattern.matcher(fromDateString);				// REVIEW: error: you mixed up "toDateString" with "fromDateString"
+		if (!matcherFromDate.find() || !matcherToDate.find()) {						// REVIEW: matches() should be used
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
@@ -49,7 +49,7 @@ public class GetExcelMostProfitableRouterCommand extends SQLCommand{
 					"Error occured during report downloading");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
-		final int MAX_ROWS_IN_EXCEL = 65535;
+		final int MAX_ROWS_IN_EXCEL = 65535;										// REVIEW: separate method should be used
     	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
     	//write workbook to outputstream
         //offer the user the option of opening or downloading the resulting Excel file

@@ -17,14 +17,14 @@ import com.zephyrus.wind.model.UserRole;
 /**
  * The DisplayTasksCommand class provide the displaying of engineers current
  * active tasks and available tasks for given engineer's group. Class contains 
- * the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.			// REVIEW: link isn't working
  * 
  * @see com.zephyrus.wind.model.User
  * @see com.zephyrus.wind.model.Task
  * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
  * @see com.zephyrus.wind.enums.ROLE
  * 
- * @return engineer's index page with tasks if user authorized under
+ * @return engineer's index page with tasks if user authorized under								// REVIEW: return in class docs
  * engineer's account, index page of customer user if user authorized under customer 
  * user's account, and error page if user isn't authorized.
  * @author Alexandra Beskorovaynaya
@@ -51,19 +51,19 @@ public class DisplayTasksCommand extends SQLCommand {
 		//checking is user authorized
 		if (request.getSession().getAttribute("user")==null) {
 			request.setAttribute("errorMessage", "You should login to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"						// REVIEW: HTML
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		//Get user from HTTP session
 		User user = (User) request.getSession().getAttribute("user");
-		UserRole userRole = user.getRole();
+		UserRole userRole = user.getRole();														// REVIEW: what if user is null?
 		
 		//checking is user logged in under engineer's account
 		if (userRole.getId()!=ROLE.INSTALLATION.getId()&&userRole.getId()!=ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under Provisioning or"
-					+ "Installation Engineer's account to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ "Installation Engineer's account to view this page!<br>"					// REVIEW: HTML
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"						
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -74,23 +74,23 @@ public class DisplayTasksCommand extends SQLCommand {
 		ArrayList<Task> availableTasks = taskDao
 				.findAvailableTasksByRole(userRole);
 		
-		if (activeTasks.size()==0) {
+		if (activeTasks.size()==0) {											// REVIEW: isEmpty() method should be used
 			request.setAttribute("activeTasks", null);
 		} else {
 			request.setAttribute("activeTasks", activeTasks);
 		}
-		if (availableTasks.size()==0) {
+		if (availableTasks.size()==0) {										
 			request.setAttribute("availableTasks", null);
 		} else {
 			request.setAttribute("availableTasks", availableTasks);
 		}
 		if (userRole.getId()==ROLE.PROVISION.getId()) {
-			return "provision/index.jsp";
+			return "provision/index.jsp";										// REVIEW: hardcoded page name
 		}
-		if (userRole.getId()==ROLE.INSTALLATION.getId()) {
-			return "installation/index.jsp";
+		if (userRole.getId()==ROLE.INSTALLATION.getId()) {						// REVIEW: else if should be used
+			return "installation/index.jsp";									// REVIEW: hardcoded page name
 		}
-		return null;
+		return null;															// REVIEW: why null is returned? 
 	}
 
 }

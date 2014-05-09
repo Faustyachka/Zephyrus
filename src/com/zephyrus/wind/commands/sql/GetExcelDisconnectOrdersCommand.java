@@ -13,13 +13,13 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
-
+																					// REVIEW: documentation expected 
 public class GetExcelDisconnectOrdersCommand extends SQLCommand{
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		DisconnectOrdersPerPeriodReport report = null;
+		DisconnectOrdersPerPeriodReport report = null;								// REVIEW: error: implementation is too far from usage
 		
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
@@ -33,8 +33,8 @@ public class GetExcelDisconnectOrdersCommand extends SQLCommand{
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);
-		if (!matcherFromDate.find() || !matcherToDate.find()) {
+		final Matcher matcherToDate = pattern.matcher(fromDateString);				// REVIEW: error: you mixed up "toDateString" with "fromDateString"
+		if (!matcherFromDate.find() || !matcherToDate.find()) {						// REVIEW: matches() should be used
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/disconnectOrdersReport.jsp";
 		}
@@ -48,7 +48,7 @@ public class GetExcelDisconnectOrdersCommand extends SQLCommand{
 			request.setAttribute("message",
 					"Error occured during report downloading");
 			return "reports/disconnectOrdersReport.jsp";
-		}
+		}																			// REVIEW: separate method should be used
 		final int MAX_ROWS_IN_EXCEL = 65535;
     	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
     	//write workbook to outputstream

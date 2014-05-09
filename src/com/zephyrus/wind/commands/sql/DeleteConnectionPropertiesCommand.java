@@ -19,17 +19,17 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link							// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to gather
  * the information, needed on DisconnectWorkflowTasks.jsp page.
  * 
- * @return page of tasks for Disconnecting scenario
+ * @return page of tasks for Disconnecting scenario										// REVIEW: return in class docs
  * @author Alexandra Beskorovaynaya
  */
 public class DeleteConnectionPropertiesCommand extends SQLCommand {
 
-	public int taskID;
-	public Cable cable = null;
+	public int taskID;																	// REVIEW: public fields in class
+	public Cable cable = null;															// REVIEW: and do you need them here?
 	public Port port = null;
 	public Device device = null;
 	
@@ -38,8 +38,8 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 	 * Method gets ID of the present task.
 	 * All the information is sent to the page.
 	 * 
-	 * @return page with all necessary information for Disconnect scenario
-	 * performing by Installation Engineer
+	 * @return page with all necessary information for Disconnect scenario	
+	 * performing by Installation Engineer											// REVIEW: unclear sentence
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -50,7 +50,7 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
+					+ "Installation Engineer's account to view this page!<br>"		// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -60,7 +60,7 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		if (request.getAttribute("taskId") == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"		// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -73,7 +73,7 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"		// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -100,7 +100,7 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		request.setAttribute("port", port);
 		request.setAttribute("order", order);
 		request.setAttribute("cable", cable);
-		request.setAttribute("message", message);
+		request.setAttribute("message", message);								// REVIEW: "message" or "errorMessage"
 
 		return PAGES.INSTALLATIONDISCONNECTWORKFLOW_PAGE.getValue();
 	}

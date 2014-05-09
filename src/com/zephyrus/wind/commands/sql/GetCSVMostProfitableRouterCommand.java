@@ -35,7 +35,7 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		MostProfitableRouterReport report = null;
+		MostProfitableRouterReport report = null;										// REVIEW: implementation is too far from usage
 		
 		//check the presence of dates
 		if (request.getParameter("from") == null
@@ -52,7 +52,7 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);
+		final Matcher matcherToDate = pattern.matcher(fromDateString);					// REVIEW: error: you mixed up "toDateString" with "fromDateString"
 		if (!matcherFromDate.find() || !matcherToDate.find()) {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/mostProfitableRouterReport.jsp";

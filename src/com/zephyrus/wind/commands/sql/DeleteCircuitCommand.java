@@ -19,11 +19,11 @@ import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link									// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for deleting of
  * circuit by provisioning engineer.
  * 
- * @return page with confirmation of successful deleting of circuit
+ * @return page with confirmation of successful deleting of circuit								// REVIEW: return statement in class docs
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -46,7 +46,7 @@ public class DeleteCircuitCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page!<br>"
+					+ "Provisioning Engineer's account to view this page!<br>"					// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -56,7 +56,7 @@ public class DeleteCircuitCommand extends SQLCommand {
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/provision'><input type='"
+							+ "<a href='/Zephyrus/provision'><input type='"						// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
@@ -74,19 +74,19 @@ public class DeleteCircuitCommand extends SQLCommand {
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page<br>!"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"					// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
 		ServiceOrder so = task.getServiceOrder();
-		Port port = findPortFromTaskID(task);
+		Port port = findPortFromTaskID(task);													// REVIEW: from task ID or from Task?
 
 		// creating circuit due to "New" scenario
-		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(),
+		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(),	// REVIEW: Workflow constructor should also be in the try block
 				so);
 		try {
-			wf.deleteCircuit(taskID);;
+			wf.deleteCircuit(taskID);;															// REVIEW: what is it? two semicolons?
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
@@ -99,23 +99,23 @@ public class DeleteCircuitCommand extends SQLCommand {
 		}
 
 		// sending redirect to page with confirmation
-		request.setAttribute("message", "Circuit was successfully removed. Task completed! <br>"
+		request.setAttribute("message", "Circuit was successfully removed. Task completed! <br>"	// REVIEW: HTML
 				+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
 				+ " tasks' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 	
 	/**
-	 * Method for searching port by order task
+	 * Method for searching port by order task													
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given
+	 * @param given																				// REVIEW: no param name
 	 *            task
 	 * @return port object if exist, otherwise null.
 	 * @author Miroshnychenko Nataliya
 	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception {
+	private Port findPortFromTaskID(Task task) throws Exception {								// REVIEW: wrong method name
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

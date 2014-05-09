@@ -33,7 +33,7 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 	 * to redirect user on other page after report downloading.
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,
+	protected String doExecute(HttpServletRequest request,								// REVIEW: method should be split
 			HttpServletResponse response) throws SQLException, Exception {
 		
 		//check the presence of dates
@@ -51,7 +51,7 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);
+		final Matcher matcherToDate = pattern.matcher(fromDateString);					// REVIEW: error: you mixed up "toDateString" with "fromDateString"
 		if (!matcherFromDate.find() || !matcherToDate.find()) {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/disconnectOrdersReport.jsp";

@@ -11,7 +11,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.RouterUtilizationReport;
-
+																			// REVIEW: documentation expected
 public class GetExcelUtilizationCommand extends SQLCommand{
 	
 	
@@ -20,7 +20,7 @@ public class GetExcelUtilizationCommand extends SQLCommand{
 			HttpServletResponse response) throws SQLException, Exception {
 		RouterUtilizationReport report = null;
 		try {
-			report = new RouterUtilizationReport();
+			report = new RouterUtilizationReport();							// REVIEW: no need in this try or in every other try on constructor of report class(review this by yourself). Instead try is likely to be placed over convertToExcel() methods in every command, that uses it
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message",

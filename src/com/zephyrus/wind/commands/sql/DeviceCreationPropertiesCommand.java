@@ -11,11 +11,11 @@ import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link							// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * device creation details to Installation engineer.
  * 
- * @return page with information about creation of Device
+ * @return page with information about creation of Device								// REVIEW: return in class docs
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -38,7 +38,7 @@ public class DeviceCreationPropertiesCommand extends SQLCommand {
 		//checking is user authorized
 		if (user==null||user.getRole().getId()!=ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
+					+ "Installation Engineer's account to view this page!<br>"				// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -46,7 +46,7 @@ public class DeviceCreationPropertiesCommand extends SQLCommand {
 		
 		//check the presence of task ID
 		if (request.getParameter("taskId")==null) {
-			request.setAttribute("errorMessage", "You must choose task from task's page!<br>"
+			request.setAttribute("errorMessage", "You must choose task from task's page!<br>"	// REVIEW: HTML
 					+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -56,7 +56,7 @@ public class DeviceCreationPropertiesCommand extends SQLCommand {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!<br>"
+					+ "You must choose task from task's page!<br>"								// REVIEW: HTML
 					+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();

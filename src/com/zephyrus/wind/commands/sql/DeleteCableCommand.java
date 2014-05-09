@@ -1,5 +1,5 @@
 /**
- * 
+ * 																									// REVIEW: what is it?
  */
 package com.zephyrus.wind.commands.sql;
 
@@ -19,7 +19,7 @@ import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand. // REVIEW: link is not working and lane is too long
  * It is supposed to delete the cable from the system.
  * 
  * @see com.zephyrus.wind.model.Cable
@@ -29,14 +29,14 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.dao.interfaces.ICableDAO
  * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
  * 
- * @return page with confirmation of successful deletion of cable
+ * @return page with confirmation of successful deletion of cable										// REVIEW: return in class docs
  * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 public class DeleteCableCommand extends SQLCommand {
 	
 	/**
 	 * This method deletes chosen cable from the database. 
-	 * Method gets parameters of device's ID and port's ID, which cable is connected to.
+	 * Method gets parameters of device's ID and port's ID, which cable is connected to.				// REVIEW: this method doesn't use device and port ID
 	 * By means of DAO, chosen object Cable with mentioned parameters is deleted from database.
 	 * 
 	 * @see com.zephyrus.wind.model.Cable
@@ -46,7 +46,7 @@ public class DeleteCableCommand extends SQLCommand {
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
 	 * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
 	 * 
-	 * @return page with confirmation of successful deletion of cable
+	 * @return page with confirmation of successful deletion of cable									// REVIEW: always?
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -58,7 +58,7 @@ public class DeleteCableCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
+					+ "Installation Engineer's account to view this page!<br>"							// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -68,7 +68,7 @@ public class DeleteCableCommand extends SQLCommand {
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"							// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -77,7 +77,7 @@ public class DeleteCableCommand extends SQLCommand {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!<br>"
+					+ "You must choose task from task's page!<br>"										// REVIEW: HTML
 					+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -90,28 +90,28 @@ public class DeleteCableCommand extends SQLCommand {
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"							// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
 		ServiceOrder order = task.getServiceOrder();
 		
-		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(), order);
+		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(), order); // REVIEW: Workflow constructor should also be in the try block
 		try {
 			wf.deleteCable(taskID);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
 			request.setAttribute("taskId", taskID);
-			request.setAttribute("message", "Failed to delete cable");
+			request.setAttribute("message", "Failed to delete cable");								// REVIEW: "message" or "errorMessage"?
 			return "disconnectConnectionProperties";
 		} finally {
 			wf.close();
 		}
 		
 		//return message page
-		request.setAttribute("message", "Cable deleted. Task completed! <br> <a href='/Zephyrus/installation'><input type='"
+		request.setAttribute("message", "Cable deleted. Task completed! <br> <a href='/Zephyrus/installation'><input type='" // REVIEW: HTML
 					+ "button' class='button' value='Bak to tasks'/></a>");		
 		return PAGES.MESSAGE_PAGE.getValue();
 	}

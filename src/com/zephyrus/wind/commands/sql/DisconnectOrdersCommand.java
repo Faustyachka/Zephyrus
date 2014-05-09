@@ -14,7 +14,7 @@ import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
 import com.zephyrus.wind.reports.rows.DisconnectOrdersPerPeriodRow;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * "Disconnect orders per period" report data using paging.
  * 
@@ -39,21 +39,21 @@ public class DisconnectOrdersCommand extends SQLCommand {
 	 * @return the page of "Disconnect orders per period" report
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,
+	protected String doExecute(HttpServletRequest request,						// REVIEW: method is too long and should be split
 			HttpServletResponse response) throws SQLException, Exception {
 		
-		/** The last displayed row number */
+		/** The last displayed row number */									// REVIEW: documenting comments aren't used in code
 		int last;
 		if (request.getParameter("last")==null) {
 			request.setAttribute("message", "Failed to display report");
-			return "reports/disconnectOrdersReport.jsp";
+			return "reports/disconnectOrdersReport.jsp";						// REVIEW: hardcoded page name
 		}
 		
 		try {
 			last=Integer.parseInt(request.getParameter("last"));		
 		} catch (NumberFormatException ex) {
 			request.setAttribute("message", "Failed to display report");
-			return "reports/disconnectOrdersReport.jsp";
+			return "reports/disconnectOrdersReport.jsp";						// REVIEW: hardcoded page name
 		}
 		
 		// Get start and end dates of fetching period 
@@ -66,7 +66,7 @@ public class DisconnectOrdersCommand extends SQLCommand {
 					.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 			final Matcher matcherFromDate = pattern.matcher(fromDateString);
 			final Matcher matcherToDate = pattern.matcher(toDateString);
-			if (!matcherFromDate.find()||!matcherToDate.find()) {
+			if (!matcherFromDate.find()||!matcherToDate.find()) {					// REVIEW: I think find here is not acceptable. Use matches() instead
 				request.setAttribute("message", "Wrong format of date!");
 				return "reports/disconnectOrdersReport.jsp";
 			}
@@ -98,8 +98,8 @@ public class DisconnectOrdersCommand extends SQLCommand {
 		}
 		
 		//set attribute which shows the existence of next page
-		if (checkRecords.isEmpty()) {
-			request.setAttribute("next", "0");
+		if (checkRecords.isEmpty()) {										// REVIEW: checkRecords should be null
+			request.setAttribute("next", "0");								// REVIEW: 0 and 1 are not suitable for indication. use "hasNext" and text values "true" and "false"
 		} else {
 			request.setAttribute("next", "1");
 		}
@@ -108,7 +108,7 @@ public class DisconnectOrdersCommand extends SQLCommand {
 		request.setAttribute("toDate", toDate.toString());
 		request.setAttribute("last", last);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
-		return "reports/disconnectOrdersReport.jsp";
+		return "reports/disconnectOrdersReport.jsp";						// REVIEW: hardcoded return page. It isn't bad but you should stick to one method of obtaining page names: either use enums or text values everywhere but don't mix them
 	}
 
 }

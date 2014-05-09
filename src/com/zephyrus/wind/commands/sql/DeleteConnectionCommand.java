@@ -16,11 +16,11 @@ import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link							// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for deleting of
  * connection by installation engineer.
  * 
- * @return page of tasks for current order with confirmation of successful 
+ * @return page of tasks for current order with confirmation of successful 				// REVIEW: return
  * deleting of circuit in success case and error page if error occurs.
  * 
  * @author Alexandra Beskorovaynaya
@@ -37,7 +37,7 @@ public class DeleteConnectionCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
+					+ "Installation Engineer's account to view this page!<br>"			// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -47,7 +47,7 @@ public class DeleteConnectionCommand extends SQLCommand {
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"			// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
@@ -55,7 +55,7 @@ public class DeleteConnectionCommand extends SQLCommand {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!<br>"
+					+ "You must choose task from task's page!<br>"						// REVIEW: HTML
 					+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -67,14 +67,14 @@ public class DeleteConnectionCommand extends SQLCommand {
 		if (task == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"		// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
 		ServiceOrder order = task.getServiceOrder();
 
-		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(
+		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(				// REVIEW: Workflow constructor should also be in the try block
 				getOracleDaoFactory(), order);
 		try {
 			wf.unplugCableFromPort(taskID);
@@ -83,7 +83,7 @@ public class DeleteConnectionCommand extends SQLCommand {
 			getOracleDaoFactory().rollbackTransaction();
 			request.setAttribute("taskId", taskID);
 			request.setAttribute("message", "Failed to delete connection");
-			return "disconnectConnectionProperties";
+			return "disconnectConnectionProperties";								// REVIEW: hardcoded page name
 		} finally {
 			wf.close();
 		}

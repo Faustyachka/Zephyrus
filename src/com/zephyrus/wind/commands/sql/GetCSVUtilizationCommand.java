@@ -41,7 +41,7 @@ public class GetCSVUtilizationCommand extends SQLCommand {
 			e.printStackTrace();
 			request.setAttribute("message",
 					"Error occured during report downloading");
-			return "reports/utilizationReport.jsp";
+			return "reports/utilizationReport.jsp";											// REVIEW: hardcoded page
 
 		}
 		final int MAX_ROWS_IN_EXCEL = 65535;
