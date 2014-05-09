@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
@@ -16,19 +17,14 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.ModifyScenarioWorkflow;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
+import com.zephyrus.wind.workflow.Workflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link								// REVIEW: @link is not working
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to assign
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to assign
  * task to the engineer.
  * 
- * @see com.zephyrus.wind.model.User
- * @see com.zephyrus.wind.model.Task
- * @see com.zephyrus.wind.enums.ROLE
- * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
- * 
- * @return home page of user
  * @author Alexandra Beskorovaynaya
  */
 public class AssignTaskCommand extends SQLCommand {
@@ -36,13 +32,7 @@ public class AssignTaskCommand extends SQLCommand {
 	/**
 	 * This method assigns the task to user in the database. Method gets
 	 * parameter of task's ID from JSP and User from session.
-	 * 
-	 * @see com.zephyrus.wind.model.User
-	 * @see com.zephyrus.wind.model.Task
-	 * @see com.zephyrus.wind.enums.ROLE
-	 * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
-	 * 
-	 * @return home page of user
+	 * @return url of home page of user
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -52,10 +42,7 @@ public class AssignTaskCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null) {
 			request.setAttribute(
-					"errorMessage",
-					"You should login to view this page!<br>"
-							+ " <a href='/Zephyrus/view/login.jsp'><input type='"						// REVIEW: HTML code on server side
-							+ "button' class='button' value='Login'/></a>");
+					"messageNumber", MessageNumber.LOGIN_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
@@ -63,27 +50,20 @@ public class AssignTaskCommand extends SQLCommand {
 		if (user.getRole().getId() != ROLE.INSTALLATION.getId()
 				&& user.getRole().getId() != ROLE.PROVISION.getId()) {
 			request.setAttribute(
-					"errorMessage",
-					"You should login under Provisioning or"
-							+ "Installation Engineer's account to view this page!<br>"					// REVIEW: HTML code on server side
-							+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-							+ "button' class='button' value='Login'/></a>");
+					"messageNumber", MessageNumber.LOGIN_INSTALL_PROVISION_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("id") == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"										// REVIEW: HTML code on server side
-							+ "<a href='/Zephyrus/provision'><input type='"
-							+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			taskId = Integer.parseInt(request.getParameter("id"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
@@ -91,53 +71,35 @@ public class AssignTaskCommand extends SQLCommand {
 		Task task = taskDAO.findById(taskId);
 
 		if (task == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"											// REVIEW: HTML code on server side
-							+ "<a href='/Zephyrus/installation'> Tasks </a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		ServiceOrder order = task.getServiceOrder();
 
+		Workflow wf = null;
+		
 		// check the scenario for given task
-		if (order.getOrderType().getId() == ORDER_TYPE.NEW.getId()) {
-			NewScenarioWorkflow wf = new NewScenarioWorkflow(											// REVIEW: Workflow constructor also should be placed into try block
-					getOracleDaoFactory(), order);
-			try {
-				wf.assignTask(taskId, user.getId());
-			} catch (WorkflowException ex) {
-				ex.printStackTrace();
-				getOracleDaoFactory().rollbackTransaction();
-				request.setAttribute("message", "Failed to assign task");								// REVIEW: "message" attribute instead of "errorMessage"
-				return PAGES.MESSAGE_PAGE.getValue();
-			} finally {
-				wf.close();
+		try {
+			if (order.getOrderType().getId() == ORDER_TYPE.NEW.getId()) {
+				wf = new NewScenarioWorkflow(getOracleDaoFactory(), order);
 			}
-		}
-
-		if (order.getOrderType().getId() == ORDER_TYPE.DISCONNECT.getId()) {
-			DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(								// REVIEW: You should do like this: Workflow wf = NewScenarioWorkflow(...) or ModifyScenarioWorkflow(...);
-					getOracleDaoFactory(), order);														// REVIEW: than, whatever wf it is, you can simply do the same: wf.assignTask(...); so there is no need in if clauses on every assignTask 
-			try {
-				wf.assignTask(taskId, user.getId());
-			} catch (WorkflowException ex) {
-				ex.printStackTrace();
-				throw new Exception(ex.getCause().getMessage()); 
-			} finally {
-				wf.close();
+			if (order.getOrderType().getId() == ORDER_TYPE.DISCONNECT.getId()) {
+				wf = new DisconnectScenarioWorkflow( 
+						getOracleDaoFactory(), order);
 			}
-		}
-		if (order.getOrderType().getId() == ORDER_TYPE.MODIFY.getId()) {
-			ModifyScenarioWorkflow wf = new ModifyScenarioWorkflow(
-					getOracleDaoFactory(), order);
-			try {
-				wf.assignTask(taskId, user.getId());
-			} catch (WorkflowException ex) {
-				ex.printStackTrace();
-				throw new Exception(ex.getCause().getMessage()); 
-			} finally {
-				wf.close();
+			if (order.getOrderType().getId() == ORDER_TYPE.MODIFY.getId()) {
+				wf = new ModifyScenarioWorkflow(
+						getOracleDaoFactory(), order);
 			}
+			wf.assignTask(taskId, user.getId());
+		} catch (WorkflowException ex) {
+			ex.printStackTrace();
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("errorMessage", "Failed to assign task");
+			return PAGES.MESSAGE_PAGE.getValue();
+		} finally {
+			wf.close();
 		}
 
 		// return the page in dependence of user's role

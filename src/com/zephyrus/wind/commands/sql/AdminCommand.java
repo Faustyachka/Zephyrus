@@ -16,12 +16,9 @@ import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link									// REVIEW: @link is not working
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
- * the list of users on the index page of Administrator.
- * 																								// REVIEW: extra line
- * @return index page of Administrator with JTable of Users										// REVIEW: class? class returns something?
- * 																								// REVIEW: extra line
+ * This class contains the method, that is declared in 								
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
+ * the list of users on the index page of Administrator.			
  * @author Alexandra Beskorovaynaya
  */
 public class AdminCommand extends SQLCommand {
@@ -30,9 +27,10 @@ public class AdminCommand extends SQLCommand {
 	 * This method forms the data for JTable on Administrator index page. It
 	 * gets the list of users from the DB, transform it to Json Array and send
 	 * on the jsp page.
-	 * 
-	 * @return index page of Administrator with JTable of Users.								// REVIEW: documentation is tricky. How come the string can be index page with something? + when null is returned?
-	 * 																							// REVIEW: extra line
+	 * @return String url of page for redirecting. Always returns null because
+	 *         it is no need to redirect on message page after each
+	 *         paging. In administrator's jsp ajax query is used
+	 *         for users list displaying.																						
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,

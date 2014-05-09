@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -11,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.USER_STATUS;
@@ -19,23 +21,28 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
- * This class contains the method, that is declared in @link								// REVIEW: link is not working
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * new Engineer account in system by Administrator.
- * 
- * @return null because all request to this command are AJAX. Command only					// REVIEW: return. again.
- *         return messages about errors or success.
  * 
  * @author Alexandra Beskorovaynaya
  */
 public class CreateUserCommand extends SQLCommand {
-	
+
+	private String name;
+	private String sname;
+	private String email;
+	private String password;
+	private String confPassord;
+	private int roleId;
+	private Date date;
+
 	/**
-	 * This method allows to create new Engineer account in Data Base. It
-	 * checks all necessary input data to avoid the exceptions. 
+	 * This method allows to create new Engineer account in Data Base. It checks
+	 * all necessary input data to avoid the exceptions.
 	 * 
 	 * @return null because all request to this command are AJAX. Method only
-     *         return messages about errors or success.
+	 *         return messages about errors or success.
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -45,35 +52,42 @@ public class CreateUserCommand extends SQLCommand {
 
 		// checking is user authorized
 		if (admin == null || admin.getRole().getId() != ROLE.ADMIN.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Administrator's account to view this page!<br>"					// REVIEW: HTML
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_ADMIN_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-
+		
+				
 		// get all parameters from page
-		String name = request.getParameter("firstname");
-		String sname = request.getParameter("secondname");
-		String email = request.getParameter("email");
-		String password = request.getParameter("password");
-		String confPassord = request.getParameter("confirmpass");
-		int roleId = Integer.parseInt(request.getParameter("engtype"));					// REVIEW: what if param is null or if parse failed
-		Date s = new Date(new java.util.Date().getTime());
-
+		name = request.getParameter("firstname");
+		sname = request.getParameter("secondname");
+		email = request.getParameter("email");
+		password = request.getParameter("password");
+		confPassord = request.getParameter("confirmpass"); 
+		date = new Date(new java.util.Date().getTime());
+		
+		if (name == null || sname==null || email == null || password==null || confPassord==null
+				|| request.getParameter("engtype")==null) {
+			request.setAttribute("errorMessage", "Failed to create user: null parameters");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
+		try {
+			roleId = Integer.parseInt(request.getParameter("engtype"));
+		} catch (NumberFormatException e) {
+			e.printStackTrace();
+			request.setAttribute("errorMessage", "Failed to create user: null parameters");
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+				
 		// check first name
-		if (name.equals("")) {															// REVIEW: what if it is null?
-			response.setContentType("text/plain");										// REVIEW: method should be written to encapsulate this code. Only param is message.
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Name can not be empty");
+		if (name.equals("")) { 
+			reply(response, "Name can not be empty");
 			return null;
 		}
 
 		// check second name
-		if (sname.equals("")) {															// REVIEW: what if it is null?
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Second name can not be empty");
+		if (sname.equals("")) { 
+			reply(response, "Second name can not be empty");
 			return null;
 		}
 
@@ -82,9 +96,7 @@ public class CreateUserCommand extends SQLCommand {
 				.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
 		final Matcher matcher = pattern.matcher(email);
 		if (!matcher.find()) {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Bad email");									// REVIEW: "Bad email" -> "Wrong email format"
+			reply(response, "Wrong email format");
 			return null;
 		}
 
@@ -92,45 +104,49 @@ public class CreateUserCommand extends SQLCommand {
 		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
 		User existingUser = userDAO.findByEmail(email);
 		if (existingUser != null) {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("This email already exist in system");
+			reply(response, "This email already exist in system");
 			return null;
 		}
 		// check password
-		if (password.equals("")) {														// REVIEW: what if it is null?
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Password can not be empty");
+		if (password.equals("")) { 
+			reply(response, "Password can not be empty");
 			return null;
 		}
 
 		// check password confirmation on corresponding
-		if (!password.equals(confPassord)) {	
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Passwords don't coincides!");
+		if (!password.equals(confPassord)) {
+			reply(response, "Passwords don't coincides!");
 			return null;
 		}
 
-		else {																		// REVIEW: could be formed as separate method
+		else {
 			// if everything is OK create user
-			User user = new User();
-			user.setFirstName(name);
-			user.setLastName(sname);
-			user.setEmail(email);
-			user.setPassword(SHAHashing.getHash(password));
-			user.setStatus(USER_STATUS.ACTIVE.getValue());
-			IUserRoleDAO roleDAO = getOracleDaoFactory().getUserRoleDAO();
-			UserRole role = roleDAO.findById(roleId);
-			user.setRole(role);
-			user.setRegistrationData(s);
-			userDAO.insert(user);
+			createUser(userDAO);
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write("Account created!");
 		}
 		return null;
+	}
+
+	private void createUser(IUserDAO userDAO) throws Exception {
+		User user = new User();
+		user.setFirstName(name);
+		user.setLastName(sname);
+		user.setEmail(email);
+		user.setPassword(SHAHashing.getHash(password));
+		user.setStatus(USER_STATUS.ACTIVE.getValue());
+		IUserRoleDAO roleDAO = getOracleDaoFactory().getUserRoleDAO();
+		UserRole role = roleDAO.findById(roleId);
+		user.setRole(role);
+		user.setRegistrationData(date);
+		userDAO.insert(user);
+	}
+	
+	private void reply(HttpServletResponse response, String replyText) throws IOException {
+		response.setContentType("text/plain");		
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(replyText);
 	}
 
 }

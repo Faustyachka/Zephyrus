@@ -19,6 +19,7 @@ import com.zephyrus.wind.managers.MessageManager;
 																									// REVIEW: documentation expected
 public class MainServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	private static CommandManager commandManager;
 
     public MainServlet() {
         super();
@@ -35,7 +36,7 @@ public class MainServlet extends HttpServlet {
 		        String page = null;
 		        try{
 		            //defining the command from jsp page
-		        	CommandManager commandManager = new CommandManager();
+		            commandManager = new CommandManager();
 		            Command command=commandManager.getCommand(request);
 		            
 		            //calling execute() on Command, method returns the answer page

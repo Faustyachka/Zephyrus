@@ -42,7 +42,7 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 			final Pattern pattern = Pattern
 					.compile("^([0-9]){4}-([0-9]){2}$");
 			final Matcher matcherFromDate = pattern.matcher(dateString);
-			if (!matcherFromDate.find()) {											// REVIEW: matches() should be used
+			if (!matcherFromDate.matches()) {
 				request.setAttribute("message", "Wrong format of date!");
 				return "reports/profitabilityReport.jsp";
 			}

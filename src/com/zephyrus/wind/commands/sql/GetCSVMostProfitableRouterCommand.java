@@ -16,8 +16,8 @@ import com.zephyrus.wind.helpers.CSVConverter;
 import com.zephyrus.wind.reports.MostProfitableRouterReport;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Most profitable router" report data in CSV format.
  * 
  * @author Alexandra Beskorovaynaya
@@ -35,7 +35,7 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		MostProfitableRouterReport report = null;										// REVIEW: implementation is too far from usage
+							
 		
 		//check the presence of dates
 		if (request.getParameter("from") == null
@@ -52,8 +52,8 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);					// REVIEW: error: you mixed up "toDateString" with "fromDateString"
-		if (!matcherFromDate.find() || !matcherToDate.find()) {
+		final Matcher matcherToDate = pattern.matcher(toDateString);		
+		if (!matcherFromDate.matches() || !matcherToDate.matches()) {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
@@ -62,6 +62,7 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 		Date fromDate = Date.valueOf(fromDateString);
 		Date toDate = Date.valueOf(toDateString);
 		
+		MostProfitableRouterReport report = null;	
 		try {
 			report = new MostProfitableRouterReport(fromDate, toDate);
 		} catch (Exception e) {

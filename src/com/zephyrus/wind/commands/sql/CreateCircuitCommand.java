@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
@@ -19,12 +20,9 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link									// REVIEW: link isn't working
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for creating of
- * circuit by provisioning engineer.
- * 
- * @return page with confirmation of successful creation of circuit								// REVIEW: how possibly can class return the value?
- * 
+ * This class contains the method, that is declared in 			
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for creating of
+ * circuit by provisioning engineer.						 
  * @author Alexandra Beskorovaynaya
  */
 public class CreateCircuitCommand extends SQLCommand {
@@ -45,27 +43,20 @@ public class CreateCircuitCommand extends SQLCommand {
 
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page!<br>"				// REVIEW: HTML code on server side
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_PROVISION_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/provision'><input type='"					// REVIEW: HTML code on server side
-							+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid"
-					+ "<a href='/Zephyrus/provision'><input type='"							// REVIEW: HTML code on server side
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
@@ -73,45 +64,44 @@ public class CreateCircuitCommand extends SQLCommand {
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDao.findById(taskID);
 		if (task == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"								// REVIEW: HTML code on server side
-							+ "<a href='/Zephyrus/provision'> Tasks </a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
 		ServiceOrder so = task.getServiceOrder();
 		Port port = findPortFromTaskID(task);
-
-		String circuitConfig = request.getParameter("circuit");								// REVIEW: what if circuit config is null
+		
+		if (request.getParameter("circuit") == null) {
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		String circuitConfig = request.getParameter("circuit");			
 		if (circuitConfig.equals("")) {
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
-			request.setAttribute("message", "Circuit field can not be empty!");
+			request.setAttribute("error", "Circuit field can not be empty!");
 			return "provision/createCircuit.jsp";
 		}
 		
 		// creating circuit due to "New" scenario
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),				// REVIEW: Workflow constructor should also be in the try block
-				so);
+		NewScenarioWorkflow wf = null;
 		try {
+			wf = new NewScenarioWorkflow(getOracleDaoFactory(),
+					so);
 			wf.createCircuit(taskID, circuitConfig);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
-			request.setAttribute("message", "Failed to create circuit!");
+			request.setAttribute("error", "Failed to create circuit!");
 			return "provision/createCircuit.jsp";
 		} finally {
 			wf.close();
 		}
 
 		// sending redirect to page with confirmation
-		request.setAttribute(
-				"message",
-				"Circuit successfully added. Task completed! <br>"							// REVIEW: HTML code on server side
-						+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
-						+ " tasks' class='button'></a>");
+		request.setAttribute("messageNumber", MessageNumber.TASK_COMPLETED_MESSAGE.getId());
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 

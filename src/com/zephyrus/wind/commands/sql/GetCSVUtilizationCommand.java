@@ -14,8 +14,8 @@ import com.zephyrus.wind.helpers.CSVConverter;
 import com.zephyrus.wind.reports.RouterUtilizationReport;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Router utilization and capacity" report data in CSV format.
  * 
  * @author Alexandra Beskorovaynaya
@@ -41,7 +41,7 @@ public class GetCSVUtilizationCommand extends SQLCommand {
 			e.printStackTrace();
 			request.setAttribute("message",
 					"Error occured during report downloading");
-			return "reports/utilizationReport.jsp";											// REVIEW: hardcoded page
+			return "reports/utilizationReport.jsp";								
 
 		}
 		final int MAX_ROWS_IN_EXCEL = 65535;

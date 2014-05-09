@@ -37,7 +37,6 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		NewOrdersPerPeriodReport report = null;									// REVIEW: implementation is too far from usage
 
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
@@ -51,14 +50,16 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);		  // REVIEW: error: you mixed up "toDateString" with "fromDateString"
-		if (!matcherFromDate.find() || !matcherToDate.find()) {
+		final Matcher matcherToDate = pattern.matcher(toDateString);		 
+		if (!matcherFromDate.matches() || !matcherToDate.matches()) {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/newOrdersReport.jsp";
 		}
 
 		Date fromDate = Date.valueOf(fromDateString);
 		Date toDate = Date.valueOf(toDateString);
+		
+		NewOrdersPerPeriodReport report = null;		
 		try {
 			report = new NewOrdersPerPeriodReport(fromDate, toDate);
 		} catch (Exception e) {

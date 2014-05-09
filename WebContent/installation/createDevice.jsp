@@ -27,7 +27,8 @@ hr {
   <div style="text-align:center">
     <h2>Create a Device for Task# ${taskId}</h2></div>
   <form method="post" action="/Zephyrus/createDevice">
- <div><font color="red"> ${message} </font></div>
+ <div><font color="green"> ${message} </font></div>
+  <div><font color="red"> ${error} </font></div>
   <br>
   <br>
   <label>Type the serial number of device. Pay your attention that serial number must be
