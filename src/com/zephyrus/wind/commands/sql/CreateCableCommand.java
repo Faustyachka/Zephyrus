@@ -16,7 +16,7 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link										// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * the cable in the system.
  * 
@@ -27,7 +27,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.dao.interfaces.ICableDAO
  * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
  * 
- * @return page with confirmation of successful creation of cable
+ * @return page with confirmation of successful creation of cable									// REVIEW: how possibly can class return the value?
  * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 public class CreateCableCommand extends SQLCommand {
@@ -54,10 +54,10 @@ public class CreateCableCommand extends SQLCommand {
 
 		User user = (User) request.getSession().getAttribute("user");
 
-		// checking is user authorized
-		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
+		// checking is user authorized																// REVIEW: typo is->if
+		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {	
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
+					+ "Installation Engineer's account to view this page!<br>"						// REVIEW: HTML code on server side
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -66,7 +66,7 @@ public class CreateCableCommand extends SQLCommand {
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
+					"You must choose task from task's page!<br>"									// REVIEW: HTML code on server side
 							+ "<a href='/Zephyrus/installation'> <input type='"
 							+ "button' class='button' value='Tasks'/> </a>");
 		}
@@ -75,7 +75,7 @@ public class CreateCableCommand extends SQLCommand {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!<br>"
+					+ "You must choose task from task's page!<br>"									// REVIEW: HTML code on server side
 					+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -85,7 +85,7 @@ public class CreateCableCommand extends SQLCommand {
 		Task task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),						// REVIEW: Workflow constructor should also be in the try block
 				order);
 		try {
 			wf.createCable(taskID);
@@ -93,14 +93,14 @@ public class CreateCableCommand extends SQLCommand {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
 			request.setAttribute("taskId", taskID);
-			request.setAttribute("message", "Failed to create cable!");
+			request.setAttribute("message", "Failed to create cable!");								// REVIEW: "message" attribute instead of "errorMessage"
 			return "newConnectionProperties";
 		} finally {
 			wf.close();
 		}
 
 		request.setAttribute("taskId", taskID);
-		request.setAttribute("message", "New cable successfully created!");
+		request.setAttribute("message", "New cable successfully created!");							// REVIEW: "message" attribute instead of "errorMessage"
 		return "newConnectionProperties";
 	}
 }

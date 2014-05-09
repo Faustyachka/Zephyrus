@@ -1,4 +1,4 @@
-package com.zephyrus.wind.commands.nosql;
+package com.zephyrus.wind.commands.nosql;															
 
 import java.io.DataInputStream;
 import java.io.File;
@@ -10,7 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.Command;
-																									// REVIEW: documentation expected
+																									// REVIEW: Is this class used anywhere? + documentation expected + class should be named FileDownloadCommand
 public class FileDownload implements Command{
 																									// REVIEW: documentation expected
 	@Override

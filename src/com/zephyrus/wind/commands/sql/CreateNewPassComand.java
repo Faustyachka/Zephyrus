@@ -13,11 +13,11 @@ import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link							// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to change
  * password to the Customer User by Customer Support Engineer.
  * 
- * @return in success case the page of changing password confirmation.
+ * @return in success case the page of changing password confirmation.					// REVIEW: return
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -42,7 +42,7 @@ public class CreateNewPassComand extends SQLCommand {
 		// checking is user authorized
 		if (support == null
 				|| support.getRole().getId() != ROLE.SUPPORT.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
+			request.setAttribute("errorMessage", "You should login under "			// REVIEW: HTML
 					+ "Support's account to view this page!<br>"
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
@@ -51,11 +51,11 @@ public class CreateNewPassComand extends SQLCommand {
 
 		int userId;
 
-		if (request.getParameter("userId") == null) {
+		if (request.getParameter("userId") == null) {								// REVIEW: you have user attribute and userId param. Why do you need both?
 			request.setAttribute(
 					"errorMessage",
 					"Such user does not exist.<br>"
-							+ "<a href='/Zephyrus/support/index.jsp'> <input type='"
+							+ "<a href='/Zephyrus/support/index.jsp'> <input type='"	// REVIEW: HTML
 							+ "button' class='button' value='Home'/> </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -93,7 +93,7 @@ public class CreateNewPassComand extends SQLCommand {
 
 		dao.update(user);
 		request.setAttribute("message",
-				"Password changed <br> <a href='/Zephyrus/customersupport'><input type='"
+				"Password changed <br> <a href='/Zephyrus/customersupport'><input type='"	// REVIEW: HTML
 						+ "button' class='button' value='Home'/></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 

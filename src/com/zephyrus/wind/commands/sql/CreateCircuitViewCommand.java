@@ -17,21 +17,21 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link									// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * circuit creation details to provisioning engineer.
  * 
- * @return page with information about creation of circuit
+ * @return page with information about creation of circuit										// REVIEW: return. again.
  * 
  * @author Alexandra Beskorovaynaya
  */
 public class CreateCircuitViewCommand extends SQLCommand {
 
 	/**
-	 * This method checks all necessary input data and forms the necessary
+	 * This method checks all necessary input data and forms the necessary						// REVIEW: how does it form "necessary information"?
 	 * information for circuit creation.
 	 * 
-	 * @return the page of circuit creation. In error situation returns the page
+	 * @return the page of circuit creation. In error situation returns the page				// REVIEW: "returns the page with message". what does it mean?
 	 *         with message about error details.
 	 */
 	@Override
@@ -44,7 +44,7 @@ public class CreateCircuitViewCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page! <br>"
+					+ "Provisioning Engineer's account to view this page! <br>"					// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -54,7 +54,7 @@ public class CreateCircuitViewCommand extends SQLCommand {
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/provision'><input type='"
+							+ "<a href='/Zephyrus/provision'><input type='"						// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
@@ -70,7 +70,7 @@ public class CreateCircuitViewCommand extends SQLCommand {
 		
 		if (task == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
+					"You must choose task from task's page!"									// REVIEW: HTML
 							+ "<a href='/Zephyrus/provision'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -84,13 +84,13 @@ public class CreateCircuitViewCommand extends SQLCommand {
 	 * Method for searching port by order task
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given
+	 * @param given																				// REVIEW: wrong documentation format: param name isn't specified
 	 *            task
 	 * @return port object if exist, otherwise null.
 	 * @author Miroshnychenko Nataliya
 	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception {
+	private Port findPortFromTaskID(Task task) throws Exception {								// REVIEW: find from task ID, but Task param was given
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

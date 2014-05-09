@@ -16,12 +16,12 @@ import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link									// REVIEW: @link is not working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
  * the list of users on the index page of Administrator.
- * 
- * @return index page of Administrator with JTable of Users
- * 
+ * 																								// REVIEW: extra line
+ * @return index page of Administrator with JTable of Users										// REVIEW: class? class returns something?
+ * 																								// REVIEW: extra line
  * @author Alexandra Beskorovaynaya
  */
 public class AdminCommand extends SQLCommand {
@@ -31,8 +31,8 @@ public class AdminCommand extends SQLCommand {
 	 * gets the list of users from the DB, transform it to Json Array and send
 	 * on the jsp page.
 	 * 
-	 * @return index page of Administrator with JTable of Users.
-	 * 
+	 * @return index page of Administrator with JTable of Users.								// REVIEW: documentation is tricky. How come the string can be index page with something? + when null is returned?
+	 * 																							// REVIEW: extra line
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,

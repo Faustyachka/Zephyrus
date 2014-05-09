@@ -19,11 +19,11 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: link is not working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * new Engineer account in system by Administrator.
  * 
- * @return null because all request to this command are AJAX. Command only
+ * @return null because all request to this command are AJAX. Command only					// REVIEW: return. again.
  *         return messages about errors or success.
  * 
  * @author Alexandra Beskorovaynaya
@@ -46,7 +46,7 @@ public class CreateUserCommand extends SQLCommand {
 		// checking is user authorized
 		if (admin == null || admin.getRole().getId() != ROLE.ADMIN.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Administrator's account to view this page!<br>"
+					+ "Administrator's account to view this page!<br>"					// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -58,19 +58,19 @@ public class CreateUserCommand extends SQLCommand {
 		String email = request.getParameter("email");
 		String password = request.getParameter("password");
 		String confPassord = request.getParameter("confirmpass");
-		int roleId = Integer.parseInt(request.getParameter("engtype"));
+		int roleId = Integer.parseInt(request.getParameter("engtype"));					// REVIEW: what if param is null or if parse failed
 		Date s = new Date(new java.util.Date().getTime());
 
 		// check first name
-		if (name.equals("")) {
-			response.setContentType("text/plain");
+		if (name.equals("")) {															// REVIEW: what if it is null?
+			response.setContentType("text/plain");										// REVIEW: method should be written to encapsulate this code. Only param is message.
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write("Name can not be empty");
 			return null;
 		}
 
 		// check second name
-		if (sname.equals("")) {
+		if (sname.equals("")) {															// REVIEW: what if it is null?
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write("Second name can not be empty");
@@ -84,7 +84,7 @@ public class CreateUserCommand extends SQLCommand {
 		if (!matcher.find()) {
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Bad email");
+			response.getWriter().write("Bad email");									// REVIEW: "Bad email" -> "Wrong email format"
 			return null;
 		}
 
@@ -98,7 +98,7 @@ public class CreateUserCommand extends SQLCommand {
 			return null;
 		}
 		// check password
-		if (password.equals("")) {
+		if (password.equals("")) {														// REVIEW: what if it is null?
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write("Password can not be empty");
@@ -106,14 +106,14 @@ public class CreateUserCommand extends SQLCommand {
 		}
 
 		// check password confirmation on corresponding
-		if (!password.equals(confPassord)) {
+		if (!password.equals(confPassord)) {	
 			response.setContentType("text/plain");
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write("Passwords don't coincides!");
 			return null;
 		}
 
-		else {
+		else {																		// REVIEW: could be formed as separate method
 			// if everything is OK create user
 			User user = new User();
 			user.setFirstName(name);

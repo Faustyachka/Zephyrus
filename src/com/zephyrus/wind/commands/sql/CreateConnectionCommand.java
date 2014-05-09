@@ -16,7 +16,7 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link							// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * new connection to the service location in the system.
  * 
@@ -29,7 +29,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
  * @see com.zephyrus.wind.workflow.NewScenarioWorkflow
  * 
- * @return page with confirmation of successful creation of connection
+ * @return page with confirmation of successful creation of connection					// REVIEW: return. again.
  * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 
@@ -39,7 +39,7 @@ public class CreateConnectionCommand extends SQLCommand {
 	 * This method creates the connection in the database. Method gets
 	 * parameters of task's ID, number of port and cable's ID, which indicate
 	 * what service order connection is being created for and what port and
-	 * cable will be user for the connection. By means of workflow, new object
+	 * cable will be user for the connection. By means of workflow, new object			// REVIEW: Cable is not created in this command
 	 * Cable with mentioned parameters is created in the database.
 	 * 
 	 * @see com.zephyrus.wind.model.Cable
@@ -62,7 +62,7 @@ public class CreateConnectionCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
+					+ "Installation Engineer's account to view this page!<br>"			// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -72,7 +72,7 @@ public class CreateConnectionCommand extends SQLCommand {
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+							+ "<a href='/Zephyrus/installation'><input type='"			// REVIEW: HTML
 							+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
@@ -80,7 +80,7 @@ public class CreateConnectionCommand extends SQLCommand {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!<br>"
+					+ "You must choose task from task's page!<br>"						// REVIEW: HTML
 					+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -92,14 +92,14 @@ public class CreateConnectionCommand extends SQLCommand {
 
 		if (task == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
+					"You must choose task from task's page!"							// REVIEW: HTML
 							+ "<a href='/Zephyrus/installation'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		ServiceOrder order = task.getServiceOrder();
 
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),			// REVIEW: Workflow constructor should also be in the try block
 				order);
 		try {
 			wf.plugCableToPort(taskID);
@@ -115,7 +115,7 @@ public class CreateConnectionCommand extends SQLCommand {
 		}
 
 		request.setAttribute("message",
-				"New connection successfully created! Task completed!<br>"
+				"New connection successfully created! Task completed!<br>"				// REVIEW: HTML
 						+ "<a href='/Zephyrus/installation'><input type='"
 						+ "button' class='button' value='Tasks'/></a>");
 		return PAGES.MESSAGE_PAGE.getValue();

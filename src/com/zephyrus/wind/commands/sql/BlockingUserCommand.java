@@ -41,7 +41,7 @@ public class BlockingUserCommand extends SQLCommand {
 		// check the presence of user's id
 		if (request.getParameter("id") == null
 				|| request.getParameter("status") == null) {
-			response.setContentType("text/plain");
+			response.setContentType("text/plain");													// REVIEW: this should be formed as the function, with only param: replyText
 			response.setCharacterEncoding("UTF-8");
 			response.getWriter().write("Please, choose user from table!");
 			return null;

@@ -19,7 +19,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
  * 
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * new device in the system.
  * 
@@ -27,7 +27,7 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * @see com.zephyrus.wind.enums.PAGES
  * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
  * 
- * @return page with confirmation of successful creation of device
+ * @return page with confirmation of successful creation of device							// REVIEW: return in class documentation
  * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 
@@ -42,10 +42,10 @@ public class CreateDeviceCommand extends SQLCommand {
 	 * @see com.zephyrus.wind.enums.PAGES
 	 * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
 	 * 
-	 * @return page with confirmation of successful deletion of cable
+	 * @return page with confirmation of successful deletion of cable						// REVIEW: "page with confirmation" only?
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,
+	protected String doExecute(HttpServletRequest request,									// REVIEW: method is too long and should be split
 			HttpServletResponse response) throws SQLException, Exception {
 
 		int taskID;
@@ -55,7 +55,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
+					+ "Installation Engineer's account to view this page!<br>"				// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -64,7 +64,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
+					"You must choose task from task's page!<br>"							// REVIEW: HTML
 							+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -73,7 +73,7 @@ public class CreateDeviceCommand extends SQLCommand {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid. "
+			request.setAttribute("errorMessage", "Task ID is not valid. "					// REVIEW: HTML
 					+ "You must choose task from task's page!<br>"
 					+ "<a href='/Zephyrus/installation'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
@@ -83,8 +83,8 @@ public class CreateDeviceCommand extends SQLCommand {
 		String serialNum = request.getParameter("serialNum");
 		int portQuantity = 60;
 
-		if (serialNum.isEmpty()) {
-			request.setAttribute("message", "Serial number can not be empty!");
+		if (serialNum.isEmpty()) {															// REVIEW: What if serialNum is null?
+			request.setAttribute("message", "Serial number can not be empty!");				// REVIEW: "message" attribute instead of "errorMessage"
 			request.setAttribute("taskId", taskID);
 			return "installation/createDevice.jsp";
 		}
@@ -94,7 +94,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		final Matcher matcher = pattern.matcher(serialNum);
 
 		if (!matcher.find()) {
-			request.setAttribute("message", "Serial number is not valid!");
+			request.setAttribute("message", "Serial number is not valid!");					// REVIEW: "message" attribute instead of "errorMessage"
 			request.setAttribute("taskId", taskID);
 			return "installation/createDevice.jsp";
 		}
@@ -104,7 +104,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),				// REVIEW: Workflow constructor should also be in the try block
 				order);
 		try {
 			wf.createRouter(taskID, serialNum, portQuantity);

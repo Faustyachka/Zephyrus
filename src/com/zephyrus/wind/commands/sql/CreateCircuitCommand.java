@@ -19,11 +19,11 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link									// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for creating of
  * circuit by provisioning engineer.
  * 
- * @return page with confirmation of successful creation of circuit
+ * @return page with confirmation of successful creation of circuit								// REVIEW: how possibly can class return the value?
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -36,7 +36,7 @@ public class CreateCircuitCommand extends SQLCommand {
 	 * @return page with confirmation of successful creation of circuit
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,
+	protected String doExecute(HttpServletRequest request,									// REVIEW: method is too long and should be split
 			HttpServletResponse response) throws SQLException, Exception {
 
 		int taskID;
@@ -46,7 +46,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page!<br>"
+					+ "Provisioning Engineer's account to view this page!<br>"				// REVIEW: HTML code on server side
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -56,7 +56,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
 					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/provision'><input type='"
+							+ "<a href='/Zephyrus/provision'><input type='"					// REVIEW: HTML code on server side
 							+ "button' class='button' value='Tasks'/></a>");
 		}
 		try {
@@ -64,7 +64,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid"
-					+ "<a href='/Zephyrus/provision'><input type='"
+					+ "<a href='/Zephyrus/provision'><input type='"							// REVIEW: HTML code on server side
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -74,7 +74,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		Task task = taskDao.findById(taskID);
 		if (task == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
+					"You must choose task from task's page!"								// REVIEW: HTML code on server side
 							+ "<a href='/Zephyrus/provision'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -82,7 +82,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		ServiceOrder so = task.getServiceOrder();
 		Port port = findPortFromTaskID(task);
 
-		String circuitConfig = request.getParameter("circuit");
+		String circuitConfig = request.getParameter("circuit");								// REVIEW: what if circuit config is null
 		if (circuitConfig.equals("")) {
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
@@ -91,7 +91,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		}
 		
 		// creating circuit due to "New" scenario
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
+		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),				// REVIEW: Workflow constructor should also be in the try block
 				so);
 		try {
 			wf.createCircuit(taskID, circuitConfig);
@@ -109,7 +109,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		// sending redirect to page with confirmation
 		request.setAttribute(
 				"message",
-				"Circuit successfully added. Task completed! <br>"
+				"Circuit successfully added. Task completed! <br>"							// REVIEW: HTML code on server side
 						+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
 						+ " tasks' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
@@ -119,13 +119,13 @@ public class CreateCircuitCommand extends SQLCommand {
 	 * Method for searching port by order task
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given
+	 * @param given																			// REVIEW: wrong documentation format: param name isn't specified
 	 *            task
 	 * @return port object if exist, otherwise null.
 	 * @author Miroshnychenko Nataliya
 	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception {
+	private Port findPortFromTaskID(Task task) throws Exception {							// REVIEW: find from task ID, but Task param was given
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

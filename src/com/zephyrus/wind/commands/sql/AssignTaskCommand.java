@@ -19,7 +19,7 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: @link is not working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to assign
  * task to the engineer.
  * 
@@ -54,7 +54,7 @@ public class AssignTaskCommand extends SQLCommand {
 			request.setAttribute(
 					"errorMessage",
 					"You should login to view this page!<br>"
-							+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+							+ " <a href='/Zephyrus/view/login.jsp'><input type='"						// REVIEW: HTML code on server side
 							+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -65,7 +65,7 @@ public class AssignTaskCommand extends SQLCommand {
 			request.setAttribute(
 					"errorMessage",
 					"You should login under Provisioning or"
-							+ "Installation Engineer's account to view this page!<br>"
+							+ "Installation Engineer's account to view this page!<br>"					// REVIEW: HTML code on server side
 							+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 							+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -74,7 +74,7 @@ public class AssignTaskCommand extends SQLCommand {
 		// check the presence of task ID
 		if (request.getParameter("id") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
+					"You must choose task from task's page!<br>"										// REVIEW: HTML code on server side
 							+ "<a href='/Zephyrus/provision'><input type='"
 							+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -92,7 +92,7 @@ public class AssignTaskCommand extends SQLCommand {
 
 		if (task == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
+					"You must choose task from task's page!"											// REVIEW: HTML code on server side
 							+ "<a href='/Zephyrus/installation'> Tasks </a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -101,14 +101,14 @@ public class AssignTaskCommand extends SQLCommand {
 
 		// check the scenario for given task
 		if (order.getOrderType().getId() == ORDER_TYPE.NEW.getId()) {
-			NewScenarioWorkflow wf = new NewScenarioWorkflow(
+			NewScenarioWorkflow wf = new NewScenarioWorkflow(											// REVIEW: Workflow constructor also should be placed into try block
 					getOracleDaoFactory(), order);
 			try {
 				wf.assignTask(taskId, user.getId());
 			} catch (WorkflowException ex) {
 				ex.printStackTrace();
 				getOracleDaoFactory().rollbackTransaction();
-				request.setAttribute("message", "Failed to assign task");
+				request.setAttribute("message", "Failed to assign task");								// REVIEW: "message" attribute instead of "errorMessage"
 				return PAGES.MESSAGE_PAGE.getValue();
 			} finally {
 				wf.close();
@@ -116,8 +116,8 @@ public class AssignTaskCommand extends SQLCommand {
 		}
 
 		if (order.getOrderType().getId() == ORDER_TYPE.DISCONNECT.getId()) {
-			DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(
-					getOracleDaoFactory(), order);
+			DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(								// REVIEW: You should do like this: Workflow wf = NewScenarioWorkflow(...) or ModifyScenarioWorkflow(...);
+					getOracleDaoFactory(), order);														// REVIEW: than, whatever wf it is, you can simply do the same: wf.assignTask(...); so there is no need in if clauses on every assignTask 
 			try {
 				wf.assignTask(taskId, user.getId());
 			} catch (WorkflowException ex) {
