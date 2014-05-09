@@ -20,12 +20,12 @@ import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
  * defined user's Service Instances and Service Orders to Customer Support
  * Engineer.
  * 
- * @return page with all service Orders and Service Instances of defined user.
+ * @return page with all service Orders and Service Instances of defined user.				// REVIEW: return
  * @author Alexandra Beskorovaynaya
  * 
  */
@@ -48,7 +48,7 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 			request.setAttribute(
 					"errorMessage",
 					"You must be logged in under Support Engineer account"
-							+ " to review this page!<br><a href='/Zephyrus/view/login.jsp'><input type='"
+							+ " to review this page!<br><a href='/Zephyrus/view/login.jsp'><input type='"	// REVIEW: HTML
 							+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -56,14 +56,14 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 			request.setAttribute(
 					"errorMessage",
 					"You must choose the user from list!<br>"
-							+ "<a href='/Zephyrus/customersupport'><input type='"
+							+ "<a href='/Zephyrus/customersupport'><input type='"					// REVIEW: HTML
 							+ "button' class='button' value='Users'/></a> ");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			int userID = Integer.parseInt(request.getParameter("id"));
 			IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
-			User customerUser = userDAO.findById(userID);
+			User customerUser = userDAO.findById(userID);											// REVIEW: what if it's null?
 			IServiceInstanceDAO siDAO = getOracleDaoFactory()
 					.getServiceInstanceDAO();
 			ArrayList<ServiceInstance> serviceInstances = siDAO
@@ -72,11 +72,11 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 			IServiceOrderDAO soDAO = getOracleDaoFactory().getServiceOrderDAO();
 			Map<ServiceInstance, String> instances = new HashMap<ServiceInstance, String>();
 			for (ServiceInstance instance: serviceInstances) {
-				instances.put(instance, soDAO.getSICreateOrder(instance).getServiceLocation().getAddress());
+				instances.put(instance, soDAO.getSICreateOrder(instance).getServiceLocation().getAddress());	// REVIEW: cycles should not be used here. DAO method should fetch this information. 
 			}			
 			request.setAttribute("instances", instances);
 			request.setAttribute("orders", orders);
-			return "support/ordersInstances.jsp";
+			return "support/ordersInstances.jsp";										// REVIEW: hardcoded page name
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "User ID is not valid");
@@ -88,7 +88,7 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 	/**
 	 * Method finds Service Orders object of User
 	 * 
-	 * @param User
+	 * @param User															// REVIEW: no description
 	 * @return collection of Service Orders
 	 * @author Miroshnychenko Nataliya
 	 */
@@ -98,7 +98,7 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 		ArrayList<ServiceLocation> serviceLocations = getOracleDaoFactory()
 				.getServiceLocationDAO().getServiceLocationsByUserId(
 						user.getId());
-		for (ServiceLocation serviceLocation : serviceLocations) {
+		for (ServiceLocation serviceLocation : serviceLocations) {						// REVIEW: cycle here is a bad practice
 			serviceOrders.addAll(getOracleDaoFactory().getServiceOrderDAO()
 					.getServiceOrdersByServiceLocationId(
 							serviceLocation.getId()));

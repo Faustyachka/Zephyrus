@@ -30,9 +30,9 @@ public class SaveOrderCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		returnOrder(request, response, getOracleDaoFactory());
+		returnOrder(request, response, getOracleDaoFactory());										// REVIEW: order is returned but don't used
 		request.setAttribute("message", "Order successfuly saved! <br>"
-						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"
+						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"	// REVIEW: HTML
 						+ " orders' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
@@ -47,7 +47,7 @@ public class SaveOrderCommand extends SQLCommand {
 		location = locationDAO.insert(location);
 		
 		IServiceOrderDAO orderDAO = factory.getServiceOrderDAO();
-		ProductCatalog service = (ProductCatalog) session.getAttribute("service");
+		ProductCatalog service = (ProductCatalog) session.getAttribute("service");				// REVIEW: what if service is null?
 		ServiceOrder order = new ServiceOrder();
 		OrderStatus orderStatus = new OrderStatus();
 		orderStatus.setId(ORDER_STATUS.ENTERING.getId());										// REVIEW: setOrderStatusValue wasn't invoked. OrderStatus should be obtained by find method in generic DAO

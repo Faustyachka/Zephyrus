@@ -13,7 +13,7 @@ import com.zephyrus.wind.model.ServiceLocation;
 
 /**
  * This class contains the method, that is declared in 
- * @link #com.zephyrus.wind.commands.interfaces.SQLCommand. It 
+ * @link #com.zephyrus.wind.commands.interfaces.SQLCommand. It 							// REVIEW: link isn't working
  * provides the functionality of available services sending for 
  * displaying it on page of service selection.
  * 

@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.RouterUtilizationReport;
 import com.zephyrus.wind.reports.rows.RouterUtilRow;
-
+																				// REVIEW: documentation expected
 public class UtilizationReportCommand extends SQLCommand {
 
 	private final int NUMBER_RECORDS_PER_PAGE = 20;
@@ -17,10 +17,10 @@ public class UtilizationReportCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int last;
+		int last;																// REVIEW: implementation too far from usage
 		if (request.getParameter("last") == null) {
 			request.setAttribute("message", "Failed to create report");
-			return "reports/utilizationReport.jsp";
+			return "reports/utilizationReport.jsp";								// REVIEW: hardcoded link
 		}
 
 		try {
@@ -47,7 +47,7 @@ public class UtilizationReportCommand extends SQLCommand {
 		}
 
 		if (checkRecords.isEmpty()) {
-			request.setAttribute("next", "0");
+			request.setAttribute("next", "0");									// REVIEW: see remarks about it in previous commands
 		} else {
 			request.setAttribute("next", "1");
 		}
@@ -55,7 +55,7 @@ public class UtilizationReportCommand extends SQLCommand {
 		request.setAttribute("records", records);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
 
-		return "reports/utilizationReport.jsp";
+		return "reports/utilizationReport.jsp";									// REVIEW: hardcoded link
 	}
 
 }

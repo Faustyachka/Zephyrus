@@ -1,6 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.SQLException;
+import java.sql.SQLException;															// REVIEW: unused import
 import java.util.ArrayList;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,7 +14,7 @@ import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
-
+																						// REVIEW: documentation expected 
 public class ModifyServiceCommand extends SQLCommand{
 
 	@Override
@@ -28,7 +28,7 @@ public class ModifyServiceCommand extends SQLCommand{
 		ArrayList<ProductCatalog> products = null;
 
 		if (request.getParameter("id") != null){
-		serviceInstanceID = Integer.parseInt(request.getParameter("id"));
+		serviceInstanceID = Integer.parseInt(request.getParameter("id"));		// REVIEW: what if parse failed? it throws exception
 		}
 		if(serviceInstanceID != null){
 			serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);

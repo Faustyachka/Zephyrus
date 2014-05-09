@@ -21,7 +21,7 @@ import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.workflow.ModifyScenarioWorkflow;
 
 /**
- * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand. // REVIEW: link isn't working
  * Method realized SI modify
  * 
  * @see com.zephyrus.wind.model.ServiceOrder
@@ -30,7 +30,7 @@ import com.zephyrus.wind.workflow.ModifyScenarioWorkflow;
  * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
  * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
  * 
- * @return massage of successful modify order creation
+ * @return massage of successful modify order creation											// REVIEW: return
  * @author Miroshnychenko Nataliya
  */
 
@@ -48,7 +48,7 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 	 * @see com.zephyrus.wind.enums.PAGES
 	 * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
 	 * 
-	 * @return page with confirmation of successful creation of modify order
+	 * @return page with confirmation of successful creation of modify order			// REVIEW: always?
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -65,20 +65,20 @@ public class ModifyOrderCreateCommand extends SQLCommand {
         }
 		
 		IServiceInstanceDAO serviceInstanceDAO = getOracleDaoFactory().getServiceInstanceDAO();
-		Integer serviceInstanceID = Integer.parseInt(request.getParameter("serviceInstance"));
+		Integer serviceInstanceID = Integer.parseInt(request.getParameter("serviceInstance"));	// REVIEW: what if parse failed?
 		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);
 		
 		IProductCatalogDAO productCatalogDAO = getOracleDaoFactory().getProductCatalogDAO();
-		Integer productCatalogId = Integer.parseInt(request.getParameter("product"));
+		Integer productCatalogId = Integer.parseInt(request.getParameter("product"));				// REVIEW: what if parse failed?
 		ProductCatalog productCatalog = productCatalogDAO.findById(productCatalogId);
 		
-		modifyOrder = createModifyOrder(serviceInstance, productCatalog);
+		modifyOrder = createModifyOrder(serviceInstance, productCatalog);							// REVIEW: you have modifyOrder variable with class scope. so why do you need to return it? either return nothing or make this variable local and delete class-scope variable (prefered)
 		
-		ModifyScenarioWorkflow workflow = new ModifyScenarioWorkflow(getOracleDaoFactory(), modifyOrder);
+		ModifyScenarioWorkflow workflow = new ModifyScenarioWorkflow(getOracleDaoFactory(), modifyOrder);	// REVIEW: try block expected
 		workflow.proceedOrder();
 		workflow.close();
 
-		request.setAttribute("message", "Modify order has been created successfuly <br>"
+		request.setAttribute("message", "Modify order has been created successfuly <br>"				// REVIEW: HTML
 						+ "<br><a href='/Zephyrus/customerServices'> <input type='button' value='Back to"
 						+ " services' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
@@ -89,11 +89,11 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 	 * This method create order for modify scenario workflow 
 	 * Method gets parameter of service instance that will be disconnect and new Product Catalog
 	 * In the processes of modify SI will be created Service Order with type MODIFY and status ENTERING
-	 * 
+	 * 																			// REVIEW: params specification expected
 	 * @see com.zephyrus.wind.model.ServiceOrder
 	 * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
 	 * 
-	 * @return modify service order
+	 * @return modify service order												// REVIEW: rephrase
 	 */
 
 	private ServiceOrder createModifyOrder(ServiceInstance serviceInstance, ProductCatalog productCatalog) throws Exception {
@@ -101,7 +101,7 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 		ServiceOrder order = new ServiceOrder();
 		OrderStatus orderStatus = new OrderStatus();
 		orderStatus.setId(ORDER_STATUS.ENTERING.getId());	
-		order.setOrderStatus(orderStatus);
+		order.setOrderStatus(orderStatus);										// REVIEW: gaps between blocks of code would be appreciated
 		order.setOrderDate(new Date(new java.util.Date().getTime()));
 		OrderType orderType = new OrderType();
 		orderType.setId(ORDER_TYPE.MODIFY.getId());	

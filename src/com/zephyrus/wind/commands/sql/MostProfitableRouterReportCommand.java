@@ -12,11 +12,11 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.MostProfitableRouterReport;
 import com.zephyrus.wind.reports.rows.MostProfitableRouterRow;
-
+																				// REVIEW: documentation expected
 public class MostProfitableRouterReportCommand extends SQLCommand {
 	
-	private static Date fromDate;
-	private static Date toDate;
+	private static Date fromDate;												// REVIEW: why do you need class scope variables in this command?
+	private static Date toDate;	
 	private final int NUMBER_RECORDS_PER_PAGE = 10;
 	
 	@Override
@@ -25,7 +25,7 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 		int last;
 		if (request.getParameter("last")==null) {
 			request.setAttribute("message", "Failed to create report");
-			return "reports/mostProfitableRouterReport.jsp";
+			return "reports/mostProfitableRouterReport.jsp";					// REVIEW: hardcoded page name
 		}
 		
 		try {
@@ -33,7 +33,7 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 			
 		} catch (NumberFormatException ex) {
 			request.setAttribute("message", "Failed to create report");
-			return "reports/mostProfitableRouterReport.jsp";
+			return "reports/mostProfitableRouterReport.jsp";					
 		}
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
@@ -54,7 +54,7 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 		ArrayList<MostProfitableRouterRow> records = new ArrayList<>();
 		ArrayList<MostProfitableRouterRow> checkRecords = new ArrayList<>();
 		try {
-			report = new MostProfitableRouterReport(fromDate, toDate);
+			report = new MostProfitableRouterReport(fromDate, toDate);				// REVIEW: what if fromDateString is null? than fromDate will be null too.	
 
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);			// REVIEW: no paging should be used here - report returns single router
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
@@ -66,7 +66,7 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 			return "reports/mostProfitableRouterReport.jsp";
 		}
 		if (checkRecords.isEmpty()) {
-			request.setAttribute("next", "0");
+			request.setAttribute("next", "0");										// REVIEW: see remarks about it in previous commands
 		} else {
 			request.setAttribute("next", "1");
 		}
@@ -75,7 +75,7 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 		request.setAttribute("toDate", toDate.toString());
 		request.setAttribute("last", last);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
-		return "reports/mostProfitableRouterReport.jsp";
+		return "reports/mostProfitableRouterReport.jsp";							// REVIEW: hardcoded page name
 	}
 
 }

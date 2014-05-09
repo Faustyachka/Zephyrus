@@ -12,7 +12,7 @@ import com.zephyrus.wind.enums.REPORT_TYPE;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
-
+																						// REVIEW: documentation expected
 public class ReportChoosingCommand extends SQLCommand {
 
 	@Override
@@ -24,12 +24,12 @@ public class ReportChoosingCommand extends SQLCommand {
 			request.setAttribute(
 					"errorMessage",
 					"You should login to view this page!<br>"
-							+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-							+ "button' class='button' value='Login'/></a>");
+							+ " <a href='/Zephyrus/view/login.jsp'><input type='"		// REVIEW: HTML
+							+ "button' class='button' value='Login'/></a>");		
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		// Get user from HTTP session
-		User user = (User) request.getSession().getAttribute("user");
+		User user = (User) request.getSession().getAttribute("user");					// REVIEW: why don't you make assignment of "user" attribute to some value and then check it?
 		UserRole userRole = user.getRole();
 		if (userRole.getId() == ROLE.ADMIN.getId()) {
 			ArrayList<REPORT_TYPE> types = new ArrayList<>();
@@ -39,21 +39,21 @@ public class ReportChoosingCommand extends SQLCommand {
 			request.setAttribute("types", types);
 			return "admin/reports.jsp";
 		}
-		
+																					// REVIEW: else if should be used
 		if (userRole.getId() == ROLE.INSTALLATION.getId()) {
 			ArrayList<REPORT_TYPE> types = new ArrayList<>();
 		    types.add(REPORT_TYPE.MOST_PROFITABLE_ROUTER);
 		    types.add(REPORT_TYPE.ROUTER_UTILIZATION);
 			request.setAttribute("types", types);
-			return "installation/reports.jsp";
-		}
+			return "installation/reports.jsp";										// REVIEW: hardcoded link
+		}																			// REVIEW: else if should be used
 		if (userRole.getId() == ROLE.PROVISION.getId()) {
 			ArrayList<REPORT_TYPE> types = new ArrayList<>();
 		    types.add(REPORT_TYPE.MOST_PROFITABLE_ROUTER);
 		    types.add(REPORT_TYPE.ROUTER_UTILIZATION);
 			request.setAttribute("types", types);
 			return "provision/reports.jsp";
-		}
+		}																			// REVIEW: else if should be used
 		if (userRole.getId() == ROLE.SUPPORT.getId()) {
 			ArrayList<REPORT_TYPE> types = new ArrayList<>();
 		    types.add(REPORT_TYPE.DISCONNECT_ORDERS_PER_PERIOD);

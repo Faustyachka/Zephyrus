@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.ProfitabilityByMonthReport;
 import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
-
+																					// REVIEW: documentation expected
 public class ProfitabilityByMonthCommand extends SQLCommand {
 	private static Date date;
 
@@ -27,7 +27,7 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 			final Pattern pattern = Pattern
 					.compile("^([0-9]){4}-([0-9]){2}$");
 			final Matcher matcherFromDate = pattern.matcher(dateString);
-			if (!matcherFromDate.find()) {
+			if (!matcherFromDate.find()) {											// REVIEW: use matches() instead
 				request.setAttribute("message", "Wrong format of date!");
 				return "reports/profitabilityReport.jsp";
 			}
@@ -38,18 +38,18 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 
 		ArrayList<ProfitabilityByMonthRow> records = new ArrayList<>();
 		try {
-			report = new ProfitabilityByMonthReport(date);
+			report = new ProfitabilityByMonthReport(date);							// REVIEW: if dateString is null, date variable will be uninitialized
 			final int MAX_PROVIDER_LOC_NUMBER = 10;
 			records = report.getReportData(1, MAX_PROVIDER_LOC_NUMBER);  // REVIEW: this params should be changed - paging should be implemented in this command
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Failed to form report");
-			return "reports/profitabilityReport.jsp";
+			return "reports/profitabilityReport.jsp";							// REVIEW: hardcoded link
 		}
 
 		request.setAttribute("records", records);
 		request.setAttribute("date", dateString);
-		return "reports/profitabilityReport.jsp";
+		return "reports/profitabilityReport.jsp";								// REVIEW: hardcoded link
 	}
 
 }

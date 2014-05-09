@@ -18,33 +18,33 @@ public class LoginCommand extends SQLCommand {
 		String userName = request.getUserPrincipal().getName();
 		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
 		User user = userDAO.findByEmail(userName);
-		if(user != null){
+		if(user != null){																		// REVIEW: user will be redirected to the home page, whether or not he was found in system?
 			if(user.getStatus()==USER_STATUS.BLOCKED.getValue()){								
 				request.logout();
 				request.setAttribute("message", "Your account " + userName + "is blocked!");
 				return PAGES.MESSAGE_PAGE.getValue();
 			} 
-			if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&
+			if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&		// REVIEW: not the best practice. Why don't change statement to isUserInRole("CUSTOMER")?
 					request.isUserInRole("PROVISION")==false && request.isUserInRole("SUPPORT")==false) {
-				if(request.getSession().getAttribute("user") == null)
+				if(request.getSession().getAttribute("user") == null)							// REVIEW: no braces + comments needed
 					request.getSession().setAttribute("user", user);
 				if(request.getSession().getAttribute("service") != null){
 					return PAGES.ORDERDETAIL_PAGE.getValue();
 				}
-				for(ROLE role : ROLE.values()){
+				for(ROLE role : ROLE.values()){												// REVIEW: this should be transfered to separate method
 					if(user.getRole().getId() == role.getId()){
 						response.sendRedirect(role.getHome());
 						return null;
 					}
 				}
 			}
-			if (request.isUserInRole("ADMIN")==true || request.isUserInRole("INSTALLATION")==true ||
+			if (request.isUserInRole("ADMIN")==true || request.isUserInRole("INSTALLATION")==true ||		// REVIEW: ones more - why don't substitute it with != isUserInRole("CUSTOMER")? or simply write "else"
 					request.isUserInRole("PROVISION")==true || request.isUserInRole("SUPPORT")==true) {
 				
 				if(request.getSession().getAttribute("user") == null) {
 					request.getSession().setAttribute("user", user);
 				}
-				for(ROLE role : ROLE.values()){
+				for(ROLE role : ROLE.values()){											// REVIEW: that's why method is needed
 					if(user.getRole().getId() == role.getId()){
 						response.sendRedirect(role.getHome());
 						return null;

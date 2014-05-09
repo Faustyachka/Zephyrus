@@ -12,14 +12,14 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: link is not working
  * #com.zephyrus.wind.commands.interfaces.Command. It is supposed to redirect
  * user from page with tasks to page of task processing.
  * 
  * @see com.zephyrus.wind.model.User
  * @see com.zephyrus.wind.enums.ROLE
  * 
- * @return page of task processing
+ * @return page of task processing															// REVIEW: return
  * @author Alexandra Beskorovaynaya
  */
 public class TaskRedirectorCommand extends SQLCommand {
@@ -32,12 +32,12 @@ public class TaskRedirectorCommand extends SQLCommand {
 	 * @see com.zephyrus.wind.model.User
 	 * @see com.zephyrus.wind.enums.ROLE
 	 * 
-	 * @return page of task processing for defined task
+	 * @return page of task processing for defined task								// REVIEW: rephrase - unclear + when null is returned?
 	 */
 	@Override
 	public String doExecute(HttpServletRequest request,
-			HttpServletResponse response) throws Exception {
-		int taskID;
+			HttpServletResponse response) throws Exception {						// REVIEW: method is too long and should be split
+		int taskID;																	// REVIEW: implementation is too far from usage
 
 		User user = (User) request.getSession().getAttribute("user");
 
@@ -45,7 +45,7 @@ public class TaskRedirectorCommand extends SQLCommand {
 		if (user == null) {
 			request.setAttribute("errorMessage", "You should login "
 					+ " to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
+					+ " <a href='/Zephyrus/view/login.jsp'><input type='"			// REVIEW: HTML
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -53,7 +53,7 @@ public class TaskRedirectorCommand extends SQLCommand {
 		// check the presence of task ID
 		if (request.getParameter("id") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
+					"You must choose task from task's page!<br>"					// REVIEW: HTML
 							+ "<a href='/Zephyrus/installation'><input type='"
 							+ "button' class='button' value='Tasks'/></a>");
 		}
@@ -63,7 +63,7 @@ public class TaskRedirectorCommand extends SQLCommand {
 			ex.printStackTrace();
 			request.setAttribute("errorMessage", "Task ID is not valid. "
 					+ "You must choose task from task's page!<br>"
-					+ "<a href='/Zephyrus/installation'><input type='"
+					+ "<a href='/Zephyrus/installation'><input type='"				// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -74,23 +74,23 @@ public class TaskRedirectorCommand extends SQLCommand {
 		
 		if (task == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
+					"You must choose task from task's page!<br>"	
+							+ "<a href='/Zephyrus/installation'><input type='"		// REVIEW: HTML
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		request.setAttribute("taskId", taskID);
 		if (user.getRole().getId() == ROLE.INSTALLATION.getId()) {
-			if (task.getServiceOrder().getOrderType().getId() == ORDER_TYPE.NEW
+			if (task.getServiceOrder().getOrderType().getId() == ORDER_TYPE.NEW		// REVIEW: too many invocations in one line
 					.getId()) {
-				return "newConnectionProperties";
+				return "newConnectionProperties";									// REVIEW: hardcoded link
 			}
 			if (task.getServiceOrder().getOrderType().getId() == ORDER_TYPE.DISCONNECT
 					.getId()) {
 				return "disconnectConnectionProperties";
 			}
-		}
+		}																			// REVIEW: else if
 		if (user.getRole().getId() == ROLE.PROVISION.getId()) {
 			if (task.getServiceOrder().getOrderType().getId() == ORDER_TYPE.NEW
 					.getId()) {

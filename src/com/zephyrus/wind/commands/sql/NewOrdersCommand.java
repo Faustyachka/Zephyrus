@@ -12,9 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
 import com.zephyrus.wind.reports.rows.NewOrdersPerPeriodRow;
-
+																				// REVIEW: documentation expected
 public class NewOrdersCommand extends SQLCommand {
-	private static Date fromDate;
+	private static Date fromDate;												// REVIEW: why do you need class scope variables here 
 	private static Date toDate;
 	private final int NUMBER_RECORDS_PER_PAGE = 10;
 
@@ -22,9 +22,9 @@ public class NewOrdersCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		int last;
-		if (request.getParameter("last")==null) {
-			request.setAttribute("message", "Failed to create report");
-			return "reports/utilizationReport.jsp";
+		if (request.getParameter("last")==null) {									
+			request.setAttribute("message", "Failed to create report");			// REVIEW: why? because "last" is null? what is it anyway?
+			return "reports/utilizationReport.jsp";								// REVIEW: hardcoded link
 		}
 		
 		try {
@@ -32,7 +32,7 @@ public class NewOrdersCommand extends SQLCommand {
 			
 		} catch (NumberFormatException ex) {
 			request.setAttribute("message", "Failed to create report");
-			return "reports/utilizationReport.jsp";
+			return "reports/utilizationReport.jsp";								
 		}
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
@@ -53,7 +53,7 @@ public class NewOrdersCommand extends SQLCommand {
 		ArrayList<NewOrdersPerPeriodRow> records = new ArrayList<>();
 		ArrayList<NewOrdersPerPeriodRow> checkRecords = new ArrayList<>();
 		try {
-			report = new NewOrdersPerPeriodReport(fromDate, toDate);
+			report = new NewOrdersPerPeriodReport(fromDate, toDate);								// REVIEW: if fromDateString is null - fromDate will be uninitialized
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
 					+ 1, 1);
@@ -63,7 +63,7 @@ public class NewOrdersCommand extends SQLCommand {
 			request.setAttribute("message", "Failed to form report");
 			return "reports/newOrdersReport.jsp";
 		}
-		if (checkRecords.isEmpty()) {
+		if (checkRecords.isEmpty()) {															// REVIEW: see remarks about it in previous commands
 			request.setAttribute("next", "0");
 		} else {
 			request.setAttribute("next", "1");
@@ -73,7 +73,7 @@ public class NewOrdersCommand extends SQLCommand {
 		request.setAttribute("toDate", toDate.toString());
 		request.setAttribute("last", last);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
-		return "reports/newOrdersReport.jsp";
+		return "reports/newOrdersReport.jsp";													// REVIEW: hardcoded link
 	}
 
 }

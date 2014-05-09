@@ -21,11 +21,11 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: link is not working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * new Customer User account in system.
  * 
- * @return null because all request to this command are AJAX. Command only
+ * @return null because all request to this command are AJAX. Command only					// REVIEW: return
  *         return messages about errors or success.
  * 
  * @author Alexandra Beskorovaynaya
@@ -40,10 +40,10 @@ public class RegisterCommand extends SQLCommand {
      *         return messages about errors or success.
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,
+	protected String doExecute(HttpServletRequest request,								
 			HttpServletResponse response) throws SQLException, Exception {
-
-		// get all parameters from page
+														
+		// get all parameters from page														// REVIEW: excessive tabulation in this class
 				String name = request.getParameter("firstname");
 				String sname = request.getParameter("secondname");
 				String email = request.getParameter("email");
@@ -52,17 +52,17 @@ public class RegisterCommand extends SQLCommand {
 				Date registrationDate = new Date(new java.util.Date().getTime());
 
 				// check first name
-				if (name.equals("")) {
+				if (name.equals("")) {														// REVIEW: null pointer exception
 					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
+					response.setCharacterEncoding("UTF-8");									// REVIEW: this should be formed as the function, with only param: replyText
 					response.getWriter().write("Name can not be empty");
 					return null;
 				}
 
 				// check second name
-				if (sname.equals("")) {
+				if (sname.equals("")) {														// REVIEW: null pointer exception			
 					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
+					response.setCharacterEncoding("UTF-8");									// REVIEW: this should be formed as the function, with only param: replyText
 					response.getWriter().write("Second name can not be empty");
 					return null;
 				}
@@ -71,10 +71,10 @@ public class RegisterCommand extends SQLCommand {
 				final Pattern pattern = Pattern
 						.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
 				final Matcher matcher = pattern.matcher(email);
-				if (!matcher.find()) {
+				if (!matcher.find()) {														// REVIEW: use matches()
 					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("Bad email");
+					response.getWriter().write("Bad email");								// "Bad email" -> "Wrong email format"
 					return null;
 				}
 
@@ -88,7 +88,7 @@ public class RegisterCommand extends SQLCommand {
 					return null;
 				}
 				// check password
-				if (password.equals("")) {
+				if (password.equals("")) {													// REVIEW: null pointer exception
 					response.setContentType("text/plain");
 					response.setCharacterEncoding("UTF-8");
 					response.getWriter().write("Password can not be empty");
@@ -103,7 +103,7 @@ public class RegisterCommand extends SQLCommand {
 					return null;
 				}
 
-				else {
+				else {																	// REVIEW: should be separate function
 					// if everything is OK create user
 					User user = new User();
 					user.setFirstName(name);

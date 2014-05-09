@@ -17,11 +17,11 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link								// REVIEW: link isn't working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * circuit updating details to provisioning engineer.
  * 
- * @return page with information about updating of circuit
+ * @return page with information about updating of circuit									// REVIEW: return. once more.
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -37,14 +37,14 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID;
+		int taskID;																			// REVIEW: implementation is too far from usage
 
 		User user = (User) request.getSession().getAttribute("user");
 
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
 			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page! <br>"
+					+ "Provisioning Engineer's account to view this page! <br>"				// REVIEW: HTML
 					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
 					+ "button' class='button' value='Login'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -53,7 +53,7 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
 			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
+					"You must choose task from task's page!<br>"							// REVIEW: HTML
 							+ "<a href='/Zephyrus/provision'><input type='"
 					+ "button' class='button' value='Tasks'/></a>");
 			return PAGES.MESSAGE_PAGE.getValue();
@@ -78,11 +78,11 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 		Port port = findPortFromTaskID(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
-		return "provision/modifyCircuit.jsp";
+		return "provision/modifyCircuit.jsp";											// REVIEW: hard coded link
 	}
 
 	/**
-	 * Method for searching port by order task
+	 * Method for searching port by order task											// REVIEW: see remarks in other Commands
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
 	 * @param given
