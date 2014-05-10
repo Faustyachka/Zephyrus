@@ -40,7 +40,7 @@ public class ShowReportCommand extends SQLCommand {
 			return "reports/profitabilityReport.jsp";
 		}
 		if (reportType == REPORT_TYPE.ROUTER_UTILIZATION.getId()) {
-			return "utilizationReport";				
+			return "utilizationReport?last=1";				
 		}
 		if (reportType == REPORT_TYPE.MOST_PROFITABLE_ROUTER.getId()) {
 			return "reports/mostProfitableRouterReport.jsp";
