@@ -46,19 +46,13 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 		}
 
 		// check the presence of task ID
-		if (request.getParameter("taskId") == null) {
+		if (request.getAttribute("taskId") == null) {
 			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
-		int taskID;	
-		try {
-			taskID = Integer.parseInt(request.getParameter("id"));
-		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
-			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
-			return PAGES.MESSAGE_PAGE.getValue();
-		}
+		int taskID = (int)request.getAttribute("taskId");
+
 
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskID);

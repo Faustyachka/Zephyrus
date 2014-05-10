@@ -27,10 +27,7 @@ import com.zephyrus.wind.model.User;
  */
 public class DeleteConnectionPropertiesCommand extends SQLCommand {
 
-	private int taskID;		
-	private Cable cable = null;															
-	private Port port = null;
-	private Device device = null;
+
 	
 	/**
 	 * This method gathers the information, needed on DisconnectWorkflowTasks.jsp page. 
@@ -43,7 +40,9 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-
+		
+		 	
+		
 		User user = (User) request.getSession().getAttribute("user");
 
 		// checking is user authorized
@@ -57,8 +56,7 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-
-		taskID = (int) request.getAttribute("taskId");
+		int taskID = (int) request.getAttribute("taskId");
 
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
@@ -75,6 +73,10 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		String message = (String) request.getAttribute("message");
 		String error = (String) request.getAttribute("error");
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
+		
+		Cable cable = null;															
+		Port port = null;
+		Device device = null;
 		cable = cableDAO.findCableFromServLoc(loc.getId());
 
 		if (cable != null) {
@@ -86,7 +88,7 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		}
 		
 		//send all necessary information to jsp
-		request.getSession().setAttribute("task", task);
+		request.setAttribute("task", task);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
 		request.setAttribute("order", order);

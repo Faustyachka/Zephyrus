@@ -133,6 +133,7 @@ public class CommandManager {
 	private static final String MOST_PROFITABLE_ROUTER_COMMAND = "mostProfitableRouter";
     private static final String MOST_PROFITABLE_ROUTER_EXCEL_COMMAND = "getMostProfitableRouterExcel";
     private static final String MOST_PROFITABLE_ROUTER_CSV_COMMAND = "getMostProfitableRouterCSV";
+    private static final String DISPLAY_TASKS_COMMAND = "displayTasks";
 
 
 	public CommandManager() {
@@ -200,6 +201,7 @@ public class CommandManager {
 		commands.put(MOST_PROFITABLE_ROUTER_COMMAND, new MostProfitableRouterReportCommand());
 		commands.put(MOST_PROFITABLE_ROUTER_EXCEL_COMMAND, new GetExcelMostProfitableRouterCommand());
 		commands.put(MOST_PROFITABLE_ROUTER_CSV_COMMAND, new GetCSVMostProfitableRouterCommand());
+		commands.put(DISPLAY_TASKS_COMMAND, new DisplayTasksCommand());
 
 	}
 																										// REVIEW: documentation expected

@@ -34,7 +34,7 @@ You should login under Provisioning or Installation Engineer's account to view t
 	</c:if>
 	<c:if test="${messageNumber == 4}">
 You must select task from task's page!<br>
-		<a href='/Zephyrus/provision'> <input type='button' class='button'
+		<a href='/Zephyrus/displayTasks'> <input type='button' class='button'
 			value='Tasks' />
 		</a>
 	</c:if>
@@ -52,7 +52,7 @@ You should login under Provisioning Engineer's account to view this page!<br>
 	</c:if>
 	<c:if test="${messageNumber == 7}">
 Task completed! <br>
-		<a href='/Zephyrus/provision'> <input type='button' class='button'
+		<a href='/Zephyrus/displayTasks'> <input type='button' class='button'
 			value='Back to Tasks' />
 		</a>
 	</c:if>
