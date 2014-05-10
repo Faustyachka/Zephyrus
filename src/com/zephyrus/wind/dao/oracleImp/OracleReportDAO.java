@@ -194,8 +194,8 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();
 		ArrayList<MostProfitableRouterRow> report = new ArrayList<MostProfitableRouterRow>();
-		MostProfitableRouterRow item = new MostProfitableRouterRow();
 		if (rs.next()) {
+			MostProfitableRouterRow item = new MostProfitableRouterRow();
 			item.setRouterSN(rs.getString("serial_num"));
 			item.setProfit(rs.getLong("device_profit"));
 			report.add(item);
@@ -224,8 +224,8 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		rs = stmt.executeQuery();
 		
 		ArrayList<RouterUtilRow> report = new ArrayList<RouterUtilRow>();
-		RouterUtilRow item = new RouterUtilRow();
 		while (rs.next()) {
+			RouterUtilRow item = new RouterUtilRow();
 			item.setRouterSN(rs.getString("serial_num"));
 			item.setRouterUtil(rs.getDouble("utilization"));
 			item.setCapacity(rs.getInt("capacity"));
@@ -250,8 +250,8 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		rs = stmt.executeQuery();
 		
 		ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();
-		ProfitabilityByMonthRow item = new ProfitabilityByMonthRow();
 		while (rs.next()) {
+			ProfitabilityByMonthRow item = new ProfitabilityByMonthRow();
 			item.setProviderLocation(rs.getString("location_name"));
 			item.setProfit(rs.getLong("sum"));
 			report.add(item);
