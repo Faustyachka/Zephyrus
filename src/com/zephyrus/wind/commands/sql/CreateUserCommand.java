@@ -96,7 +96,7 @@ public class CreateUserCommand extends SQLCommand {
 
 		// check email correctness
 		final Pattern pattern = Pattern
-				.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
+				.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}$");
 		final Matcher matcher = pattern.matcher(email);
 		if (!matcher.matches()) {
 			reply(response, "Wrong email format");

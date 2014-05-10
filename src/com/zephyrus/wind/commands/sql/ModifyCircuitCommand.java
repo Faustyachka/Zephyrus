@@ -1,6 +1,8 @@
 package com.zephyrus.wind.commands.sql;
 
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -88,7 +90,17 @@ public class ModifyCircuitCommand extends SQLCommand {
 			request.setAttribute("error", "Circuit field can not be empty!");
 			return "provision/modifyCircuit.jsp";
 		}
-
+		
+		Pattern pattern = Pattern
+				.compile("^([0-9]{3}\\.){3}[0-9]{3}$");
+		Matcher matcher = pattern.matcher(circuitConfig);
+		if (!matcher.matches()) {
+			request.setAttribute("port", port);
+			request.setAttribute("task", task);
+			request.setAttribute("error", "Wrong configuration format");
+			return "provision/modifyCircuit.jsp";
+		}
+		
 		// creating circuit due to "New" scenario
 		ModifyScenarioWorkflow wf = null;
 		try {

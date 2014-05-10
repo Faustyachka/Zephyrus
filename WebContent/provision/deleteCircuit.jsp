@@ -48,7 +48,6 @@ hr {
 	</tr>
 	
 	</table>
-		<label>Circuit configuration: </label>
 		<input type="hidden" name="taskId" value="${task.id}"/>
 		 <input type="submit" name="button" id="button"
 			value="Delete Circuit" class="button" />

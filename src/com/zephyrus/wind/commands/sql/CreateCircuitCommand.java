@@ -1,6 +1,8 @@
 package com.zephyrus.wind.commands.sql;
 
 import java.sql.SQLException;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -70,12 +72,24 @@ public class CreateCircuitCommand extends SQLCommand {
 		
 		ServiceOrder so = task.getServiceOrder();
 		Port port = findPortFromTaskID(task);
+
+		String circuitConfig = request.getParameter("circuit");
 		
-		if (request.getParameter("circuit") == null) {
+		if (circuitConfig == null) {
 			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		String circuitConfig = request.getParameter("circuit");			
+		
+		Pattern pattern = Pattern
+				.compile("^([0-9]{3}\\.){3}[0-9]{3}$");
+		Matcher matcher = pattern.matcher(circuitConfig);
+		if (!matcher.matches()) {
+			request.setAttribute("port", port);
+			request.setAttribute("task", task);
+			request.setAttribute("error", "Wrong configuration format");
+			return "provision/createCircuit.jsp";
+		}
+		
 		if (circuitConfig.equals("")) {
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
