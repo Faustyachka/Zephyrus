@@ -44,15 +44,15 @@ public class DisconnectOrdersCommand extends SQLCommand {
 		
 		// The last displayed row number	
 		int last;
+		
+		//if parameter last is null it means that user called this command not from report page
 		if (request.getParameter("last")==null) {
-			request.setAttribute("message", "Failed to display report");
 			return "reports/disconnectOrdersReport.jsp";	
 		}
 		
 		try {
 			last=Integer.parseInt(request.getParameter("last"));		
 		} catch (NumberFormatException ex) {
-			request.setAttribute("message", "Failed to display report");
 			return "reports/disconnectOrdersReport.jsp";	
 		}
 		
@@ -99,9 +99,9 @@ public class DisconnectOrdersCommand extends SQLCommand {
 		
 		//set attribute which shows the existence of next page
 		if (checkRecords.isEmpty()) {	
-			request.setAttribute("next", "0");								// REVIEW: 0 and 1 are not suitable for indication. use "hasNext" and text values "true" and "false"
+			request.setAttribute("hasNext", "notExist");							
 		} else {
-			request.setAttribute("next", "1");
+			request.setAttribute("hasNext", "exist");
 		}
 		request.setAttribute("records", records);
 		request.setAttribute("fromDate", fromDate.toString());
@@ -110,5 +110,5 @@ public class DisconnectOrdersCommand extends SQLCommand {
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
 		return "reports/disconnectOrdersReport.jsp";
 	}
-
+	
 }

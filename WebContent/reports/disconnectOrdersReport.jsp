@@ -107,7 +107,7 @@
 				</c:if>
 				</td>
 			<td style="width: 50%" align="right">
-				<c:if test="${next==1}">
+				<c:if test="${hasNext=='exist'}">
 					<a href="/Zephyrus/newOrders?last=${last}"> 
 						<input type="button" value="Next page" class="button" />
 					</a>

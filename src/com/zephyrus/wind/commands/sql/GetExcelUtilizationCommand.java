@@ -18,16 +18,7 @@ public class GetExcelUtilizationCommand extends SQLCommand{
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		RouterUtilizationReport report = null;
-		try {
-			report = new RouterUtilizationReport();							// REVIEW: no need in this try or in every other try on constructor of report class(review this by yourself). Instead try is likely to be placed over convertToExcel() methods in every command, that uses it
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
-			return "reports/utilizationReport.jsp";
-
-		}
+		RouterUtilizationReport report = new RouterUtilizationReport();		
 		final int MAX_ROWS_IN_EXCEL = 65535;
     	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
     	//write workbook to outputstream

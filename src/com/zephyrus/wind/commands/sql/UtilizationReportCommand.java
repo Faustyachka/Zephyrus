@@ -17,17 +17,16 @@ public class UtilizationReportCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int last;																// REVIEW: implementation too far from usage
+		
+		//if parameter last is null it means that user called this command not from report page
 		if (request.getParameter("last") == null) {
-			request.setAttribute("message", "Failed to create report");
-			return "reports/utilizationReport.jsp";								// REVIEW: hardcoded link
+			return "reports/utilizationReport.jsp";								
 		}
-
+		
+		int last;		
 		try {
 			last = Integer.parseInt(request.getParameter("last"));
-
 		} catch (NumberFormatException ex) {
-			request.setAttribute("message", "Failed to create report");
 			return "reports/utilizationReport.jsp";
 		}
 		RouterUtilizationReport report = null;
@@ -47,15 +46,15 @@ public class UtilizationReportCommand extends SQLCommand {
 		}
 
 		if (checkRecords.isEmpty()) {
-			request.setAttribute("next", "0");									// REVIEW: see remarks about it in previous commands
+			request.setAttribute("hasNext", "notExist");				
 		} else {
-			request.setAttribute("next", "1");
+			request.setAttribute("hasNext", "exist");
 		}
 		request.setAttribute("last", last);
 		request.setAttribute("records", records);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
 
-		return "reports/utilizationReport.jsp";									// REVIEW: hardcoded link
+		return "reports/utilizationReport.jsp";									
 	}
 
 }

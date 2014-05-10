@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -19,8 +20,7 @@ public class GetExcelMostProfitableRouterCommand extends SQLCommand{
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		MostProfitableRouterReport report = null;									// REVIEW: error: implementation is too far from usage
-		
+											
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
 			request.setAttribute("message", "Date fields can not be empty!");
@@ -33,23 +33,22 @@ public class GetExcelMostProfitableRouterCommand extends SQLCommand{
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);	
-		final Matcher matcherToDate = pattern.matcher(fromDateString);				// REVIEW: error: you mixed up "toDateString" with "fromDateString"
-		if (!matcherFromDate.find() || !matcherToDate.find()) {						// REVIEW: matches() should be used
+		final Matcher matcherToDate = pattern.matcher(toDateString);				
+		if (!matcherFromDate.matches() || !matcherToDate.matches()) {						
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
 		
 		Date fromDate = Date.valueOf(fromDateString);
 		Date toDate = Date.valueOf(toDateString);
-		try {
-			report = new MostProfitableRouterReport(fromDate, toDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
-			return "reports/mostProfitableRouterReport.jsp";
-		}
-		final int MAX_ROWS_IN_EXCEL = 65535;										// REVIEW: separate method should be used
+		MostProfitableRouterReport report =  new MostProfitableRouterReport(fromDate, toDate);
+
+		downloadExcel(response, report);
+		return null;
+	}
+	
+	private void downloadExcel(HttpServletResponse response, MostProfitableRouterReport report) throws IOException {
+		final int MAX_ROWS_IN_EXCEL = 65535;
     	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
     	//write workbook to outputstream
         //offer the user the option of opening or downloading the resulting Excel file
@@ -59,7 +58,6 @@ public class GetExcelMostProfitableRouterCommand extends SQLCommand{
         wb.write(out);
         out.flush();
         out.close();
-		return null;
 	}
 
 }

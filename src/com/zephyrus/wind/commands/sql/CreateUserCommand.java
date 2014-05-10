@@ -12,6 +12,9 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
+import com.zephyrus.wind.email.Email;
+import com.zephyrus.wind.email.EmailSender;
+import com.zephyrus.wind.email.RegistrationSuccessfulEmail;
 import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
@@ -95,7 +98,7 @@ public class CreateUserCommand extends SQLCommand {
 		final Pattern pattern = Pattern
 				.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
 		final Matcher matcher = pattern.matcher(email);
-		if (!matcher.find()) {
+		if (!matcher.matches()) {
 			reply(response, "Wrong email format");
 			return null;
 		}
@@ -122,11 +125,10 @@ public class CreateUserCommand extends SQLCommand {
 		else {
 			// if everything is OK create user
 			createUser(userDAO);
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Account created!");
+			reply(response, "Account created!");
+			return null;
 		}
-		return null;
+		
 	}
 
 	private void createUser(IUserDAO userDAO) throws Exception {
@@ -141,6 +143,10 @@ public class CreateUserCommand extends SQLCommand {
 		user.setRole(role);
 		user.setRegistrationData(date);
 		userDAO.insert(user);
+		EmailSender sender = new EmailSender();
+		Email emailMessage = new RegistrationSuccessfulEmail(name, email,
+				password);
+		sender.sendEmail(user.getEmail(), emailMessage);
 	}
 	
 	private void reply(HttpServletResponse response, String replyText) throws IOException {

@@ -101,7 +101,7 @@ public class CreateDeviceCommand extends SQLCommand {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
 			request.setAttribute("taskId", taskID);
-			request.setAttribute("message", "Failed to create device");
+			request.setAttribute("error", "Failed to create device");
 			return "newConnectionProperties";
 		} finally {
 			wf.close();

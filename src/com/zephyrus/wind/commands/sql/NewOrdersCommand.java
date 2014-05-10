@@ -14,7 +14,7 @@ import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
 import com.zephyrus.wind.reports.rows.NewOrdersPerPeriodRow;
 																				// REVIEW: documentation expected
 public class NewOrdersCommand extends SQLCommand {
-	private static Date fromDate;												// REVIEW: why do you need class scope variables here 
+	private static Date fromDate;										
 	private static Date toDate;
 	private final int NUMBER_RECORDS_PER_PAGE = 10;
 
@@ -22,17 +22,17 @@ public class NewOrdersCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		int last;
-		if (request.getParameter("last")==null) {									
-			request.setAttribute("message", "Failed to create report");			// REVIEW: why? because "last" is null? what is it anyway?
-			return "reports/utilizationReport.jsp";								// REVIEW: hardcoded link
+		
+		//if parameter last is null it means that user called this command not from report page
+		if (request.getParameter("last")==null) {											
+			return "reports/newOrdersReport.jsp";		
 		}
 		
 		try {
-			last=Integer.parseInt(request.getParameter("last"));
-			
+			last=Integer.parseInt(request.getParameter("last"));			
 		} catch (NumberFormatException ex) {
-			request.setAttribute("message", "Failed to create report");
-			return "reports/utilizationReport.jsp";								
+			ex.printStackTrace();
+			return "reports/newOrdersReport.jsp";								
 		}
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
@@ -41,19 +41,22 @@ public class NewOrdersCommand extends SQLCommand {
 					.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 			final Matcher matcherFromDate = pattern.matcher(fromDateString);
 			final Matcher matcherToDate = pattern.matcher(toDateString);
-			if (!matcherFromDate.find()||!matcherToDate.find()) {
+			if (!matcherFromDate.matches()||!matcherToDate.matches()) {
 				request.setAttribute("message", "Wrong format of date!");
 				return "reports/newOrdersReport.jsp";
 			}
 			fromDate = Date.valueOf(fromDateString);
 			toDate = Date.valueOf(toDateString);
+		} else {
+			request.setAttribute("message", "Wrong format of date!");
+			return "reports/newOrdersReport.jsp";
 		}
 		NewOrdersPerPeriodReport report = null;
 
 		ArrayList<NewOrdersPerPeriodRow> records = new ArrayList<>();
 		ArrayList<NewOrdersPerPeriodRow> checkRecords = new ArrayList<>();
 		try {
-			report = new NewOrdersPerPeriodReport(fromDate, toDate);								// REVIEW: if fromDateString is null - fromDate will be uninitialized
+			report = new NewOrdersPerPeriodReport(fromDate, toDate);				
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
 					+ 1, 1);
@@ -63,17 +66,17 @@ public class NewOrdersCommand extends SQLCommand {
 			request.setAttribute("message", "Failed to form report");
 			return "reports/newOrdersReport.jsp";
 		}
-		if (checkRecords.isEmpty()) {															// REVIEW: see remarks about it in previous commands
-			request.setAttribute("next", "0");
+		if (checkRecords.isEmpty()) {															
+			request.setAttribute("hasNext", "false");
 		} else {
-			request.setAttribute("next", "1");
+			request.setAttribute("hasNext", "exist");
 		}
 		request.setAttribute("records", records);
 		request.setAttribute("fromDate", fromDate.toString());
 		request.setAttribute("toDate", toDate.toString());
 		request.setAttribute("last", last);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
-		return "reports/newOrdersReport.jsp";													// REVIEW: hardcoded link
+		return "reports/newOrdersReport.jsp";					
 	}
 
 }

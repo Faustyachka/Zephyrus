@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -48,10 +49,13 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 			}
 			dateWithDay = dateString+"-01";
 			date = Date.valueOf(dateWithDay);
+		} else {
+			request.setAttribute("message", "Wrong format of date!");
+			return "reports/profitabilityReport.jsp";
 		}
 		ProfitabilityByMonthReport report = null;
 		try {
-			report = new ProfitabilityByMonthReport(date);								// REVIEW: date is null if dateString is null
+			report = new ProfitabilityByMonthReport(date);								
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message",
@@ -59,20 +63,24 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 			return "reports/profitabilityReport.jsp";
 
 		}
-		final int MAX_ROWS_IN_EXCEL = 65535;											// REVIEW: form as separate method
+		downloadCSV(response, report);
+		return null;
+	}
+	
+	private void downloadCSV(HttpServletResponse response, ProfitabilityByMonthReport report) throws IOException {
+		final int MAX_ROWS_IN_EXCEL = 65535;
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
-		// write workbook to outputstream								
+		// write workbook to outputstream
 		// offer the user the option of opening or downloading the resulting
 		// Excel file
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition",
-				"attachment; filename=ProfitabilityReport.csv");
+				"attachment; filename=ProfitabilityByMonth.csv");
 		ServletOutputStream out = response.getOutputStream();
 		byte[] data = CSVConverter.convert(wb);
 		out.write(data);
 		out.flush();
 		out.close();
-		return null;
 	}
 
 }
