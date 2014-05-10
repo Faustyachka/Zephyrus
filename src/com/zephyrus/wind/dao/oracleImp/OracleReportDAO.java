@@ -56,26 +56,23 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	 * specified range of results.
 	 */
 	private static final String SQL_ROUTER_UTIL = 
-			"SELECT * FROM (  "
-		  + "  SELECT a.*, ROWNUM rnum FROM ( "
-		  + "      SELECT serial_num,  "
-		  + "        (SELECT COUNT(*) "
-		  + "          FROM ports "
-		  + "          INNER JOIN devices d ON ports.device_id = d.id "
-		  + "          WHERE d.serial_num = serial_num "
-		  + "        ) capacity, "
-		  + "        ROUND(COUNT(p.port_number) / (SELECT COUNT(*) "
-		  + "          FROM ports "
-		  + "          INNER JOIN devices d ON ports.device_id = d.id "
-		  + "          WHERE d.serial_num = serial_num "
-		  + "        ) * 100, 0) AS utilization "
-		  + "      FROM ports p  "
-		  + "      INNER JOIN devices d ON p.device_id = d.id  "
-		  + "      INNER JOIN port_status ps ON p.port_status_id = ps.id "
-		  + "      WHERE ps.port_status_value = 'BUSY' "
-		  + "      GROUP BY d.serial_num "
-		  + "  ) a where ROWNUM <= ?  "
-		  + ") WHERE rnum  >= ? ";
+			  	"SELECT * FROM (  "
+			  + "  SELECT a.*, ROWNUM rnum FROM ( "
+			  + "      SELECT serial_num,  "
+			  + "        COUNT(ports.id) AS capacity, "
+			  + "        ROUND( "
+			  + "        (SELECT COUNT(p.id) "
+			  + "          FROM ports p "
+			  + "          INNER JOIN devices d ON p.device_id = d.id "
+			  + "          INNER JOIN port_status ps ON p.port_status_id = ps.id "
+			  + "          WHERE ps.port_status_value = 'BUSY' "
+			  + "              AND d.serial_num = d2.serial_num "
+			  + "        ) / COUNT(1) * 100, 0) AS utilization "
+			  + "      FROM ports "
+			  + "      RIGHT JOIN devices d2 ON ports.device_id = d2.id "
+			  + "      GROUP BY d2.serial_num "
+			  + "  ) a where ROWNUM <= ?  "
+			  + ") WHERE rnum  >= ?";
 	
 	/**
 	 * This query obtains summary profit of every provider location, based on the 
