@@ -92,10 +92,8 @@ public abstract class Workflow implements Closeable {
     }
     
     /**
-     * This method allows to suspend given task so that it cannot be executed
-     * or assigned to someone.
-     * Note that you could suspend both assigned to particular user and 
-     * group tasks.
+     * This method allows to suspend given task so that it cannot be executed.
+     * Note that you could suspend only tasks assigned to particular user.
      * @param taskID ID of active task to suspend
      */
     public void suspendTask(int taskID) {
@@ -111,7 +109,9 @@ public abstract class Workflow implements Closeable {
                 		+ "with current order");
             } else if (task.getTaskStatus().getId() != TASK_STATUS.PROCESSING.getId()) {
             	throw new WorkflowException("Given task is not active at the moment");
-            } 
+            } else if (task.getUser() == null) {
+            	throw new WorkflowException("Given task was not assigned to anyone");
+            }
             
             TaskStatus suspendedStatus = taskStatusDAO.findById(TASK_STATUS.SUSPEND.getId());
             task.setTaskStatus(suspendedStatus);
@@ -124,8 +124,7 @@ public abstract class Workflow implements Closeable {
     }
     
     /**
-     * This method allows to renew given task so that it can be executed
-     * or assigned to someone.
+     * This method allows to renew given task so that it can be executed.
      * @param taskID ID of suspended task to renew
      */
     public void renewTask(int taskID) {
