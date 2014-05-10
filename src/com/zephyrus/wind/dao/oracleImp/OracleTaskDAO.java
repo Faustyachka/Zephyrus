@@ -101,14 +101,14 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	/**
 	 * Method allows to get tasks for the given user and task status.
 	 * @param user - user for which it is necessary to find out tasks in defined status 
-	 * @param Task status defined status of task
+	 * @param Task status ID defined status of task
 	 * @return list of tasks 
 	 */
 	@Override
-	public ArrayList<Task> findTasksByUser(User user, TaskStatus taskStatus) throws Exception {
+	public ArrayList<Task> findTasksByUser(User user, int taskStatusId) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID=? AND TASK_STATUS_ID=?");
 		stmt.setInt(1, user.getId());
-		stmt.setInt(2, taskStatus.getId()); 
+		stmt.setInt(2, taskStatusId); 
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
 	}
