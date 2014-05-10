@@ -15,7 +15,6 @@ import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.email.Email;
 import com.zephyrus.wind.email.EmailSender;
 import com.zephyrus.wind.email.RegistrationSuccessfulEmail;
-import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.helpers.SHAHashing;
@@ -57,10 +56,9 @@ public class RegisterCommand extends SQLCommand {
 		confPassord = request.getParameter("confirmpass");
 		date = new Date(new java.util.Date().getTime());
 		
-		if (name == null || sname==null || email == null || password==null || confPassord==null
-				|| request.getParameter("engtype")==null) {
-			request.setAttribute("errorMessage", "Failed to create user: null parameters");
-			return PAGES.MESSAGE_PAGE.getValue();
+		if (name == null || sname==null || email == null || password==null || confPassord==null) {
+			reply(response, "Failed to create user!");
+			return null;
 		}
 		
 		// check first name

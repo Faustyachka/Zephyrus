@@ -4,12 +4,14 @@
 <script>
 	 $().ready(function(){
 	     $('#submitt').click(function(){
+	    	 $('#submitt').attr("disabled", true); 
 	    	 var fname = $('#firstname').val();
 	    	 var sname = $('#secondname').val();
 	         var email = $('#email').val();
 	         var pass = $('#password').val();
 	         var cpass = $('#confirmpass').val();
 	         $.post('/Zephyrus/register',{firstname:fname,secondname:sname,email:email,password:pass,confirmpass:cpass},function(rsp){
+	        	 $('#submitt').attr("disabled", false); 
 	             $("#somediv").empty();
 	             $('#somediv').text(rsp);	 
 	             if (rsp == 'Account created!') {
