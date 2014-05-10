@@ -3,8 +3,8 @@ package com.zephyrus.wind.commands.sql;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -48,17 +48,18 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
 
-		final Pattern pattern = Pattern
-				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
-		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(toDateString);		 
-		if (!matcherFromDate.matches() || !matcherToDate.matches()) {
+		Date fromDate;
+		Date toDate;
+		
+		// check the dates on format corresponding
+		if (isDateValid(fromDateString) && isDateValid(toDateString)) {
+			// transform dates strings into Date format
+			fromDate = Date.valueOf(fromDateString);
+			toDate = Date.valueOf(toDateString);
+		} else {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/newOrdersReport.jsp";
 		}
-
-		Date fromDate = Date.valueOf(fromDateString);
-		Date toDate = Date.valueOf(toDateString);
 		
 		NewOrdersPerPeriodReport report = new NewOrdersPerPeriodReport(fromDate, toDate);		
 		downloadCSV(response, report);
@@ -79,6 +80,23 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 		out.write(data);
 		out.flush();
 		out.close();
+	}
+	
+	private boolean isDateValid(String value) {
+
+		if (value == null) {
+			return false;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setLenient(false);
+
+		try {
+			formatter.parse(value);
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -93,7 +93,7 @@
 						type="button" value="Previous page" class="button" />
 					</a>
 				</c:if></td>
-			<td style="width: 50%" align="right"><c:if test="${hasNext=='exist'}">
+			<td style="width: 50%" align="right"><c:if test="${hasNext==1}">
 					<a href="/Zephyrus/profitabilityReport?last=${last}"> <input
 						type="button" value="Next page" class="button" />
 					</a>

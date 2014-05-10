@@ -2,9 +2,9 @@ package com.zephyrus.wind.commands.sql;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -26,20 +26,15 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
 		if (fromDateString != null && toDateString != null) {
-			final Pattern pattern = Pattern
-					.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
-			final Matcher matcherFromDate = pattern.matcher(fromDateString);
-			final Matcher matcherToDate = pattern.matcher(toDateString);
-			if (!matcherFromDate.matches()||!matcherToDate.matches()) {
+			if (isDateValid(fromDateString) && isDateValid(toDateString)) {
+				fromDate = Date.valueOf(fromDateString);
+				toDate = Date.valueOf(toDateString);
+			} else {
 				request.setAttribute("message", "Wrong format of date!");
 				return "reports/mostProfitableRouterReport.jsp";
 			}
-			fromDate = Date.valueOf(fromDateString);
-			toDate = Date.valueOf(toDateString);
-		} else {
-			request.setAttribute("message", "Wrong format of date!");
-			return "reports/mostProfitableRouterReport.jsp";
 		}
+			
 		MostProfitableRouterReport report = null;
 
 		ArrayList<MostProfitableRouterRow> records = new ArrayList<>();
@@ -58,6 +53,23 @@ public class MostProfitableRouterReportCommand extends SQLCommand {
 		request.setAttribute("fromDate", fromDate.toString());
 		request.setAttribute("toDate", toDate.toString());
 		return "reports/mostProfitableRouterReport.jsp";		
+	}
+	
+	private boolean isDateValid(String value) {
+
+		if (value == null) {
+			return false;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setLenient(false);
+
+		try {
+			formatter.parse(value);
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
 	}
 
 }
