@@ -40,7 +40,7 @@ public class ShowReportCommand extends SQLCommand {
 			return "reports/profitabilityReport.jsp";
 		}
 		if (reportType == REPORT_TYPE.ROUTER_UTILIZATION.getId()) {
-			return "utilizationReport?last=1";								// REVIEW: last=1? what so special about this report, that it has link, different from others
+			return "utilizationReport";				
 		}
 		if (reportType == REPORT_TYPE.MOST_PROFITABLE_ROUTER.getId()) {
 			return "reports/mostProfitableRouterReport.jsp";

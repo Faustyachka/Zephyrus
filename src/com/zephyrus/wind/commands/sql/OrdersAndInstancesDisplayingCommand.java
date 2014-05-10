@@ -12,6 +12,7 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceInstance;
@@ -20,12 +21,10 @@ import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link								// REVIEW: link isn't working
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
  * defined user's Service Instances and Service Orders to Customer Support
  * Engineer.
- * 
- * @return page with all service Orders and Service Instances of defined user.				// REVIEW: return
  * @author Alexandra Beskorovaynaya
  * 
  */
@@ -45,43 +44,41 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		User user = (User) request.getSession().getAttribute("user");
 		if (user == null || user.getRole().getId() != ROLE.SUPPORT.getId()) {
-			request.setAttribute(
-					"errorMessage",
-					"You must be logged in under Support Engineer account"
-							+ " to review this page!<br><a href='/Zephyrus/view/login.jsp'><input type='"	// REVIEW: HTML
-							+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_SUPPORT_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		if (request.getParameter("id") == null) {
-			request.setAttribute(
-					"errorMessage",
-					"You must choose the user from list!<br>"
-							+ "<a href='/Zephyrus/customersupport'><input type='"					// REVIEW: HTML
-							+ "button' class='button' value='Users'/></a> ");
+			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
+		int userID;
 		try {
-			int userID = Integer.parseInt(request.getParameter("id"));
-			IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
-			User customerUser = userDAO.findById(userID);											// REVIEW: what if it's null?
-			IServiceInstanceDAO siDAO = getOracleDaoFactory()
-					.getServiceInstanceDAO();
-			ArrayList<ServiceInstance> serviceInstances = siDAO
-					.getServiceInstancesByUserId(userID);
-			ArrayList<ServiceOrder> orders = findServiceOrderByUser(customerUser);
-			IServiceOrderDAO soDAO = getOracleDaoFactory().getServiceOrderDAO();
-			Map<ServiceInstance, String> instances = new HashMap<ServiceInstance, String>();
-			for (ServiceInstance instance: serviceInstances) {
-				instances.put(instance, soDAO.getSICreateOrder(instance).getServiceLocation().getAddress());	// REVIEW: cycles should not be used here. DAO method should fetch this information. 
-			}			
-			request.setAttribute("instances", instances);
-			request.setAttribute("orders", orders);
-			return "support/ordersInstances.jsp";										// REVIEW: hardcoded page name
+			userID = Integer.parseInt(request.getParameter("id"));				
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "User ID is not valid");
+			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
+		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
+		User customerUser = userDAO.findById(userID);	
+		
+		if(customerUser == null) {
+			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		IServiceInstanceDAO siDAO = getOracleDaoFactory()
+				.getServiceInstanceDAO();
+		ArrayList<ServiceInstance> serviceInstances = siDAO
+				.getServiceInstancesByUserId(userID);
+		ArrayList<ServiceOrder> orders = findServiceOrderByUser(customerUser);
+		IServiceOrderDAO soDAO = getOracleDaoFactory().getServiceOrderDAO();
+		Map<ServiceInstance, String> instances = new HashMap<ServiceInstance, String>();
+		for (ServiceInstance instance: serviceInstances) {
+			instances.put(instance, soDAO.getSICreateOrder(instance).getServiceLocation().getAddress());	
+		}			
+		request.setAttribute("instances", instances);
+		request.setAttribute("orders", orders);
+		return "support/ordersInstances.jsp";
 
 	}
 

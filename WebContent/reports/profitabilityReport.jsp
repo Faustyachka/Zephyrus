@@ -41,7 +41,7 @@
 		<script>
 			function review() {
 				var form = document.getElementById("form");
-				form.action = "/Zephyrus/profitabilityReport";
+				form.action = "/Zephyrus/profitabilityReport?last=1";
 				form.submit();
 			}
 		</script>
@@ -84,6 +84,22 @@
 	<c:if test="${records != null and empty records}">
 		Not enough data to form report
 	</c:if>
+	
+	<table style="width: 100%">
+		<tr>
+			<td style="width: 50%;" align="left"><c:if
+					test="${last > (count*2)}">
+					<a href="/Zephyrus/profitabilityReport?last=${last-(count*2)}"> <input
+						type="button" value="Previous page" class="button" />
+					</a>
+				</c:if></td>
+			<td style="width: 50%" align="right"><c:if test="${hasNext=='exist'}">
+					<a href="/Zephyrus/profitabilityReport?last=${last}"> <input
+						type="button" value="Next page" class="button" />
+					</a>
+				</c:if></td>
+		</tr>
+	</table>
 	
 </div>
 

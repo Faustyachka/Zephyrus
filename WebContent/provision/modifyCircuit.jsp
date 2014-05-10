@@ -24,7 +24,7 @@ hr {
 	<center>
 		<h2>Modify Circuit</h2>
 	</center>
-	<div><font color="red"> ${message} </font></div>
+	<div><font color="red"> ${error} </font></div>
 	<form method="post" action="/Zephyrus/modifyCircuit">
 	<table>
 	<tr>

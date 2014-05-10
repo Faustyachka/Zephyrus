@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -19,7 +20,6 @@ public class GetExcelDisconnectOrdersCommand extends SQLCommand{
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		DisconnectOrdersPerPeriodReport report = null;								// REVIEW: error: implementation is too far from usage
 		
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
@@ -33,22 +33,21 @@ public class GetExcelDisconnectOrdersCommand extends SQLCommand{
 		final Pattern pattern = Pattern
 				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
 		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);				// REVIEW: error: you mixed up "toDateString" with "fromDateString"
-		if (!matcherFromDate.find() || !matcherToDate.find()) {						// REVIEW: matches() should be used
+		final Matcher matcherToDate = pattern.matcher(toDateString);		
+		if (!matcherFromDate.matches() || !matcherToDate.matches()) {		
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/disconnectOrdersReport.jsp";
 		}
 		
 		Date fromDate = Date.valueOf(fromDateString);
 		Date toDate = Date.valueOf(toDateString);
-		try {
-			report = new DisconnectOrdersPerPeriodReport(fromDate, toDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
-			return "reports/disconnectOrdersReport.jsp";
-		}																			// REVIEW: separate method should be used
+		
+		DisconnectOrdersPerPeriodReport report = new DisconnectOrdersPerPeriodReport(fromDate, toDate);																		
+		downloadExcel(response, report);
+		return null;
+	}
+	
+	private void downloadExcel(HttpServletResponse response, DisconnectOrdersPerPeriodReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
     	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
     	//write workbook to outputstream
@@ -59,7 +58,6 @@ public class GetExcelDisconnectOrdersCommand extends SQLCommand{
         wb.write(out);
         out.flush();
         out.close();
-		return null;
 	}
 
 }

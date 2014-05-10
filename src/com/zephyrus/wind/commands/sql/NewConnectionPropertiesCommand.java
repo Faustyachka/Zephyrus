@@ -9,6 +9,7 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
@@ -20,47 +21,27 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand. // REVIEW: link is not working
+ * This class contains the method, that is declared in com.zephyrus.wind.commands.interfaces.SQLCommand. 
  * It is supposed to gather the information, needed on NewWorkflowTasks.jsp page.
  * 
- * @see com.zephyrus.wind.model.Cable
- * @see com.zephyrus.wind.model.Device
- * @see com.zephyrus.wind.model.Port
- * @see com.zephyrus.wind.model.Task
- * @see com.zephyrus.wind.model.ServiceOrder
- * @see com.zephyrus.wind.enums.PAGES
- * @see com.zephyrus.wind.dao.interfaces.ICableDAO
- * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
- * @see com.zephyrus.wind.dao.interfaces.IPortDAO
- * 
- * @return {@linkNewWorkflowTasks.jsp} page													// REVIEW: return
  * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 
 public class NewConnectionPropertiesCommand extends SQLCommand {
+		
+	private int taskID;
+	private Cable cable = null;			
+	private Port port = null;
+	private Device device = null;
 	
 	/**
 	 * This method gathers the information, needed on NewWorkflowTasks.jsp page. 
 	 * Method gets ID of the present task.
-	 * All the information is sent to the page.										// REVIEW: why documentation about the method is placed away from the method?
+	 * All the information is sent to the page.										
 	 * 
-	 * @see com.zephyrus.wind.model.Cable
-	 * @see com.zephyrus.wind.model.Device
-	 * @see com.zephyrus.wind.model.Port
-	 * @see com.zephyrus.wind.model.Task
-	 * @see com.zephyrus.wind.model.ServiceOrder
-	 * @see com.zephyrus.wind.enums.PAGES
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @see com.zephyrus.wind.dao.interfaces.ITaskDAO
-	 * @see com.zephyrus.wind.dao.interfaces.IPortDAO
-	 * 
-	 * @return {@linkNewWorkflowTasks.jsp} page										// REVIEW: link is not working
+	 * @return address of page for creation new connection due to New Scenario
+	 * by Installation Engineer 
 	 */
-	
-	public int taskID;
-	public Cable cable = null;														// REVIEW: public class scope variables
-	public Port port = null;
-	public Device device = null;
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -69,24 +50,25 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		
 		//checking is user authorized
 		if (user==null||user.getRole().getId()!=ROLE.INSTALLATION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "		// REVIEW: HTML
-					+ "Installation Engineer's account to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_INSTALL_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		} 
 		
 		//check the presence of task ID
 		if (request.getAttribute("taskId")==null) {
-			request.setAttribute("errorMessage", "You must choose task from task's page!<br>"
-					+ "<a href='/Zephyrus/installation'><input type='"			// REVIEW: HTML
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
-		taskID = (int)request.getAttribute("taskId");							// REVIEW: watch null pointer exception
-		
-		String message = (String)request.getAttribute("message");				// REVIEW: watch null pointer exception
+		try {
+		taskID = (int)request.getAttribute("taskId");					
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		String error = (String) request.getAttribute("error");
+		String message = (String)request.getAttribute("message");	
 		
 		IPortDAO portDAO = getOracleDaoFactory().getPortDAO();
 		
@@ -95,7 +77,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		
 		//get port's device
 		if (port != null) {
-			device = port.getDevice();											// REVIEW: what if port is null. than device will be uninitialized
+			device = port.getDevice();							
 		}
 		
 		Task task = new Task();
@@ -103,15 +85,12 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		task = taskDAO.findById(taskID);
 		
 		if (task == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"	// REVIEW: HTML
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
 		//find cable, connected by this task if it exist
-		cable = findCableByTask(task);											// REVIEW: what if it's null?
+		cable = findCableByTask(task);
 		
 		//set all necessary attributes
 		request.getSession().setAttribute("task", task);
@@ -119,6 +98,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		request.setAttribute("port", port);
 		request.setAttribute("cable", cable);
 		request.setAttribute("message", message);
+		request.setAttribute("error", error);
 		
 		return PAGES.INSTALLATIONNEWWORKFLOW_PAGE.getValue();
 	}

@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -27,34 +28,33 @@ public class GetExcelProfitabilityCommand extends SQLCommand{
 			final Pattern pattern = Pattern
 					.compile("^([0-9]){4}-([0-9]){2}$");
 			final Matcher matcherFromDate = pattern.matcher(dateString);
-			if (!matcherFromDate.find()) {									// REVIEW: matches() should be used
+			if (!matcherFromDate.matches()) {								
 				request.setAttribute("message", "Wrong format of date!");
 				return "reports/profitabilityReport.jsp";
 			}
 			dateWithDay = dateString+"-01";
 			date = Date.valueOf(dateWithDay);
-		}
-		ProfitabilityByMonthReport report = null;
-		try {
-			report = new ProfitabilityByMonthReport(date);					// REVIEW: date is null if dateString is null 
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
+		} else {
+			request.setAttribute("message", "Wrong format of date!");
 			return "reports/profitabilityReport.jsp";
-
 		}
-		final int MAX_ROWS_IN_EXCEL = 65535;								// REVIEW: separate method should be used
+		ProfitabilityByMonthReport report = new ProfitabilityByMonthReport(date);					
+
+		downloadExcel(response, report);
+		return null;
+	}
+	
+	private void downloadExcel(HttpServletResponse response, ProfitabilityByMonthReport report) throws IOException {
+		final int MAX_ROWS_IN_EXCEL = 65535;
     	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
     	//write workbook to outputstream
         //offer the user the option of opening or downloading the resulting Excel file
         response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=ProfitabilityReport.xls");
+        response.setHeader("Content-Disposition", "attachment; filename=ProfitabilityByMonth.xls");
         ServletOutputStream out = response.getOutputStream();
         wb.write(out);
         out.flush();
         out.close();
-		return null;
 	}
 
 }

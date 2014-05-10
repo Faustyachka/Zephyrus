@@ -60,12 +60,12 @@
 		<tr>
 			<td style="width: 50%;" align="left"><c:if
 					test="${last > (count*2)}">
-					<a href="/Zephyrus/newOrders?last=${last-(count*2)}"> <input
+					<a href="/Zephyrus/utilizationReport?last=${last-(count*2)}"> <input
 						type="button" value="Previous page" class="button" />
 					</a>
 				</c:if></td>
-			<td style="width: 50%" align="right"><c:if test="${next==1}">
-					<a href="/Zephyrus/newOrders?last=${last}"> <input
+			<td style="width: 50%" align="right"><c:if test="${hasNext=='exist'}">
+					<a href="/Zephyrus/utilizationReport?last=${last}"> <input
 						type="button" value="Next page" class="button" />
 					</a>
 				</c:if></td>

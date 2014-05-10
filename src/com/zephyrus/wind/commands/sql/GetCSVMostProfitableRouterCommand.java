@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -62,16 +63,12 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 		Date fromDate = Date.valueOf(fromDateString);
 		Date toDate = Date.valueOf(toDateString);
 		
-		MostProfitableRouterReport report = null;	
-		try {
-			report = new MostProfitableRouterReport(fromDate, toDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
-			return "reports/mostProfitableRouterReport.jsp";
-
-		}
+		MostProfitableRouterReport report = new MostProfitableRouterReport(fromDate, toDate);
+		downloadCSV(response, report);
+		return null;
+	}
+	
+	private void downloadCSV(HttpServletResponse response, MostProfitableRouterReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
 		// write workbook to outputstream
@@ -85,7 +82,7 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 		out.write(data);
 		out.flush();
 		out.close();
-		return null;
+		
 	}
 
 }

@@ -13,6 +13,8 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.enums.MessageNumber;
+import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 
@@ -35,6 +37,12 @@ public class CustomerSupportCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+		
+		User support = (User)request.getSession().getAttribute("user");
+		if (support==null || support.getRole().getId()!=ROLE.SUPPORT.getId()) {
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_SUPPORT_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 		Gson gson = new Gson();
 		String action = (String) request.getParameter("action");
 		response.setContentType("application/json");
