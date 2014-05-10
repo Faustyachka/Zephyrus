@@ -67,7 +67,7 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 			  + "          INNER JOIN port_status ps ON p.port_status_id = ps.id "
 			  + "          WHERE ps.port_status_value = 'BUSY' "
 			  + "              AND d.serial_num = d2.serial_num "
-			  + "        ) / COUNT(1) * 100, 0) AS utilization "
+			  + "        ) / COUNT(1) * 100, 1) AS utilization "
 			  + "      FROM ports "
 			  + "      RIGHT JOIN devices d2 ON ports.device_id = d2.id "
 			  + "      GROUP BY d2.serial_num "

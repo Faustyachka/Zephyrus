@@ -90,6 +90,68 @@ public abstract class Workflow implements Closeable {
 			lock.unlock();
 		}
     }
+    
+    /**
+     * This method allows to suspend given task so that it cannot be executed
+     * or assigned to someone.
+     * Note that you could suspend both assigned to particular user and 
+     * group tasks.
+     * @param taskID ID of active task to suspend
+     */
+    public void suspendTask(int taskID) {
+    	lock.lock();
+		try {
+			ITaskDAO taskDAO = factory.getTaskDAO();
+			ITaskStatusDAO taskStatusDAO = factory.getTaskStatusDAO();
+			
+            Task task = taskDAO.findById(taskID);
+            
+            if (task.getServiceOrder().getId() != order.getId()) {
+                throw new WorkflowException("Given task is not connected "
+                		+ "with current order");
+            } else if (task.getTaskStatus().getId() != TASK_STATUS.PROCESSING.getId()) {
+            	throw new WorkflowException("Given task is not active at the moment");
+            } 
+            
+            TaskStatus suspendedStatus = taskStatusDAO.findById(TASK_STATUS.SUSPEND.getId());
+            task.setTaskStatus(suspendedStatus);
+            taskDAO.update(task);
+		} catch (Exception exc) {
+			throw new WorkflowException("Suspend task failed", exc);
+		} finally {
+			lock.unlock();
+		}
+    }
+    
+    /**
+     * This method allows to renew given task so that it can be executed
+     * or assigned to someone.
+     * @param taskID ID of suspended task to renew
+     */
+    public void renewTask(int taskID) {
+    	lock.lock();
+		try {
+			ITaskDAO taskDAO = factory.getTaskDAO();
+			ITaskStatusDAO taskStatusDAO = factory.getTaskStatusDAO();
+			
+            Task task = taskDAO.findById(taskID);
+            
+            if (task.getServiceOrder().getId() != order.getId()) {
+                throw new WorkflowException("Given task is not connected "
+                		+ "with current order");
+            } else if (task.getTaskStatus().getId() != TASK_STATUS.SUSPEND.getId()) {
+            	throw new WorkflowException("Given task is not suspended");
+            } 
+            
+            TaskStatus suspendedStatus = taskStatusDAO.findById(TASK_STATUS.PROCESSING.getId());
+            task.setTaskStatus(suspendedStatus);
+            taskDAO.update(task);
+		} catch (Exception exc) {
+			throw new WorkflowException("Renew task failed", exc);
+		} finally {
+			lock.unlock();
+		}
+    }
 
     /**
      * This method is used to create tasks and assign it to user groups.
