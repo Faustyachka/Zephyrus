@@ -11,14 +11,17 @@ import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.enums.TASK_STATUS;
 import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
  * The DisplayTasksCommand class provide the displaying of engineers current
- * active tasks and available tasks for given engineer's group. Class contains 
- * the method, that is declared in com.zephyrus.wind.commands.interfaces.SQLCommand.	
+ * active tasks and available tasks for given engineer's group. Class contains
+ * the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * 
  * @author Alexandra Beskorovaynaya
  * 
  */
@@ -34,43 +37,39 @@ public class DisplayTasksCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		
-		//checking is user authorized
-		if (request.getSession().getAttribute("user")==null) {
-			request.setAttribute("messageNumber", MessageNumber.LOGIN_ERROR.getId());
+
+		// checking is user authorized
+		if (request.getSession().getAttribute("user") == null) {
+			request.setAttribute("messageNumber",
+					MessageNumber.LOGIN_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		//Get user from HTTP session
+		// Get user from HTTP session
 		User user = (User) request.getSession().getAttribute("user");
-		UserRole userRole = user.getRole();											
-		
-		//checking is user logged in under engineer's account
-		if (userRole.getId()!=ROLE.INSTALLATION.getId()&&userRole.getId()!=ROLE.PROVISION.getId()) {
-			request.setAttribute("messageNumber", MessageNumber.LOGIN_INSTALL_PROVISION_ERROR.getId());
+		UserRole userRole = user.getRole();
+
+		// checking is user logged in under engineer's account
+		if (userRole.getId() != ROLE.INSTALLATION.getId()
+				&& userRole.getId() != ROLE.PROVISION.getId()) {
+			request.setAttribute("messageNumber",
+					MessageNumber.LOGIN_INSTALL_PROVISION_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
-		//Find necessary lists of tasks for defined user
+
+		// Find necessary lists of tasks for defined user
 		ITaskDAO taskDao = getOracleDaoFactory().getTaskDAO();
-		ArrayList<Task> activeTasks = taskDao.findActualTasksByUser(user);
+		ArrayList<Task> activeTasks = taskDao.findTasksByUser(user, TASK_STATUS.PROCESSING.getId());
 		ArrayList<Task> availableTasks = taskDao
 				.findAvailableTasksByRole(userRole);
-		
-		if (activeTasks.isEmpty()) {
-			request.setAttribute("activeTasks", null);
-		} else {
-			request.setAttribute("activeTasks", activeTasks);
-		}
-		if (availableTasks.size()==0) {										
-			request.setAttribute("availableTasks", null);
-		} else {
-			request.setAttribute("availableTasks", availableTasks);
-		}
-		if (userRole.getId()==ROLE.PROVISION.getId()) {
-			return "provision/index.jsp";			
-		}
-		else if (userRole.getId()==ROLE.INSTALLATION.getId()) {					
-			return "installation/index.jsp";								
+		ArrayList<Task> suspendedTasks = taskDao.findTasksByUser(user, TASK_STATUS.SUSPEND.getId());
+		request.setAttribute("activeTasks", activeTasks);
+		request.setAttribute("availableTasks", availableTasks);
+		request.setAttribute("suspendedTasks", suspendedTasks);
+
+		if (userRole.getId() == ROLE.PROVISION.getId()) {
+			return "provision/index.jsp";
+		} else if (userRole.getId() == ROLE.INSTALLATION.getId()) {
+			return "installation/index.jsp";
 		}
 		return null;
 	}

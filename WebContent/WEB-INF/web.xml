@@ -86,6 +86,8 @@
     <url-pattern>/getMostProfitableRouterExcel</url-pattern>
     <url-pattern>/getMostProfitableRouterCSV</url-pattern>
     <url-pattern>/displayTasks</url-pattern>
+    <url-pattern>/suspendTask</url-pattern>
+    <url-pattern>/renewTask</url-pattern>
   </servlet-mapping>
   <session-config>
     <session-timeout>10</session-timeout>

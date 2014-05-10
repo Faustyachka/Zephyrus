@@ -12,3 +12,11 @@ $(function() {
 		heightStyle: "content"
 		});
   });
+  
+  $(function() {
+	    $( "#suspended" ).accordion({
+			active: false,
+			collapsible: true,
+			heightStyle: "content"
+			});
+	  });

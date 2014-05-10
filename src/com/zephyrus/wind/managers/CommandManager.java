@@ -60,10 +60,12 @@ import com.zephyrus.wind.commands.sql.ProceedOrderCommand;
 import com.zephyrus.wind.commands.sql.ProfitabilityByMonthCommand;
 import com.zephyrus.wind.commands.sql.ProviderLocationsDisplayingCommand;
 import com.zephyrus.wind.commands.sql.RegisterCommand;
+import com.zephyrus.wind.commands.sql.RenewTaskCommand;
 import com.zephyrus.wind.commands.sql.ReportChoosingCommand;
 import com.zephyrus.wind.commands.sql.SaveOrderCommand;
 import com.zephyrus.wind.commands.sql.SendOrderCommand;
 import com.zephyrus.wind.commands.sql.ShowReportCommand;
+import com.zephyrus.wind.commands.sql.SuspendTaskCommand;
 import com.zephyrus.wind.commands.sql.TaskRedirectorCommand;
 import com.zephyrus.wind.commands.sql.UtilizationReportCommand;
 																										// REVIEW: documentation expected
@@ -134,6 +136,8 @@ public class CommandManager {
     private static final String MOST_PROFITABLE_ROUTER_EXCEL_COMMAND = "getMostProfitableRouterExcel";
     private static final String MOST_PROFITABLE_ROUTER_CSV_COMMAND = "getMostProfitableRouterCSV";
     private static final String DISPLAY_TASKS_COMMAND = "displayTasks";
+    private static final String SUSPEND_TASK_COMMAND = "suspendTask";
+    private static final String RENEW_TASK_COMMAND = "renewTask";
 
 
 	public CommandManager() {
@@ -202,6 +206,8 @@ public class CommandManager {
 		commands.put(MOST_PROFITABLE_ROUTER_EXCEL_COMMAND, new GetExcelMostProfitableRouterCommand());
 		commands.put(MOST_PROFITABLE_ROUTER_CSV_COMMAND, new GetCSVMostProfitableRouterCommand());
 		commands.put(DISPLAY_TASKS_COMMAND, new DisplayTasksCommand());
+		commands.put(SUSPEND_TASK_COMMAND, new SuspendTaskCommand());
+		commands.put(RENEW_TASK_COMMAND, new RenewTaskCommand());
 
 	}
 																										// REVIEW: documentation expected
