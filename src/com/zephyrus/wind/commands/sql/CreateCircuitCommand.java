@@ -81,7 +81,7 @@ public class CreateCircuitCommand extends SQLCommand {
 		}
 		
 		Pattern pattern = Pattern
-				.compile("^([0-9]{3}\\.){3}[0-9]{3}$");
+				.compile("^[1-9][0-9]{1,2}\\.([0-9]{1,3}\\.){2}[0-9]{1,3}$");
 		Matcher matcher = pattern.matcher(circuitConfig);
 		if (!matcher.matches()) {
 			request.setAttribute("port", port);
