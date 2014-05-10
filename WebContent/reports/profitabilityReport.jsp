@@ -61,7 +61,7 @@
 		</tr>
 		<c:forEach items="${records}" var="record">
 			<tr>
-				<td>${record.profit}</td>
+				<td>${record.profit}$</td>
 				<td>${record.providerLocation}</td>
 			</tr>
 		</c:forEach>
