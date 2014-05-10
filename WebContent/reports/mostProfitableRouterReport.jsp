@@ -15,6 +15,7 @@
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
 </div>
 <div class="main">
+	<h3>Most profitable router</h3>
 	<form id="form" method="post" action="">
 	<label><font color="red">${message}</font></label><br>
 		<table>
@@ -58,39 +59,24 @@
 		<input type="button"
 			value="Download CSV" id="csv" class="button" onclick="downloadCSV()">
 	</form>
-	<table border="1"
-		style="border: 1px solid black; border-collapse: collapse; width: 100%">
-		
-		<tr style="background-color: blue">
-			<td>Serial Number</td>
-			<td>Profit</td>
-		</tr>
-
-		<c:forEach items="${records}" var="record">
+	<br />
+	<c:if test="${not empty records}">
+		<table style="border-collapse: collapse; width: 50%; padding: 10px;">
 			<tr>
-				<td>${record.routerSN}</td>
-				<td>${record.profit}$</td>
+				<td align="center" style="background-color: #3a75c4; color: white;">Serial Number</td>
+				<td align="center" style="background-color: #3a75c4; color: white;">Profit</td>
 			</tr>
-		</c:forEach>
-	</table>
-	<table style="width: 100%">
-	<tr>
-	<td style="width: 50%;" align="left">
-	<c:if test="${last > (count*2)}">
-	<a href="/Zephyrus/mostProfitableRouter?last=${last-(count*2)}"> <input type="button"
-		value="Previous page" class="button"/>
-	</a>
+			<c:forEach items="${records}" var="record">
+				<tr>
+					<td align="center" style="border: 1px solid #3a75c4;">${record.routerSN}</td>
+					<td align="center" style="border: 1px solid #3a75c4;">${record.profit}$</td>
+				</tr>
+			</c:forEach>
+		</table>
 	</c:if>
-	</td>
-	<td style="width: 50%" align="right">
-	<c:if test="${next==1}">
-	<a href="/Zephyrus/mostProfitableRouter?last=${last}"> <input type="button"
-		value="Next page" class="button" />
-	</a>
+	<c:if test="${records != null and empty records}">
+		Not enough data to form report
 	</c:if>
-	</td>
-	</tr>
-	</table>
 	
 </div>
 
