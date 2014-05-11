@@ -14,7 +14,11 @@
   </div>
   <div class="main"> 
   <div style="text-align:center">
-  You successfully chose the service! Now, in order to save your order, please, log in the system.
+  You successfully chose the service! 
+  <br>
+  <br>
+  Now, to save your order, please, log in the system.
+  <br>
   <br>
   <a href="/Zephyrus/view/login.jsp"><input type="button" value="Log in existing account" class="button" /></a> or
   <a href="/Zephyrus/view/register.jsp">
