@@ -18,7 +18,8 @@ hr {
     height: 2px;
    }
 </style>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
 	<div style="text-align:center"><a href="/Zephyrus/reportChoosing"> 
 	<input name="reports" type="button" value="Reports" class="navibutton" /></a></div>
 	<div style="text-align:center"><a href="/Zephyrus/customersupport"> 
@@ -33,7 +34,7 @@ hr {
 <div style="text-align:center"><a href="/Zephyrus/view/contacts.jsp">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
 </div>
-<div class="main">
+<div id="main">
 	<form id="createdevice" name="form3" method="post"
 		action="/Zephyrus/changepass">
 		<div id="PersonTableContainer"></div>
@@ -42,7 +43,7 @@ hr {
 			type="button" name="button" id="changepass" value="Change password"
 			class="button" />
 	</form>
-</div>
+</div></div>
 
 <script>
 	$(document).on('click', '#changepass', function() {

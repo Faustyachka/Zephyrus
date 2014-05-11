@@ -26,7 +26,8 @@
 	         return false;
 	     });
 	     </script>
-  <div class="navigation">
+<div id="columns">
+<div id="navigation">
 <div style="text-align:center"><a href="/Zephyrus/view/about.jsp"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/view/services.jsp">
@@ -38,7 +39,7 @@
 <div style="text-align:center"><a href="/Zephyrus/view/start.jsp">
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
-  <div class="main"> 
+  <div id="main"> 
   <div id="registerBox">
             <h3> Registration </h3>
             <form action="" method="post" id="form1">
@@ -99,5 +100,5 @@
             
   </div>   
   </div>
-  
+  </div>
   <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

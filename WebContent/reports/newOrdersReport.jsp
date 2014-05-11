@@ -4,7 +4,8 @@
 	src="/Zephyrus/resources/javascript/dataValidation.js">
 	
 </script>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
 	<div style="text-align: center">
 		<a href="/Zephyrus/reportChoosing"> <input type="button"
 			class="button" value="Back to Reports" /></a>
@@ -19,7 +20,7 @@
 <div style="text-align:center"><a href="/Zephyrus/view/contacts.jsp">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
 </div>
-<div class="main">
+<div id="main">
 	<h3>New orders per period report</h3>
 	<form id="form" method="post" action="">
 		<label><font color="red">${message}</font></label><br>
@@ -107,7 +108,7 @@
 		</tr>
 	</table>
 
-</div>
+</div></div>
 
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

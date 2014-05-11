@@ -13,7 +13,8 @@ hr {
 	height: 2px;
 }
 </style>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
 	<div style="text-align: center">
 		<a href="/Zephyrus/customerOrders" class="current"> <input
 			type="button" value="My orders" class="navibutton" />
@@ -37,7 +38,7 @@ hr {
 <div style="text-align:center"><a href="/Zephyrus/view/start.jsp">
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
 </div>
-<div class="main">
+<div id="main">
 	<script type = "text/javascript">
 		function showNotification(notification, instanceID) {
 			obj = document.getElementById(notification);
@@ -100,6 +101,6 @@ hr {
 		</c:forEach>
 	</div>
 	<br>
-</div>
+</div></div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

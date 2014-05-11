@@ -10,7 +10,8 @@ hr {
     height: 2px;
    }
 </style>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
   <div style="text-align:center"><a href="/Zephyrus/installation"> <input type="button"
 			value="Back to Tasks" class="navibutton" /></a></div>
 			<br>
@@ -23,7 +24,7 @@ hr {
 <div style="text-align:center"><a href="/Zephyrus/view/contacts.jsp">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
   </div>
-  <div class="main">
+  <div id="main">
   <div style="text-align:center">
     <h2>Create a Device for Task# ${taskId}</h2></div>
   <form method="post" action="/Zephyrus/createDevice">
@@ -40,6 +41,6 @@ hr {
 <br />
   <input type="submit" name="button" id="check" value="Create a Device" class="button"/>
 </form>
-</div>
+</div></div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

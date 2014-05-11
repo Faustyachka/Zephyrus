@@ -6,7 +6,8 @@
 <script src="resources/javascript/jquery-placingRequest.js"></script>
 <style type ="text/css" >
 </style>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
 <div style="text-align:center"><a href="/Zephyrus/view/about.jsp"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/view/services.jsp">
@@ -18,11 +19,11 @@
 <div style="text-align:center"><a href="/Zephyrus/view/start.jsp">
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
-<div class="main">
+<div id="main">
 	<div id="map-canvas"></div>
 	<br>
 	<div style="text-align:center">Contact us on +38(044)432-16-63 or zephyrus.info@gmail.com.</div>
 
 </div>
-
+</div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

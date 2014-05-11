@@ -9,7 +9,8 @@ hr {
     height: 2px;
    }
 </style>
-		<div class="navigation">
+<div id="columns">
+<div id="navigation">
 	<div style="text-align:center"><a href="/Zephyrus/reportChoosing"> 
 	<input name="reports" type="button" value="Reports" class="navibutton" /></a></div>
 	<div style="text-align:center"><a href="/Zephyrus/customersupport"> 
@@ -24,7 +25,7 @@ hr {
 <div style="text-align:center"><a href="/Zephyrus/view/contacts.jsp">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
 		</div>
-		<div class="main">
+		<div id="main">
 			<center>
 				<h2>Change password for Customer user</h2>
 			</center>
@@ -47,5 +48,5 @@ hr {
 				<input type="submit" name="button" id="button"
 					value="Change password" class="button" />
 			</form>
-	</div>
+	</div></div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

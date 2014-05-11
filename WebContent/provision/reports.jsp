@@ -8,7 +8,8 @@ hr {
     height: 2px;
    }
 </style>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
 	<div style="text-align:center"><a href="/Zephyrus/provision"> 
 	<input name="tasks" type="button" value="Tasks" class="navibutton" /></a></div>
 	<div style="text-align:center"><a href="/Zephyrus/reportChoosing"> 
@@ -27,7 +28,7 @@ hr {
 <div style="text-align:center"><a href="/Zephyrus/view/start.jsp">
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
 </div>
-<div class="main">
+<div id="main">
 	<jsp:include page="../reports/reports.jsp" />
-</div>
+</div></div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

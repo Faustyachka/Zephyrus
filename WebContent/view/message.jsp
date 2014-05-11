@@ -1,6 +1,7 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
 <div style="text-align:center"><a href="/Zephyrus/view/about.jsp"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/view/services.jsp">
@@ -8,7 +9,7 @@
 <div style="text-align:center"><a href="/Zephyrus/view/contacts.jsp">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
 </div>
-<div class="main">
+<div id="main">
 	${errorMessage} ${message}
 	<c:if test="${messageNumber == 1}">
 You should login under Administrator's account to view this page!<br>
@@ -69,5 +70,5 @@ Password changed!<br>
 		</a>
 	</c:if>
 </div>
-
+</div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

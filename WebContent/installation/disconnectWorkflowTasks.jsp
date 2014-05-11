@@ -11,7 +11,8 @@ hr {
     height: 2px;
    }
 </style>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
   <div style="text-align:center"><a href="/Zephyrus/installation"> <input type="button"
 			value="Back to Tasks" class="navibutton" /></a></div>
 			<br>
@@ -24,7 +25,7 @@ hr {
 <div style="text-align:center"><a href="/Zephyrus/view/contacts.jsp">
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
 			</div>
-  <div class="main">
+  <div id="main">
   <div style="text-align:center">
     <h2>Workflow for Order ${order.id} by Task ${task.id}</h2></div>
     <br>
@@ -69,6 +70,6 @@ hr {
   	</c:if> 
   	</c:if> 	
   	</c:if> 
-</div>
+</div></div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

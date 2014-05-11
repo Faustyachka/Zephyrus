@@ -10,7 +10,8 @@ display: none;
 opacity: 0; 
 }
 </style>
-<div class="navigation">
+<div id="columns">
+<div id="navigation">
 <div style="text-align:center"><a href="/Zephyrus/view/about.jsp"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/view/services.jsp">
@@ -22,13 +23,13 @@ opacity: 0;
 <div style="text-align:center"><a href="/Zephyrus/view/start.jsp">
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
-<div class="main">
+<div id="main">
 Welcome to the website of internet service provider Zephyrus!
 <br>
 <br>
 Here you can find all the information you need about our company and its services.
 	
 
-</div>
+</div></div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

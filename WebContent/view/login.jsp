@@ -1,6 +1,7 @@
 <jsp:include page="../WEB-INF/jsphf/header.jsp" />
 
-  <div class="navigation">
+<div id="columns">
+<div id="navigation">
 <div style="text-align:center"><a href="/Zephyrus/view/about.jsp"> 
 <input type="button"	value="About Us" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/view/services.jsp">
@@ -12,7 +13,7 @@
 <div style="text-align:center"><a href="/Zephyrus/view/start.jsp">
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
-  <div class="main"> 
+  <div id="main"> 
   <center>
   <form action="j_security_check" method=post>
     <div id="loginBox">
@@ -27,5 +28,5 @@
 </form>
 </center>
   </div>
-  
+  </div>
   <jsp:include page="../WEB-INF/jsphf/footer.jsp" />
