@@ -43,6 +43,6 @@
 					</c:otherwise>
 				</c:choose>
 				<div id = "logo">
-	  				<a href="/Zephyrus/home"><img src="/Zephyrus/resources/css/images/zephyrus_logo.png" height="180"></a>
+	  				<a href="/Zephyrus"><img src="/Zephyrus/resources/css/images/zephyrus_logo.png" height="180"></a>
 	  			</div>
 			</div>
