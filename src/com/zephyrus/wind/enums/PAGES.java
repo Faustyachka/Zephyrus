@@ -21,7 +21,8 @@ public enum PAGES {
 	SERVICES_PAGE("view/services.jsp"),
 	ABOUT_PAGE("view/about.jsp"),
 	START_PAGE("view/start.jsp"),
-	MODIFYSERVICE_PAGE("customer/modifyService.jsp");
+	MODIFYSERVICE_PAGE("customer/modifyService.jsp"),
+	AUTHORIZE_PAGE("view/authorize.jsp");
 
 	String value;
 	PAGES(String page){

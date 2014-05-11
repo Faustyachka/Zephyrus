@@ -37,7 +37,7 @@ public class ProceedOrderCommand extends SQLCommand {
         if(session.getAttribute("user") != null){
         	return PAGES.ORDERDETAIL_PAGE.getValue();
         } else {
-        	response.sendRedirect(PAGES.LOGIN_PAGE.getValue());
+        	response.sendRedirect(PAGES.AUTHORIZE_PAGE.getValue());
         	return null;
         }
 	}
