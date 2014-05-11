@@ -89,6 +89,14 @@
   <session-config>
     <session-timeout>10</session-timeout>
   </session-config>
+  <error-page>
+        <error-code>404</error-code>
+        <location>/view/error404.jsp</location>
+    </error-page>
+  <error-page>
+        <error-code>403</error-code>
+        <location>/view/error403.jsp</location>
+    </error-page>
   <login-config>
     <auth-method>FORM</auth-method>
     <realm-name>JDBCRealm</realm-name>
