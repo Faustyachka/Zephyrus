@@ -55,41 +55,44 @@ public class CreateUserCommand extends SQLCommand {
 
 		// checking is user authorized
 		if (admin == null || admin.getRole().getId() != ROLE.ADMIN.getId()) {
-			request.setAttribute("messageNumber", MessageNumber.LOGIN_ADMIN_ERROR.getId());
+			request.setAttribute("messageNumber",
+					MessageNumber.LOGIN_ADMIN_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
-				
+
 		// get all parameters from page
 		name = request.getParameter("firstname");
 		sname = request.getParameter("secondname");
 		email = request.getParameter("email");
 		password = request.getParameter("password");
-		confPassord = request.getParameter("confirmpass"); 
+		confPassord = request.getParameter("confirmpass");
 		date = new Date(new java.util.Date().getTime());
-		
-		if (name == null || sname==null || email == null || password==null || confPassord==null
-				|| request.getParameter("engtype")==null) {
-			request.setAttribute("errorMessage", "Failed to create user: null parameters");
+
+		if (name == null || sname == null || email == null || password == null
+				|| confPassord == null
+				|| request.getParameter("engtype") == null) {
+			request.setAttribute("errorMessage",
+					"Failed to create user: null parameters");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
+
 		try {
 			roleId = Integer.parseInt(request.getParameter("engtype"));
 		} catch (NumberFormatException e) {
 			e.printStackTrace();
-			request.setAttribute("errorMessage", "Failed to create user: null parameters");
+			request.setAttribute("errorMessage",
+					"Failed to create user: null parameters");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-				
+
 		// check first name
-		if (name.equals("")) { 
+		if (name.equals("")) {
 			reply(response, "Name can not be empty");
 			return null;
 		}
 
 		// check second name
-		if (sname.equals("")) { 
+		if (sname.equals("")) {
 			reply(response, "Second name can not be empty");
 			return null;
 		}
@@ -103,15 +106,8 @@ public class CreateUserCommand extends SQLCommand {
 			return null;
 		}
 
-		// check the existing of email in system
-		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
-		User existingUser = userDAO.findByEmail(email);
-		if (existingUser != null) {
-			reply(response, "This email already exist in system");
-			return null;
-		}
 		// check password
-		if (password.equals("")) { 
+		if (password.equals("")) {
 			reply(response, "Password can not be empty");
 			return null;
 		}
@@ -122,13 +118,21 @@ public class CreateUserCommand extends SQLCommand {
 			return null;
 		}
 
+		// check the existing of email in system
+		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
+		User existingUser = userDAO.findByEmail(email);
+		if (existingUser != null) {
+			reply(response, "This email already exist in system");
+			return null;
+		}
+
 		else {
 			// if everything is OK create user
 			createUser(userDAO);
 			reply(response, "Account created!");
 			return null;
 		}
-		
+
 	}
 
 	private void createUser(IUserDAO userDAO) throws Exception {
@@ -148,9 +152,10 @@ public class CreateUserCommand extends SQLCommand {
 				password);
 		sender.sendEmail(user.getEmail(), emailMessage);
 	}
-	
-	private void reply(HttpServletResponse response, String replyText) throws IOException {
-		response.setContentType("text/plain");		
+
+	private void reply(HttpServletResponse response, String replyText)
+			throws IOException {
+		response.setContentType("text/plain");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().write(replyText);
 	}

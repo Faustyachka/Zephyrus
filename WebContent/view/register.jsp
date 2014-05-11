@@ -5,17 +5,20 @@
 	 $().ready(function(){
 	     $('#submitt').click(function(){
 	    	 $('#submitt').attr("disabled", true); 
+	    	 $("#loading").append("<img src='resources/css/images/animation.gif'/>");
 	    	 var fname = $('#firstname').val();
 	    	 var sname = $('#secondname').val();
 	         var email = $('#email').val();
 	         var pass = $('#password').val();
 	         var cpass = $('#confirmpass').val();
 	         $.post('/Zephyrus/register',{firstname:fname,secondname:sname,email:email,password:pass,confirmpass:cpass},function(rsp){
-	        	 $('#submitt').attr("disabled", false); 
-	             $("#somediv").empty();
-	             $('#somediv').text(rsp);	 
+	        	 $("#loading").empty();	        	 
+	             $("#somediv").empty();	 
 	             if (rsp == 'Account created!') {
 	            	 window.location = "view/successfullRegister.jsp";
+	             } else {
+		             $('#somediv').text(rsp);
+		             $('#submitt').attr("disabled", false); 
 	             }
 	             });
 	         });
@@ -90,7 +93,8 @@
             </table>
             <br>
             <input type="button" name="create" id="submitt"
-					value="Create account" class="button" />
+					value="Create account" class="button" /> <br>
+					<div id="loading"></div>
             </form>
             
   </div>   
