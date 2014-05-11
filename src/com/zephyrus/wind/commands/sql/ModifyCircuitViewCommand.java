@@ -62,6 +62,7 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		Port port = findPortFromTaskID(task);
+		request.setAttribute("circuit", task.getServiceOrder().getServiceInstance().getCircuit());
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
 		return "provision/modifyCircuit.jsp";	

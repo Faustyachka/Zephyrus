@@ -64,7 +64,7 @@ hr {
 			</tr>
 
 		</table>
-		<label>Circuit configuration: </label> <br> <font
+		<label>Circuit configuration: ${circuit.config}</label> <br> <font
 			style="font-style: italic;"><label>Write down the
 				IP-address in format xxx.xxx.xxx.xxx where x - is the number symbol</label></font>
 		<br> <input type="hidden" name="taskId" value="${task.id}" /> <input

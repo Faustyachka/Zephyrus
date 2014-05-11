@@ -85,6 +85,7 @@ public class ModifyCircuitCommand extends SQLCommand {
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		if (circuitConfig.equals("")) {
+			request.setAttribute("circuit", task.getServiceOrder().getServiceInstance().getCircuit());
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
 			request.setAttribute("error", "Circuit field can not be empty!");
@@ -92,9 +93,10 @@ public class ModifyCircuitCommand extends SQLCommand {
 		}
 		
 		Pattern pattern = Pattern
-				.compile("^([0-9]{3}\\.){3}[0-9]{3}$");
+				.compile("^[1-9][0-9]{1,2}\\.([0-9]{1,3}\\.){2}[0-9]{1,3}$");
 		Matcher matcher = pattern.matcher(circuitConfig);
 		if (!matcher.matches()) {
+			request.setAttribute("circuit", task.getServiceOrder().getServiceInstance().getCircuit());
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
 			request.setAttribute("error", "Wrong configuration format");
@@ -109,6 +111,7 @@ public class ModifyCircuitCommand extends SQLCommand {
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("circuit", task.getServiceOrder().getServiceInstance().getCircuit());
 			request.setAttribute("port", port);
 			request.setAttribute("task", task);
 			request.setAttribute("error", "Failed to modify circuit!");
@@ -124,8 +127,7 @@ public class ModifyCircuitCommand extends SQLCommand {
 	}
 
 	/**
-	 * Method for searching port by order task // REVIEW: see remarks about it
-	 * in other Commands
+	 * Method for searching port by order task 								// REVIEW: see remarks about it in other Commands
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
 	 * @param given
