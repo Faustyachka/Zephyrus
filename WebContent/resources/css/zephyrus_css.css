@@ -8,11 +8,14 @@ a {
 }
 
 .container {
-	min-height: 660px;
 	height:auto;
-	width: 1015px;
-	margin: 0 auto;		
+	width: 1000px;
+	margin: 0 auto;	
+	border-radius: 15px;
+	background-image: url(../css/images/back.jpg);	
+	background-repeat: repeat;
 }
+
 .header {
 	float: left;
 	height: 220px;
