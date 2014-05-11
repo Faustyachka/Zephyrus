@@ -8,6 +8,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
@@ -19,62 +20,49 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to gather
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to gather
  * the information, needed on DisconnectWorkflowTasks.jsp page.
- * 
- * @return page of tasks for Disconnecting scenario
  * @author Alexandra Beskorovaynaya
  */
 public class DeleteConnectionPropertiesCommand extends SQLCommand {
 
-	public int taskID;
-	public Cable cable = null;
-	public Port port = null;
-	public Device device = null;
+
 	
 	/**
 	 * This method gathers the information, needed on DisconnectWorkflowTasks.jsp page. 
 	 * Method gets ID of the present task.
 	 * All the information is sent to the page.
 	 * 
-	 * @return page with all necessary information for Disconnect scenario
-	 * performing by Installation Engineer
+	 * @return address of page with all necessary information for Disconnect scenario	
+	 *         performing by Installation Engineer.								
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-
+		
+		 	
+		
 		User user = (User) request.getSession().getAttribute("user");
 
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_INSTALL_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getAttribute("taskId") == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-
-		taskID = (int) request.getAttribute("taskId");
+		int taskID = (int) request.getAttribute("taskId");
 
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
 		if (task == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
@@ -83,7 +71,12 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		
 		//take the message from other commands if it exist
 		String message = (String) request.getAttribute("message");
+		String error = (String) request.getAttribute("error");
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
+		
+		Cable cable = null;															
+		Port port = null;
+		Device device = null;
 		cable = cableDAO.findCableFromServLoc(loc.getId());
 
 		if (cable != null) {
@@ -95,12 +88,13 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		}
 		
 		//send all necessary information to jsp
-		request.getSession().setAttribute("task", task);
+		request.setAttribute("task", task);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
 		request.setAttribute("order", order);
 		request.setAttribute("cable", cable);
 		request.setAttribute("message", message);
+		request.setAttribute("error", error);
 
 		return PAGES.INSTALLATIONDISCONNECTWORKFLOW_PAGE.getValue();
 	}

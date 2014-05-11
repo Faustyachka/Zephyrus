@@ -4,6 +4,8 @@
 	<script>
 	 $().ready(function(){
 	     $('#submit').click(function(){
+	    	 $('#submit').attr("disabled", true); 
+	    	 $("#loading").append("<img src='../resources/css/images/animation.gif'/>");
 	    	 var fname = $('#firstname').val();
 	    	 var sname = $('#secondname').val();
 	         var email = $('#email').val();
@@ -11,8 +13,9 @@
 	         var cpass = $('#confirmpass').val();
 	         var etype = $('#engtype').val();
 	         $.post('/Zephyrus/createaccount',{firstname:fname,secondname:sname,email:email,password:pass,confirmpass:cpass,engtype:etype},function(rsp){
+	        	 $('#loading').empty();
 	             $("#errordiv").empty();
-	             
+	             $('#submit').attr("disabled", false); 
 	             if (rsp == 'Account created!') {
 	            	 document.forms["form1"].reset();
 	            	 $('#messagediv').text(rsp);	
@@ -93,10 +96,12 @@ hr {
 				<td>
 				<input type="button" name="create" id="submit"
 					value="Create account" class="button" />
+					<div id="loading"></div>
 					</td>
 					</tr>
 					</table>
 			</form>
+
 </div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

@@ -56,26 +56,23 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	 * specified range of results.
 	 */
 	private static final String SQL_ROUTER_UTIL = 
-			"SELECT * FROM (  "
-		  + "  SELECT a.*, ROWNUM rnum FROM ( "
-		  + "      SELECT serial_num,  "
-		  + "        (SELECT COUNT(*) "
-		  + "          FROM ports "
-		  + "          INNER JOIN devices d ON ports.device_id = d.id "
-		  + "          WHERE d.serial_num = serial_num "
-		  + "        ) capacity, "
-		  + "        ROUND(COUNT(p.port_number) / (SELECT COUNT(*) "
-		  + "          FROM ports "
-		  + "          INNER JOIN devices d ON ports.device_id = d.id "
-		  + "          WHERE d.serial_num = serial_num "
-		  + "        ) * 100, 0) AS utilization "
-		  + "      FROM ports p  "
-		  + "      INNER JOIN devices d ON p.device_id = d.id  "
-		  + "      INNER JOIN port_status ps ON p.port_status_id = ps.id "
-		  + "      WHERE ps.port_status_value = 'BUSY' "
-		  + "      GROUP BY d.serial_num "
-		  + "  ) a where ROWNUM <= ?  "
-		  + ") WHERE rnum  >= ? ";
+			  	"SELECT * FROM (  "
+			  + "  SELECT a.*, ROWNUM rnum FROM ( "
+			  + "      SELECT serial_num,  "
+			  + "        COUNT(ports.id) AS capacity, "
+			  + "        ROUND( "
+			  + "        (SELECT COUNT(p.id) "
+			  + "          FROM ports p "
+			  + "          INNER JOIN devices d ON p.device_id = d.id "
+			  + "          INNER JOIN port_status ps ON p.port_status_id = ps.id "
+			  + "          WHERE ps.port_status_value = 'BUSY' "
+			  + "              AND d.serial_num = d2.serial_num "
+			  + "        ) / COUNT(1) * 100, 1) AS utilization "
+			  + "      FROM ports "
+			  + "      RIGHT JOIN devices d2 ON ports.device_id = d2.id "
+			  + "      GROUP BY d2.serial_num "
+			  + "  ) a where ROWNUM <= ?  "
+			  + ") WHERE rnum  >= ?";
 	
 	/**
 	 * This query obtains summary profit of every provider location, based on the 
@@ -197,8 +194,8 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		stmt.setDate(2, endDate);
 		rs = stmt.executeQuery();
 		ArrayList<MostProfitableRouterRow> report = new ArrayList<MostProfitableRouterRow>();
-		MostProfitableRouterRow item = new MostProfitableRouterRow();
 		if (rs.next()) {
+			MostProfitableRouterRow item = new MostProfitableRouterRow();
 			item.setRouterSN(rs.getString("serial_num"));
 			item.setProfit(rs.getLong("device_profit"));
 			report.add(item);
@@ -227,8 +224,8 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		rs = stmt.executeQuery();
 		
 		ArrayList<RouterUtilRow> report = new ArrayList<RouterUtilRow>();
-		RouterUtilRow item = new RouterUtilRow();
 		while (rs.next()) {
+			RouterUtilRow item = new RouterUtilRow();
 			item.setRouterSN(rs.getString("serial_num"));
 			item.setRouterUtil(rs.getDouble("utilization"));
 			item.setCapacity(rs.getInt("capacity"));
@@ -253,8 +250,8 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 		rs = stmt.executeQuery();
 		
 		ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();
-		ProfitabilityByMonthRow item = new ProfitabilityByMonthRow();
 		while (rs.next()) {
+			ProfitabilityByMonthRow item = new ProfitabilityByMonthRow();
 			item.setProviderLocation(rs.getString("location_name"));
 			item.setProfit(rs.getLong("sum"));
 			report.add(item);

@@ -28,7 +28,7 @@
 				  		</a>
 				  		<span class="split">|</span>
 				  	</div>
-				  	<div id="user_name">
+				  	<div id="user_name" style = "font-size: 14px; font-style: italic;">
 					${user.email}
 					</div>
 					</c:when>

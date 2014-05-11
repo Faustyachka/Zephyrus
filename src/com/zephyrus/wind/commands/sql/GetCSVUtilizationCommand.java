@@ -1,6 +1,7 @@
 package com.zephyrus.wind.commands.sql;
 
 
+import java.io.IOException;
 import java.sql.SQLException;
 
 import javax.servlet.ServletOutputStream;
@@ -14,8 +15,8 @@ import com.zephyrus.wind.helpers.CSVConverter;
 import com.zephyrus.wind.reports.RouterUtilizationReport;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Router utilization and capacity" report data in CSV format.
  * 
  * @author Alexandra Beskorovaynaya
@@ -34,16 +35,13 @@ public class GetCSVUtilizationCommand extends SQLCommand {
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 		
-		RouterUtilizationReport report = null;
-		try {
-			report = new RouterUtilizationReport();
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
-			return "reports/utilizationReport.jsp";
-
-		}
+		RouterUtilizationReport report = new RouterUtilizationReport();
+		
+		downloadCSV(response, report);
+		return null;
+	}
+	
+	private void downloadCSV(HttpServletResponse response, RouterUtilizationReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
 		// write workbook to outputstream
@@ -51,13 +49,12 @@ public class GetCSVUtilizationCommand extends SQLCommand {
 		// Excel file
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition",
-				"attachment; filename=UtilizationReport.csv");
+				"attachment; filename=RouterUtilization.csv");
 		ServletOutputStream out = response.getOutputStream();
 		byte[] data = CSVConverter.convert(wb);
 		out.write(data);
 		out.flush();
 		out.close();
-		return null;
 	}
 
 }

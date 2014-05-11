@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.concurrent.locks.Lock;
 
@@ -16,16 +17,13 @@ import com.zephyrus.wind.model.User;
  * The BlockingUserCommand class provide users blocking by administrator. Get
  * from the jsp user id and change his status (blocked or unblocked) on
  * opposite.
- * 
- * @author Alexandra Beskorovaynaya
- * 
+ * @author Alexandra Beskorovaynaya 
  */
 public class BlockingUserCommand extends SQLCommand {
 	/**
 	 * This method receives the id of user, whose status must be changed to the
 	 * opposite. After the status changing or in the case of error the alert on
 	 * the administrator's jsp displays.
-	 * 
 	 * @return String url of page for redirecting. Always returns null because
 	 *         it is no need to redirect on message page after each
 	 *         blocking/unblocking. In administrator's jsp ajax query is used
@@ -41,9 +39,7 @@ public class BlockingUserCommand extends SQLCommand {
 		// check the presence of user's id
 		if (request.getParameter("id") == null
 				|| request.getParameter("status") == null) {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("Please, choose user from table!");
+			reply(response, "Please, choose user from table!");
 			return null;
 		}
 		try {
@@ -51,10 +47,7 @@ public class BlockingUserCommand extends SQLCommand {
 			status = Integer.parseInt(request.getParameter("status"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write(
-					"Input parameters are not valid! Choose user from table!");
+			reply(response, "Input parameters are not valid! Choose user from table!");
 			return null;
 		}
 
@@ -63,9 +56,7 @@ public class BlockingUserCommand extends SQLCommand {
 
 		// check the presence of user with such id in DB
 		if (user == null) {
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("User doesn't exist!");
+			reply(response, "User doesn't exist!");
 			return null;
 		}
 
@@ -73,9 +64,7 @@ public class BlockingUserCommand extends SQLCommand {
 		lock.lock();
 		try {
 			if (status == user.getStatus()) {
-				response.setContentType("text/plain");
-				response.setCharacterEncoding("UTF-8");
-				response.getWriter().write("User already have this status");
+				reply(response, "User already have this status");
 				return null;
 			}
 
@@ -88,14 +77,18 @@ public class BlockingUserCommand extends SQLCommand {
 			dao.update(user);
 			
 			// return the message about successful status changing
-			response.setContentType("text/plain");
-			response.setCharacterEncoding("UTF-8");
-			response.getWriter().write("success");
+			reply(response, "success");
 			return null;
 		} finally {
 			lock.unlock();
 		}
 		
+	}
+	
+	private void reply(HttpServletResponse response, String replyText) throws IOException {
+		response.setContentType("text/plain");		
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(replyText);
 	}
 	
 }

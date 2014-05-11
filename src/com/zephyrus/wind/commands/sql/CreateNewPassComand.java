@@ -7,18 +7,16 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.helpers.SHAHashing;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to change
+ * This class contains the method, that is declared in 		
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to change
  * password to the Customer User by Customer Support Engineer.
- * 
- * @return in success case the page of changing password confirmation.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class CreateNewPassComand extends SQLCommand {
@@ -42,42 +40,38 @@ public class CreateNewPassComand extends SQLCommand {
 		// checking is user authorized
 		if (support == null
 				|| support.getRole().getId() != ROLE.SUPPORT.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Support's account to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_SUPPORT_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		int userId;
 
-		if (request.getParameter("userId") == null) {
-			request.setAttribute(
-					"errorMessage",
-					"Such user does not exist.<br>"
-							+ "<a href='/Zephyrus/support/index.jsp'> <input type='"
-							+ "button' class='button' value='Home'/> </a>");
+		if (request.getParameter("userId") == null) {	
+			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			userId = Integer.parseInt(request.getParameter("userId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "User ID is not valid. "
-					+ "You must choose user from the table!<br>"
-					+ "<a href='/Zephyrus/support/index.jsp'><input type='"
-					+ "button' class='button' value='Home'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		IUserDAO dao = getOracleDaoFactory().getUserDAO();
 		User user = dao.findById(userId);
 		if (user == null) {
-			request.setAttribute("error", "User does not exist");
-			return "support/changepass.jsp";
+			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		String pass = request.getParameter("pass");
-		String confPass = request.getParameter("confpass");
+		String pass = request.getParameter("password");
+		String confPass = request.getParameter("confirmpass");
+		
+		if (pass==null||confPass==null) {
+			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
 		if (pass.equals("")) {
 			request.setAttribute("error", "Password can not be empty");
 			request.setAttribute("userId", userId);
@@ -86,15 +80,13 @@ public class CreateNewPassComand extends SQLCommand {
 		if (!(pass.equals(confPass))) {
 			request.setAttribute("error", "Passwords do not coincide");
 			request.setAttribute("userId", userId);
-			return "support/changepass.jsp"; // TODO javascript checking
+			return "support/changepass.jsp"; 
 		}
 		String password = SHAHashing.getHash(pass);
 		user.setPassword(password);
 
 		dao.update(user);
-		request.setAttribute("message",
-				"Password changed <br> <a href='/Zephyrus/customersupport'><input type='"
-						+ "button' class='button' value='Home'/></a>");
+		request.setAttribute("messageNumber", MessageNumber.PASSWORD_CHANGED_MESSAGE.getId());
 		return PAGES.MESSAGE_PAGE.getValue();
 
 	}

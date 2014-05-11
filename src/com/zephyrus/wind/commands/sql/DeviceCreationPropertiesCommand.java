@@ -6,16 +6,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * device creation details to Installation engineer.
- * 
- * @return page with information about creation of Device
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -37,28 +36,20 @@ public class DeviceCreationPropertiesCommand extends SQLCommand {
 		
 		//checking is user authorized
 		if (user==null||user.getRole().getId()!=ROLE.INSTALLATION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_INSTALL_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		} 
 		
 		//check the presence of task ID
 		if (request.getParameter("taskId")==null) {
-			request.setAttribute("errorMessage", "You must choose task from task's page!<br>"
-					+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!<br>"
-					+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 			

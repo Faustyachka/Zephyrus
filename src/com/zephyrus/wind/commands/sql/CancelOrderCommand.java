@@ -14,7 +14,7 @@ import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 
 /**
- * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.
+ * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand.	// REVIEW: link is not working
  * Method realized cancel saved Order in state "ENTERING"
  * 
  * @see com.zephyrus.wind.model.ServiceOrder
@@ -23,10 +23,10 @@ import com.zephyrus.wind.model.ServiceOrder;
  * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
  * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
  * 
- * @return massage of successful cancel order
+ * @return massage of successful cancel order															// REVIEW: class returns value? really?
  * @author Miroshnychenko Nataliya
  */
-
+																										// REVIEW: extra line
 public class CancelOrderCommand extends SQLCommand {
 	
 	/**
@@ -43,7 +43,7 @@ public class CancelOrderCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub															// REVIEW: TODO comment 
 
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
 		ServiceOrder order = null;
@@ -75,7 +75,7 @@ public class CancelOrderCommand extends SQLCommand {
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		request.setAttribute("message", "Order has been canceled! <br>"
-						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"
+						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"	// REVIEW: HTML code on server side
 						+ " orders' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}

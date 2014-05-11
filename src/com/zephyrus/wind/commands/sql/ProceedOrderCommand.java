@@ -19,8 +19,8 @@ public class ProceedOrderCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		HttpSession session = request.getSession();
         
-		if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&
-				request.isUserInRole("PROVISION")==false && request.isUserInRole("SUPPORT")==false) {
+		if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&			// REVIEW: see remarks in previous commands about it
+				request.isUserInRole("PROVISION")==false && request.isUserInRole("SUPPORT")==false) {				
 				if(request.getParameter("services") == null){
 		        	request.setAttribute("message", "Choose at least one service");
 		        	return PAGES.MESSAGE_PAGE.getValue();

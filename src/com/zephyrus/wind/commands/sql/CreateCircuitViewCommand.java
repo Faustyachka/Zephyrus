@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
@@ -17,22 +18,19 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
+ * This class contains the method, that is declared in		
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * circuit creation details to provisioning engineer.
- * 
- * @return page with information about creation of circuit
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class CreateCircuitViewCommand extends SQLCommand {
 
 	/**
-	 * This method checks all necessary input data and forms the necessary
+	 * This method checks all necessary input data and gets from DB the necessary
 	 * information for circuit creation.
 	 * 
-	 * @return the page of circuit creation. In error situation returns the page
-	 *         with message about error details.
+	 * @return the address of page of circuit creation. In error situation method 
+	 * returns address of message page, which reflects the cause of error.
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -43,35 +41,23 @@ public class CreateCircuitViewCommand extends SQLCommand {
 
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page! <br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_PROVISION_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
-		if (request.getParameter("taskId") == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/provision'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
-		}
-		try {
-			taskID = Integer.parseInt(request.getParameter("id"));
-		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid");
+		if (request.getAttribute("taskId") == null) {
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
+			taskID = (int)(request.getAttribute("taskId"));
+		
 
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskID);
 		
 		if (task == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/provision'> Tasks </a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		Port port = findPortFromTaskID(task);
@@ -84,13 +70,13 @@ public class CreateCircuitViewCommand extends SQLCommand {
 	 * Method for searching port by order task
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given
+	 * @param given																				// REVIEW: wrong documentation format: param name isn't specified
 	 *            task
 	 * @return port object if exist, otherwise null.
 	 * @author Miroshnychenko Nataliya
 	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception {
+	private Port findPortFromTaskID(Task task) throws Exception {								// REVIEW: find from task ID, but Task param was given
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

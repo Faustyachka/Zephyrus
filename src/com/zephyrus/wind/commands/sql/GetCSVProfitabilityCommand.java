@@ -1,10 +1,10 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,20 +38,21 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		String dateString = request.getParameter("month");	
 		String dateWithDay="";
-		if (dateString != null) {
-			final Pattern pattern = Pattern
-					.compile("^([0-9]){4}-([0-9]){2}$");
-			final Matcher matcherFromDate = pattern.matcher(dateString);
-			if (!matcherFromDate.find()) {
-				request.setAttribute("message", "Wrong format of date!");
-				return "reports/profitabilityReport.jsp";
-			}
-			dateWithDay = dateString+"-01";
+		
+		if (dateString == null) {
+			request.setAttribute("message", "Wrong format of date!");
+			return "reports/profitabilityReport.jsp";
+		}
+		dateWithDay = dateString + "-01";
+		if (isDateValid(dateWithDay)) {
 			date = Date.valueOf(dateWithDay);
+		} else {
+			request.setAttribute("message", "Wrong format of date!");
+			return "reports/profitabilityReport.jsp";
 		}
 		ProfitabilityByMonthReport report = null;
 		try {
-			report = new ProfitabilityByMonthReport(date);
+			report = new ProfitabilityByMonthReport(date);								
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message",
@@ -59,6 +60,11 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 			return "reports/profitabilityReport.jsp";
 
 		}
+		downloadCSV(response, report);
+		return null;
+	}
+	
+	private void downloadCSV(HttpServletResponse response, ProfitabilityByMonthReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
 		// write workbook to outputstream
@@ -66,13 +72,29 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 		// Excel file
 		response.setContentType("application/vnd.ms-excel");
 		response.setHeader("Content-Disposition",
-				"attachment; filename=ProfitabilityReport.csv");
+				"attachment; filename=ProfitabilityByMonth.csv");
 		ServletOutputStream out = response.getOutputStream();
 		byte[] data = CSVConverter.convert(wb);
 		out.write(data);
 		out.flush();
 		out.close();
-		return null;
+	}
+	
+	private boolean isDateValid(String value) {
+
+		if (value == null) {
+			return false;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setLenient(false);
+
+		try {
+			formatter.parse(value);
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
 	}
 
 }

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
@@ -17,11 +18,9 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * circuit updating details to provisioning engineer.
- * 
- * @return page with information about updating of circuit
  * 
  * @author Alexandra Beskorovaynaya
  */
@@ -37,52 +36,40 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		int taskID;
 
 		User user = (User) request.getSession().getAttribute("user");
 
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page! <br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_PROVISION_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
-		if (request.getParameter("taskId") == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/provision'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+		if (request.getAttribute("taskId") == null) {
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		try {
-			taskID = Integer.parseInt(request.getParameter("id"));
-		} catch (NumberFormatException ex) {
-			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid");
-			return PAGES.MESSAGE_PAGE.getValue();
-		}
+		
+		int taskID = (int)request.getAttribute("taskId");
+
 
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		Task task = taskDAO.findById(taskID);
 		
 		if (task == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!"
-							+ "<a href='/Zephyrus/provision'> Tasks </a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		Port port = findPortFromTaskID(task);
+		request.setAttribute("circuit", task.getServiceOrder().getServiceInstance().getCircuit());
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
-		return "provision/modifyCircuit.jsp";
+		return "provision/modifyCircuit.jsp";	
 	}
 
 	/**
-	 * Method for searching port by order task
+	 * Method for searching port by order task											// REVIEW: see remarks in other Commands
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
 	 * @param given

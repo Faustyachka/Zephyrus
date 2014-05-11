@@ -1,6 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.Date;
+import java.sql.Date;															// REVIEW: unused import found
 import java.sql.SQLException;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +19,7 @@ import com.zephyrus.wind.model.ServiceInstanceStatus;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.NewScenarioWorkflow;
-// REVIEW: documentation expected
+																				// REVIEW: documentation expected
 public class SendOrderCommand extends SQLCommand {
 
 	@Override
@@ -31,24 +31,24 @@ public class SendOrderCommand extends SQLCommand {
 		Integer orderId = null;
 		
 		if(request.getParameter("orderId") != null)
-			orderId = Integer.parseInt(request.getParameter("orderId"));
+			orderId = Integer.parseInt(request.getParameter("orderId"));			// REVIEW: what if parse has failed?
 		if (orderId != null){
-			order = orderDAO.findById(orderId);
+			order = orderDAO.findById(orderId);										// REVIEW: what if order wasn't found?
 		} else {
 			SaveOrderCommand saveOrder = new SaveOrderCommand();
-			order = saveOrder.returnOrder(request, response, getOracleDaoFactory());
+			order = saveOrder.returnOrder(request, response, getOracleDaoFactory()); // REVIEW: method returnOrder invoked from other command. bad style
 		}
 		if (order == null){
 			request.setAttribute("error", "No order to send!");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
-		NewScenarioWorkflow workflow = new NewScenarioWorkflow(getOracleDaoFactory(), order);
+		NewScenarioWorkflow workflow = new NewScenarioWorkflow(getOracleDaoFactory(), order);	// REVIEW: try block expected
 		workflow.proceedOrder();
 		workflow.close();
 
 		request.setAttribute("message", "Order has been sent successfuly! <br>"
-						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"
+						+ "<br><a href='/Zephyrus/customerOrders'> <input type='button' value='Back to"// REVIEW: HTML
 						+ " orders' class='button'></a>");
 		return PAGES.MESSAGE_PAGE.getValue();
 	}

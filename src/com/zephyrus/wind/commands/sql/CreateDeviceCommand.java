@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.ServiceOrder;
@@ -19,15 +20,9 @@ import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
  * 
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
+ * This class contains the method, that is declared in 	
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * new device in the system.
- * 
- * @see com.zephyrus.wind.model.Device
- * @see com.zephyrus.wind.enums.PAGES
- * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
- * 
- * @return page with confirmation of successful creation of device
  * @author Ielyzaveta Zubacheva & Alexandra Beskorovaynaya
  */
 
@@ -35,17 +30,14 @@ public class CreateDeviceCommand extends SQLCommand {
 
 	/**
 	 * This method creates the device in the database. Method gets parameter of
-	 * device's serial number. By means of workflow, new object Device with
+	 * device's serial number. By means of Workflow, new object Device with
 	 * mentioned parameter is created in the database.
-	 * 
-	 * @see com.zephyrus.wind.model.Device
-	 * @see com.zephyrus.wind.enums.PAGES
-	 * @see com.zephyrus.wind.dao.interfaces.IDeviceDAO
-	 * 
-	 * @return page with confirmation of successful deletion of cable
+	 * @return address of New connection properties page with confirmation
+	 *         that device was created successfully. In error situation returns
+	 *         the address of message page, which displays the error message
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,
+	protected String doExecute(HttpServletRequest request,									// REVIEW: method is too long and should be split
 			HttpServletResponse response) throws SQLException, Exception {
 
 		int taskID;
@@ -54,37 +46,33 @@ public class CreateDeviceCommand extends SQLCommand {
 
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.INSTALLATION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Installation Engineer's account to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_INSTALL_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid. "
-					+ "You must choose task from task's page!<br>"
-					+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+        
+		if (request.getParameter("serialNum") == null) {
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		String serialNum = request.getParameter("serialNum");
 		int portQuantity = 60;
-
-		if (serialNum.isEmpty()) {
-			request.setAttribute("message", "Serial number can not be empty!");
+		
+		if (serialNum.isEmpty()) {											
+			request.setAttribute("error", "Serial number can not be empty!");
 			request.setAttribute("taskId", taskID);
 			return "installation/createDevice.jsp";
 		}
@@ -94,7 +82,7 @@ public class CreateDeviceCommand extends SQLCommand {
 		final Matcher matcher = pattern.matcher(serialNum);
 
 		if (!matcher.find()) {
-			request.setAttribute("message", "Serial number is not valid!");
+			request.setAttribute("error", "Serial number is not valid!");				
 			request.setAttribute("taskId", taskID);
 			return "installation/createDevice.jsp";
 		}
@@ -104,15 +92,16 @@ public class CreateDeviceCommand extends SQLCommand {
 		task = taskDAO.findById(taskID);
 		ServiceOrder order = task.getServiceOrder();
 
-		NewScenarioWorkflow wf = new NewScenarioWorkflow(getOracleDaoFactory(),
-				order);
+		NewScenarioWorkflow wf = null;
 		try {
+			wf = new NewScenarioWorkflow(getOracleDaoFactory(),	
+					order);
 			wf.createRouter(taskID, serialNum, portQuantity);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
 			request.setAttribute("taskId", taskID);
-			request.setAttribute("message", "Failed to create device");
+			request.setAttribute("error", "Failed to create device");
 			return "newConnectionProperties";
 		} finally {
 			wf.close();

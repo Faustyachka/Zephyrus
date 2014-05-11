@@ -10,7 +10,7 @@ import com.google.gson.Gson;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.model.ProviderLocation;
-
+																					// REVIEW: documentation expected
 public class ProviderLocationsDisplayingCommand extends SQLCommand {
     
 	int MAX_PROVIDER_LOCATIONS_TO_DISPLAY = 10;

@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.ITaskDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.Cable;
@@ -19,12 +20,9 @@ import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for deleting of
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for deleting of
  * circuit by provisioning engineer.
- * 
- * @return page with confirmation of successful deleting of circuit
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class DeleteCircuitCommand extends SQLCommand {
@@ -45,25 +43,20 @@ public class DeleteCircuitCommand extends SQLCommand {
 
 		// checking is user authorized
 		if (user == null || user.getRole().getId() != ROLE.PROVISION.getId()) {
-			request.setAttribute("errorMessage", "You should login under "
-					+ "Provisioning Engineer's account to view this page!<br>"
-					+ " <a href='/Zephyrus/view/login.jsp'><input type='"
-					+ "button' class='button' value='Login'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_PROVISION_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
 		// check the presence of task ID
 		if (request.getParameter("taskId") == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page!<br>"
-							+ "<a href='/Zephyrus/provision'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		try {
 			taskID = Integer.parseInt(request.getParameter("taskId"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			request.setAttribute("errorMessage", "Task ID is not valid");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
@@ -72,21 +65,19 @@ public class DeleteCircuitCommand extends SQLCommand {
 		Task task = taskDao.findById(taskID);
 		
 		if (task == null) {
-			request.setAttribute("errorMessage",
-					"You must choose task from task's page<br>!"
-							+ "<a href='/Zephyrus/installation'><input type='"
-					+ "button' class='button' value='Tasks'/></a>");
+			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
 		ServiceOrder so = task.getServiceOrder();
-		Port port = findPortFromTaskID(task);
+		Port port = findPortFromTaskID(task);							
 
 		// creating circuit due to "New" scenario
-		DisconnectScenarioWorkflow wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(),
-				so);
+		DisconnectScenarioWorkflow wf = null;
 		try {
-			wf.deleteCircuit(taskID);;
+			wf = new DisconnectScenarioWorkflow(getOracleDaoFactory(),	
+					so);
+			wf.deleteCircuit(taskID);											
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
@@ -99,23 +90,21 @@ public class DeleteCircuitCommand extends SQLCommand {
 		}
 
 		// sending redirect to page with confirmation
-		request.setAttribute("message", "Circuit was successfully removed. Task completed! <br>"
-				+ "<a href='/Zephyrus/provision'> <input type='button' value='Back to"
-				+ " tasks' class='button'></a>");
+		request.setAttribute("messageNumber", MessageNumber.TASK_COMPLETED_MESSAGE.getId());
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 	
 	/**
-	 * Method for searching port by order task
+	 * Method for searching port by order task													
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given
+	 * @param given																				// REVIEW: no param name
 	 *            task
 	 * @return port object if exist, otherwise null.
 	 * @author Miroshnychenko Nataliya
 	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception {
+	private Port findPortFromTaskID(Task task) throws Exception {								// REVIEW: wrong method name
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

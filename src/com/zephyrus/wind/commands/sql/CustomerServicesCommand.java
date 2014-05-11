@@ -1,6 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.SQLException;											
+import java.sql.SQLException;													// REVIEW: unused import
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -12,16 +12,16 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;												
 import com.zephyrus.wind.enums.PAGES;
-import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.enums.ROLE;													
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.User;
 																										
 /**
- * This class contains the method, that is declared in @link
+ * This class contains the method, that is declared in @link							// REVIEW: link is not working
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
  * defined user's Service Instances to Customer User.
  * 
- * @return page with all Service Instances of defined user.
+ * @return page with all Service Instances of defined user.								// REVIEW: return in class docs
  * @author Miroshnychenko Nataliya
  * 
  */
@@ -47,12 +47,12 @@ public class CustomerServicesCommand extends SQLCommand {
 			request.setAttribute("errorMessage", "User doesn't exist!");
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		Map<ServiceInstance, String> actualServices = new HashMap<ServiceInstance, String>();
+		Map<ServiceInstance, String> actualServices = new HashMap<ServiceInstance, String>();	// REVIEW: rename actual -> active
 		
 		ArrayList<ServiceInstance> services = serviceDAO.getActiveServiceInstancesByUser(user);
 		
-		for (ServiceInstance instance: services) {
-			actualServices.put(instance, orderDAO.getSICreateOrder(instance).getServiceLocation().getAddress());
+		for (ServiceInstance instance: services) {												// REVIEW: no cycle should be used. adopt DAO for this purpose
+			actualServices.put(instance, orderDAO.getSICreateOrder(instance).getServiceLocation().getAddress());	// REVIEW: too long lane
 		}	
 		
 		request.setAttribute("actualServices", actualServices);

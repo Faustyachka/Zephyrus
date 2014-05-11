@@ -1,9 +1,10 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -16,8 +17,8 @@ import com.zephyrus.wind.helpers.CSVConverter;
 import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Disconnect orders per period" report data in CSV format.
  * 
  * @author Alexandra Beskorovaynaya
@@ -33,7 +34,7 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 	 * to redirect user on other page after report downloading.
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,
+	protected String doExecute(HttpServletRequest request,							
 			HttpServletResponse response) throws SQLException, Exception {
 		
 		//check the presence of dates
@@ -47,31 +48,26 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
 		
-		//check the dates on format corresponding 
-		final Pattern pattern = Pattern
-				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
-		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);
-		if (!matcherFromDate.find() || !matcherToDate.find()) {
+		Date fromDate;
+		Date toDate;
+
+		// check the dates on format corresponding
+		if (isDateValid(fromDateString) && isDateValid(toDateString)) {
+			// transform dates strings into Date format
+			fromDate = Date.valueOf(fromDateString);
+			toDate = Date.valueOf(toDateString);
+		} else {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/disconnectOrdersReport.jsp";
 		}
-		
-		//transform dates strings into Date format
-		Date fromDate = Date.valueOf(fromDateString);
-		Date toDate = Date.valueOf(toDateString);
-		
-		DisconnectOrdersPerPeriodReport report = null;
-		
-		try {
-			report = new DisconnectOrdersPerPeriodReport(fromDate, toDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
-			return "reports/disconnectOrdersReport.jsp";
 
-		}
+		
+		DisconnectOrdersPerPeriodReport report = new DisconnectOrdersPerPeriodReport(fromDate, toDate);
+		downloadCSV(response, report);
+		return null;
+	}
+	
+	private void downloadCSV(HttpServletResponse response, DisconnectOrdersPerPeriodReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
 		// write workbook to outputstream
@@ -85,7 +81,23 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 		out.write(data);
 		out.flush();
 		out.close();
-		return null;
+	}
+	
+	private boolean isDateValid(String value) {
+
+		if (value == null) {
+			return false;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setLenient(false);
+
+		try {
+			formatter.parse(value);
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
 	}
 
 }

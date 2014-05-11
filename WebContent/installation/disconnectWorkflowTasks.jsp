@@ -28,7 +28,9 @@ hr {
   <div style="text-align:center">
     <h2>Workflow for Order ${order.id} by Task ${task.id}</h2></div>
     <br>
-    <div><font color="red"> ${message} </font></div>
+    <div><font color="green"> ${message} </font>
+    <font color="red"> ${error} </font>
+    </div>
     <br>
     <c:if test= "${device != null}">
   	<c:if test="${port!=null}">

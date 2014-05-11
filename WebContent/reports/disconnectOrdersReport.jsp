@@ -5,19 +5,28 @@
 	
 </script>
 <div class="navigation">
-	<div style="text-align:center"><a href="/Zephyrus/reportChoosing">
-	<input type="button" class="button" value="Back to Reports"/></a></div>
-	<br>
-   <hr>
-   <br>
-   <div style="text-align:center"><a href="/Zephyrus/about"> 
-<input type="button"	value="About Us" class="navibutton" /></a></div>
-<div style="text-align:center"><a href="/Zephyrus/services">
-<input type="button"	value="Services" class="navibutton" /></a></div>
-<div style="text-align:center"><a href="/Zephyrus/contacts">
-<input type="button"	value="Contacts" class="navibutton" /></a></div>
+	<div style="text-align: center">
+		<a href="/Zephyrus/reportChoosing"> <input type="button"
+			class="button" value="Back to Reports" /></a>
 	</div>
+	<br>
+	<hr>
+	<br>
+	<div style="text-align: center">
+		<a href="/Zephyrus/about"> <input type="button" value="About Us"
+			class="navibutton" /></a>
+	</div>
+	<div style="text-align: center">
+		<a href="/Zephyrus/services"> <input type="button"
+			value="Services" class="navibutton" /></a>
+	</div>
+	<div style="text-align: center">
+		<a href="/Zephyrus/contacts"> <input type="button"
+			value="Contacts" class="navibutton" /></a>
+	</div>
+</div>
 <div class="main">
+	<h3>Disconnect orders per period report</h3>
 	<form id="form" method="post" action="">
 		<label><font color="red">${message}</font></label><br>
 		<table>
@@ -42,7 +51,7 @@
 				form.submit();
 			}
 		</script>
-		<input type="button" value="Review Report" class="button"
+		<input type="button" value="Show Report" class="button"
 			onclick="review()">
 		<script>
 			function downloadExcel() {
@@ -63,38 +72,47 @@
 		<input type="button" value="Download CSV" id="csv" class="button"
 			onclick="downloadCSV()">
 	</form>
-	<table border="1"
-		style="border: 1px solid black; border-collapse: collapse; width: 100%">
-		<tr style="background-color: blue">
-			<td>User Name</td>
-			<td>Order ID</td>
-			<td>Order status</td>
-			<td>Product Name</td>
-			<td>Provider Location</td>
-		</tr>
-		<c:forEach items="${records}" var="record">
+	<br />
+	
+	<c:if test="${not empty records}">
+		<table style="border-collapse: collapse; width: 100%; padding: 10px;">
 			<tr>
-				<td>${record.username}</td>
-				<td>${record.orderID }</td>
-				<td>${record.orderStatus }</td>
-				<td>${record.productName }</td>
-				<td>${record.providerLocation }</td>
+				<td align="center" style="background-color: #3a75c4; color: white;">User Name</td>
+				<td align="center" style="background-color: #3a75c4; color: white;">Order ID</td>
+				<td align="center" style="background-color: #3a75c4; color: white;">Order status</td>
+				<td align="center" style="background-color: #3a75c4; color: white;">Product Name</td>
+				<td align="center" style="background-color: #3a75c4; color: white;">Provider Location</td>
 			</tr>
-		</c:forEach>
-	</table>
+			<c:forEach items="${records}" var="record">
+				<tr>
+					<td align="center" style="border: 1px solid #3a75c4;">${record.username}</td>
+					<td align="center" style="border: 1px solid #3a75c4;">${record.orderID }</td>
+					<td align="center" style="border: 1px solid #3a75c4;">${record.orderStatus }</td>
+					<td align="center" style="border: 1px solid #3a75c4;">${record.productName }</td>
+					<td align="center" style="border: 1px solid #3a75c4;">${record.providerLocation }</td>
+				</tr>
+			</c:forEach>
+		</table>
+	</c:if>
+	<c:if test="${records != null and empty records}">
+		Not enough data to form report
+	</c:if>
 	<table style="width: 100%">
 		<tr>
-			<td style="width: 50%;" align="left"><c:if
-					test="${last > (count*2)}">
-					<a href="/Zephyrus/newOrders?last=${last-(count*2)}"> <input
-						type="button" value="Previous page" class="button" />
+			<td style="width: 50%;" align="left">
+				<c:if test="${last > (count*2)}">
+					<a href="/Zephyrus/newOrders?last=${last-(count*2)}"> 
+						<input type="button" value="Previous page" class="button" />
 					</a>
-				</c:if></td>
-			<td style="width: 50%" align="right"><c:if test="${next==1}">
-					<a href="/Zephyrus/newOrders?last=${last}"> <input
-						type="button" value="Next page" class="button" />
+				</c:if>
+				</td>
+			<td style="width: 50%" align="right">
+				<c:if test="${hasNext=='exist'}">
+					<a href="/Zephyrus/newOrders?last=${last}"> 
+						<input type="button" value="Next page" class="button" />
 					</a>
-				</c:if></td>
+				</c:if>
+			</td>
 		</tr>
 	</table>
 

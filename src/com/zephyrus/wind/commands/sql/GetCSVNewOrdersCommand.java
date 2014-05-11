@@ -1,9 +1,10 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -37,7 +38,6 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		NewOrdersPerPeriodReport report = null;
 
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
@@ -48,26 +48,25 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
 
-		final Pattern pattern = Pattern
-				.compile("^([0-9]){4}-([0-9]){2}-([0-9]){2}$");
-		final Matcher matcherFromDate = pattern.matcher(fromDateString);
-		final Matcher matcherToDate = pattern.matcher(fromDateString);
-		if (!matcherFromDate.find() || !matcherToDate.find()) {
+		Date fromDate;
+		Date toDate;
+		
+		// check the dates on format corresponding
+		if (isDateValid(fromDateString) && isDateValid(toDateString)) {
+			// transform dates strings into Date format
+			fromDate = Date.valueOf(fromDateString);
+			toDate = Date.valueOf(toDateString);
+		} else {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/newOrdersReport.jsp";
 		}
-
-		Date fromDate = Date.valueOf(fromDateString);
-		Date toDate = Date.valueOf(toDateString);
-		try {
-			report = new NewOrdersPerPeriodReport(fromDate, toDate);
-		} catch (Exception e) {
-			e.printStackTrace();
-			request.setAttribute("message",
-					"Error occured during report downloading");
-			return "reports/newOrdersReport.jsp";
-
-		}
+		
+		NewOrdersPerPeriodReport report = new NewOrdersPerPeriodReport(fromDate, toDate);		
+		downloadCSV(response, report);
+		return null;
+	}
+	
+	private void downloadCSV(HttpServletResponse response, NewOrdersPerPeriodReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
 		// write workbook to outputstream
@@ -81,7 +80,23 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 		out.write(data);
 		out.flush();
 		out.close();
-		return null;
+	}
+	
+	private boolean isDateValid(String value) {
+
+		if (value == null) {
+			return false;
+		}
+
+		SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
+		formatter.setLenient(false);
+
+		try {
+			formatter.parse(value);
+		} catch (ParseException e) {
+			return false;
+		}
+		return true;
 	}
 
 }

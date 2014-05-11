@@ -1,5 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
+import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.regex.Matcher;
@@ -21,109 +22,116 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to create
  * new Customer User account in system.
- * 
- * @return null because all request to this command are AJAX. Command only
- *         return messages about errors or success.
  * 
  * @author Alexandra Beskorovaynaya
  */
-public class RegisterCommand extends SQLCommand {											
+public class RegisterCommand extends SQLCommand {
+
+	private String name;
+	private String sname;
+	private String email;
+	private String password;
+	private String confPassord;
+	private Date date;
 	
 	/**
 	 * This method allows to create new Customer User account in Data Base. It
-	 * checks all necessary input data to avoid the exceptions. 
+	 * checks all necessary input data to avoid the exceptions.
 	 * 
 	 * @return null because all request to this command are AJAX. Method only
-     *         return messages about errors or success.
+	 *         return messages about errors or success.
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 
-		// get all parameters from page
-				String name = request.getParameter("firstname");
-				String sname = request.getParameter("secondname");
-				String email = request.getParameter("email");
-				String password = request.getParameter("password");
-				String confPassord = request.getParameter("confirmpass");
-				Date registrationDate = new Date(new java.util.Date().getTime());
+		// get all parameters from page 
+		name = request.getParameter("firstname");
+		sname = request.getParameter("secondname");
+		email = request.getParameter("email");
+		password = request.getParameter("password");
+		confPassord = request.getParameter("confirmpass");
+		date = new Date(new java.util.Date().getTime());
+		
+		if (name == null || sname==null || email == null || password==null || confPassord==null) {
+			reply(response, "Failed to create user!");
+			return null;
+		}
+		
+		// check first name
+		if (name.equals("")) { 
+			reply(response, "Name can not be empty");
+			return null;
+		}
 
-				// check first name
-				if (name.equals("")) {
-					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("Name can not be empty");
-					return null;
-				}
+		// check second name
+		if (sname.equals("")) { // REVIEW: null pointer exception
+			reply(response, "Second name can not be empty");
+			return null;
+		}
 
-				// check second name
-				if (sname.equals("")) {
-					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("Second name can not be empty");
-					return null;
-				}
+		// check email correctness
+		final Pattern pattern = Pattern
+				.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
+		final Matcher matcher = pattern.matcher(email);
+		if (!matcher.matches()) { 
+			reply(response, "Wrong email format");
+			return null;
+		}
 
-				// check email correctness
-				final Pattern pattern = Pattern
-						.compile("^[A-Za-z0-9.%+\\-]+@[A-Za-z0-9.\\-]+\\.[A-Za-z]{2,4}");
-				final Matcher matcher = pattern.matcher(email);
-				if (!matcher.find()) {
-					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("Bad email");
-					return null;
-				}
+		// check the existing of email in system
+		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
+		User existingUser = userDAO.findByEmail(email);
+		if (existingUser != null) {
+			reply(response, "This email already exist in system");
+			return null;
+		}
+		// check password
+		if (password.equals("")) { // REVIEW: null pointer exception
+			reply(response, "Password can not be empty");
+			return null;
+		}
 
-				// check the existing of email in system
-				IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
-				User existingUser = userDAO.findByEmail(email);
-				if (existingUser != null) {
-					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("This email already exist in system");
-					return null;
-				}
-				// check password
-				if (password.equals("")) {
-					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("Password can not be empty");
-					return null;
-				}
+		// check password confirmation on corresponding
+		if (!password.equals(confPassord)) {
+			reply(response, "Passwords don't coincides!");
+			return null;
+		}
 
-				// check password confirmation on corresponding
-				if (!password.equals(confPassord)) {
-					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("Passwords don't coincides!");
-					return null;
-				}
-
-				else {
-					// if everything is OK create user
-					User user = new User();
-					user.setFirstName(name);
-					user.setLastName(sname);
-					user.setEmail(email);
-					user.setPassword(SHAHashing.getHash(password));
-					user.setStatus(USER_STATUS.ACTIVE.getValue());
-					IUserRoleDAO roleDAO = getOracleDaoFactory().getUserRoleDAO();
-					UserRole role = roleDAO.findById(ROLE.CUSTOMER.getId());
-					user.setRole(role);
-					user.setRegistrationData(registrationDate);
-					userDAO.insert(user);
-					response.setContentType("text/plain");
-					response.setCharacterEncoding("UTF-8");
-					response.getWriter().write("Account created!");
-			     	EmailSender sender = new EmailSender();
-			    	Email emailMessage = new RegistrationSuccessfulEmail(name, email, password);
-			    	sender.sendEmail(user.getEmail(), emailMessage);
-				}
-				return null;
+		else { 
+			// if everything is OK create user
+			createUser(userDAO);
+			reply(response, "Account created!");
+			return null;
+			
+		}
+	}
+	
+	private void createUser(IUserDAO userDAO) throws Exception {
+		User user = new User();
+		user.setFirstName(name);
+		user.setLastName(sname);
+		user.setEmail(email);
+		user.setPassword(SHAHashing.getHash(password));
+		user.setStatus(USER_STATUS.ACTIVE.getValue());
+		IUserRoleDAO roleDAO = getOracleDaoFactory().getUserRoleDAO();
+		UserRole role = roleDAO.findById(ROLE.CUSTOMER.getId());
+		user.setRole(role);
+		user.setRegistrationData(date);
+		userDAO.insert(user);
+		EmailSender sender = new EmailSender();
+		Email emailMessage = new RegistrationSuccessfulEmail(name, email,
+				password);
+		sender.sendEmail(user.getEmail(), emailMessage);
+	}
+	
+	private void reply(HttpServletResponse response, String replyText) throws IOException {
+		response.setContentType("text/plain");		
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().write(replyText);
 	}
 
 }

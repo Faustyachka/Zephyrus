@@ -13,15 +13,15 @@ import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
+import com.zephyrus.wind.enums.MessageNumber;
+import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
- * the list of users on the index page of Administrator.
- * 
- * @return index page of Administrator with JTable of Users
- * 
+ * This class contains the method, that is declared in 								
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
+ * the list of users on the index page of Administrator.			
  * @author Alexandra Beskorovaynaya
  */
 public class AdminCommand extends SQLCommand {
@@ -30,13 +30,20 @@ public class AdminCommand extends SQLCommand {
 	 * This method forms the data for JTable on Administrator index page. It
 	 * gets the list of users from the DB, transform it to Json Array and send
 	 * on the jsp page.
-	 * 
-	 * @return index page of Administrator with JTable of Users.
-	 * 
+	 * @return String url of page for redirecting. Always returns null because
+	 *         it is no need to redirect on message page after each
+	 *         paging. In administrator's jsp ajax query is used
+	 *         for users list displaying.																						
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+		
+		User admin = (User)request.getSession().getAttribute("user");
+		if (admin==null || admin.getRole().getId()!=ROLE.ADMIN.getId()) {
+			request.setAttribute("messageNumber", MessageNumber.LOGIN_ADMIN_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 		Gson gson = new Gson();
 		String action = (String) request.getParameter("action");
 		response.setContentType("application/json");

@@ -20,20 +20,8 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.Workflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
-/**
- * This class contains the method, that is declared in
- * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to assign
- * task to the engineer.
- * 
- * @author Alexandra Beskorovaynaya
- */
-public class AssignTaskCommand extends SQLCommand {
+public class RenewTaskCommand extends SQLCommand {
 
-	/**
-	 * This method assigns the task to user in the database. Method gets
-	 * parameter of task's ID from JSP and User from session.
-	 * @return url of home page of user
-	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -92,11 +80,11 @@ public class AssignTaskCommand extends SQLCommand {
 				wf = new ModifyScenarioWorkflow(
 						getOracleDaoFactory(), order);
 			}
-			wf.assignTask(taskId, user.getId());
+			wf.renewTask(taskId);
 		} catch (WorkflowException ex) {
 			ex.printStackTrace();
 			getOracleDaoFactory().rollbackTransaction();
-			request.setAttribute("errorMessage", "Failed to assign task");
+			request.setAttribute("errorMessage", "Failed to renew task");
 			return PAGES.MESSAGE_PAGE.getValue();
 		} finally {
 			wf.close();
@@ -111,6 +99,6 @@ public class AssignTaskCommand extends SQLCommand {
 		} else {
 			return null;
 		}
-
 	}
+
 }

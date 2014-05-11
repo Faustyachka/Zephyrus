@@ -7,7 +7,7 @@ import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.MessageManager;
 
-																									// REVIEW: documentation expected
+																									// REVIEW: Is this class used anywhere? + documentation expected
 public class NoCommand implements Command {
 																									// REVIEW: documentation expected
 	@Override
