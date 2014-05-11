@@ -64,8 +64,8 @@ public class CreateNewPassComand extends SQLCommand {
 			request.setAttribute("messageNumber", MessageNumber.USER_ID_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		String pass = request.getParameter("pass");
-		String confPass = request.getParameter("confpass");
+		String pass = request.getParameter("password");
+		String confPass = request.getParameter("confirmpass");
 		if (pass.equals("")) {
 			request.setAttribute("error", "Password can not be empty");
 			request.setAttribute("userId", userId);
