@@ -43,7 +43,6 @@ hr {
 			class="button" />
 	</form>
 </div>
-<div class="footer"></div>
 
 <script>
 	$(document).on('click', '#changepass', function() {
