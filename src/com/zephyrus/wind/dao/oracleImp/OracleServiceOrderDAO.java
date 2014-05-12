@@ -210,8 +210,14 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		IServiceLocationDAO locationDAO = daoFactory.getServiceLocationDAO();
 		ArrayList<ServiceLocation> locations = locationDAO.getServiceLocationsByUserId(user.getId());
 		
+		int size = locations.size();
+		
+		if (size == 0){
+			return null;
+		}
+		
 		StringBuilder builder = new StringBuilder();
-		for( int i = 0 ; i < locations.size(); i++ ) {
+		for( int i = 0 ; i < size; i++ ) {
 		    builder.append("?,");
 		}
 		

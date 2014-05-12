@@ -69,6 +69,12 @@ Password changed!<br>
 			class='button' value='Users' />
 		</a>
 	</c:if>
+	<c:if test="${messageNumber == 11}">
+You don`t have orders and services<br>
+		<a href='/Zephyrus/view/start.jsp'> <input type='button'
+			class='button' value='Get connected' />
+		</a>
+	</c:if>
 </div>
 </div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

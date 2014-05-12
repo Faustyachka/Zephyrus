@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceLocationDAO;								
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.ServiceLocation;
@@ -48,6 +49,11 @@ public class CustomerOrdersCommand extends SQLCommand {
 		}
 		
 		ArrayList<ServiceOrder> orders = orderDAO.getOrdersByUser(user);					// REVIEW: I recommend to add param orderType to this DAO
+		
+		if (orders == null){
+			request.setAttribute("messageNumber", MessageNumber.ORDER_EMPTY_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 		
 		ArrayList<ServiceOrder> actualOrders = new ArrayList<ServiceOrder>();				// REVIEW: rename actual -> active 
 		ArrayList<ServiceOrder> workedOutOrders = new ArrayList<ServiceOrder>();
