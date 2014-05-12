@@ -75,6 +75,24 @@ You don`t have orders and services<br>
 			class='button' value='Get connected' />
 		</a>
 	</c:if>
+	<c:if test="${messageNumber == 12}">
+User doesn`t exist<br>
+		<a href='/Zephyrus/customer'> <input type='button'
+			class='button' value='Back to orders' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 13}">
+You should select existing Service Instance<br>
+		<a href='/Zephyrus/customerServices'> <input type='button'
+			class='button' value='Back to Service Instance' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 14}">
+Disconnect order for selected Service Instance has been created<br>
+		<a href='/Zephyrus/customerServices'> <input type='button'
+			class='button' value='Back to Service Instance' />
+		</a>
+	</c:if>
 </div>
 </div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

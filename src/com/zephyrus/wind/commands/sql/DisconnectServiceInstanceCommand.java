@@ -9,6 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PAGES;
@@ -17,9 +18,11 @@ import com.zephyrus.wind.model.OrderType;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
+import com.zephyrus.wind.workflow.WorkflowException;
 
 /**
- * This class contains the method, that is declared in @link #com.zephyrus.wind.commands.interfaces.SQLCommand. // REVIEW: link isn't working and line is too long
+ * This class contains the method, that is declared in 
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. 
  * Method realized SI disconnect
  * 
  * @see com.zephyrus.wind.model.ServiceOrder
@@ -28,7 +31,6 @@ import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
  * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
  * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
  * 
- * @return massage of successful disconnect order creation								// REVIEW: return in class docs
  * @author Miroshnychenko Nataliya
  */
 
@@ -44,11 +46,14 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 	 * @see com.zephyrus.wind.enums.PAGES
 	 * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
 	 * 
-	 * @return page with confirmation of successful creation of disconnect order 			// REVIEW: always? 
+	 * @return page with confirmation of successful creation of disconnect order 			
+	 * Also can return the error page if the received Service Instance ID is not valid
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
+		
+		int serviceInstanceID;
 
 		if(request.getParameter("id") == null){
         	request.setAttribute("message", "Service Instance is not selected");
@@ -57,18 +62,39 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 		
 		IServiceInstanceDAO serviceInstanceDAO = getOracleDaoFactory().getServiceInstanceDAO();
 
-		Integer serviceInstanceID = Integer.parseInt(request.getParameter("id"));			// REVIEW: what if parse failed?
-		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);	// REVIEW: what if serviceInstance wasn't found
+		try {
+			serviceInstanceID = Integer.parseInt(request.getParameter("id"));
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
+		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);	
 
+		if (serviceInstance == null) {
+			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
+		
 		disconnectOrder =  createDisconnectOrder(serviceInstance);
 
-		DisconnectScenarioWorkflow workflow =  new DisconnectScenarioWorkflow(getOracleDaoFactory(), disconnectOrder);	// REVIEW: no exception control is performed here. It's not too bad, because we have catch on upper level, but what about adequate message to the user? also too long lane 
-		workflow.proceedOrder();
-		workflow.close();																	// REVIEW: also try is needed because wf should be closed to prevent resource leaks
+		DisconnectScenarioWorkflow workflow = null;
+		
+		try {
+			workflow = new DisconnectScenarioWorkflow(getOracleDaoFactory(), disconnectOrder); 
+			workflow.proceedOrder();
+		} catch (WorkflowException ex) {
+			ex.printStackTrace();
+			getOracleDaoFactory().rollbackTransaction();
+			request.setAttribute("serviceInstanceID", serviceInstanceID);
+			request.setAttribute("error", "Failed to disconnect Service Instance");
+			return "customerServices";
+		} finally {
+			workflow.close();
+		}
 
-		request.setAttribute("message", "Disconnect order has been created successfuly <br>"
-						+ "<br><a href='/Zephyrus/customerServices'> <input type='button' value='Back to"	// REVIEW: HTML
-						+ " services' class='button'></a>");
+		request.setAttribute("messageNumber", MessageNumber.SI_DISCONNECT_COMPLETED_MESSAGE.getId());
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 

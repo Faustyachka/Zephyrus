@@ -1,6 +1,6 @@
 package com.zephyrus.wind.commands.sql;
 
-import java.sql.SQLException;													// REVIEW: unused import
+import java.sql.SQLException;													
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -11,17 +11,16 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;												
+import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.PAGES;
-import com.zephyrus.wind.enums.ROLE;													
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.User;
 																										
 /**
- * This class contains the method, that is declared in @link							// REVIEW: link is not working
+ * This class contains the method, that is declared in
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to display
  * defined user's Service Instances to Customer User.
  * 
- * @return page with all Service Instances of defined user.								// REVIEW: return in class docs
  * @author Miroshnychenko Nataliya
  * 
  */
@@ -44,18 +43,19 @@ public class CustomerServicesCommand extends SQLCommand {
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
 		User user = (User) request.getSession().getAttribute("user");
 		if (user == null) {
-			request.setAttribute("errorMessage", "User doesn't exist!");
+			request.setAttribute("messageNumber", MessageNumber.USER_EXIST_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		Map<ServiceInstance, String> actualServices = new HashMap<ServiceInstance, String>();	// REVIEW: rename actual -> active
+		Map<ServiceInstance, String> activeServices = new HashMap<ServiceInstance, String>();	
 		
 		ArrayList<ServiceInstance> services = serviceDAO.getActiveServiceInstancesByUser(user);
 		
-		for (ServiceInstance instance: services) {												// REVIEW: no cycle should be used. adopt DAO for this purpose
-			actualServices.put(instance, orderDAO.getSICreateOrder(instance).getServiceLocation().getAddress());	// REVIEW: too long lane
+		for (ServiceInstance instance: services) {												
+			activeServices.put(instance, 
+					orderDAO.getSICreateOrder(instance).getServiceLocation().getAddress());	
 		}	
 		
-		request.setAttribute("actualServices", actualServices);
+		request.setAttribute("actualServices", activeServices);
 		
 		return PAGES.CUSTOMERSERVICES_PAGE.getValue();
 	}

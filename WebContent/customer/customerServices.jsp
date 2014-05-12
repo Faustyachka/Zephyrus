@@ -94,7 +94,7 @@ hr {
 					<a href="/Zephyrus/modifyService?id=${actualService.key.id}"> <input
 						type="button" value="Modify">
 					</a>
-					<input type="button" value="Delete" 
+					<input type="button" value="Disconnect" 
 						onclick="showNotification('deleteConfirmation', ${actualService.key.id});">
 				</c:if>
 			</div>
