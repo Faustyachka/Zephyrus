@@ -68,8 +68,7 @@ public class NewOrdersCommand extends SQLCommand {
 		try {
 			report = new NewOrdersPerPeriodReport(fromDate, toDate);
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
-			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
-					+ 1, 1);
+			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE, 1);
 			last = last + records.size();
 		} catch (Exception e) {
 			e.printStackTrace();

@@ -15,7 +15,7 @@ import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
 
 // REVIEW: documentation expected
 public class ProfitabilityByMonthCommand extends SQLCommand {
-	private static Date date;
+	private Date date;
 	final int MAX_PROVIDER_LOC_NUMBER = 10;
 
 	@Override
@@ -27,27 +27,26 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 		// if parameter last is null it means that user called this command not
 		// from report page
 		if (request.getParameter("last") == null) {
-			return "reports/newOrdersReport.jsp";
+			return "reports/profitabilityReport.jsp";
 		}
 
 		try {
 			last = Integer.parseInt(request.getParameter("last"));
 		} catch (NumberFormatException ex) {
 			ex.printStackTrace();
-			return "reports/newOrdersReport.jsp";
+			return "reports/profitabilityReport.jsp";
 		}
 		String dateString = request.getParameter("month");
 		String dateWithDay = "";
-		if (dateString == null) {
-			request.setAttribute("message", "Wrong format of date!");
-			return "reports/profitabilityReport.jsp";
-		}
+
 		dateWithDay = dateString + "-01";
-		if (isDateValid(dateWithDay)) {
-			date = Date.valueOf(dateWithDay);
-		} else {
-			request.setAttribute("message", "Wrong format of date!");
-			return "reports/profitabilityReport.jsp";
+		if (dateString != null) {
+			if (isDateValid(dateWithDay)) {
+				date = Date.valueOf(dateWithDay);
+			} else {
+				request.setAttribute("message", "Wrong format of date!");
+				return "reports/profitabilityReport.jsp";
+			}
 		}
 
 		// get current sql date
@@ -68,8 +67,9 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 		try {
 			report = new ProfitabilityByMonthReport(date);
 			records = report.getReportData(last, MAX_PROVIDER_LOC_NUMBER);
-			checkRecords = report.getReportData(last + MAX_PROVIDER_LOC_NUMBER
-					+ 1, 1);
+			checkRecords = report.getReportData(last + MAX_PROVIDER_LOC_NUMBER,
+					1);
+			System.out.println(checkRecords.size());
 			last = last + records.size();
 		} catch (Exception e) {
 			e.printStackTrace();

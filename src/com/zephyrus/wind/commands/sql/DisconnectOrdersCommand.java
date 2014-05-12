@@ -91,8 +91,7 @@ public class DisconnectOrdersCommand extends SQLCommand {
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
 
 			// get the first element of next page
-			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
-					+ 1, 1);
+			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE, 1);
 
 			// set last element number
 			last = last + records.size();

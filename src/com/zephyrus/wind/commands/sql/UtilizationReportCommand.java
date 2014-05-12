@@ -9,7 +9,8 @@ import javax.servlet.http.HttpServletResponse;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.RouterUtilizationReport;
 import com.zephyrus.wind.reports.rows.RouterUtilRow;
-																				// REVIEW: documentation expected
+
+// REVIEW: documentation expected
 public class UtilizationReportCommand extends SQLCommand {
 
 	private final int NUMBER_RECORDS_PER_PAGE = 20;
@@ -17,13 +18,14 @@ public class UtilizationReportCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		
-		//if parameter last is null it means that user called this command not from report page
+
+		// if parameter last is null it means that user called this command not
+		// from report page
 		if (request.getParameter("last") == null) {
-			return "reports/utilizationReport.jsp";								
+			return "reports/utilizationReport.jsp";
 		}
-		
-		int last;		
+
+		int last;
 		try {
 			last = Integer.parseInt(request.getParameter("last"));
 		} catch (NumberFormatException ex) {
@@ -36,8 +38,8 @@ public class UtilizationReportCommand extends SQLCommand {
 		try {
 			report = new RouterUtilizationReport();
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
-			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE
-					+ 1, 1);
+			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE,
+					1);
 			last = last + records.size();
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -46,7 +48,7 @@ public class UtilizationReportCommand extends SQLCommand {
 		}
 
 		if (checkRecords.isEmpty()) {
-			request.setAttribute("hasNext", "notExist");				
+			request.setAttribute("hasNext", "notExist");
 		} else {
 			request.setAttribute("hasNext", "exist");
 		}
@@ -54,7 +56,7 @@ public class UtilizationReportCommand extends SQLCommand {
 		request.setAttribute("records", records);
 		request.setAttribute("count", NUMBER_RECORDS_PER_PAGE);
 
-		return "reports/utilizationReport.jsp";									
+		return "reports/utilizationReport.jsp";
 	}
 
 }
