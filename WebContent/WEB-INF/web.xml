@@ -167,12 +167,15 @@
       <url-pattern>/provision/*</url-pattern>
       <url-pattern>/reportChoosing</url-pattern>
       <url-pattern>/showReport</url-pattern>
-      <url-pattern>/utilizationReport</url-pattern>
-      <url-pattern>/getUtilizationExcel</url-pattern>
-      <url-pattern>/getUtilizationCSV</url-pattern>
-      <url-pattern>/mostProfitableRouter</url-pattern>
-      <url-pattern>/getMostProfitableRouterExcel</url-pattern>
-      <url-pattern>/getMostProfitableRouterCSV</url-pattern>
+      <url-pattern>/newOrders</url-pattern>
+      <url-pattern>/getExcelNewOrders</url-pattern>
+      <url-pattern>/getCSVNewOrders</url-pattern>
+      <url-pattern>/disconnectOrders</url-pattern>
+      <url-pattern>/getExcelDisconnectOrders</url-pattern>
+      <url-pattern>/getCSVDisconnectOrders</url-pattern>
+      <url-pattern>/profitabilityReport</url-pattern>
+      <url-pattern>/getExcelProfitability</url-pattern>
+      <url-pattern>/getCSVProfitability</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>
@@ -185,17 +188,14 @@
       <web-resource-name>InstallationEngineer</web-resource-name>
       <url-pattern>/installation</url-pattern>
       <url-pattern>/installation/*</url-pattern>
-            <url-pattern>/reportChoosing</url-pattern>
+      <url-pattern>/reportChoosing</url-pattern>
       <url-pattern>/showReport</url-pattern>
-      <url-pattern>/newOrders</url-pattern>
-      <url-pattern>/getExcelNewOrders</url-pattern>
-      <url-pattern>/getCSVNewOrders</url-pattern>
-      <url-pattern>/disconnectOrders</url-pattern>
-      <url-pattern>/getExcelDisconnectOrders</url-pattern>
-      <url-pattern>/getCSVDisconnectOrders</url-pattern>
-      <url-pattern>/profitabilityReport</url-pattern>
-      <url-pattern>/getExcelProfitability</url-pattern>
-      <url-pattern>/getCSVProfitability</url-pattern>
+      <url-pattern>/utilizationReport</url-pattern>
+      <url-pattern>/getUtilizationExcel</url-pattern>
+      <url-pattern>/getUtilizationCSV</url-pattern>
+      <url-pattern>/mostProfitableRouter</url-pattern>
+      <url-pattern>/getMostProfitableRouterExcel</url-pattern>
+      <url-pattern>/getMostProfitableRouterCSV</url-pattern>
       <http-method>GET</http-method>
       <http-method>POST</http-method>
     </web-resource-collection>

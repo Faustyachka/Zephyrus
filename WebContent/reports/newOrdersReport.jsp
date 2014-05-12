@@ -46,6 +46,7 @@
 				form.submit();
 			}
 		</script>
+		<br>
 		<input type="button" value="Review Report" class="button"
 			onclick="review()">
 		<script>
