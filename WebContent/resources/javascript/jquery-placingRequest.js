@@ -7,7 +7,7 @@ $().ready(function(){
                 $("#somediv").empty(); 
                 $('#submit').attr("disabled", true); 
                 $('#proceed').attr("disabled", true); 
-                $("#loading").append("<img src='resources/css/images/animation.gif'/>");
+                $("#loading").append("<img src='/Zephyrus/resources/css/images/animation.gif'/>");
                 $.post('/Zephyrus/mapping',{latitude:latituded,longitude:longituded, address:addresss},function(rsp){ 
                 	$('#submit').attr("disabled", false); 
                 	$("#loading").empty();

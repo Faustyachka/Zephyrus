@@ -75,7 +75,7 @@ function getProviders(){
     		marker2 = new google.maps.Marker({
                 position: position,
                 map: map,
-                icon: 'resources/css/images/blue_MarkerP.png'
+                icon: '/Zephyrus/resources/css/images/blue_MarkerP.png'
             });
         	                         
         });
