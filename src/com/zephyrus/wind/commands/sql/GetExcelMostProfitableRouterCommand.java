@@ -14,25 +14,26 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.MostProfitableRouterReport;
-																					// REVIEW: documentation expected 
-public class GetExcelMostProfitableRouterCommand extends SQLCommand{
+
+// REVIEW: documentation expected 
+public class GetExcelMostProfitableRouterCommand extends SQLCommand {
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-											
+
 		if (request.getParameter("from") == null
 				|| request.getParameter("to") == null) {
 			request.setAttribute("message", "Date fields can not be empty!");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
-		
+
 		String fromDateString = request.getParameter("from");
-		String toDateString = request.getParameter("to");	
-		
+		String toDateString = request.getParameter("to");
+
 		Date fromDate;
 		Date toDate;
-		
+
 		// check the dates on format corresponding
 		if (isDateValid(fromDateString) && isDateValid(toDateString)) {
 			// transform dates strings into Date format
@@ -42,26 +43,41 @@ public class GetExcelMostProfitableRouterCommand extends SQLCommand{
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
-		
-		MostProfitableRouterReport report =  new MostProfitableRouterReport(fromDate, toDate);
+
+		// get current sql date
+		java.util.Date utilDate = new java.util.Date();
+		Date today = new java.sql.Date(utilDate.getTime());
+
+		// check is date in future
+		if (today.compareTo(fromDate) < 0 || today.compareTo(toDate) < 0) {
+			request.setAttribute("message",
+					"Wrong format of date! Date must be in past or present.");
+			return "reports/mostProfitableRouterReport.jsp";
+		}
+
+		MostProfitableRouterReport report = new MostProfitableRouterReport(
+				fromDate, toDate);
 
 		downloadExcel(response, report);
 		return null;
 	}
-	
-	private void downloadExcel(HttpServletResponse response, MostProfitableRouterReport report) throws IOException {
+
+	private void downloadExcel(HttpServletResponse response,
+			MostProfitableRouterReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
-    	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
-    	//write workbook to outputstream
-        //offer the user the option of opening or downloading the resulting Excel file
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=MostProfitableRouter.xls");
-        ServletOutputStream out = response.getOutputStream();
-        wb.write(out);
-        out.flush();
-        out.close();
+		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
+		// write workbook to outputstream
+		// offer the user the option of opening or downloading the resulting
+		// Excel file
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition",
+				"attachment; filename=MostProfitableRouter.xls");
+		ServletOutputStream out = response.getOutputStream();
+		wb.write(out);
+		out.flush();
+		out.close();
 	}
-	
+
 	private boolean isDateValid(String value) {
 
 		if (value == null) {

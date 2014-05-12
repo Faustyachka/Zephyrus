@@ -40,7 +40,17 @@ public class GetExcelNewOrdersCommand extends SQLCommand {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/newOrdersReport.jsp";
 		}
-
+		
+		//get current sql date
+		java.util.Date utilDate = new java.util.Date();
+		Date today = new java.sql.Date(utilDate.getTime());
+		
+		//check is date in future
+		if (today.compareTo(fromDate) < 0 ||today.compareTo(toDate) < 0){
+			request.setAttribute("message", "Wrong format of date! Date must be in past or present.");
+			return "reports/newOrdersReport.jsp";
+		}
+		
 		NewOrdersPerPeriodReport report = new NewOrdersPerPeriodReport(
 				fromDate, toDate);
 

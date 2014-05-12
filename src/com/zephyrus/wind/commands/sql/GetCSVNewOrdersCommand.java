@@ -18,22 +18,22 @@ import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
 
 /**
  * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses 
- * for downloading of "New orders per period" report data in 
- * CSV format.
+ * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * "New orders per period" report data in CSV format.
  * 
  * @author Alexandra Beskorovaynaya
  */
 public class GetCSVNewOrdersCommand extends SQLCommand {
-	
+
 	/**
-	 * This method checks all necessary input data, get all data for the "New 
-	 * orders per period" report and transform it to CSV format for downloading by user.
-	 * Returns the downloading stream of "New orders per period" report in CSV format.
+	 * This method checks all necessary input data, get all data for the "New
+	 * orders per period" report and transform it to CSV format for downloading
+	 * by user. Returns the downloading stream of "New orders per period" report
+	 * in CSV format.
 	 * 
-	 * @return String url of page for redirecting. Always return null because 
-	 * there is no necessity to redirect user on other page after report 
-	 * downloading.
+	 * @return String url of page for redirecting. Always return null because
+	 *         there is no necessity to redirect user on other page after report
+	 *         downloading.
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -50,7 +50,7 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 
 		Date fromDate;
 		Date toDate;
-		
+
 		// check the dates on format corresponding
 		if (isDateValid(fromDateString) && isDateValid(toDateString)) {
 			// transform dates strings into Date format
@@ -60,13 +60,26 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/newOrdersReport.jsp";
 		}
-		
-		NewOrdersPerPeriodReport report = new NewOrdersPerPeriodReport(fromDate, toDate);		
+
+		// get current sql date
+		java.util.Date utilDate = new java.util.Date();
+		Date today = new java.sql.Date(utilDate.getTime());
+
+		// check is date in future
+		if (today.compareTo(fromDate) < 0 || today.compareTo(toDate) < 0) {
+			request.setAttribute("message",
+					"Wrong format of date! Date must be in past or present.");
+			return "reports/newOrdersReport.jsp";
+		}
+
+		NewOrdersPerPeriodReport report = new NewOrdersPerPeriodReport(
+				fromDate, toDate);
 		downloadCSV(response, report);
 		return null;
 	}
-	
-	private void downloadCSV(HttpServletResponse response, NewOrdersPerPeriodReport report) throws IOException {
+
+	private void downloadCSV(HttpServletResponse response,
+			NewOrdersPerPeriodReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
 		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
 		// write workbook to outputstream
@@ -81,7 +94,7 @@ public class GetCSVNewOrdersCommand extends SQLCommand {
 		out.flush();
 		out.close();
 	}
-	
+
 	private boolean isDateValid(String value) {
 
 		if (value == null) {

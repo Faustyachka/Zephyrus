@@ -13,16 +13,17 @@ import org.apache.poi.ss.usermodel.Workbook;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.ProfitabilityByMonthReport;
-																			// REVIEW: documentation expected 
-public class GetExcelProfitabilityCommand extends SQLCommand{
-	
+
+// REVIEW: documentation expected 
+public class GetExcelProfitabilityCommand extends SQLCommand {
+
 	private static Date date;
-	
+
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		String dateString = request.getParameter("month");	
-		String dateWithDay="";
+		String dateString = request.getParameter("month");
+		String dateWithDay = "";
 		if (dateString == null) {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/profitabilityReport.jsp";
@@ -34,25 +35,40 @@ public class GetExcelProfitabilityCommand extends SQLCommand{
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/profitabilityReport.jsp";
 		}
-		ProfitabilityByMonthReport report = new ProfitabilityByMonthReport(date);					
+
+		// get current sql date
+		java.util.Date utilDate = new java.util.Date();
+		Date today = new Date(utilDate.getTime());
+
+		// check is date in future
+		if (today.compareTo(date) < 0) {
+			request.setAttribute("message",
+					"Wrong format of date! Date must be in past or present.");
+			return "reports/profitabilityReport.jsp";
+		}
+
+		ProfitabilityByMonthReport report = new ProfitabilityByMonthReport(date);
 
 		downloadExcel(response, report);
 		return null;
 	}
-	
-	private void downloadExcel(HttpServletResponse response, ProfitabilityByMonthReport report) throws IOException {
+
+	private void downloadExcel(HttpServletResponse response,
+			ProfitabilityByMonthReport report) throws IOException {
 		final int MAX_ROWS_IN_EXCEL = 65535;
-    	Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
-    	//write workbook to outputstream
-        //offer the user the option of opening or downloading the resulting Excel file
-        response.setContentType("application/vnd.ms-excel");
-        response.setHeader("Content-Disposition", "attachment; filename=ProfitabilityByMonth.xls");
-        ServletOutputStream out = response.getOutputStream();
-        wb.write(out);
-        out.flush();
-        out.close();
+		Workbook wb = report.convertToExel(MAX_ROWS_IN_EXCEL);
+		// write workbook to outputstream
+		// offer the user the option of opening or downloading the resulting
+		// Excel file
+		response.setContentType("application/vnd.ms-excel");
+		response.setHeader("Content-Disposition",
+				"attachment; filename=ProfitabilityByMonth.xls");
+		ServletOutputStream out = response.getOutputStream();
+		wb.write(out);
+		out.flush();
+		out.close();
 	}
-	
+
 	private boolean isDateValid(String value) {
 
 		if (value == null) {

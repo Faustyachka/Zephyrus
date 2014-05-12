@@ -35,9 +35,7 @@ public class DisconnectOrdersCommand extends SQLCommand {
 	 * @return the page of "Disconnect orders per period" report
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request, // REVIEW: method is
-															// too long and
-															// should be split
+	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
 
 		// The last displayed row number
@@ -69,6 +67,18 @@ public class DisconnectOrdersCommand extends SQLCommand {
 				return "reports/disconnectOrdersReport.jsp";
 			}
 		}
+
+		// get current sql date
+		java.util.Date utilDate = new java.util.Date();
+		Date today = new java.sql.Date(utilDate.getTime());
+
+		// check is date in future
+		if (today.compareTo(fromDate) < 0 || today.compareTo(toDate) < 0) {
+			request.setAttribute("message",
+					"Wrong format of date! Date must be in past or present.");
+			return "reports/disconnectOrdersReport.jsp";
+		}
+
 		DisconnectOrdersPerPeriodReport report;
 
 		// create list for results

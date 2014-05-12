@@ -50,10 +50,9 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 		String fromDateString = request.getParameter("from");
 		String toDateString = request.getParameter("to");
 
-		
 		Date fromDate;
 		Date toDate;
-		
+
 		// check the dates on format corresponding
 		if (isDateValid(fromDateString) && isDateValid(toDateString)) {
 			// transform dates strings into Date format
@@ -61,6 +60,17 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 			toDate = Date.valueOf(toDateString);
 		} else {
 			request.setAttribute("message", "Wrong format of date!");
+			return "reports/mostProfitableRouterReport.jsp";
+		}
+
+		// get current sql date
+		java.util.Date utilDate = new java.util.Date();
+		Date today = new java.sql.Date(utilDate.getTime());
+
+		// check is date in future
+		if (today.compareTo(fromDate) < 0 || today.compareTo(toDate) < 0) {
+			request.setAttribute("message",
+					"Wrong format of date! Date must be in past or present.");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
 

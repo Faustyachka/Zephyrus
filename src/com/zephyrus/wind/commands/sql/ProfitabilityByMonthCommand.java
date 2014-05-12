@@ -49,6 +49,18 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 			request.setAttribute("message", "Wrong format of date!");
 			return "reports/profitabilityReport.jsp";
 		}
+
+		// get current sql date
+		java.util.Date utilDate = new java.util.Date();
+		Date today = new Date(utilDate.getTime());
+
+		// check is date in future
+		if (today.compareTo(date) < 0) {
+			request.setAttribute("message",
+					"Wrong format of date! Date must be in past or present.");
+			return "reports/profitabilityReport.jsp";
+		}
+
 		ProfitabilityByMonthReport report = null;
 
 		ArrayList<ProfitabilityByMonthRow> records = new ArrayList<>();
