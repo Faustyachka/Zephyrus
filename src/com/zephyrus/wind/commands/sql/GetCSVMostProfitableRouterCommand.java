@@ -73,6 +73,12 @@ public class GetCSVMostProfitableRouterCommand extends SQLCommand {
 					"Wrong format of date! Date must be in past or present.");
 			return "reports/mostProfitableRouterReport.jsp";
 		}
+		
+		if (toDate.compareTo(fromDate) < 0) {
+			request.setAttribute("message",
+					"Date interval is incorrect");
+			return "reports/mostProfitableRouterReport.jsp";
+		}
 
 		MostProfitableRouterReport report = new MostProfitableRouterReport(
 				fromDate, toDate);

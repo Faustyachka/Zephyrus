@@ -60,6 +60,12 @@ public class NewOrdersCommand extends SQLCommand {
 					"Wrong format of date! Date must be in past or present.");
 			return "reports/newOrdersReport.jsp";
 		}
+		
+		if (toDate.compareTo(fromDate) < 0) {
+			request.setAttribute("message",
+					"Date interval is incorrect");
+			return "reports/newOrdersReport.jsp";
+		}
 
 		NewOrdersPerPeriodReport report = null;
 

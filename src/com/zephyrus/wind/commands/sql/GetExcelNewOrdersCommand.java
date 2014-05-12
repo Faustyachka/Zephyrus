@@ -51,6 +51,12 @@ public class GetExcelNewOrdersCommand extends SQLCommand {
 			return "reports/newOrdersReport.jsp";
 		}
 		
+		if (toDate.compareTo(fromDate) < 0) {
+			request.setAttribute("message",
+					"Date interval is incorrect");
+			return "reports/newOrdersReport.jsp";
+		}
+		
 		NewOrdersPerPeriodReport report = new NewOrdersPerPeriodReport(
 				fromDate, toDate);
 

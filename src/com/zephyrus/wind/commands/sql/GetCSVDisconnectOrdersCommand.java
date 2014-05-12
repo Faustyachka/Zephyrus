@@ -73,6 +73,12 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 					"Wrong format of date! Date must be in past or present.");
 			return "reports/disconnectOrdersReport.jsp";
 		}
+		
+		if (toDate.compareTo(fromDate) < 0) {
+			request.setAttribute("message",
+					"Date interval is incorrect");
+			return "reports/disconnectOrdersReport.jsp";
+		}
 
 		DisconnectOrdersPerPeriodReport report = new DisconnectOrdersPerPeriodReport(
 				fromDate, toDate);
