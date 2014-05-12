@@ -56,8 +56,8 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 		int serviceInstanceID;
 
 		if(request.getParameter("id") == null){
-        	request.setAttribute("message", "Service Instance is not selected");
-        	return PAGES.MESSAGE_PAGE.getValue();
+			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
         }
 		
 		IServiceInstanceDAO serviceInstanceDAO = getOracleDaoFactory().getServiceInstanceDAO();

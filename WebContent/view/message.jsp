@@ -93,6 +93,24 @@ Disconnect order for selected Service Instance has been created<br>
 			class='button' value='Back to Service Instance' />
 		</a>
 	</c:if>
+	<c:if test="${messageNumber == 15}">
+No available products for modify selected Service Instance<br>
+		<a href='/Zephyrus/customerServices'> <input type='button'
+			class='button' value='Back to Service Instance' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 16}">
+You should select available product for modify Service Instance<br>
+		<a href='/Zephyrus/customerServices'> <input type='button'
+			class='button' value='Back to Service Instance' />
+		</a>
+	</c:if>
+		<c:if test="${messageNumber == 17}">
+Modify order for selected Service Instance has been created<br>
+		<a href='/Zephyrus/customerServices'> <input type='button'
+			class='button' value='Back to Service Instance' />
+		</a>
+	</c:if>
 </div>
 </div>
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />
