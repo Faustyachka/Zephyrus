@@ -81,19 +81,23 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	 * given start date and ends one month later. 
 	 */
 	private static final String SQL_PROFIT_BY_MONTH = 
-			"SELECT PROVIDER_LOCATIONS.LOCATION_NAME, SUM (PRODUCT_CATALOG.PRICE) AS SUM "
-		  + "FROM PRODUCT_CATALOG  "
-		  + "INNER JOIN SERVICE_INSTANCES SI ON PRODUCT_CATALOG.ID=SI.PRODUCT_CATALOG_ID "
-		  + "INNER JOIN PROVIDER_LOCATIONS ON PROVIDER_LOCATIONS.ID=PRODUCT_CATALOG.PROVIDER_LOC_ID "
-		  + "WHERE SI.START_DATE < ? "
-		  + "    AND NOT EXISTS(SELECT NULL "
-		  + "                   FROM SERVICE_ORDERS SO "
-		  + "                   INNER JOIN ORDER_TYPE OT ON SO.ORDER_TYPE_ID = OT.ID "
-		  + "                   WHERE SO.SERVICE_INSTANCE_ID = SI.ID "
-		  + "                      AND SO.ORDER_DATE < ADD_MONTHS(?, 1) "
-		  + "                      AND OT.ORDER_TYPE_VALUE = 'DISCONNECT' "
-		  + "                  ) "
-		  + "GROUP BY PROVIDER_LOCATIONS.LOCATION_NAME";
+			"SELECT * FROM (  "
+		  + "  SELECT a.*, ROWNUM rnum FROM (  "
+		  + "    SELECT PROVIDER_LOCATIONS.LOCATION_NAME, SUM (PRODUCT_CATALOG.PRICE) AS SUM "
+		  + "    FROM PRODUCT_CATALOG  "
+		  + "    INNER JOIN SERVICE_INSTANCES SI ON PRODUCT_CATALOG.ID=SI.PRODUCT_CATALOG_ID "
+		  + "    INNER JOIN PROVIDER_LOCATIONS ON PROVIDER_LOCATIONS.ID=PRODUCT_CATALOG.PROVIDER_LOC_ID "
+		  + "    WHERE SI.START_DATE < ? "
+		  + "        AND NOT EXISTS(SELECT * "
+		  + "                       FROM SERVICE_ORDERS SO "
+		  + "                       INNER JOIN ORDER_TYPE OT ON SO.ORDER_TYPE_ID = OT.ID "
+		  + "                       WHERE SO.SERVICE_INSTANCE_ID = SI.ID "
+		  + "                          AND SO.ORDER_DATE < ADD_MONTHS(?, 1) "
+		  + "                          AND OT.ORDER_TYPE_VALUE = 'DISCONNECT' "
+		  + "                      ) "
+		  + "    GROUP BY PROVIDER_LOCATIONS.LOCATION_NAME "
+		  + "  ) a where ROWNUM <= ? "
+		  + ") WHERE rnum  >= ?";
 	
 	/**
 	 * This query obtains all service orders of specified period,
@@ -239,14 +243,20 @@ public class OracleReportDAO extends OracleDAO<IReport> implements IReportDAO {
 	 * This method is used to fetch results of corresponding query in order to form 
 	 * list of records used to form the report. 
 	 * @param startOfMonth Date representing start of month to obtain report for
+	 * @param offset index of the first record to be fetched, starting from 1
+	 * @param count number of records to be fetched
      * @return List of fetched records that comprise report data set
 	 */
 	@Override
-	public ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date startOfMonth)
-			throws SQLException {
+	public ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date startOfMonth, 
+			int offset, int count) throws SQLException {
+		
+		int lastRow = offset + count - 1;
 		stmt = connection.prepareStatement(SQL_PROFIT_BY_MONTH);
 		stmt.setDate(1, startOfMonth);
 	    stmt.setDate(2, startOfMonth);
+	    stmt.setInt(3, lastRow);
+		stmt.setInt(4, offset);
 		rs = stmt.executeQuery();
 		
 		ArrayList<ProfitabilityByMonthRow> report = new ArrayList<ProfitabilityByMonthRow>();

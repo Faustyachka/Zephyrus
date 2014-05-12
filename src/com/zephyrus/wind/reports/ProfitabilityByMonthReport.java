@@ -46,7 +46,7 @@ public class ProfitabilityByMonthReport implements IReport {
 		try {
 			factory.beginConnection();
 			IReportDAO dao = factory.getReportDAO();
-			return dao.getProfitByMonthReport(month);
+			return dao.getProfitByMonthReport(month, offset, count);
 		} catch (Exception exc) {
 			throw new RuntimeException("Report generation failed", exc);
 		} finally {

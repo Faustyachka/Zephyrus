@@ -44,10 +44,12 @@ public interface IReportDAO extends IDAO<IReport> {
 	 * This method is used to fetch results of corresponding query in order to form 
 	 * list of records used to form the report. 
 	 * @param startOfMonth Date representing start of month to obtain report for
+	 * @param offset index of the first record to be fetched, starting from 1
+	 * @param count number of records to be fetched
      * @return List of fetched records that comprise report data set
 	 */
-	ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(Date month)
-			throws SQLException;
+	ArrayList<ProfitabilityByMonthRow> getProfitByMonthReport(
+			Date month, int offset, int count) throws SQLException;
 	
 	/**
 	 * This method is used to fetch results of corresponding query in order to form 
