@@ -4,7 +4,7 @@
 <div id="columns">
 <div id="navigation">
 	<div style="text-align:center"><a href="/Zephyrus/reportChoosing">
-	<input type="button" class="button" value="Back to Reports"/></a></div>
+	<input type="button" class="navibutton" value="Back to Reports"/></a></div>
 	<br>
    <hr>
    <br>

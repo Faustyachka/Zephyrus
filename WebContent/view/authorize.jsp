@@ -21,7 +21,7 @@
   Now, to save your order, please, log in the system.
   <br>
   <br>
-  <a href="/Zephyrus/view/login.jsp"><input type="button" value="Log in existing account" class="button" /></a> or
+  <a href="/Zephyrus/login"><input type="button" value="Log in existing account" class="button" /></a> or
   <a href="/Zephyrus/view/register.jsp">
 <input type="button"	value="Register in the system" class="button" /></a>
   </div>
