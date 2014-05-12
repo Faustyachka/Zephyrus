@@ -111,6 +111,11 @@ public class CreateUserCommand extends SQLCommand {
 			reply(response, "Password can not be empty");
 			return null;
 		}
+		
+		if (password.length() < 5 || password.length() > 30) {
+			reply(response, "Password length should be from 5 to 30 characters");
+			return null;
+		}
 
 		// check password confirmation on corresponding
 		if (!password.equals(confPassord)) {

@@ -43,7 +43,7 @@
   <div id="registerBox">
             <h3> Registration </h3>
             <form action="" method="post" id="form1">
-            <div id="somediv"></div>
+            <font color="red"><div id="somediv"></div></font>
             <table align="center" id="registerTable" >
             <tr>
             <td>
@@ -52,6 +52,10 @@
             <td>
             <input type="text" name="firstname" id="firstname" value="${firstname}" />
             </td>
+            <td align="left" style="font-size: 10px;
+				padding-left: 5px;">
+				A-Z, a-z
+			</td>
             </tr>
             <tr>
             <td>
@@ -60,6 +64,10 @@
             <td>
             <input type="text" name="secondname" id="secondname" value="${lastname}" />
             </td>
+            <td align="left" style="font-size: 10px;
+				padding-left: 5px;">
+				A-Z, a-z
+			</td>
             </tr>
             <tr>
             <td>
@@ -68,28 +76,34 @@
             <td>
             <input type="text" name="email" id="email"/>
             </td>
-            <td>
-            <span id="valid"></span>
-            </td>
+             <td align="left" style="font-size: 10px;
+				padding-left: 5px;">
+				Example: alex@example.com
+			</td>
             </tr>
             <tr>
             <td>
             Password:
             </td>
             <td>
-            <input type="password" name="password" id="password"/>
+            <input type="password" name="password" id="password" maxlength="30"/>
             </td>
+            <td align="left" style="font-size: 10px;
+				padding-left: 5px;">
+				Minimal length: 5 symbols
+			</td>
             </tr>
             <tr>
             <td>
             Confirm password:
             </td>
             <td>
-            <input type="password" name="confirmpass" id="confirmpass" />
+            <input type="password" name="confirmpass" id="confirmpass" maxlength="30"/>
             </td>
-            <td>
-            <span id="validpass"></span>
-            </td>
+             <td align="left" style="font-size: 10px;
+				padding-left: 5px;">
+				Repeat password
+			</td>
             </tr>
             </table>
             <br>

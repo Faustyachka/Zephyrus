@@ -80,7 +80,7 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 		if (checkRecords.isEmpty()) {
 			request.setAttribute("hasNext", "notExist");
 		} else {
-			request.setAttribute("hasNext", "1");
+			request.setAttribute("hasNext", "exist");
 		}
 
 		request.setAttribute("last", last);

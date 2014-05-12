@@ -34,15 +34,21 @@ hr {
 				<table>
 					<tr>
 						<td><label>New password: </label></td>
-						<td><input type="password" name="password" id="password" /></td>
+						<td><input type="password" name="password" id="password" maxlength="30"/></td>  <td align="left" style="font-size: 10px;
+				padding-left: 5px;">
+				Minimal length: 5 symbols
+			</td>
 					</tr>
 					<tr>
 						<td><label>Confirm password: </label></td>
-						<td><input type="password" name="confirmpass" id="confirmpass" /> <span id="validpass"></span>
+						<td><input type="password" name="confirmpass" id="confirmpass" maxlength="30"/> 
 						<input type="hidden" 						
 						value =<c:if test= '${param.id != null}'>${param.id}</c:if>
 						<c:if test= "${userId != null}">${userId}</c:if>
-						 id="userId" name="userId" /></td>
+						 id="userId" name="userId" /></td> <td align="left" style="font-size: 10px;
+				padding-left: 5px;">
+				Repeat password
+			</td>
 					</tr>
 				</table>
 				<input type="submit" name="button" id="button"

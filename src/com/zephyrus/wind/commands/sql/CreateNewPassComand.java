@@ -77,6 +77,13 @@ public class CreateNewPassComand extends SQLCommand {
 			request.setAttribute("userId", userId);
 			return "support/changepass.jsp";
 		}
+		
+		if (pass.length() < 5 || pass.length() > 30) {
+			request.setAttribute("error", "Password length should be from 5 to 30 characters");
+			request.setAttribute("userId", userId);
+			return "support/changepass.jsp";
+		}
+		
 		if (!(pass.equals(confPass))) {
 			request.setAttribute("error", "Passwords do not coincide");
 			request.setAttribute("userId", userId);

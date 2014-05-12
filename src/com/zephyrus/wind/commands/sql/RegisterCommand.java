@@ -68,7 +68,7 @@ public class RegisterCommand extends SQLCommand {
 		}
 
 		// check second name
-		if (sname.equals("")) { // REVIEW: null pointer exception
+		if (sname.equals("")) { 
 			reply(response, "Second name can not be empty");
 			return null;
 		}
@@ -90,11 +90,16 @@ public class RegisterCommand extends SQLCommand {
 			return null;
 		}
 		// check password
-		if (password.equals("")) { // REVIEW: null pointer exception
+		if (password.equals("")) { 
 			reply(response, "Password can not be empty");
 			return null;
 		}
-
+		
+		if (password.length() < 5 || password.length() > 30) {
+			reply(response, "Password length should be from 5 to 30 characters");
+			return null;
+		}
+		
 		// check password confirmation on corresponding
 		if (!password.equals(confPassord)) {
 			reply(response, "Passwords don't coincides!");
