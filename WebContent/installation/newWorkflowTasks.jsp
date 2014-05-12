@@ -41,15 +41,15 @@ hr {
   <tr>
   <td align="center"><c:choose>
   <c:when test= "${device.id == null}"><img src="/Zephyrus/resources/css/images/no.png"></c:when>
-  <c:otherwise><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
+  <c:otherwise>${device.serialNum}<br><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
   </td>
   <td align="center"><c:choose>
   <c:when test= "${port.portNumber == null}"><img src="/Zephyrus/resources/css/images/no.png"></c:when>
-  <c:otherwise><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
+  <c:otherwise>${port.portNumber}<br><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
   </td>
   <td align="center"><c:choose>
   <c:when test= "${cable.id == null}"><img src="/Zephyrus/resources/css/images/no.png"></c:when>
-  <c:otherwise>><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
+  <c:otherwise>${cable.id}<br><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
   </td>
   </tr>
   <tr>
