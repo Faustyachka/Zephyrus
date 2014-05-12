@@ -1,5 +1,7 @@
 package com.zephyrus.wind.workflow;
 
+import java.util.concurrent.locks.Lock;
+
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ICableDAO;
 import com.zephyrus.wind.dao.interfaces.ICircuitDAO;
@@ -14,6 +16,7 @@ import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PORT_STATUS;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
+import com.zephyrus.wind.managers.LockManager;
 import com.zephyrus.wind.model.Cable;
 import com.zephyrus.wind.model.Circuit;
 import com.zephyrus.wind.model.Device;
@@ -106,7 +109,8 @@ public class NewScenarioWorkflow extends Workflow {
      * @return created Device
      */
     public Device createRouter(int taskID, String serialNumber, int portQuantity) {
-        lock.lock();
+        Lock deviceLock = LockManager.getLock(Workflow.class);
+        deviceLock.lock();
     	try {
             if (!isTaskValid(taskID, ROLE.INSTALLATION.getId())) {
                 throw new WorkflowException("Given Task is not valid");
@@ -138,7 +142,7 @@ public class NewScenarioWorkflow extends Workflow {
         } catch (Exception exc) {
 			throw new WorkflowException("Router creation failed", exc);
 		} finally {
-			lock.unlock();
+			deviceLock.unlock();
 		}
     }
 
