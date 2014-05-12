@@ -39,7 +39,7 @@ hr {
 		action="/Zephyrus/changepass">
 		<div id="PersonTableContainer"></div>
 		<br /> <input type="button" name="view_si" id="view_si"
-			value="Service Instances and Service Orders" class="button" /> <input
+			value="Orders & Instances" class="button" /> <input
 			type="button" name="button" id="changepass" value="Change password"
 			class="button" />
 	</form>

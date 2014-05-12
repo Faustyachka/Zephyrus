@@ -36,7 +36,11 @@
 												if (rsp == 'Account created!') {
 													document.forms["form1"]
 															.reset();
+													$('#email').css({'border': '1px solid gray'});
+													$('#password').css({'border': '1px solid gray'});
+													$('#confirmpass').css({'border': '1px solid gray'});
 													$('#messagediv').text(rsp);
+													
 												} else {
 													$('#errordiv').text(rsp);
 												}

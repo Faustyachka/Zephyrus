@@ -3,6 +3,7 @@ package com.zephyrus.wind.commands.sql;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.concurrent.locks.Lock;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -20,6 +21,7 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.helpers.SHAHashing;
+import com.zephyrus.wind.managers.LockManager;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
@@ -111,7 +113,7 @@ public class CreateUserCommand extends SQLCommand {
 			reply(response, "Password can not be empty");
 			return null;
 		}
-		
+
 		if (password.length() < 5 || password.length() > 30) {
 			reply(response, "Password length should be from 5 to 30 characters");
 			return null;
@@ -125,17 +127,21 @@ public class CreateUserCommand extends SQLCommand {
 
 		// check the existing of email in system
 		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();
-		User existingUser = userDAO.findByEmail(email);
-		if (existingUser != null) {
-			reply(response, "This email already exist in system");
-			return null;
-		}
-
-		else {
-			// if everything is OK create user
-			createUser(userDAO);
-			reply(response, "Account created!");
-			return null;
+		Lock lock = LockManager.getLock(email);
+		lock.lock();
+		try {
+			User existingUser = userDAO.findByEmail(email);
+			if (existingUser == null) {
+				// if everything is OK create user
+				createUser(userDAO);
+				reply(response, "Account created!");
+				return null;
+			} else {
+				reply(response, "This email already exist in system");
+				return null;
+			}
+		} finally {
+			lock.unlock();
 		}
 
 	}

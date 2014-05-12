@@ -38,7 +38,7 @@ hr {
 				padding-left: 5px;">
 				Minimal length: 5 symbols
 			</td>
-					</tr>
+					</tr> 
 					<tr>
 						<td><label>Confirm password: </label></td>
 						<td><input type="password" name="confirmpass" id="confirmpass" maxlength="30"/> 
