@@ -5,6 +5,7 @@
 <html>
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+        <meta http-equiv="Cache-control" content="no-cache">
         <title>Zephyrus</title>
         <link href="/Zephyrus/resources/css/zephyrus_css.css" type="text/css" rel="stylesheet" />
         <link href='http://fonts.googleapis.com/css?family=Open+Sans:400,300' rel='stylesheet' type='text/css'>

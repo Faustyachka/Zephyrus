@@ -7,6 +7,10 @@ a {
 	text-decoration: none;
 }
 
+input {
+	border: 1px solid gray;
+}
+
 .container {
 	height: auto;
 	width: 1000px;
@@ -36,9 +40,9 @@ a {
     display: table;
     min-height: 360px;
     width: 1000px;;
-    -moz-box-sizing: border-box;      /* фикс проблемы для Firefox        */
-    -webkit-box-sizing: border-box;   /* фикс для старых Chrome и Safari  */
-    box-sizing: border-box;           /* не поддерживается в CSS2         */
+    -moz-box-sizing: border-box;      
+    -webkit-box-sizing: border-box;   
+    box-sizing: border-box;           
     margin-left: 0;
     margin-right: 0;
     background-color: white;
@@ -51,9 +55,9 @@ a {
     min-height: 360px;
     width: auto;
     position: relative;
-    -moz-box-sizing: border-box;      /* фикс проблемы для Firefox        */
-    -webkit-box-sizing: border-box;   /* фикс для старых Chrome и Safari  */
-    box-sizing: border-box;           /* не поддерживается в CSS2         */
+    -moz-box-sizing: border-box;      
+    -webkit-box-sizing: border-box;   
+    box-sizing: border-box;           
     background-color: white;
     
 }
