@@ -27,11 +27,11 @@ hr {
 </div>
 <div id="main">
   <div style="text-align:center">
-    <h2>Workflow for Order ${task.serviceOrder.id} by Task ${task.id}</h2>
+    <h2>Workflow for Order at ${address} by Task "${task.task_value}"</h2>
     </div>
     <br>
     <div><font color="red"> ${error} </font>
-<font color="green"> ${message} </font></div> <br>
+<font color="green"> ${message} </font></div>
   <div style="text-align:center">Choose connection properties:</div>
   <br>
   <form method="post" action="/Zephyrus/createConnection?taskId=${task.id}&port=${port.id}&cable=${cable.id}">
@@ -39,7 +39,18 @@ hr {
   <tr>
   <th width="300">Device serial number</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
   <tr>
-  <td align="center">${device.serialNum}</td><td align="center">${port.portNumber}</td><td align="center">${cable.id}</td>
+  <td align="center"><c:choose>
+  <c:when test= "${device.id == null}"><img src="/Zephyrus/resources/css/images/no.png"></c:when>
+  <c:otherwise><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
+  </td>
+  <td align="center"><c:choose>
+  <c:when test= "${port.portNumber == null}"><img src="/Zephyrus/resources/css/images/no.png"></c:when>
+  <c:otherwise><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
+  </td>
+  <td align="center"><c:choose>
+  <c:when test= "${cable.id == null}"><img src="/Zephyrus/resources/css/images/no.png"></c:when>
+  <c:otherwise>><img src="/Zephyrus/resources/css/images/yes.png"></c:otherwise></c:choose>
+  </td>
   </tr>
   <tr>
   <td align="center"><c:if test= "${device.id == null}">

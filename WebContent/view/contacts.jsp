@@ -2,8 +2,8 @@
 
 <script
 	src="https://maps.googleapis.com/maps/api/js?v=3.exp&libraries=places&sensor=false&language=en"></script>
-<script src="resources/javascript/placing-map.js"></script>
-<script src="resources/javascript/jquery-placingRequest.js"></script>
+<script src="/Zephyrus/resources/javascript/placing-map.js"></script>
+<script src="/Zephyrus/resources/javascript/jquery-placingRequest.js"></script>
 <style type ="text/css" >
 </style>
 <div id="columns">

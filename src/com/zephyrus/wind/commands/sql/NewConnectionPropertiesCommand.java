@@ -83,6 +83,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		Task task = new Task();
 		ITaskDAO taskDAO = getOracleDaoFactory().getTaskDAO();
 		task = taskDAO.findById(taskID);
+		String address = task.getServiceOrder().getServiceLocation().getAddress();
 		
 		if (task == null) {
 			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
@@ -94,6 +95,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		
 		//set all necessary attributes
 		request.getSession().setAttribute("task", task);
+		request.setAttribute("address", address);
 		request.setAttribute("device", device);
 		request.setAttribute("port", port);
 		request.setAttribute("cable", cable);

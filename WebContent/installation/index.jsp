@@ -27,6 +27,7 @@ hr {
 <div style="text-align:center"><a href="/Zephyrus/view/services.jsp">
 <input type="button"	value="Services" class="navibutton" /></a></div>
 <div style="text-align:center"><a href="/Zephyrus/view/contacts.jsp">
+<input type="button"	value="Contacts" class="navibutton" /></a></div>
 </div>
 <div id="main">
 	<jsp:include page="../view/tasks.jsp" />

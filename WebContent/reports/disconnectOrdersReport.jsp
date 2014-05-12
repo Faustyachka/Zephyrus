@@ -7,7 +7,7 @@
 <div id="columns">
 <div id="navigation">
 	<div style="text-align: center">
-		<a href="/Zephyrus/reportChoosing"> <input type="button"
+		<a href="/Zephyrus/reportChoosing"> <input type="navibutton"
 			class="button" value="Back to Reports" /></a>
 	</div>
 	<br>
@@ -46,6 +46,7 @@
 				form.submit();
 			}
 		</script>
+		<br>
 		<input type="button" value="Show Report" class="button"
 			onclick="review()">
 		<script>

@@ -1,9 +1,8 @@
 
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<br>
-<br>
 <label><font color="red">${message}</font></label>
+<h3>Choose the type of report:</h3>
+<br>
 <form id="form" action="/Zephyrus/showReport" method="post">
 	<c:forEach items="${types}" var="type">
 		<label> 
