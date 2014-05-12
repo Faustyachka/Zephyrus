@@ -27,7 +27,7 @@ hr {
 </div>
 <div id="main">
   <div style="text-align:center">
-    <h2>Workflow for Order at ${address} by Task "${task.task_value}"</h2>
+    <h2>Workflow for Order at ${task.serviceOrder.serviceLocation.address} by Task "${task.task_value}"</h2>
     </div>
     <br>
     <div><font color="red"> ${error} </font>

@@ -24,9 +24,9 @@ hr {
 <input type="button"	value="Contacts" class="navibutton" /></a></div>
 </div>
 <div id="main">
-	<center>
+	<div style="text-align:center">
 		<h2>Create Circuit</h2>
-	</center>
+	</div>
 	<div>
 		<font color="red"> ${error} </font>
 	</div>
