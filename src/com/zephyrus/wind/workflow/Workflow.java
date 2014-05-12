@@ -77,7 +77,6 @@ public abstract class Workflow implements Closeable {
 			
             Task task = taskDAO.findById(taskID);
             User user = factory.getUserDAO().findById(userID);
-            
             if (isTaskValid(taskID, user.getRole().getId())) {
                 task.setUser(user);
                 taskDAO.update(task);
@@ -104,7 +103,7 @@ public abstract class Workflow implements Closeable {
 			
             Task task = taskDAO.findById(taskID);
             
-            if (task.getServiceOrder().getId() != order.getId()) {
+            if (!task.getServiceOrder().getId().equals(order.getId())) {
                 throw new WorkflowException("Given task is not connected "
                 		+ "with current order");
             } else if (task.getTaskStatus().getId() != TASK_STATUS.PROCESSING.getId()) {
@@ -135,7 +134,7 @@ public abstract class Workflow implements Closeable {
 			
             Task task = taskDAO.findById(taskID);
             
-            if (task.getServiceOrder().getId() != order.getId()) {
+            if (!task.getServiceOrder().getId().equals(order.getId())) {
                 throw new WorkflowException("Given task is not connected "
                 		+ "with current order");
             } else if (task.getTaskStatus().getId() != TASK_STATUS.SUSPEND.getId()) {
@@ -252,7 +251,7 @@ public abstract class Workflow implements Closeable {
         ITaskDAO taskDAO = factory.getTaskDAO();
         Task task = taskDAO.findById(taskID);
         
-        if (task.getServiceOrder().getId() != order.getId()) {
+        if (!task.getServiceOrder().getId().equals(order.getId())) {
             return false;
         } else if (task.getRole().getId() != userRoleID) {
             return false;
