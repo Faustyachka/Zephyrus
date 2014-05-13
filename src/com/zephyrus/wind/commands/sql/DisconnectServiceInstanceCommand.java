@@ -13,10 +13,12 @@ import com.zephyrus.wind.enums.MessageNumber;
 import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PAGES;
+import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.OrderType;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
+import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
@@ -52,14 +54,21 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		
+
 		int serviceInstanceID;
+
+		User user = (User) request.getSession().getAttribute("user");
+
+		if (user == null || user.getRole().getId() != ROLE.CUSTOMER.getId()) {
+			request.setAttribute("messageNumber", MessageNumber.USER_EXIST_ERROR.getId());
+			return PAGES.MESSAGE_PAGE.getValue();
+		}
 
 		if(request.getParameter("id") == null){
 			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
-        }
-		
+		}
+
 		IServiceInstanceDAO serviceInstanceDAO = getOracleDaoFactory().getServiceInstanceDAO();
 
 		try {
@@ -69,18 +78,18 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
+
 		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);	
 
-		if (serviceInstance == null) {
+		if (serviceInstance == null || serviceInstance.getUser().getId() != user.getId()) {
 			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		
+
 		disconnectOrder =  createDisconnectOrder(serviceInstance);
 
 		DisconnectScenarioWorkflow workflow = null;
-		
+
 		try {
 			workflow = new DisconnectScenarioWorkflow(getOracleDaoFactory(), disconnectOrder); 
 			workflow.proceedOrder();

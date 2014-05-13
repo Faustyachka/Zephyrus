@@ -28,7 +28,7 @@ opacity: 0;
 	<div id="location">
 			Your desired location: 
 			<input type="text" name="address" id="address" size="50" />
-			<input type="button" value="Accept" id="submit" disabled="disabled" class="button"/>  
+			<input type="button" value="Check available services" id="submit" disabled="disabled" class="button"/>  
 			<form action="/Zephyrus/proceedOrder" method="POST">
 			<input type="hidden" name="latitude" id="latitude" /> 
 			<input type="hidden" name="longitude" id="longitude" /> 

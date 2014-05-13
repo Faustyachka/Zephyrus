@@ -105,10 +105,22 @@ You should select available product for modify Service Instance<br>
 			class='button' value='Back to Service Instance' />
 		</a>
 	</c:if>
-		<c:if test="${messageNumber == 17}">
+	<c:if test="${messageNumber == 17}">
 Modify order for selected Service Instance has been created<br>
 		<a href='/Zephyrus/customerServices'> <input type='button'
 			class='button' value='Back to Service Instance' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 18}">
+New order has been sent to processing!<br>
+		<a href='/Zephyrus/customerOrders'> <input type='button'
+			class='button' value='Your orders' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 19}">
+You must select Service Location!<br>
+		<a href='/Zephyrus/view/start.jsp'> <input type='button'
+			class='button' value='Your orders' />
 		</a>
 	</c:if>
 </div>
