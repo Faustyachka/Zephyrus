@@ -27,7 +27,7 @@ hr {
 			</div>
   <div id="main">
   <div style="text-align:center">
-    <h2>Workflow for Order ${order.id} by Task ${task.id}</h2></div>
+    <h2>Workflow for Order at ${task.serviceOrder.serviceLocation.address}</h2></div>
     <br>
     <div><font color="green"> ${message} </font>
     <font color="red"> ${error} </font>
@@ -45,7 +45,7 @@ hr {
   <tr>
   <th width="300">Device ID</th><th width="300">Port ID</th><th width="300">Cable ID</th></tr>
   <tr>
-  <td align="center">${device.id}</td><td align="center">${port.id}</td><td align="center">${cable.id}</td>
+  <td align="center">${device.serialNum}</td><td align="center">${port.portNumber}</td><td align="center">${cable.id}</td>
   </tr>
   <tr>
   <td></td></tr>
