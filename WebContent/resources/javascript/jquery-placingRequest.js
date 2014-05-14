@@ -1,6 +1,6 @@
 $().ready(function(){
             $('#submit').click(function(){
-            	
+            	codeAddress();
                 var latituded = $('#latitude').val();
                 var longituded = $('#longitude').val();
                 var addresss = $('#address').val();  

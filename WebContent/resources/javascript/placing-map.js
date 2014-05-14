@@ -35,7 +35,8 @@ function codeAddress() {
       placeMarker(results[0].geometry.location);
       map.setZoom(16);         
     } else {
-      alert('Geocode was not successful for the following reason: ' + status);
+      $("#somediv").empty();
+      $("#somediv").append('<font color="red">Invalid address</font>');
     }
   });
 }
@@ -58,7 +59,8 @@ function placeMarker(location) {
         if (status == google.maps.GeocoderStatus.OK) {
             $("#address").val(results[0].formatted_address);
         } else {
-            alert("Geocode was not successful for the following reason: " + status);
+            $("#somediv").empty();
+            $("#somediv").append('<font color="red">Invalid address</font>');
         }
     });
 }
