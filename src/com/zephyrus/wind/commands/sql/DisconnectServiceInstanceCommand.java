@@ -2,6 +2,7 @@ package com.zephyrus.wind.commands.sql;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.concurrent.locks.Lock;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +15,8 @@ import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
+import com.zephyrus.wind.managers.LockManager;
 import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.OrderType;
 import com.zephyrus.wind.model.ServiceInstance;
@@ -79,18 +82,22 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
-		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);	
-
-		if (serviceInstance == null || serviceInstance.getUser().getId() != user.getId()) {
-			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
-			return PAGES.MESSAGE_PAGE.getValue();
-		}
-
-		disconnectOrder =  createDisconnectOrder(serviceInstance);
-
+		Lock lock = LockManager.getLock(serviceInstanceID);
+		lock.lock();
 		DisconnectScenarioWorkflow workflow = null;
-
 		try {
+			ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);	
+
+			if (serviceInstance == null || serviceInstance.getUser().getId() != user.getId()) {
+				request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
+				return PAGES.MESSAGE_PAGE.getValue();
+			}
+			
+			if (serviceInstance.getServInstanceStatus().getId() != SERVICEINSTANCE_STATUS.ACTIVE.getId()){
+				request.setAttribute("messageNumber", MessageNumber.SERVICE_STATUS_ERROR.getId());
+				return PAGES.MESSAGE_PAGE.getValue();
+			}
+			disconnectOrder =  createDisconnectOrder(serviceInstance);
 			workflow = new DisconnectScenarioWorkflow(getOracleDaoFactory(), disconnectOrder); 
 			workflow.proceedOrder();
 		} catch (WorkflowException ex) {
@@ -101,6 +108,7 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 			return "customerServices";
 		} finally {
 			workflow.close();
+			lock.unlock();
 		}
 
 		request.setAttribute("messageNumber", MessageNumber.SI_DISCONNECT_COMPLETED_MESSAGE.getId());

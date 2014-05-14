@@ -77,8 +77,8 @@ You don`t have orders and services<br>
 	</c:if>
 	<c:if test="${messageNumber == 12}">
 User doesn`t exist<br>
-		<a href='/Zephyrus/customer'> <input type='button'
-			class='button' value='Back to orders' />
+		<a href='/Zephyrus/login'> <input type='button'
+			class='button' value='Log in' />
 		</a>
 	</c:if>
 	<c:if test="${messageNumber == 13}">
@@ -112,14 +112,56 @@ Modify order for selected Service Instance has been created<br>
 		</a>
 	</c:if>
 	<c:if test="${messageNumber == 18}">
-New order has been sent to processing!<br>
+New order has been sent to processing<br>
 		<a href='/Zephyrus/customerOrders'> <input type='button'
 			class='button' value='Your orders' />
 		</a>
 	</c:if>
 	<c:if test="${messageNumber == 19}">
-You must select Service Location!<br>
+You should select Service Location<br>
 		<a href='/Zephyrus/view/start.jsp'> <input type='button'
+			class='button' value='Get connected' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 20}">
+Service Instance Status has been already changed!<br>
+		<a href='/Zephyrus/customerServices'> <input type='button'
+			class='button' value='Back to Service Instance' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 21}">
+Order or order Service Location doesn`t exist!<br>
+		<a href='/Zephyrus/customerOrders'> <input type='button'
+			class='button' value='Your orders' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 22}">
+You can`t cancel the order!<br>
+		<a href='/Zephyrus/customerOrders'> <input type='button'
+			class='button' value='Your orders' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 23}">
+Order canceled<br>
+		<a href='/Zephyrus/customerOrders'> <input type='button'
+			class='button' value='Your orders' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 24}">
+You should select available service<br>
+		<a href='/Zephyrus/view/start.jsp'> <input type='button'
+			class='button' value='Get connected' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 25}">
+No order to send<br>
+		<a href='/Zephyrus/view/start.jsp'> <input type='button'
+			class='button' value='Get connected' />
+		</a>
+	</c:if>
+	<c:if test="${messageNumber == 26}">
+New order has been saved<br>
+		<a href='/Zephyrus/customerOrders'> <input type='button'
 			class='button' value='Your orders' />
 		</a>
 	</c:if>
