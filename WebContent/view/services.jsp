@@ -32,7 +32,6 @@
 	<br>
 	<br>
 	<br>
-	<img  src="/Zephyrus/resources/css/images/C7606.jpg" alt="Here was image of CISCO 7606 router." align="right" width="150">
 	In our company only the best equipment is used. For the purpose to provide out clients with the stable access to 
 	the Internet, we use CISCO 7606 routers, which are compact, high-performance routers designed in a 6-slot form 
 	factor for deployment at the network edge.

@@ -24,10 +24,7 @@ opacity: 0;
 <input type="button"	value="Get connected" class="meganavibutton" /></a></div>
   </div>
 <div id="main">
-Welcome to the website of internet service provider Zephyrus!
-<br>
-<br>
-Here you can find all the information you need about our company and its services.
+<img src="/Zephyrus/resources/css/images/mainphoto.jpg" width="700">
 	
 
 </div></div>
