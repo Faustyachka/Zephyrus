@@ -13,7 +13,7 @@ import com.zephyrus.wind.reports.rows.RouterUtilRow;
 // REVIEW: documentation expected
 public class UtilizationReportCommand extends SQLCommand {
 
-	private final int NUMBER_RECORDS_PER_PAGE = 20;
+	private final int NUMBER_RECORDS_PER_PAGE = 10;
 
 	@Override
 	protected String doExecute(HttpServletRequest request,
@@ -40,7 +40,7 @@ public class UtilizationReportCommand extends SQLCommand {
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE,
 					1);
-			last = last + records.size();
+			last = last + NUMBER_RECORDS_PER_PAGE;
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Failed to form report");

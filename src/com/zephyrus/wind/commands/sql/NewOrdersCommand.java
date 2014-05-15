@@ -75,7 +75,7 @@ public class NewOrdersCommand extends SQLCommand {
 			report = new NewOrdersPerPeriodReport(fromDate, toDate);
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE, 1);
-			last = last + records.size();
+			last = last + NUMBER_RECORDS_PER_PAGE;
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Failed to form report");

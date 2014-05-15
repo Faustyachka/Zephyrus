@@ -69,8 +69,7 @@ public class ProfitabilityByMonthCommand extends SQLCommand {
 			records = report.getReportData(last, MAX_PROVIDER_LOC_NUMBER);
 			checkRecords = report.getReportData(last + MAX_PROVIDER_LOC_NUMBER,
 					1);
-			System.out.println(checkRecords.size());
-			last = last + records.size();
+			last = last + MAX_PROVIDER_LOC_NUMBER;
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Failed to form report");

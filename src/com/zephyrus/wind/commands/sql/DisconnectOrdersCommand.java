@@ -99,7 +99,7 @@ public class DisconnectOrdersCommand extends SQLCommand {
 			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE, 1);
 
 			// set last element number
-			last = last + records.size();
+			last = last + NUMBER_RECORDS_PER_PAGE;
 		} catch (Exception e) {
 			e.printStackTrace();
 			request.setAttribute("message", "Failed to form report");
