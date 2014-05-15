@@ -48,7 +48,7 @@
 	<li>PRESTO 100 MBIT</li></ul>
 	<br>
 	<br>
-	<a href="/Zephyrus/start">
+	<a href="/Zephyrus/view/start.jsp">
 	<input type="button" value="Choose your tariff" class="button" /></a>
 	
 </div></div>
