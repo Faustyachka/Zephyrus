@@ -116,7 +116,6 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	 * 
 	 * @param Service Instance ID
 	 * @return collection of Service Orders
-	 * @author unknown
 	 */
 	
 	@Override
@@ -132,7 +131,6 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	 * 
 	 * @param Service Instance
 	 * @return Service Orders on which basis the SI create 
-	 * @author Mirosjnychenko Nataliya
 	 */
 	
 	@Override
@@ -168,7 +166,6 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	 * @param Date startDate start of period
 	 * @param Date endDate end of period
 	 * @return collection of disconnected Service Orders
-	 * @author unknown
 	 */
 	@Override
 	//Returns orders for reports by period
@@ -187,7 +184,6 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	 * @param Date startDate start of period
 	 * @param Date endDate end of period
 	 * @return collection of new Service Orders
-	 * @author unknown
 	 */
 	@Override
 	public ArrayList<ServiceOrder> getNewSOByPeriod(Date startDate, Date endDate) throws Exception {

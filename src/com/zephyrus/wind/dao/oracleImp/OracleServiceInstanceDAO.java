@@ -109,7 +109,6 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	 * 
 	 * @param User ID
 	 * @return collection of existing Service Instances
-	 * @author unknown
 	 */
 	
 	@Override
@@ -125,7 +124,6 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	 * 
 	 * @param User
 	 * @return ArrayList of existing Service Instances in all status expect DISCONNECTED
-	 * @author Miroshnychenko Nataliya
 	 */
 	@Override
 	public ArrayList<ServiceInstance> getActiveServiceInstancesByUser(User user) throws Exception {
