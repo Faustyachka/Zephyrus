@@ -95,7 +95,7 @@ public class SendOrderCommand extends SQLCommand {
 			order = orderDAO.findById(orderId);
 		}
 
-		if (order == null  || order.getServiceLocation().getUser().getId() != user.getId()){
+		if (order == null  || !order.getServiceLocation().getUser().getId().equals(user.getId())){
 			request.setAttribute("messageNumber", MessageNumber.ORDER_SEND_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}

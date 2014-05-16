@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
+import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
 import com.zephyrus.wind.enums.MessageNumber;
@@ -130,12 +132,12 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 	private ServiceOrder createDisconnectOrder (ServiceInstance serviceInstance) throws Exception{
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
 		ServiceOrder order = new ServiceOrder();
-		OrderStatus orderStatus = new OrderStatus();
-		orderStatus.setId(ORDER_STATUS.ENTERING.getId());	
+		IOrderStatusDAO orderStatusDAO = getOracleDaoFactory().getOrderStatusDAO();
+		OrderStatus orderStatus = orderStatusDAO.findById(ORDER_STATUS.ENTERING.getId());
 		order.setOrderStatus(orderStatus);
 		order.setOrderDate(new Date(new java.util.Date().getTime()));
-		OrderType orderType = new OrderType();
-		orderType.setId(ORDER_TYPE.DISCONNECT.getId());	
+		IOrderTypeDAO orderTypeDAO = getOracleDaoFactory().getOrderTypeDAO();
+		OrderType orderType = orderTypeDAO.findById(ORDER_TYPE.DISCONNECT.getId());
 		order.setOrderType(orderType);
 		order.setProductCatalog(serviceInstance.getProductCatalog());
 		ServiceOrder createServiceOrders = orderDAO.getSICreateOrder(serviceInstance);

@@ -75,7 +75,7 @@ public class CancelOrderCommand extends SQLCommand {
 		}
 
 		if(order.getOrderStatus().getId() == ORDER_STATUS.ENTERING.getId() 
-				&& order.getServiceLocation().getUser().getId() == user.getId()){
+				&& order.getServiceLocation().getUser().getId().equals(user.getId())){
 
 			IServiceLocationDAO serviceLocationDAO = getOracleDaoFactory().getServiceLocationDAO();
 			ServiceLocation serviceLocation = order.getServiceLocation();
