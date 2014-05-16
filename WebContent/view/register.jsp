@@ -5,7 +5,7 @@
 	 $().ready(function(){
 	     $('#submitt').click(function(){
 	    	 $('#submitt').attr("disabled", true); 
-	    	 $("#loading").append("<img src='resources/css/images/animation.gif'/>");
+	    	 $("#loading").append("<img src='/Zephyrus/resources/css/images/animation.gif'/>");
 	    	 var fname = $('#firstname').val();
 	    	 var sname = $('#secondname').val();
 	         var email = $('#email').val();
@@ -15,7 +15,7 @@
 	        	 $("#loading").empty();	        	 
 	             $("#somediv").empty();	 
 	             if (rsp == 'Account created!') {
-	            	 window.location = "view/successfullRegister.jsp";
+	            	 window.location = "/Zephyrus/view/successfullRegister.jsp";
 	             } else {
 		             $('#somediv').text(rsp);
 		             $('#submitt').attr("disabled", false); 
