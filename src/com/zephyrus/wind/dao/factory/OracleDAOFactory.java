@@ -49,9 +49,9 @@ import com.zephyrus.wind.managers.ConnectionManager;
 
 /**
  * This class generates DAO instances and encapsulates connection to DB
- * @author Bogdan Bodnar & Igor Litvinenko
+ * @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya & Igor Litvinenko
  */
-public class OracleDAOFactory implements IDAOFactory {											// REVIEW: documentation on EVERY public method expected
+public class OracleDAOFactory implements IDAOFactory {											
 
 	private Connection connection = null;
     
@@ -108,109 +108,193 @@ public class OracleDAOFactory implements IDAOFactory {											// REVIEW: docu
         	connection.rollback();
         }
     }
+    
+    /**
+     * Method gets OracleCableDAO instance
+     * @return OracleCableDAO instance
+     */
 
 	@Override
 	public ICableDAO getCableDAO() throws Exception {
 		return new OracleCableDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleCircuitDAO instance
+     * @return OracleCircuitDAO instance
+     */
 	@Override
 	public ICircuitDAO getCircuitDAO() throws Exception {
 		return new OracleCircuitDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleDeviceDAO instance
+     * @return OracleDeviceDAO instance
+     */
 	@Override
 	public IDeviceDAO getDeviceDAO() throws Exception {
 		return new OracleDeviceDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleOrderStatusDAO instance
+     * @return OracleOrderStatusDAO instance
+     */
 	@Override
 	public IOrderStatusDAO getOrderStatusDAO() throws Exception {
 		return new OracleOrderStatusDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleOrderTypeDAO instance
+     * @return OracleOrderTypeDAO instance
+     */
 	@Override
 	public IOrderTypeDAO getOrderTypeDAO() throws Exception {
 		return new OracleOrderTypeDAO(connection, this);
 	}
 
+	/**
+     * Method gets OraclePortDAO instance
+     * @return OraclePortDAO instance
+     */
 	@Override
 	public IPortDAO getPortDAO() throws Exception {
 		return new OraclePortDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleProductCatalogDAO instance
+     * @return OracleProductCatalogDAO instance
+     */
 	@Override
 	public IProductCatalogDAO getProductCatalogDAO() throws Exception {
 		return new OracleProductCatalogDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleProviderLocationDAO instance
+     * @return OracleProviderLocationDAO instance
+     */
 	@Override
 	public IProviderLocationDAO getProviderLocationDAO() throws Exception {
 		return new OracleProviderLocationDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleServiceInstanceDAO instance
+     */
 	@Override
 	public IServiceInstanceDAO getServiceInstanceDAO() throws Exception {
 		return new OracleServiceInstanceDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleServiceInstanceStatusDAO instance
+     * @return OracleServiceInstanceStatusDAO instance
+     */
 	@Override
 	public IServiceInstanceStatusDAO getServiceInstanceStatusDAO()
 			throws Exception {
 		return new OracleServiceInstanceStatusDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleServiceLocationDAO instance
+     * @return OracleServiceLocationDAO instance
+     */
 	@Override
 	public IServiceLocationDAO getServiceLocationDAO() throws Exception {
 		return new OracleServiceLocationDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleServiceOrderDAO instance 
+     * @return OracleServiceOrderDAO instance
+     */
 	@Override
 	public IServiceOrderDAO getServiceOrderDAO() throws Exception {
 		return new OracleServiceOrderDAO(connection, this);
 	}
-
+	
+	/**
+     * Method gets OracleServiceTypeDAO instance
+     * @return OracleServiceTypeDAO instance
+     */
 	@Override
 	public IServiceTypeDAO getServiceTypeDAO() throws Exception {
 		return new OracleServiceTypeDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleTaskDAO instance
+     * @return OracleTaskDAO instance
+     */
 	@Override
 	public ITaskDAO getTaskDAO() throws Exception {
 		return new OracleTaskDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleTaskStatusDAO instance
+     * @return OracleTaskStatusDAO instance
+     */
 	@Override
 	public ITaskStatusDAO getTaskStatusDAO() throws Exception {
 		return new OracleTaskStatusDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleUserDAO instance
+     * @return OracleUserDAO instance
+     */
 	@Override
 	public IUserDAO getUserDAO() throws Exception {
 		return new OracleUserDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleUserRoleDAO instance
+     * @return OracleUserRoleDAO instance
+     */
 	@Override
 	public IUserRoleDAO getUserRoleDAO() throws Exception {
 		return new OracleUserRoleDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleVSupportInstanceDAO instance
+     * @return OracleVSupportInstanceDAO instance
+     */
 	@Override
 	public IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception {	
 		return new OracleVSupportInstanceDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleVSupportOrderDAO instance
+     * @return OracleVSupportOrderDAO instance
+     */
 	@Override
 	public IVSupportOrderDAO getVSupportOrderDAO() throws Exception {
 
 		return new OracleVSupportOrderDAO(connection, this);
 	}
 
+	/**
+     * Method gets OracleReportDAO instance
+     * @return OracleReportDAO instance
+     */
 	@Override
 	public IReportDAO getReportDAO() throws Exception {
 		return (IReportDAO) new OracleReportDAO(connection, this);
 	}
 
+	/**
+     * Method gets OraclePortStatusDAO instance
+     * @return OraclePortStatusDAO instance
+     */
 	@Override
 	public IPortStatusDAO getPortStatusDAO() throws Exception {
 		return new OraclePortStatusDAO(connection, this);

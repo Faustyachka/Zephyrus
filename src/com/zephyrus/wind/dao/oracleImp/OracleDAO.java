@@ -9,6 +9,11 @@ import java.util.ArrayList;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 
+/**
+* The abstract class that defines common to all DAO methods.
+* @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya
+*/
+
 public abstract class OracleDAO<T> {
     
     protected Class<T> itemClass;
@@ -25,6 +30,11 @@ public abstract class OracleDAO<T> {
         this.daoFactory = daoFactory;
     }
     
+    /**
+    * Method return class instance from database result set
+    * @param ResultSet
+    * @return class instance
+    */
     protected T fetchSingleResult(ResultSet rs) 
             throws SQLException, 
             InstantiationException,
@@ -49,6 +59,11 @@ public abstract class OracleDAO<T> {
 
     }
 
+    /**
+     * Method take ResultSet and return ArrayList of class instance
+     * @param ResultSet database result set
+     * @return ArrayList of class instance
+     */
     protected ArrayList<T> fetchMultiResults(ResultSet rs)
             throws SQLException,
             InstantiationException,
@@ -69,10 +84,30 @@ public abstract class OracleDAO<T> {
         return resultList;
     }
     
+    /**
+	 * Method takes created class instance and set values to its variables 
+	 * @param class instance T
+	 * @param ResultSet a database result set represented by DB
+	 */
     protected abstract void fillItem(T item, ResultSet rs) throws SQLException, Exception;
+    
+    /**
+   	 * Method gives text of SQL select query
+   	 *@return text of select query
+   	 */
     protected abstract String getSelect();
+    
+    /**
+   	 * Method gives text of SQL delete query
+   	 *@return text of delete query
+   	 */
     protected abstract String getDelete();
     
+    /**
+	 * Method find all class instance from DB records for corresponding object type. 
+	 * It is deprecated after creation method find(int, int).
+	 * @return ArrayList<T> - collection of class instance
+	 */
     @Deprecated
     public ArrayList<T> findAll() throws Exception {
         stmt = connection.prepareStatement(getSelect());
@@ -81,11 +116,10 @@ public abstract class OracleDAO<T> {
     }
 
     /**
-	 * Method find specified count of class objects
-	 * 
+	 * Method find specified count of class instance
 	 * @param int firstItem - begin item of search
-	 * @param int count - number of return class objects
-	 * @return ArrayList<T> - collection of class objects
+	 * @param int count - number of return class instance
+	 * @return ArrayList<T> - collection of class instance
 	 */
     
     public ArrayList<T> find(int firstItem, int count) throws Exception {
@@ -100,9 +134,8 @@ public abstract class OracleDAO<T> {
     
     
     /**
-	 * Method find count of existing class objects from corresponding DB table
-	 * 
-	 * @return int - number of existing class objects
+	 * Method find count of existing class instance from corresponding DB table
+	 * @return int - number of existing class instance
 	 */
     public int count() throws SQLException{
     	int result = 0;
@@ -117,6 +150,11 @@ public abstract class OracleDAO<T> {
     }
     ;
     
+    /**
+	 * Method find an class instance from DB table by its primary key
+	 * @param id the primary key
+	 * @return class instance
+	 */
     public T findById(int id) throws Exception {
         stmt = connection.prepareStatement(getSelect() + "WHERE ID=?");
         stmt.setInt(1, id);
@@ -124,6 +162,11 @@ public abstract class OracleDAO<T> {
         return fetchSingleResult(rs);
     }
     
+    /**
+	 * Method find an class instance from DB table by corresponding rowid
+	 * @param rowid of the record
+	 * @return class instance
+	 */
     public T findByRowId(String id) throws Exception {
         stmt = connection.prepareStatement(getSelect() + "WHERE ROWID=?");
         stmt.setString(1, id);
@@ -131,6 +174,11 @@ public abstract class OracleDAO<T> {
         return fetchSingleResult(rs);
     }
 
+    /**
+	 * Method delete an class instance from the database by its primary key.
+	 * @param id the primary key
+	 * @return count of removed class instance
+	 */
     public int removeById(int id) throws Exception {
         stmt = connection.prepareStatement(getDelete() + "ID=?");
         stmt.setInt(1, id);
