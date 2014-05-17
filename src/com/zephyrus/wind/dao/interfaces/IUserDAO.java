@@ -8,23 +8,23 @@ import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 
 /**
- * 
- * @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya
- */
+* The interface enforces the operations needed to deal with OracleUserDAO instances.
+* @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya
+*/
 public interface IUserDAO extends IDAO<User> {
 
 	/**
 	 * Method find Users by Role ID
-	 * 
-	 * @param Role ID
-	 * @return users collection
+	 * @param int roleId Role ID
+	 * @param int firstItem first row of select		
+	 * @param int count count of rows											
+	 * @return List of users for given role.										
 	 */
 	public ArrayList<User> getUsersByRoleId(int roleId, int firstItem, int count) throws Exception;
 	
 	/**
 	 * Method find User by email
-	 * 
-	 * @param email
+	 * @param String email - user email																
 	 * @return user object
 	 */
 	User findByEmail(String email) throws Exception;
@@ -40,8 +40,7 @@ public interface IUserDAO extends IDAO<User> {
 
 	/**
 	 * Method find count of Users by Role ID
-	 * 
-	 * @param Role ID
+	 * @param int roleId Role ID															
 	 * @return count of users for given Role ID. If users don`t exist return 0.
 	 */
 	int getCountUsersForRoleId(int roleId) throws Exception;

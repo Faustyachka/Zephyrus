@@ -56,9 +56,6 @@ The price is: ${service.price} $;
 <input type="button" value="Send Order"  class="button"/>
 </a>
 
-<a href="/Zephyrus/cancelOrder">
-<input type="button" value="Cancel Order"  class="button"/>
-</a>
 </div></div>
 
 <jsp:include page="../WEB-INF/jsphf/footer.jsp" />

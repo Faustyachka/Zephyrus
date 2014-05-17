@@ -19,7 +19,6 @@ import com.zephyrus.wind.model.ServiceLocation;
  * This class can contain all SQL statements and methods using SQL-code. 
  * OracleCableDAO works with DB table CABLES and Cable class instance.
  * @author Alexandra Beskorovaynaya & Miroshnychenko Nataliya
- *
  */
 public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
@@ -74,7 +73,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
 	/**
 	 * Method create new record and compliant Cable class instance.
-	 * @param Cable class instance
+	 * @param inserting Cable class instance
 	 * @return inserted Cable class instance
 	 */
 	@Override
@@ -82,14 +81,12 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 		cs = connection.prepareCall(SQL_INSERT);
 		if(record.getPort() == null){
 			cs.setNull(1, java.sql.Types.INTEGER);
-		}
-		else {
+		} else {
 			cs.setInt(1, record.getPort().getId());
 		}
 		if(record.getServiceLocation() == null){
 			cs.setNull(2, java.sql.Types.INTEGER);
-		}
-		else {
+		} else {
 			cs.setInt(2, record.getServiceLocation().getId());   
 		}
 		cs.setString(3, record.getCableType());
@@ -127,7 +124,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	}
 
 	/**
-   	 * Method gives text of SQL select query
+   	 * Method gives text of SQL select query for table CABLES
    	 *@return text of select query
    	 */
 	@Override
@@ -136,7 +133,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	}
 
 	/**
-   	 * Method gives text of SQL delete query
+   	 * Method gives text of SQL delete query for table CABLES
    	 *@return text of delete query
    	 */
 	@Override
@@ -166,7 +163,6 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	 * @param Service Location ID
 	 * @return existing Cable, otherwise null
 	 */
-
 	@Override
 	public Cable findCableFromServLocID(int serviceLocationID) throws Exception {     
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
