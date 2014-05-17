@@ -132,7 +132,7 @@ public class ModifyCircuitCommand extends SQLCommand {
 		if (serviceLocation == null) {
 			return null;
 		}
-		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLoc(
+		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLocID(
 				serviceLocation.getId());
 		return cable.getPort();
 	}

@@ -73,7 +73,7 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 		if (serviceLocation == null){
 			return null;
 		} 
-		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLoc(serviceLocation.getId());
+		Cable cable = getOracleDaoFactory().getCableDAO().findCableFromServLocID(serviceLocation.getId());
 		return cable.getPort();
 	}
 

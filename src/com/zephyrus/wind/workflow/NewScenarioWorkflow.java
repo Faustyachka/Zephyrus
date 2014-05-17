@@ -202,7 +202,7 @@ public class NewScenarioWorkflow extends Workflow {
             
             // link Cable with Port
             ICableDAO cableDAO = factory.getCableDAO();
-            Cable cable = cableDAO.findCableFromServLoc(order.getServiceLocation().getId());
+            Cable cable = cableDAO.findCableFromServLocID(order.getServiceLocation().getId());
             if(cable == null) {
             	throw new WorkflowException("No Cable found for current SI");
             }
@@ -272,7 +272,7 @@ public class NewScenarioWorkflow extends Workflow {
     private Port getPortByCustomer() throws Exception {
     	ServiceLocation location = order.getServiceLocation();
         ICableDAO cableDAO = factory.getCableDAO();
-        Cable cable = cableDAO.findCableFromServLoc(location.getId());
+        Cable cable = cableDAO.findCableFromServLocID(location.getId());
         if(cable == null) {
         	throw new WorkflowException("No cable attached to customer location");
         }

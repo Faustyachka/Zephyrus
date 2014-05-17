@@ -109,7 +109,7 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
-		cable =  cableDAO.findCableFromServLoc(serviceLocation.getId());
+		cable =  cableDAO.findCableFromServLocID(serviceLocation.getId());
 		return cable;
 	}
 	

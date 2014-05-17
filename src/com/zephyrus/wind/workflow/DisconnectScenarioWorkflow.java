@@ -119,7 +119,7 @@ public class DisconnectScenarioWorkflow extends Workflow {
             
             // unlink Cable from Port
             ICableDAO cableDAO = factory.getCableDAO();
-            Cable cable = cableDAO.findCableFromServLoc(order.getServiceLocation().getId());
+            Cable cable = cableDAO.findCableFromServLocID(order.getServiceLocation().getId());
             
             Port port = cable.getPort();
             if(port == null) {
@@ -160,7 +160,7 @@ public class DisconnectScenarioWorkflow extends Workflow {
             }
             
             ICableDAO cableDAO = factory.getCableDAO();
-            Cable cable = cableDAO.findCableFromServLoc(order.getServiceLocation().getId());
+            Cable cable = cableDAO.findCableFromServLocID(order.getServiceLocation().getId());
             if(cable == null) {
             	throw new WorkflowException("No Cable found for current Service Location");
             }

@@ -72,7 +72,7 @@ public class DeleteConnectionPropertiesCommand extends SQLCommand {
 		Cable cable = null;															
 		Port port = null;
 		Device device = null;
-		cable = cableDAO.findCableFromServLoc(loc.getId());
+		cable = cableDAO.findCableFromServLocID(loc.getId());
 
 		if (cable != null) {
 			port = cable.getPort();
