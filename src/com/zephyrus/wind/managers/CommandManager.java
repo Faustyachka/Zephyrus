@@ -7,7 +7,6 @@ import javax.servlet.http.HttpServletRequest;
 import com.zephyrus.wind.commands.interfaces.Command;
 import com.zephyrus.wind.commands.nosql.LogoutCommand;
 import com.zephyrus.wind.commands.nosql.NoCommand;
-import com.zephyrus.wind.commands.nosql.RegisterPageCommand;
 import com.zephyrus.wind.commands.sql.AdminCommand;
 import com.zephyrus.wind.commands.sql.AssignTaskCommand;
 import com.zephyrus.wind.commands.sql.BlockingUserCommand;
@@ -68,13 +67,11 @@ public class CommandManager {
 
 	HashMap<String, Command> commands = new HashMap<String, Command>();
 
-	private static final String HOME_COMMAND = "home";
 	private static final String ADMIN_COMMAND = "admin";
 	private static final String LOGIN_COMMAND = "login";
 	private static final String LOGOUT_COMMAND = "logout";
 	private static final String MAPPING_COMMAND = "mapping";
 	private static final String REGISTER_COMMAND = "register";
-	private static final String REGISTERPAGE_COMMAND = "registerPage";
 	private static final String PROCEEDORDER_COMMAND = "proceedOrder";
 	private static final String SAVEORDER_COMMAND = "saveOrder";
 	private static final String SENDORDER_COMMAND = "sendOrder";
@@ -105,10 +102,6 @@ public class CommandManager {
 	private static final String DISCONNECT_SERVICE_INSTANCE = "disconnectServiceInstance";
 	private static final String PROVIDERS_COMMAND = "providerLocations";
 	private static final String CANCEL_ORDER_COMMAND = "cancelOrder";
-	private static final String CONTACTS_COMMAND = "contacts";
-	private static final String ABOUT_COMMAND = "about";
-	private static final String SERVICES_COMMAND = "services";
-	private static final String START_COMMAND = "start";
 	private static final String MODIFY_SERVICE_COMMAND = "modifyService";
 	private static final String MODIFY_ORDER_CREATE_COMMAND = "modifyOrder";
 	private static final String REPORTS_CHOOSING_COMMAND = "reportChoosing";
@@ -143,7 +136,6 @@ public class CommandManager {
 		commands.put(LOGOUT_COMMAND, new LogoutCommand());
 		commands.put(MAPPING_COMMAND, new MappingCommand());
 		commands.put(REGISTER_COMMAND, new RegisterCommand());
-		commands.put(REGISTERPAGE_COMMAND, new RegisterPageCommand());
 		commands.put(PROCEEDORDER_COMMAND, new ProceedOrderCommand());
 		commands.put(SAVEORDER_COMMAND, new SaveOrderCommand());
 		commands.put(CUSTOMERORDERS_COMMAND, new CustomerOrdersCommand());
