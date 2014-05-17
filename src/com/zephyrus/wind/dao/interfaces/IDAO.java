@@ -41,7 +41,7 @@ public interface IDAO<T> {
 	T findById(int id) throws Exception;
 	
     /**
-	 * Method update class instance using update in the database.
+	 * Method update class instance using command update in the database.
 	 * @param updatable class instance
 	 */
     void update(T record) throws Exception;	
@@ -63,7 +63,7 @@ public interface IDAO<T> {
     /**
 	 * Method delete an class instance from the database by its primary key.
 	 * @param id the primary key
-	 * @return count of removed class instance
+	 * @return count of removed rows
 	 */
     int removeById(int id) throws Exception;
 }

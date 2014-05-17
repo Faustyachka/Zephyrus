@@ -23,6 +23,12 @@ public abstract class OracleDAO<T> {
     protected ResultSet rs = null;
     protected OracleDAOFactory daoFactory;
     
+    /**
+     * Constructor that takes as parameters class T, connection and OracleDAOFactory instance.
+     * @param itemClass class for which the OracleDAO instance created
+     * @param connection connect to DB      
+     * @param OracleDAOFactory instance                                 
+     */
     public OracleDAO (Class<T> itemClass, Connection connection, OracleDAOFactory daoFactory) throws Exception{
         this.itemClass = itemClass;
         if(connection == null) throw new Exception("No connection found!");
@@ -32,19 +38,17 @@ public abstract class OracleDAO<T> {
     
     /**
     * Method return class instance from database result set
-    * @param ResultSet                                                           //REVIEW: description expected
+    * @param ResultSet database result set                                                   
     * @return class instance
     */
     protected T fetchSingleResult(ResultSet rs) 
-            throws SQLException, 
-            InstantiationException,
-            IllegalAccessException, Exception{                                       //REVIEW: Exception is superclass of all of this exceptions
+            throws Exception{                                       
         if (rs.next()) {
             T item = itemClass.newInstance();
             fillItem(item, rs);
             rs.close();
         	if(stmt != null)
-        		stmt.close();                                                      //REVIEW: braces expected
+        		stmt.close();                                                      
         	if(cs != null)
         		cs.close();
             return item;
@@ -65,9 +69,7 @@ public abstract class OracleDAO<T> {
      * @return ArrayList of class instance
      */
     protected ArrayList<T> fetchMultiResults(ResultSet rs)
-            throws SQLException,
-            InstantiationException,
-            IllegalAccessException, Exception{                                              //REVIEW: see previous comments about Exception
+            throws Exception{                                              
         ArrayList<T> resultList = new ArrayList<T>();
         T item = null;
         while (rs.next()) {
@@ -75,10 +77,9 @@ public abstract class OracleDAO<T> {
             fillItem(item, rs);
         	resultList.add(item);
         }
-            
         rs.close();                                                                    
-    	if(stmt != null)                                                                 //REVIEW: comments expected
-    		stmt.close();                                                                //REVIEW: braces expected
+    	if(stmt != null)                                                                 
+    		stmt.close();                                                                
     	if(cs != null)
     		cs.close();
         return resultList;
@@ -89,7 +90,7 @@ public abstract class OracleDAO<T> {
 	 * @param class instance T
 	 * @param ResultSet a database result set represented by DB
 	 */
-    protected abstract void fillItem(T item, ResultSet rs) throws SQLException, Exception;   //REVIEW: see previous comments about Exception
+    protected abstract void fillItem(T item, ResultSet rs) throws Exception;  
     
     /**
    	 * Method gives text of SQL select query
@@ -121,7 +122,6 @@ public abstract class OracleDAO<T> {
 	 * @param int count - number of return class instance
 	 * @return ArrayList<T> - collection of class instance
 	 */
-                                                                                      //REVIEW: extra line
     public ArrayList<T> find(int firstItem, int count) throws Exception {
     	int lastItem = firstItem + count - 1;
         stmt = connection.prepareStatement("SELECT * FROM ( " + getSelect()  + 
