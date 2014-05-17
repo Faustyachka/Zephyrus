@@ -10,11 +10,27 @@ import com.google.gson.Gson;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.model.ProviderLocation;
-																					// REVIEW: documentation expected
+
+/**
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It gets list of
+ * provider locations from DB and sends it to jsp page for displaying them 
+ * on the Google Map. 
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class ProviderLocationsDisplayingCommand extends SQLCommand {
     
-	int MAX_PROVIDER_LOCATIONS_TO_DISPLAY = 10;
+	/**The quantity of Provider Locations for displaying on the map*/
+	private final int MAX_PROVIDER_LOCATIONS_TO_DISPLAY = 10;
 	
+	/**
+	 * This method gets list of provider locations from DB and sends it to jsp page for displaying them 
+	 * on the Google Map. 
+	 * 
+	 * @return String address of page for redirection. Always return null because
+	 * all requests for this command are asynchronous.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {

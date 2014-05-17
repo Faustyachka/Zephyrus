@@ -37,7 +37,7 @@ public class CreateDeviceCommand extends SQLCommand {
 	 *         the address of message page, which displays the error message
 	 */
 	@Override
-	protected String doExecute(HttpServletRequest request,									// REVIEW: method is too long and should be split
+	protected String doExecute(HttpServletRequest request,									
 			HttpServletResponse response) throws SQLException, Exception {
 
 		int taskID;

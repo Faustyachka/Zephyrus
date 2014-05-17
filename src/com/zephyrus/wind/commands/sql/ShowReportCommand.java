@@ -7,9 +7,22 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.enums.REPORT_TYPE;
-																				// REVIEW: documentation expected
-public class ShowReportCommand extends SQLCommand {
 
+/**
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It redirect
+ * User from page of report choosing to the page of concrete report.
+ * @author Alexandra Beskorovaynaya
+ */
+public class ShowReportCommand extends SQLCommand {
+	
+	/**
+	 * This method redirects user from page of reports choosing to page of
+	 * selected report. 
+	 * @return address of page, which displays the selected report. In error
+	 *         situation returns address of reports selection page, which also 
+	 *         contains message about error details.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
@@ -19,7 +32,7 @@ public class ShowReportCommand extends SQLCommand {
 		if (request.getParameter("reportType") == null) {
 			request.setAttribute("message",
 					"You must choose report type from reports page!");
-			return "reportChoosing";											// REVIEW: hardcoded link
+			return "reportChoosing";										
 		}
 		try {
 			reportType = Integer.parseInt(request.getParameter("reportType"));
@@ -31,21 +44,19 @@ public class ShowReportCommand extends SQLCommand {
 		}
 		
 		if (reportType == REPORT_TYPE.DISCONNECT_ORDERS_PER_PERIOD.getId()) {
-			return "reports/disconnectOrdersReport.jsp";						// REVIEW: hardcoded links
-		}																		// REVIEW: else if, not if
-		if (reportType == REPORT_TYPE.NEW_ORDERS_PER_PERIOD.getId()) {
+			return "reports/disconnectOrdersReport.jsp";						
+		} else if (reportType == REPORT_TYPE.NEW_ORDERS_PER_PERIOD.getId()) {
 			return "reports/newOrdersReport.jsp";			
-		}
-		if (reportType == REPORT_TYPE.PROFITABILITY_BY_MONTH.getId()) {
+		} else if (reportType == REPORT_TYPE.PROFITABILITY_BY_MONTH.getId()) {
 			return "reports/profitabilityReport.jsp";
-		}
-		if (reportType == REPORT_TYPE.ROUTER_UTILIZATION.getId()) {
+		} else if (reportType == REPORT_TYPE.ROUTER_UTILIZATION.getId()) {
 			return "utilizationReport?last=1";				
-		}
-		if (reportType == REPORT_TYPE.MOST_PROFITABLE_ROUTER.getId()) {
+		} else if (reportType == REPORT_TYPE.MOST_PROFITABLE_ROUTER.getId()) {
 			return "reports/mostProfitableRouterReport.jsp";
+		} else {
+			request.setAttribute("message", "Select report type from reports page!");
+			return "reportChoosing";
 		}
-		return null;
 	}
 
 }

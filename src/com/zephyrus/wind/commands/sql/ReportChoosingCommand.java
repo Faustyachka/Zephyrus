@@ -14,9 +14,21 @@ import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
-// REVIEW: documentation expected
+/**
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It provides
+ * the functionality of report choosing by user. 
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class ReportChoosingCommand extends SQLCommand {
-
+	
+	/**
+	 * This method sends the list of available reports for defined user
+	 * on reports jsp page. The list of reports is different, it depends 
+	 * from logged user role.
+	 * @return address of page, which allows to choose report type
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {

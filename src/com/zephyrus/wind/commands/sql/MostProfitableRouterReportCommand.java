@@ -13,13 +13,27 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.MostProfitableRouterReport;
 import com.zephyrus.wind.reports.rows.MostProfitableRouterRow;
 
-// REVIEW: documentation expected
+/**
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
+ * "Most profitable router" report data on jsp page.
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class MostProfitableRouterReportCommand extends SQLCommand {
 
 	private static Date fromDate;
 	private static Date toDate;
 	private final int NUMBER_RECORDS_PER_PAGE = 1;
-
+	
+	/**
+	 * This method checks all necessary input data, get all data for the
+	 * "Most profitable router" report by defined period of time and 
+	 * transform it to ArrayList for sending on jsp page.
+	 * 
+	 * @return String url of page for redirecting. It is the address
+	 * of page with "Most profitable router" report.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {

@@ -9,11 +9,25 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
 import com.zephyrus.wind.enums.USER_STATUS;
 import com.zephyrus.wind.model.User;
-																								// REVIEW: documentation expected
-public class LoginCommand extends SQLCommand {
 
+/**
+ * This class contains the method, that is declared in 								
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It is supposed to write 
+ * user to session after authorization and to redirect him on the home page.		
+ * @author Bogdan Bondar
+ */
+public class LoginCommand extends SQLCommand {
+	
+	/**
+	 * This method check is user's account blocked, write logged user into the session 
+	 * and redirects user to home page which corresponds to his role.
+	 *  
+	 * @return String url of page for redirecting. It will be the page with order details
+	 * for customer user, which select the service from services page, otherwise it will 
+	 * be home page which corresponds to user's role.																					
+	 */
 	@Override
-	public String doExecute(HttpServletRequest request,											// REVIEW: public doExecute
+	public String doExecute(HttpServletRequest request,		
 			HttpServletResponse response) throws Exception {
 		String userName = request.getUserPrincipal().getName();
 		IUserDAO userDAO = getOracleDaoFactory().getUserDAO();

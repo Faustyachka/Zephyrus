@@ -20,8 +20,21 @@ import com.zephyrus.wind.workflow.NewScenarioWorkflow;
 import com.zephyrus.wind.workflow.Workflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
+/**
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. It provides
+ * the possibility for engineer to suspend task.
+ * @author Alexandra Beskorovaynaya
+ */
 public class SuspendTaskCommand extends SQLCommand{
-
+	
+	/**
+	 * This method provides the functionality to suspend
+	 * task by Provisioning Engineer or Installation Engineer.
+	 * @return address of page with task for corresponding engineer. In error
+	 * 		   situation return the address of page which contain message with
+	 *         error details.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {

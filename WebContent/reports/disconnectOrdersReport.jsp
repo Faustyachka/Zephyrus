@@ -7,8 +7,8 @@
 <div id="columns">
 <div id="navigation">
 	<div style="text-align: center">
-		<a href="/Zephyrus/reportChoosing"> <input type="navibutton"
-			class="button" value="Back to Reports" /></a>
+		<a href="/Zephyrus/reportChoosing"> <input type="button"
+			class="navibutton" value="Back to Reports" /></a>
 	</div>
 	<br>
 	<hr>
@@ -97,14 +97,14 @@
 		<tr>
 			<td style="width: 50%;" align="left">
 				<c:if test="${last > (count*2)}">
-					<a href="/Zephyrus/newOrders?last=${last-(count*2)}"> 
+					<a href="/Zephyrus/disconnectOrders?last=${last-(count*2)}"> 
 						<input type="button" value="Previous page" class="button" />
 					</a>
 				</c:if>
 				</td>
 			<td style="width: 50%" align="right">
 				<c:if test="${hasNext=='exist'}">
-					<a href="/Zephyrus/newOrders?last=${last}"> 
+					<a href="/Zephyrus/disconnectOrders?last=${last}"> 
 						<input type="button" value="Next page" class="button" />
 					</a>
 				</c:if>

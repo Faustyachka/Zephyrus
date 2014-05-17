@@ -13,11 +13,26 @@ import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.ProfitabilityByMonthReport;
 import com.zephyrus.wind.reports.rows.ProfitabilityByMonthRow;
 
-// REVIEW: documentation expected
+/**
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
+ * "Profitability by month" report data on jsp page.
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class ProfitabilityByMonthCommand extends SQLCommand {
+	
 	private Date date;
 	final int MAX_PROVIDER_LOC_NUMBER = 10;
-
+	
+	/**
+	 * This method checks all necessary input data, get all data for the
+	 * "Profitability by month" report by defined period of time and 
+	 * transform it to ArrayList for sending on jsp page.
+	 * 
+	 * @return String url of page for redirecting. It is the address
+	 * of page with "Profitability by month" report.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {

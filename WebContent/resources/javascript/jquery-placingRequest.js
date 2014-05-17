@@ -52,8 +52,5 @@ $().ready(function(){
             } else {
             	$('#proceed').attr("disabled", true); 
             }
-            /*if ($('input[name="services"]:checked')) {
-            	alert ("cheked");
-            }*/
         });
         });

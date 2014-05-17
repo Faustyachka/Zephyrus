@@ -15,9 +15,25 @@ import org.apache.poi.ss.usermodel.Workbook;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.reports.MostProfitableRouterReport;
 
-// REVIEW: documentation expected 
+/**
+ * This class contains the method, that is declared in
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * "Most profitable router" report data in Excel format.
+ * 
+ * @author Alexandra Beskorovaynaya
+ */
 public class GetExcelMostProfitableRouterCommand extends SQLCommand {
-
+	
+	/**
+	 * This method checks all necessary input data, get all data for the
+	 * "Most profitable router" report and transform it to Excel format for
+	 * downloading by user. Returns the downloading stream of
+	 * "Most profitable router" report in Excel format.
+	 * 
+	 * @return String url of page for redirecting. Always return null because
+	 *         there is no necessity to redirect user on other page after report
+	 *         downloading.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
