@@ -9,8 +9,8 @@ import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.VSupportInstance;
-
-public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> implements IVSupportInstanceDAO{
+																						//REVIEW: documentation expected
+public class OracleVSupportInstanceDAO extends OracleDAO<VSupportInstance> implements IVSupportInstanceDAO{ //REVIEW: is this class used anywhere?
 	private static final String TABLE_NAME = "V_SUPPORT_INSTANCE";
     private static final String SQL_SELECT = "SELECT USER_ID, SI_ID, SI_STARD_DATE, " + 
                                       "SERVICE, PRICE, SI_STATUS FROM " + 

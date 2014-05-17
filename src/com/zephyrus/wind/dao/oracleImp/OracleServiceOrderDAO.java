@@ -21,11 +21,11 @@ import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
 
-
-public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {
+																										//REVIEW: documentation expected
+public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IServiceOrderDAO {        //REVIEW: long line
 
 	private static final String TABLE_NAME = "SERVICE_ORDERS";
-	private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 
+	private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_ID, ORDER_STATUS_ID, " + 			//REVIEW: wrong formatting
 			"ORDER_DATE, PRODUCT_CATALOG_ID, SERVICE_LOCATION_ID, " +
 			"SERVICE_INSTANCE_ID, ROWNUM AS ROW_NUM " +
 			"FROM " + TABLE_NAME + " ";
@@ -41,7 +41,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	public OracleServiceOrderDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ServiceOrder.class, connection, daoFactory);
 	}
-
+																										//REVIEW: documentation expected
 	@Override
 	public void update(ServiceOrder record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -52,14 +52,14 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     	stmt.setInt(5, record.getServiceLocation().getId());  
     	if (record.getServiceInstance() == null){
     		stmt.setNull(6, java.sql.Types.INTEGER); 
-    	} else {
+    	} else {	
     		stmt.setInt(6, record.getServiceInstance().getId());
     	}
     	stmt.setLong(7, record.getId());
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																									//REVIEW: documentation expected
 	@Override
 	public ServiceOrder insert(ServiceOrder record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -70,7 +70,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
     	cs.setInt(5, record.getServiceLocation().getId()); 
     	if(record.getServiceInstance().getId() != null)
     		cs.setInt(6, record.getServiceInstance().getId());  
-    	else
+    	else																						//REVIEW: braces expected
     		cs.setNull(6, java.sql.Types.INTEGER);  
     	cs.registerOutParameter(7, OracleTypes.VARCHAR);
         cs.execute();
@@ -78,7 +78,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																									//REVIEW: documentation expected
 	@Override
 	public int remove(ServiceOrder record) throws Exception {
 		return removeById((int)record.getId());
@@ -114,10 +114,10 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	/**
 	 * Method finds Service Orders object for Service Instance ID
 	 * 
-	 * @param Service Instance ID
-	 * @return collection of Service Orders
+	 * @param Service Instance ID														//REVIEW: parameter name expected
+	 * @return collection of Service Orders												//REVIEW: may be better write "List of orders for given Service Instance?
 	 */
-	
+																						//REVIEW: extra line
 	@Override
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceInstanceId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_INSTANCE_ID = ?");
@@ -129,7 +129,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	/**
 	 * Method finds creation Service Orders object for Service Instance
 	 * 
-	 * @param Service Instance
+	 * @param Service Instance															//REVIEW: see previous comments
 	 * @return Service Orders on which basis the SI create 
 	 */
 	
@@ -145,11 +145,11 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	/**
 	 * Method finds Service Orders object for Service Location ID
 	 * 
-	 * @param Service Location ID
-	 * @return collection of Service Orders
-	 * @author unknown
+	 * @param Service Location ID														//REVIEW: parameter name expected
+	 * @return collection of Service Orders												//REVIEW: see previous comment
+	 * @author unknown																	//REVIEW: author shouldn't be here
 	 */
-	
+																						//REVIEW: extra line
 	@Override
 	public ArrayList<ServiceOrder> getServiceOrdersByServiceLocationId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
@@ -167,7 +167,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	 * @param Date endDate end of period
 	 * @return collection of disconnected Service Orders
 	 */
-	@Override
+	@Override																					//REVIEW: is this method used anywhere?
 	//Returns orders for reports by period
 	public ArrayList<ServiceOrder> getDisconnectSOByPeriod(Date startDate, Date endDate) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
@@ -185,7 +185,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	 * @param Date endDate end of period
 	 * @return collection of new Service Orders
 	 */
-	@Override
+	@Override																							//REVIEW: is this method used anywhere?
 	public ArrayList<ServiceOrder> getNewSOByPeriod(Date startDate, Date endDate) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE (ORDER_DATE BETWEEN ? AND ?) "
 				+ "AND ORDER_STATUS_ID="+ORDER_TYPE.NEW.getId());
@@ -198,7 +198,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 	/**
 	 * Method finds Service Orders for user
 	 * 
-	 * @param User
+	 * @param User													//REVIEW: description expected
 	 * @return collection of Service Orders 
 	 */
 	public ArrayList<ServiceOrder> getOrdersByUser(User user) throws Exception{
@@ -206,9 +206,9 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		IServiceLocationDAO locationDAO = daoFactory.getServiceLocationDAO();
 		ArrayList<ServiceLocation> locations = locationDAO.getServiceLocationsByUserId(user.getId());
 		
-		int size = locations.size();
+		int size = locations.size();							//REVIEW: there is no need to create variable for arraylist size
 		
-		if (size == 0){
+		if (size == 0){											//REVIEW: isEmpty() method should be used
 			return null;
 		}
 		
@@ -216,7 +216,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		for( int i = 0 ; i < size; i++ ) {
 		    builder.append("?,");
 		}
-		
+																						//REVIEW: comments needed
 		stmt = connection.prepareStatement(SQL_SELECT + 
 				" WHERE SERVICE_LOCATION_ID IN (" + builder.deleteCharAt( builder.length() -1).toString() + ")");
 		
@@ -227,7 +227,7 @@ public class OracleServiceOrderDAO extends OracleDAO<ServiceOrder> implements IS
 		
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);
-	};
+	};																					//REVIEW: semicolon?
 	
 	
 

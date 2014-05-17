@@ -29,12 +29,10 @@ public class CreateConnectionCommand extends SQLCommand {
 	 * This method creates the connection in the database. Method gets
 	 * parameters of task's ID, number of port and cable's ID, which indicate
 	 * what service order connection is being created for and what port and
-	 * cable will be user for the connection. 
-	 * 
+	 * cable will be user for the connection.  
 	 * @return method returns address of confirmation page, which states that
 	 *  connection has been created successfully
 	 */
-
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {

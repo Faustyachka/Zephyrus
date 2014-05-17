@@ -60,23 +60,13 @@ public class CreateCircuitViewCommand extends SQLCommand {
 			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		Port port = findPortFromTaskID(task);
+		Port port = findPortFromTask(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
 		return "provision/createCircuit.jsp";
 	}
 
-	/**
-	 * Method for searching port by order task
-	 * 
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given																				// REVIEW: wrong documentation format: param name isn't specified
-	 *            task
-	 * @return port object if exist, otherwise null.
-	 * @author Miroshnychenko Nataliya
-	 */
-
-	private Port findPortFromTaskID(Task task) throws Exception {								// REVIEW: find from task ID, but Task param was given
+	private Port findPortFromTask(Task task) throws Exception {								
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

@@ -104,14 +104,6 @@ public class NewConnectionPropertiesCommand extends SQLCommand {
 	}
 	
 	
-	/**
-	 * Method finds Cable object for Task
-	 * 
-	 * @param Task object
-	 * @return existing Cable, otherwise null
-	 * @author Miroshnychenko Nataliya													// REVIEW: author is not needed here
-	 * @throws Exception 																// REVIEW: description expected
-	 */
 	private Cable findCableByTask(Task task) throws Exception {
 		Cable cable = new Cable();
 		ICableDAO cableDAO = getOracleDaoFactory().getCableDAO();

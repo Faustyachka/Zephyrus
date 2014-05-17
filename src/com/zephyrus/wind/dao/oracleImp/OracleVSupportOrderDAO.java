@@ -9,8 +9,8 @@ import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.VSupportOrder;
-
-public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements IVSupportOrderDAO{
+																											//REVIEW: documentation expected
+public class OracleVSupportOrderDAO extends OracleDAO<VSupportOrder> implements IVSupportOrderDAO{				//REVIEW: is this class used anywhere?
 	private static final String TABLE_NAME = "V_SUPPORT_ORDER";
     private static final String SQL_SELECT = "SELECT USER_ID, SO_ID, SL_COORD, " + 
                                       "SERVICE, SO_DATE, SO_VALUE  FROM " + 

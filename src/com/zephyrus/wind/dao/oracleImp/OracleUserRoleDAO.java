@@ -9,11 +9,11 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
 import com.zephyrus.wind.model.UserRole;
-
-public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleDAO{
+																								//REVIEW: documentation expected
+public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleDAO{				
 	private static final String TABLE_NAME = "USER_ROLES";
     private final String SQL_SELECT = "SELECT ID, ROLE_NAME, ROWNUM AS ROW_NUM  " + 
-                                      "FROM " + 
+                                      "FROM " + 												//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET ROLE_NAME = ? " + 
@@ -29,7 +29,7 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
 			throws Exception {
 		super(UserRole.class, connection, daoFactory);
 	}
-
+																						//REVIEW: documentation expected
 	@Override
 	public void update(UserRole record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -38,7 +38,7 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																						//REVIEW: documentation expected
 	@Override
 	public UserRole insert(UserRole record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -49,7 +49,7 @@ public class OracleUserRoleDAO extends OracleDAO<UserRole> implements IUserRoleD
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																						//REVIEW: documentation expected
 	@Override
 	public int remove(UserRole record) throws Exception {
 		return removeById((int)record.getId());

@@ -9,8 +9,8 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceStatusDAO;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
-
-public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceStatus> implements IServiceInstanceStatusDAO {
+																								//REVIEW: documentation expected
+public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceStatus> implements IServiceInstanceStatusDAO { //REVIEW: long line
 	
 	private static final String TABLE_NAME = "SERVICE_INSTANCE_STATUS";
     private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_VALUE, ROWNUM AS ROW_NUM " + 
@@ -18,7 +18,7 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERV_INSTANCE_STATUS_VALUE = ? " + 
-                                      " WHERE " + 
+                                      " WHERE " + 												//REVIEW: wrong formatting
                                       " ID = ?";
     private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
                                       " (SERV_INSTANCE_STATUS_VALUE) " +                                  
@@ -30,7 +30,7 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
 			throws Exception {
 		super(ServiceInstanceStatus.class, connection, daoFactory);
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public void update(ServiceInstanceStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -39,7 +39,7 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public ServiceInstanceStatus insert(ServiceInstanceStatus record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -50,7 +50,7 @@ public class OracleServiceInstanceStatusDAO extends OracleDAO<ServiceInstanceSta
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public int remove(ServiceInstanceStatus record) throws Exception {
 		return removeById((int)record.getId());

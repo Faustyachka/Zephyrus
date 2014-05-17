@@ -1,6 +1,6 @@
 package com.zephyrus.wind.dao.oracleImp;
 
-import java.sql.Connection;
+import java.sql.Connection;																			//REVIEW: unused import
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -15,12 +15,12 @@ import com.zephyrus.wind.enums.TASK_STATUS;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ProviderLocation;
 import com.zephyrus.wind.model.ServiceType;
-
+																									//REVIEW: documentation expected
 public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implements IProductCatalogDAO {
 
 	private static final String TABLE_NAME = "PRODUCT_CATALOG";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_ID, PROVIDER_LOC_ID, " + 
-                                      " PRICE, ROWNUM AS ROW_NUM FROM " + 
+                                      " PRICE, ROWNUM AS ROW_NUM FROM " +                           	//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERVICE_TYPE_ID = ?, PROVIDER_LOC_ID = ?, " + 
@@ -35,7 +35,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 	public OracleProductCatalogDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ProductCatalog.class, connection, daoFactory);
 	}
-
+																											//REVIEW: documentation expected
 	@Override
 	public void update(ProductCatalog record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -46,7 +46,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																											//REVIEW: documentation expected
 	@Override
 	public ProductCatalog insert(ProductCatalog record) throws Exception {
     	cs = connection.prepareCall(SQL_INSERT);
@@ -59,7 +59,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																									//REVIEW: documentation expected
 	@Override
 	public int remove(ProductCatalog record) throws Exception {
 		return removeById((int)record.getId());
@@ -93,7 +93,7 @@ public class OracleProductCatalogDAO extends OracleDAO<ProductCatalog> implement
 	 * Method allows to get products for given Provider Location.
 	 * @param Provider Location for which it is necessary to find products
 	 * @return list of products from Product Catalog
-	 * @author Miroshnychenko Nataliya
+	 * @author Miroshnychenko Nataliya                                                      	//REVIEW: author shouldn't be here
 	 */
 	@Override
 	public ArrayList<ProductCatalog> getProductsByProviderLocation(ProviderLocation providerLocation) throws Exception {

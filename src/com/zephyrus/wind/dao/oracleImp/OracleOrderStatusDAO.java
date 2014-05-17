@@ -9,12 +9,12 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
 import com.zephyrus.wind.model.OrderStatus;
-
+                                                                                                  //REVIEW: documentation expected
 public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrderStatusDAO {
 	
 	private static final String TABLE_NAME = "ORDER_STATUS";
     private static final String SQL_SELECT = "SELECT ID, ORDER_STATUS_VALUE, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
+                                      "FROM " +                                                     	//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET ORDER_STATUS_VALUE = ? " + 
@@ -28,7 +28,7 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
 	public OracleOrderStatusDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(OrderStatus.class, connection, daoFactory);
 	}
-
+																									//REVIEW: documentation expected
 	@Override
 	public void update(OrderStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -37,10 +37,10 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																									//REVIEW: documentation expected
 	@Override
 	public OrderStatus insert(OrderStatus record) throws Exception {
-		
+																									//REVIEW: extra line	
 		cs = connection.prepareCall(SQL_INSERT);
     	cs.setString(1, record.getOrderStatusValue());
     	cs.registerOutParameter(2, OracleTypes.VARCHAR);
@@ -49,7 +49,7 @@ public class OracleOrderStatusDAO extends OracleDAO<OrderStatus> implements IOrd
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																											//REVIEW: documentation expected
 	@Override
 	public int remove(OrderStatus record) throws Exception {
 		return removeById((int)record.getId());

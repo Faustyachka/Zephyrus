@@ -9,12 +9,12 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.model.OrderType;
-
+                                                                                               //REVIEW: documentation expected
 public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTypeDAO {
 	
 	private static final String TABLE_NAME = "ORDER_TYPE";
     private static final String SQL_SELECT = "SELECT ID, ORDER_TYPE_VALUE, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
+                                      "FROM " +                                                	//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET ORDER_TYPE_VALUE = ? " + 
@@ -25,14 +25,14 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
 												"RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
-    private static final int COLUMN_ID = 1;
+    private static final int COLUMN_ID = 1;                                                 	//REVIEW: unused constants
     private static final int COLUMN_ORDER_TYPE_VALUE = 2;
 
 	public OracleOrderTypeDAO( Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
 		super(OrderType.class, connection, daoFactory);
 	}
-
+	  																							//REVIEW: documentation expected
 	@Override
 	public void update(OrderType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -41,7 +41,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public OrderType insert(OrderType record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -52,7 +52,7 @@ public class OracleOrderTypeDAO extends OracleDAO<OrderType> implements IOrderTy
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																						//REVIEW: documentation expected
 	@Override
 	public int remove(OrderType record) throws Exception {
 		return removeById((int)record.getId());

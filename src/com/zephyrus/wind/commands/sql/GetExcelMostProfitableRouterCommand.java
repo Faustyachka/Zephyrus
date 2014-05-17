@@ -19,7 +19,6 @@ import com.zephyrus.wind.reports.MostProfitableRouterReport;
  * This class contains the method, that is declared in
  * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Most profitable router" report data in Excel format.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class GetExcelMostProfitableRouterCommand extends SQLCommand {
@@ -29,7 +28,6 @@ public class GetExcelMostProfitableRouterCommand extends SQLCommand {
 	 * "Most profitable router" report and transform it to Excel format for
 	 * downloading by user. Returns the downloading stream of
 	 * "Most profitable router" report in Excel format.
-	 * 
 	 * @return String url of page for redirecting. Always return null because
 	 *         there is no necessity to redirect user on other page after report
 	 *         downloading.

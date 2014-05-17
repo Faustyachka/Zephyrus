@@ -9,12 +9,12 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IDeviceDAO;
 import com.zephyrus.wind.model.Device;
-
+                                                                                               //REVIEW: documentation expected
 public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 	
 	private static final String TABLE_NAME = "DEVICES";
     private static final String SQL_SELECT = "SELECT ID, SERIAL_NUM, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
+                                      "FROM " +                                                 //REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERIAL_NUM = ? " + 
@@ -30,7 +30,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
 			throws Exception {
 		super(Device.class, connection, daoFactory);
 	}
-
+                                                                                             	//REVIEW: documentation expected
 	@Override
 	public void update(Device record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -39,7 +39,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
         stmt.executeUpdate();
         stmt.close();
 	}
-
+	 																							//REVIEW: documentation expected
 	@Override
 	public Device insert(Device record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -50,7 +50,7 @@ public class OracleDeviceDAO extends OracleDAO<Device> implements IDeviceDAO{
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public int remove(Device record) throws Exception {
 		return removeById((int)record.getId());

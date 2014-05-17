@@ -1,6 +1,6 @@
 package com.zephyrus.wind.dao.oracleImp;
-
-import java.sql.Connection;
+ 													
+import java.sql.Connection;														//REVIEW: unused import
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
@@ -16,11 +16,11 @@ import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
-
+																					//REVIEW: documentation expected
 public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
 	private static final String TABLE_NAME = "CABLES";
-	private static final String SQL_SELECT = "SELECT ID, PORT_ID, SERVICE_LOCATION_ID, CABLE_TYPE, "+
+	private static final String SQL_SELECT = "SELECT ID, PORT_ID, SERVICE_LOCATION_ID, CABLE_TYPE, "+		//REVIEW: improper formatting
 			" ROWNUM AS ROW_NUM " + 
 			"FROM " + 
 			TABLE_NAME + " ";
@@ -33,12 +33,12 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 			"RETURN ROWID INTO ?;END;";
 	private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
-
+																										//REVIEW: public method documentation expected
 	public OracleCableDAO(Connection connection, OracleDAOFactory daoFactory)
 			throws Exception {
 		super(Cable.class, connection, daoFactory);
 	}
-
+	                                                                                                    //REVIEW: public method documentation expected
 	@Override
 	public void update(Cable record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -57,7 +57,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 		stmt.executeUpdate();
 		stmt.close();
 	}
-
+	                                                                            //REVIEW: public method documentation expected                                                                                    
 	@Override
 	public Cable insert(Cable record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -80,14 +80,14 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 		cs.close();
 		return findByRowId(rowId);
 	}
-
+	                                                                                            //REVIEW: public method documentation expected
 	@Override
 	public int remove(Cable record) throws Exception {
 		return removeById((int)record.getId());
 	}
 
 	@Override
-	protected void fillItem(Cable item, ResultSet rs) throws SQLException, Exception {
+	protected void fillItem(Cable item, ResultSet rs) throws SQLException, Exception {          //REVIEW: Exception is superclass for SQLException.  
 		item.setId(rs.getInt(1));
 		Port port = daoFactory.getPortDAO().findById(rs.getInt(2));
 		item.setPort(port);
@@ -109,27 +109,27 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 
 	/**
 	 * Method checks existing connection to port
-	 * 
-	 * @param port ID
+	 *                                                                     //REVIEW: empty line is excessive
+	 * @param port ID                                                       //REVIEW: parameters description expected
 	 * @return true if connection exist, otherwise false
-	 * @author Miroshnychenko Nataliya
+	 * @author Miroshnychenko Nataliya                                   //REVIEW: author in method documentation is excessive
 	 */
-
+	                                                                      //REVIEW: empty line is excessive
 	@Override
 	public boolean existConnectToPort(int portId) throws SQLException {
 		stmt = connection.prepareStatement("SELECT COUNT(*) FROM " + 
 				TABLE_NAME + 
-				" WHERE (PORT_ID = ? ) ");
+				" WHERE (PORT_ID = ? ) ");                                 //REVIEW: wrong formatting
 		stmt.setInt(1, portId);
 		rs = stmt.executeQuery();		
-		if (rs.next() && rs.getInt(1)!=0){
+		if (rs.next() && rs.getInt(1)!=0){                                  
 			return true;
 		}
 		return false;
 	}
 
 	/**
-	 * Method finds Cable object for Service Location ID
+	 * Method finds Cable object for Service Location ID                         //REVIEW: read previous comments
 	 * 
 	 * @param Service Location ID
 	 * @return existing Cable, otherwise null
@@ -137,7 +137,7 @@ public class OracleCableDAO extends OracleDAO<Cable> implements ICableDAO {
 	 */
 
 	@Override
-	public Cable findCableFromServLoc(int serviceLocationID) throws Exception {
+	public Cable findCableFromServLoc(int serviceLocationID) throws Exception {     //REVIEW: method should be renamed to findCableFromServLocID
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE SERVICE_LOCATION_ID = ?");
 		stmt.setInt(1, serviceLocationID);
 		rs = stmt.executeQuery();

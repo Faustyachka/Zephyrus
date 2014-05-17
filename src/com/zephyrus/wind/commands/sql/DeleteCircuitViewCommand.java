@@ -61,22 +61,13 @@ public class DeleteCircuitViewCommand extends SQLCommand{
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 		
-		Port port = findPortFromTaskID(task);
+		Port port = findPortFromTask(task);
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
 		return "provision/deleteCircuit.jsp";	
 	}
 	
-	/**
-	 * Method for searching port by order task
-	 * 
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given task																// REVIEW: param name omitted
-	 * @return port object if exist, otherwise null.
-	 * @author Miroshnychenko Nataliya													// REVIEW: no author tag here
-	 */
-
-	private Port findPortFromTaskID(Task task) throws Exception{						// REVIEW: wrong method name
+	private Port findPortFromTask(Task task) throws Exception{	
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null){

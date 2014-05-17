@@ -26,22 +26,17 @@ import com.zephyrus.wind.model.User;
  * @author Alexandra Beskorovaynaya
  */
 public class DeleteConnectionPropertiesCommand extends SQLCommand {
-
-
 	
 	/**
 	 * This method gathers the information, needed on DisconnectWorkflowTasks.jsp page. 
 	 * Method gets ID of the present task.
 	 * All the information is sent to the page.
-	 * 
 	 * @return address of page with all necessary information for Disconnect scenario	
 	 *         performing by Installation Engineer.								
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {
-		
-		 	
 		
 		User user = (User) request.getSession().getAttribute("user");
 

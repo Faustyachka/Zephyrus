@@ -32,19 +32,19 @@ public abstract class OracleDAO<T> {
     
     /**
     * Method return class instance from database result set
-    * @param ResultSet
+    * @param ResultSet                                                           //REVIEW: description expected
     * @return class instance
     */
     protected T fetchSingleResult(ResultSet rs) 
             throws SQLException, 
             InstantiationException,
-            IllegalAccessException, Exception{
+            IllegalAccessException, Exception{                                       //REVIEW: Exception is superclass of all of this exceptions
         if (rs.next()) {
             T item = itemClass.newInstance();
             fillItem(item, rs);
             rs.close();
         	if(stmt != null)
-        		stmt.close();
+        		stmt.close();                                                      //REVIEW: braces expected
         	if(cs != null)
         		cs.close();
             return item;
@@ -67,7 +67,7 @@ public abstract class OracleDAO<T> {
     protected ArrayList<T> fetchMultiResults(ResultSet rs)
             throws SQLException,
             InstantiationException,
-            IllegalAccessException, Exception{
+            IllegalAccessException, Exception{                                              //REVIEW: see previous comments about Exception
         ArrayList<T> resultList = new ArrayList<T>();
         T item = null;
         while (rs.next()) {
@@ -76,9 +76,9 @@ public abstract class OracleDAO<T> {
         	resultList.add(item);
         }
             
-        rs.close();
-    	if(stmt != null)
-    		stmt.close();
+        rs.close();                                                                    
+    	if(stmt != null)                                                                 //REVIEW: comments expected
+    		stmt.close();                                                                //REVIEW: braces expected
     	if(cs != null)
     		cs.close();
         return resultList;
@@ -89,7 +89,7 @@ public abstract class OracleDAO<T> {
 	 * @param class instance T
 	 * @param ResultSet a database result set represented by DB
 	 */
-    protected abstract void fillItem(T item, ResultSet rs) throws SQLException, Exception;
+    protected abstract void fillItem(T item, ResultSet rs) throws SQLException, Exception;   //REVIEW: see previous comments about Exception
     
     /**
    	 * Method gives text of SQL select query
@@ -121,7 +121,7 @@ public abstract class OracleDAO<T> {
 	 * @param int count - number of return class instance
 	 * @return ArrayList<T> - collection of class instance
 	 */
-    
+                                                                                      //REVIEW: extra line
     public ArrayList<T> find(int firstItem, int count) throws Exception {
     	int lastItem = firstItem + count - 1;
         stmt = connection.prepareStatement("SELECT * FROM ( " + getSelect()  + 

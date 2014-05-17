@@ -30,7 +30,6 @@ public class DeleteCircuitCommand extends SQLCommand {
 	/**
 	 * This method deletes the circuit from the database. Method gets parameter of
 	 * task's ID from JSP.
-	 * 
 	 * @return page with confirmation of successful deleting of circuit or
 	 * error message if it occurs.
 	 */
@@ -70,7 +69,7 @@ public class DeleteCircuitCommand extends SQLCommand {
 		}
 		
 		ServiceOrder so = task.getServiceOrder();
-		Port port = findPortFromTaskID(task);							
+		Port port = findPortFromTask(task);							
 
 		// creating circuit due to "New" scenario
 		DisconnectScenarioWorkflow wf = null;
@@ -94,17 +93,7 @@ public class DeleteCircuitCommand extends SQLCommand {
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 	
-	/**
-	 * Method for searching port by order task													
-	 * 
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given																				// REVIEW: no param name
-	 *            task
-	 * @return port object if exist, otherwise null.
-	 * @author Miroshnychenko Nataliya
-	 */
-
-	private Port findPortFromTaskID(Task task) throws Exception {								// REVIEW: wrong method name
+	private Port findPortFromTask(Task task) throws Exception {	
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

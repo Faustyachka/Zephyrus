@@ -9,11 +9,11 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IServiceTypeDAO;
 import com.zephyrus.wind.model.ServiceType;
-
-public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements IServiceTypeDAO {
+																									//REVIEW: documentation expected
+public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements IServiceTypeDAO {       //REVIEW: long line
 	private static final String TABLE_NAME = "SERVICE_TYPE";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_TYPE_VALUE, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
+                                      "FROM " + 													//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERVICE_TYPE_VALUE = ? " + 
@@ -24,13 +24,13 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
                                       "VALUES (?)" + " RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
-    private static final int COLUMN_ID = 1;
+    private static final int COLUMN_ID = 1;													//REVIEW: unused constants
     private static final int COLUMN_SERVICE_TYPE = 2;
 
 	public OracleServiceTypeDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ServiceType.class, connection, daoFactory);
 	}
-
+																							//REVIEW: documentation expected
 	@Override
 	public void update(ServiceType record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -39,7 +39,7 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																							//REVIEW: documentation expected
 	@Override
 	public ServiceType insert(ServiceType record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -50,7 +50,7 @@ public class OracleServiceTypeDAO extends OracleDAO<ServiceType> implements ISer
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public int remove(ServiceType record) throws Exception {
 		return removeById((int)record.getId());

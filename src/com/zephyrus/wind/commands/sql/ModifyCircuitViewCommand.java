@@ -61,24 +61,15 @@ public class ModifyCircuitViewCommand extends SQLCommand {
 			request.setAttribute("messageNumber", MessageNumber.TASK_SELECTING_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
-		Port port = findPortFromTaskID(task);
+		Port port = findPortFromTask(task);
 		request.setAttribute("circuit", task.getServiceOrder().getServiceInstance().getCircuit());
 		request.setAttribute("port", port);
 		request.setAttribute("task", task);
 		return "provision/modifyCircuit.jsp";	
 	}
 
-	/**
-	 * Method for searching port by order task											// REVIEW: see remarks in other Commands
-	 * 
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given
-	 *            task
-	 * @return port object if exist, otherwise null.
-	 * @author Miroshnychenko Nataliya
-	 */
 
-	private Port findPortFromTaskID(Task task) throws Exception {
+	private Port findPortFromTask(Task task) throws Exception {
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

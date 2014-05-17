@@ -1,6 +1,6 @@
 package com.zephyrus.wind.dao.oracleImp;
 
-import java.sql.Connection;
+import java.sql.Connection;                     	//REVIEW: unused imports
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -22,7 +22,7 @@ import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.Task;
-
+                                                                                                //REVIEW: documentation expected
 public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 
 	private static final String TABLE_NAME = "PORTS";
@@ -30,7 +30,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 													" FROM " + TABLE_NAME + " ";
 	private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
 													" SET DEVICE_ID = ?, PORT_NUMBER = ?, PORT_STATUS_ID = ? " + 
-													" WHERE " + 
+													" WHERE " +                            	//REVIEW: wrong formatting
 													" ID = ?";
 	private static final String SQL_INSERT = "BEGIN INSERT INTO " + TABLE_NAME + 
 											"(DEVICE_ID, PORT_NUMBER, PORT_STATUS_ID) VALUES(?,?,?)" +
@@ -42,7 +42,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 			throws Exception {
 		super(Port.class, connection, daoFactory);
 	}
-
+																						//REVIEW: documentation expected
 	@Override
 	public void update(Port record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -53,7 +53,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
         stmt.executeUpdate();
         stmt.close();
 	}
-
+	                                                                                   //REVIEW: documentation expected
 	@Override
 	public Port insert(Port record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -66,7 +66,7 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																							//REVIEW: documentation expected
 	@Override
 	public int remove(Port record) throws Exception {
 		return removeById((int)record.getId());
@@ -100,9 +100,9 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	 * 
 	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO.getCableDAO
 	 * @return ID of first free port or 0 if it doesn't exist
-	 * @author Miroshnychenko Nataliya
+	 * @author Miroshnychenko Nataliya															//REVIEW: you shouldn't write author in methods documentation
 	 */
-	
+																								//REVIEW: extra line
 	@Override
 	public int findFreePortID() throws Exception {
 		int freePortId = 0;
@@ -121,6 +121,6 @@ public class OraclePortDAO extends OracleDAO<Port> implements IPortDAO {
 	}
 	
 	
-
+																									//REVIEW: extra lines
 
 }

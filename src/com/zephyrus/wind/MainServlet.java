@@ -14,8 +14,6 @@ import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.CommandManager;
 import com.zephyrus.wind.managers.MessageManager;
 
-// The Main entry point
-
 /**
  * This class represents the main entry point of application. All requests from
  * pages go through this class.

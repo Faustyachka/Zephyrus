@@ -17,13 +17,13 @@ import com.zephyrus.wind.reports.rows.DisconnectOrdersPerPeriodRow;
  * This class contains the method, that is declared in
  * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * "Disconnect orders per period" report data using paging.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class DisconnectOrdersCommand extends SQLCommand {
 
 	private Date fromDate;
 	private Date toDate;
+
 	/** Number of records displayed on one page */
 	private final int NUMBER_RECORDS_PER_PAGE = 10;
 
@@ -31,7 +31,6 @@ public class DisconnectOrdersCommand extends SQLCommand {
 	 * This method checks all necessary input data, get all data for the
 	 * "Disconnect orders per period" report and sends it to jsp page for report
 	 * view forming.
-	 * 
 	 * @return the page of "Disconnect orders per period" report
 	 */
 	@Override
@@ -79,8 +78,7 @@ public class DisconnectOrdersCommand extends SQLCommand {
 			return "reports/disconnectOrdersReport.jsp";
 		}
 		if (toDate.compareTo(fromDate) < 0) {
-			request.setAttribute("message",
-					"Date interval is incorrect");
+			request.setAttribute("message", "Date interval is incorrect");
 			return "reports/disconnectOrdersReport.jsp";
 		}
 
@@ -96,7 +94,8 @@ public class DisconnectOrdersCommand extends SQLCommand {
 			records = report.getReportData(last, NUMBER_RECORDS_PER_PAGE);
 
 			// get the first element of next page
-			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE, 1);
+			checkRecords = report.getReportData(last + NUMBER_RECORDS_PER_PAGE,
+					1);
 
 			// set last element number
 			last = last + NUMBER_RECORDS_PER_PAGE;

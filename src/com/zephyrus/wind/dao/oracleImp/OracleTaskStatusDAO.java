@@ -9,11 +9,11 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
 import com.zephyrus.wind.model.TaskStatus;
-
+																										//REVIEW: documentation expected
 public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskStatusDAO {
 	private static final String TABLE_NAME = "TASK_STATUS";
-    private static final String SQL_SELECT = "SELECT ID, TASK_STATUS_VALUE, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
+    private static final String SQL_SELECT = "SELECT ID, TASK_STATUS_VALUE, ROWNUM AS ROW_NUM " + 			//REVIEW: long line
+                                      "FROM " + 														//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET TASK_STATUS_VALUE = ? " + 
@@ -24,13 +24,13 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
                                       "VALUES (?)" + " RETURN ROWID INTO ?;END;";
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
     
-    private static final int COLUMN_ID = 1;
+    private static final int COLUMN_ID = 1;																//REVIEW: unused constants
     private static final int COLUMN_TASK_STATUS_VALUE = 2;
 
 	public OracleTaskStatusDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(TaskStatus.class, connection, daoFactory);
 	}
-
+																										//REVIEW: documentation expected
 	@Override
 	public void update(TaskStatus record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -39,7 +39,7 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
         stmt.executeUpdate();	
         stmt.close();
 	}
-
+																										//REVIEW: documentation expected
 	@Override
 	public TaskStatus insert(TaskStatus record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -50,7 +50,7 @@ public class OracleTaskStatusDAO extends OracleDAO<TaskStatus> implements ITaskS
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																										//REVIEW: documentation expected
 	@Override
 	public int remove(TaskStatus record) throws Exception {
 		return removeById((int)record.getId());

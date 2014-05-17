@@ -18,7 +18,6 @@ import com.zephyrus.wind.reports.ProfitabilityByMonthReport;
  * This class contains the method, that is declared in @link
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Profitability by month" report data in Excel format.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class GetExcelProfitabilityCommand extends SQLCommand {
@@ -29,8 +28,7 @@ public class GetExcelProfitabilityCommand extends SQLCommand {
 	 * This method checks all necessary input data, get all data for the
 	 * "Profitability by month" report and transform it to Excel format for
 	 * downloading by user. Returns the downloading stream of
-	 * "Profitability by month" report in Excel format.
-	 * 
+	 * "Profitability by month" report in Excel format. 
 	 * @return String url of page for redirecting. Always return null because
 	 *         there is no necessity to redirect user on other page after report
 	 *         downloading.

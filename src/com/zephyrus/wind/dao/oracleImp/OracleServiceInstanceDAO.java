@@ -14,13 +14,13 @@ import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceInstanceStatus;
 import com.zephyrus.wind.model.User;
-
-public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> implements IServiceInstanceDAO {
+																											//REVIEW: documentation expected
+public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> implements IServiceInstanceDAO {   //REVIEW: long line
 	
 	private static final String TABLE_NAME = "SERVICE_INSTANCES";
     private static final String SQL_SELECT = "SELECT ID, SERV_INSTANCE_STATUS_ID, USER_ID, " + 
     								  "PRODUCT_CATALOG_ID, CIRCUIT_ID, START_DATE, ROWNUM AS ROW_NUM " +
-                                      "FROM " + 
+                                      "FROM " + 															//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERV_INSTANCE_STATUS_ID = ?, USER_ID = ?, " + 
@@ -36,7 +36,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	public OracleServiceInstanceDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
 		super(ServiceInstance.class, connection, daoFactory);
 	}
-
+																							//REVIEW: documentation expected
 	@Override
 	public void update(ServiceInstance record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -45,7 +45,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
     	stmt.setInt(3, record.getProductCatalog().getId());  
     	if(record.getCircuit() == null){
     		stmt.setNull(4, java.sql.Types.INTEGER);
-    		} 
+    		} 																				//REVIEW: wrong formatting
     	else {
     		stmt.setInt(4, record.getCircuit().getId()); 
     		}
@@ -54,7 +54,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public ServiceInstance insert(ServiceInstance record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -62,7 +62,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
     	cs.setInt(2, record.getUser().getId());  
     	cs.setInt(3, record.getProductCatalog().getId());  
     	if(record.getCircuit() == null)
-    		cs.setNull(4, java.sql.Types.INTEGER);
+    		cs.setNull(4, java.sql.Types.INTEGER);												//REVIEW: braces expected
     	else
     		cs.setInt(4, record.getCircuit().getId());  
     	cs.setDate(5, (java.sql.Date)record.getStartDate());
@@ -72,7 +72,7 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public int remove(ServiceInstance record) throws Exception {
 		return removeById((int)record.getId());
@@ -107,10 +107,10 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	/**
 	 * Method finds Service Instances by User ID
 	 * 
-	 * @param User ID
+	 * @param User ID                                                                           //REVIEW: parameter name expected
 	 * @return collection of existing Service Instances
 	 */
-	
+																								//REVIEW: extra line
 	@Override
 	public ArrayList<ServiceInstance> getServiceInstancesByUserId(int id) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ?");
@@ -122,11 +122,11 @@ public class OracleServiceInstanceDAO extends OracleDAO<ServiceInstance> impleme
 	/**
 	 * Method finds Service Instances by User in all status expect DISCONNECTED
 	 * 
-	 * @param User
+	 * @param User																					//REVIEW: description expected
 	 * @return ArrayList of existing Service Instances in all status expect DISCONNECTED
 	 */
 	@Override
-	public ArrayList<ServiceInstance> getActiveServiceInstancesByUser(User user) throws Exception {
+	public ArrayList<ServiceInstance> getActiveServiceInstancesByUser(User user) throws Exception {  //REVIEW: long line
 		stmt = connection.prepareStatement(SQL_SELECT + "WHERE USER_ID = ? AND SERV_INSTANCE_STATUS_ID != ?");
 		stmt.setInt(1, user.getId());
 		stmt.setInt(2, SERVICEINSTANCE_STATUS.DISCONNECTED.getId());

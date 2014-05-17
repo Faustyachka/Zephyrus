@@ -27,7 +27,6 @@ public class DeleteCableCommand extends SQLCommand {
 	/**
 	 * This method deletes chosen cable from the database. 
 	 * By means of Workflow, chosen object Cable with mentioned parameters is deleted from database.
-	 *  
 	 * @return in success case the address of page with confirmation of successful 
 	 *         deletion of cable.
 	 */

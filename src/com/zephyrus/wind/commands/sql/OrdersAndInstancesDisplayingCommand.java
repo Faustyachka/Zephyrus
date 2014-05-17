@@ -82,7 +82,6 @@ public class OrdersAndInstancesDisplayingCommand extends SQLCommand {
 
 	}
 
-
 	private ArrayList<ServiceOrder> findServiceOrderByUser(User user)
 			throws Exception {
 		ArrayList<ServiceOrder> serviceOrders = new ArrayList<ServiceOrder>();

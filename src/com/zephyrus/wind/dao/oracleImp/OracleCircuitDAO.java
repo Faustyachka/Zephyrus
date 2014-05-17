@@ -11,12 +11,12 @@ import com.zephyrus.wind.dao.interfaces.ICircuitDAO;
 import com.zephyrus.wind.dao.interfaces.IPortDAO;
 import com.zephyrus.wind.model.Circuit;
 import com.zephyrus.wind.model.Port;
-
+                                                                                               //REVIEW: documentation expected
 public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	
 	private static final String TABLE_NAME = "CIRCUITS";
     private static final String SQL_SELECT = "SELECT ID, PORT_ID, CONFIG, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
+                                      "FROM " +                                                //REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET PORT_ID = ?, " + 
@@ -33,7 +33,7 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 			throws Exception {
 		super(Circuit.class, connection, daoFactory);
 	}
-
+	                                                                                               //REVIEW: documentation expected
 	@Override
 	public void update(Circuit record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -62,7 +62,7 @@ public class OracleCircuitDAO extends OracleDAO<Circuit> implements ICircuitDAO{
 	}
 
 	@Override
-	protected void fillItem(Circuit item, ResultSet rs) throws SQLException, Exception {
+	protected void fillItem(Circuit item, ResultSet rs) throws SQLException, Exception {        //REVIEW: Exception is superclass of SQLException
 		item.setId(rs.getInt(1));
 		IPortDAO portDAO = daoFactory.getPortDAO();
 		Port port = portDAO.findById(rs.getInt(2));

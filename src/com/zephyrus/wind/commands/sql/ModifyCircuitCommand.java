@@ -76,7 +76,7 @@ public class ModifyCircuitCommand extends SQLCommand {
 		}
 
 		ServiceOrder so = task.getServiceOrder();
-		Port port = findPortFromTaskID(task);
+		Port port = findPortFromTask(task);
 
 		String circuitConfig = request.getParameter("circuit");
 		if (circuitConfig == null) {
@@ -126,17 +126,7 @@ public class ModifyCircuitCommand extends SQLCommand {
 		return PAGES.MESSAGE_PAGE.getValue();
 	}
 
-	/**
-	 * Method for searching port by order task 								// REVIEW: see remarks about it in other Commands
-	 * 
-	 * @see com.zephyrus.wind.dao.interfaces.ICableDAO
-	 * @param given
-	 *            task
-	 * @return port object if exist, otherwise null.
-	 * @author Miroshnychenko Nataliya
-	 */
-
-	private Port findPortFromTaskID(Task task) throws Exception {
+	private Port findPortFromTask(Task task) throws Exception {
 		ServiceOrder serviceOrder = task.getServiceOrder();
 		ServiceLocation serviceLocation = serviceOrder.getServiceLocation();
 		if (serviceLocation == null) {

@@ -16,10 +16,9 @@ import com.zephyrus.wind.helpers.CSVConverter;
 import com.zephyrus.wind.reports.ProfitabilityByMonthReport;
 
 /**
- * This class contains the method, that is declared in @link
- * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
+ * This class contains the method, that is declared in 
+ * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Profitability by month" report data in CSV format.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class GetCSVProfitabilityCommand extends SQLCommand {
@@ -30,7 +29,6 @@ public class GetCSVProfitabilityCommand extends SQLCommand {
 	 * "Profitability by month" report and transform it to CSV format for
 	 * downloading by user. Returns the downloading stream of
 	 * "Profitability by month" report in CSV format.
-	 * 
 	 * @return String url of page for redirecting. Always return null because
 	 *         there is no necessity to redirect user on other page after report
 	 *         downloading.

@@ -15,15 +15,13 @@ import com.zephyrus.wind.model.User;
  * This class contains the method, that is declared in 
  * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for displaying of
  * device creation details to Installation engineer.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class DeviceCreationPropertiesCommand extends SQLCommand {
 	
 	/**
 	 * This method checks all necessary input data and forms the 
-	 * information for device creation.
-	 * 
+	 * information for device creation. 
 	 * @return the page of device creation. In error situation returns the page
 	 *         with message about error details.
 	 */

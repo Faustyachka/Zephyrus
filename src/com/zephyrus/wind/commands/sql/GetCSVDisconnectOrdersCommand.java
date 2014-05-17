@@ -20,7 +20,6 @@ import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
  * This class contains the method, that is declared in
  * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Disconnect orders per period" report data in CSV format.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class GetCSVDisconnectOrdersCommand extends SQLCommand {
@@ -30,7 +29,6 @@ public class GetCSVDisconnectOrdersCommand extends SQLCommand {
 	 * "Disconnect orders per period" report and transform it to CSV format for
 	 * downloading by user. Returns the downloading stream of
 	 * "Disconnect orders per period" report in CSV format.
-	 * 
 	 * @return String url of page for redirecting. Always return null because
 	 *         there is no necessity to redirect user on other page after report
 	 *         downloading.

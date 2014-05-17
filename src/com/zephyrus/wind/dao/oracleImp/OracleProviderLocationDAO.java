@@ -9,11 +9,11 @@ import oracle.jdbc.OracleTypes;
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 import com.zephyrus.wind.dao.interfaces.IProviderLocationDAO;
 import com.zephyrus.wind.model.ProviderLocation;
-
-public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> implements IProviderLocationDAO{
+																						//REVIEW: documentation expected
+public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> implements IProviderLocationDAO{     	//REVIEW: line is too long
 	private static final String TABLE_NAME = "PROVIDER_LOCATIONS";
     private static final String SQL_SELECT = "SELECT ID, LOCATION_NAME, LOCATION_COORD, ROWNUM AS ROW_NUM " + 
-                                      "FROM " + 
+                                      "FROM " + 												//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET LOCATION_NAME = ?, LOCATION_COORD = ? " + 
@@ -25,10 +25,10 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
     private static final String SQL_REMOVE = "DELETE FROM " + TABLE_NAME + " WHERE ";
 
     
-	public OracleProviderLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+	public OracleProviderLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {  	//REVIEW: line is too long
 		super(ProviderLocation.class, connection, daoFactory);
 	}
-
+																											//REVIEW: documentation expected
 	@Override
 	public void update(ProviderLocation record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -38,7 +38,7 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																									//REVIEW: documentation expected
 	@Override
 	public ProviderLocation insert(ProviderLocation record) throws Exception {
     	cs = connection.prepareCall(SQL_INSERT);
@@ -50,7 +50,7 @@ public class OracleProviderLocationDAO extends OracleDAO<ProviderLocation> imple
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																										//REVIEW: documentation expected	
 	@Override
 	public int remove(ProviderLocation record) throws Exception {
 		return removeById((int)record.getId());

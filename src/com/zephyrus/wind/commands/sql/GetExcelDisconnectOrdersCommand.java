@@ -18,7 +18,6 @@ import com.zephyrus.wind.reports.DisconnectOrdersPerPeriodReport;
  * This class contains the method, that is declared in
  * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "Disconnect orders per period" report data in Excel format.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class GetExcelDisconnectOrdersCommand extends SQLCommand {
@@ -28,7 +27,6 @@ public class GetExcelDisconnectOrdersCommand extends SQLCommand {
 	 * "Disconnect orders per period" report and transform it to Excel format for
 	 * downloading by user. Returns the downloading stream of
 	 * "Disconnect orders per period" report in Excel format.
-	 * 
 	 * @return String url of page for redirecting. Always return null because
 	 *         there is no necessity to redirect user on other page after report
 	 *         downloading.

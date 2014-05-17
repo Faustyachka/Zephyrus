@@ -14,12 +14,12 @@ import com.zephyrus.wind.model.Task;
 import com.zephyrus.wind.model.TaskStatus;
 import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
-
+																									//REVIEW: documentation expected
 public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	private static final String TABLE_NAME = "TASKS";
     private static final String SQL_SELECT = "SELECT ID, SERVICE_ORDER_ID, " + 
     								  "USER_ID, TASK_STATUS_ID, ROLE_ID, ROWNUM AS ROW_NUM " +
-                                      "FROM " + 
+                                      "FROM " + 													//REVIEW: wrong formatting
                                        TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
                                       " SET SERVICE_ORDER_ID = ?, " + 
@@ -36,7 +36,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 			throws Exception {
 		super(Task.class, connection, daoFactory);
 	}
-
+																							//REVIEW: documentation expected
 	@Override
 	public void update(Task record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -52,14 +52,14 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																						//REVIEW: documentation expected
 	@Override
 	public Task insert(Task record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
     	cs.setInt(1, record.getServiceOrder().getId()); 
     	if(record.getUser() == null)
     		cs.setNull(2, java.sql.Types.INTEGER);
-    	else
+    	else																			//REVIEW: braces expected
     		cs.setInt(2, record.getUser().getId());
     	cs.setInt(3, record.getTaskStatus().getId());  
     	cs.setInt(4, record.getRole().getId());
@@ -69,7 +69,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																						//REVIEW: documentation expected
 	@Override
 	public int remove(Task record) throws Exception {
 		return removeById((int)record.getId());
@@ -101,7 +101,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	/**
 	 * Method allows to get tasks for the given user and task status.
 	 * @param user - user for which it is necessary to find out tasks in defined status 
-	 * @param Task status ID defined status of task
+	 * @param Task status ID defined status of task												//REVIEW: parameter name expected
 	 * @return list of tasks 
 	 */
 	@Override
@@ -122,7 +122,7 @@ public class OracleTaskDAO extends OracleDAO<Task> implements ITaskDAO {
 	public ArrayList<Task> findAvailableTasksByRole(UserRole role) throws Exception {
 		stmt = connection.prepareStatement(SQL_SELECT + 
 				"WHERE TASK_STATUS_ID = ? AND ROLE_ID = ? AND USER_ID IS NULL");
-		stmt.setInt(1, TASK_STATUS.PROCESSING.getId());         //include only free tasks
+		stmt.setInt(1, TASK_STATUS.PROCESSING.getId());         //include only free tasks				//REVIEW: comment is wrong
 		stmt.setInt(2, role.getId());					 //include tasks only for given role
 		rs = stmt.executeQuery();	
 		return fetchMultiResults(rs);

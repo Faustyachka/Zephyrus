@@ -30,9 +30,8 @@ public class CustomerSupportCommand extends SQLCommand {
 	 * This method forms the data for JTable on Customer Support index page. It
 	 * gets the list of customer users from the DB, transform it to Json
 	 * Array and send on the jsp page.
-	 * 
 	 * @return address of page for redirection. Always return null because all 
-	 * request for this page are asynchronous and there is no need for redirecting
+	 * request for this page are asynchronous and there is no need for redirection.
 	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,

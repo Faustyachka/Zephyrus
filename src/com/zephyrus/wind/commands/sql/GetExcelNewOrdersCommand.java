@@ -16,7 +16,6 @@ import com.zephyrus.wind.reports.NewOrdersPerPeriodReport;
  * This class contains the method, that is declared in @link
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for downloading of
  * "New orders per period" report data in Excel format.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class GetExcelNewOrdersCommand extends SQLCommand {
@@ -26,7 +25,6 @@ public class GetExcelNewOrdersCommand extends SQLCommand {
 	 * orders per period" report and transform it to Excel format for downloading
 	 * by user. Returns the downloading stream of "New orders per period" report
 	 * in Excel format.
-	 * 
 	 * @return String url of page for redirecting. Always return null because
 	 *         there is no necessity to redirect user on other page after report
 	 *         downloading.

@@ -20,11 +20,17 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * This class contains the method, that is declared in
  * com.zephyrus.wind.commands.interfaces.SQLCommand. Uses for deleting of
  * connection by installation engineer.
- * 
  * @author Alexandra Beskorovaynaya
  */
 public class DeleteConnectionCommand extends SQLCommand {
-
+	
+	/**
+	 * This method deletes the connection from the database due to the
+	 * Disconnect Scenario Workflow.
+	 * @return method returns address of confirmation page, which states that
+	 *  connection has been deleted successfully. In error situation returns
+	 *  the address of page with message about error details.
+	 */
 	@Override
 	protected String doExecute(HttpServletRequest request,
 			HttpServletResponse response) throws SQLException, Exception {

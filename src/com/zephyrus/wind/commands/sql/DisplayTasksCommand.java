@@ -21,15 +21,12 @@ import com.zephyrus.wind.model.UserRole;
  * active tasks and available tasks for given engineer's group. Class contains
  * the method, that is declared in
  * com.zephyrus.wind.commands.interfaces.SQLCommand.
- * 
  * @author Alexandra Beskorovaynaya
- * 
  */
 public class DisplayTasksCommand extends SQLCommand {
 	/**
 	 * Method allows to display active and available tasks for the authorized
 	 * user in dependence of his role.
-	 * 
 	 * @return String url of user's index page for redirecting, which depends on
 	 *         authorized user's role. Index page is the home page for every
 	 *         user, on which Current Tasks are displayed.

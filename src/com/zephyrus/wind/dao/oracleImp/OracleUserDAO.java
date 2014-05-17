@@ -1,6 +1,6 @@
 package com.zephyrus.wind.dao.oracleImp;
 
-import java.sql.Connection;
+import java.sql.Connection;										//REVIEW: unused import
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -16,7 +16,7 @@ import com.zephyrus.wind.model.User;
 import com.zephyrus.wind.model.UserRole;
 
 /**
- * 
+ * 																//REVIEW: documentation expected
  * @author Miroshnycjenko Nataliya
  */
 public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
@@ -41,7 +41,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 			throws Exception {
 		super(User.class, connection, daoFactory);
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public void update(User record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -56,7 +56,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																							//REVIEW: documentation expected
 	@Override
 	public User insert(User record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -73,7 +73,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																								//REVIEW: documentation expected
 	@Override
 	public int remove(User record) throws Exception {
 		return removeById((int)record.getId());
@@ -105,8 +105,8 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	/**
 	 * Method find Users by Role ID
 	 * 
-	 * @param Role ID
-	 * @return users collection
+	 * @param Role ID													//REVIEW: not all parameters described
+	 * @return users collection											//REVIEW: not collection, but list. and not all users
 	 */
 	@Override
 	public ArrayList<User> getUsersByRoleId(int roleId, int firstItem, int count) throws Exception {
@@ -125,7 +125,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	/**
 	 * Method find count of Users by Role ID
 	 * 
-	 * @param Role ID
+	 * @param Role ID															//REVIEW: parameter name expected
 	 * @return count of users for given Role ID. If users don`t exist return 0.
 	 */
 	@Override
@@ -144,7 +144,7 @@ public class OracleUserDAO extends OracleDAO<User> implements IUserDAO{
 	/**
 	 * Method find User by email
 	 * 
-	 * @param email
+	 * @param email																//REVIEW: description expected
 	 * @return user object
 	 */
 	@Override

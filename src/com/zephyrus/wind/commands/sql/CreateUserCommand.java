@@ -45,7 +45,6 @@ public class CreateUserCommand extends SQLCommand {
 	/**
 	 * This method allows to create new Engineer account in Data Base. It checks
 	 * all necessary input data to avoid the exceptions.
-	 * 
 	 * @return null because all request to this command are AJAX. Method only
 	 *         return messages about errors or success.
 	 */

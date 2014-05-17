@@ -14,7 +14,7 @@ import com.zephyrus.wind.model.ServiceLocation;
 import com.zephyrus.wind.model.User;
 
 /**
- * 
+ * 																										//REVIEW: documentation expected
  * 
  * @author Miroshnychenko Nataliya
  */
@@ -22,7 +22,7 @@ import com.zephyrus.wind.model.User;
 public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> implements IServiceLocationDAO {
 	private static final String TABLE_NAME = "SERVICE_LOCATIONS";
 	private static final String SQL_SELECT = "SELECT ID, SERVICE_LOCATION_COORD, SERVICE_LOCATION_ADD, " +
-											" USER_ID, ROWNUM AS ROW_NUM " + 
+											" USER_ID, ROWNUM AS ROW_NUM " + 								//REVIEW: wrong formatting
 											"FROM " + 
 											TABLE_NAME + " ";
     private static final String SQL_UPDATE = "UPDATE " + TABLE_NAME + 
@@ -38,10 +38,10 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
     
     
     
-	public OracleServiceLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {
+	public OracleServiceLocationDAO(Connection connection, OracleDAOFactory daoFactory) throws Exception {   //REVIEW: long line
 		super(ServiceLocation.class, connection, daoFactory);
 	}
-
+																												//REVIEW: documentation expected
 	@Override
 	public void update(ServiceLocation record) throws Exception {
 		stmt = connection.prepareStatement(SQL_UPDATE);
@@ -56,7 +56,7 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
         stmt.executeUpdate();
         stmt.close();
 	}
-
+																									//REVIEW: documentation expected
 	@Override
 	public ServiceLocation insert(ServiceLocation record) throws Exception {
 		cs = connection.prepareCall(SQL_INSERT);
@@ -64,7 +64,7 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
     	if(record.getAddress() == null){
 			cs.setNull(2, java.sql.Types.INTEGER);
 		}
-		else {
+		else {																						//REVIEW: wrong formatting
 			cs.setString(2, record.getAddress());
 		}
     	cs.setInt(3, record.getUser().getId());    
@@ -74,7 +74,7 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
         cs.close();
 		return findByRowId(rowId);
 	}
-
+																										//REVIEW: documentation expected
 	@Override
 	public int remove(ServiceLocation record) throws Exception {
 		return removeById((int)record.getId());
@@ -107,9 +107,9 @@ public class OracleServiceLocationDAO extends OracleDAO<ServiceLocation> impleme
 	 * 
 	 * @param User ID
 	 * @return existing Service Location
-	 * @author Miroshnychenko Nataliya
+	 * @author Miroshnychenko Nataliya																//REVIEW: author shouldn't be here
 	 */
-	
+																									//REVIEW: extra line
 	@Override
 	public ArrayList<ServiceLocation> getServiceLocationsByUserId(int userID)
 			throws Exception {
