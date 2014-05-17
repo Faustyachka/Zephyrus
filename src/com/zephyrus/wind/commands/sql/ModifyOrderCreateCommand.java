@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
+import com.zephyrus.wind.dao.interfaces.IOrderStatusDAO;
+import com.zephyrus.wind.dao.interfaces.IOrderTypeDAO;
 import com.zephyrus.wind.dao.interfaces.IProductCatalogDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO;
 import com.zephyrus.wind.dao.interfaces.IServiceOrderDAO;
@@ -92,7 +94,7 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 
 		ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);
 
-		if (serviceInstance == null || serviceInstance.getUser().getId() != user.getId()) {
+		if (serviceInstance == null || !serviceInstance.getUser().getId().equals(user.getId())) {
 			request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
@@ -153,25 +155,18 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 	private ServiceOrder createModifyOrder(ServiceInstance serviceInstance, ProductCatalog productCatalog) throws Exception {
 		IServiceOrderDAO orderDAO = getOracleDaoFactory().getServiceOrderDAO();
 		ServiceOrder order = new ServiceOrder();
-		OrderStatus orderStatus = new OrderStatus();
-		orderStatus.setId(ORDER_STATUS.ENTERING.getId());	
+		IOrderStatusDAO orderStatusDAO = getOracleDaoFactory().getOrderStatusDAO();
+		OrderStatus orderStatus = orderStatusDAO.findById(ORDER_STATUS.ENTERING.getId());
 		order.setOrderStatus(orderStatus);	
-		
 		order.setOrderDate(new Date(new java.util.Date().getTime()));
-		
-		OrderType orderType = new OrderType();
-		orderType.setId(ORDER_TYPE.MODIFY.getId());	
+		IOrderTypeDAO orderTypeDAO = getOracleDaoFactory().getOrderTypeDAO();
+		OrderType orderType = orderTypeDAO.findById(ORDER_TYPE.MODIFY.getId());
 		order.setOrderType(orderType);
-		
 		order.setProductCatalog(productCatalog);
-		
 		ServiceOrder modifyServiceOrders = orderDAO.getSICreateOrder(serviceInstance);
 		order.setServiceLocation(modifyServiceOrders.getServiceLocation());
-		
 		order.setServiceInstance(serviceInstance);
-		
 		ServiceOrder orderAdd = orderDAO.insert(order);
-		
 		return orderAdd;
 	}
 

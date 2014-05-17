@@ -90,7 +90,7 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 		try {
 			ServiceInstance serviceInstance = serviceInstanceDAO.findById(serviceInstanceID);	
 
-			if (serviceInstance == null || serviceInstance.getUser().getId() != user.getId()) {
+			if (serviceInstance == null || !serviceInstance.getUser().getId().equals(user.getId())) {
 				request.setAttribute("messageNumber", MessageNumber.SERVICE_INSTANCE_ERROR.getId());
 				return PAGES.MESSAGE_PAGE.getValue();
 			}
@@ -109,7 +109,9 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 			request.setAttribute("error", "Failed to disconnect Service Instance");
 			return "customerServices";
 		} finally {
-			workflow.close();
+			if(workflow != null){
+				workflow.close();
+			}
 			lock.unlock();
 		}
 
