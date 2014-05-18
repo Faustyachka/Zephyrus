@@ -37,7 +37,7 @@
 						<a href="/Zephyrus/login" id="login_link">
 	      					<input type="button" value="Log in" class="userbutton"/>
 						</a>
-						<a href="/Zephyrus/registerPage" id="register_link">
+						<a href="/Zephyrus/view/register.jsp" id="register_link">
 							<input type="button" value="Register" class="userbutton">
 							<span class="split">|</span>
 						</a>

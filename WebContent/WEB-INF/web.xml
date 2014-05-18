@@ -21,7 +21,6 @@
     <servlet-name>controller</servlet-name>
     <url-pattern>/controller</url-pattern>
     <url-pattern>/register</url-pattern>
-    <url-pattern>/registerPage</url-pattern>
     <url-pattern>/order</url-pattern>
     <url-pattern>/home</url-pattern>
     <url-pattern>/admin</url-pattern>
