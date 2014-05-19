@@ -13,11 +13,11 @@ import javax.servlet.http.HttpSession;
 
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.managers.MessageManager;
-																								// REVIEW: documentation expected
+																								
 public class SessionTimeOutFilter implements Filter {
 
-FilterConfig fc = null;																			// REVIEW: bad formatting
-																								// REVIEW: Override annotation expected
+FilterConfig fc = null;																			
+																								
     public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
             throws IOException, ServletException {
 
@@ -44,9 +44,7 @@ FilterConfig fc = null;																			// REVIEW: bad formatting
     }
 
 	@Override
-	public void destroy() {
-		// TODO Auto-generated method stub
-		
+	public void destroy() {		
 	}
 
 }

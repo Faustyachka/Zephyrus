@@ -1,5 +1,5 @@
 package com.zephyrus.wind.enums;
-																							// REVIEW: documentation expected
+																							
 public enum ORDER_STATUS {
 	ENTERING(1),
 	PROCESSING(2),

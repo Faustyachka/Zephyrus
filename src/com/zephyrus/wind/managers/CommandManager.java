@@ -62,7 +62,7 @@ import com.zephyrus.wind.commands.sql.ShowReportCommand;
 import com.zephyrus.wind.commands.sql.SuspendTaskCommand;
 import com.zephyrus.wind.commands.sql.TaskRedirectorCommand;
 import com.zephyrus.wind.commands.sql.UtilizationReportCommand;
-																										// REVIEW: documentation expected
+																										
 public class CommandManager {
 
 	HashMap<String, Command> commands = new HashMap<String, Command>();
@@ -192,7 +192,7 @@ public class CommandManager {
 		commands.put(RENEW_TASK_COMMAND, new RenewTaskCommand());
 
 	}
-																										// REVIEW: documentation expected
+																										
 	public Command getCommand(HttpServletRequest request) {
 
 		String action = null;
@@ -208,7 +208,7 @@ public class CommandManager {
 		// receiving the object of Command
 		return getCommand(action);
 	}
-																										// REVIEW: documentation expected
+																										
 	public Command getCommand(String action) {
 		Command command = commands.get(action);
 		if (command == null) {

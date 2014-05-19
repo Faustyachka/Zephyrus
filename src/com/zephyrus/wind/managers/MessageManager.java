@@ -1,7 +1,7 @@
 package com.zephyrus.wind.managers;
 
 import java.util.ResourceBundle;
-																								// REVIEW: documentation expected
+																								
 public class MessageManager {
 	
     private static final String BUNDLE_NAME = "com.carrent.properties.messages";
@@ -26,7 +26,7 @@ public class MessageManager {
     public static final String REGISTER_PAGE = "REGISTER_PAGE";
     public static final String CONTACTS = "CONTACTS";
     public static final String NOCOMMAND= "NOCOMMAND";
-    																							// REVIEW: documentation expected
+    																							
     public static String getProperty(String key){
         return resourceBundle.getString(key);
     }

@@ -1,5 +1,5 @@
 package com.zephyrus.wind.enums;
-																							// REVIEW: documentation expected
+																							
 public enum PAGES {
 	LOGIN_PAGE("login"),
 	HOME_PAGE("view/index.jsp"),

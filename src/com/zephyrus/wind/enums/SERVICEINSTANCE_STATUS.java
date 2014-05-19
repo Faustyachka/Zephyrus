@@ -1,5 +1,5 @@
 package com.zephyrus.wind.enums;
-																								// REVIEW: documentation expected
+																								
 public enum SERVICEINSTANCE_STATUS {
 	PLANNED(1),
 	ACTIVE(2),

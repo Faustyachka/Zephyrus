@@ -1,5 +1,5 @@
 package com.zephyrus.wind.enums;
-																						// REVIEW: documentation expected
+																						
 public enum TASK_STATUS {
 	NEW(1),
 	PROCESSING(2),
