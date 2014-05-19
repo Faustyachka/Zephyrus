@@ -10,8 +10,7 @@ import javax.servlet.http.HttpSession;
 import com.zephyrus.wind.commands.interfaces.SQLCommand;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.model.ProductCatalog;
-import com.zephyrus.wind.model.ProductCatalogService;												// REVIEW: unused import found
-																									// REVIEW: documentation & author expected
+																									
 public class ProceedOrderCommand extends SQLCommand {
 
 	@Override
@@ -19,17 +18,18 @@ public class ProceedOrderCommand extends SQLCommand {
 			HttpServletResponse response) throws SQLException, Exception {
 		HttpSession session = request.getSession();
         
-		if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&			// REVIEW: see remarks in previous commands about it
+		if (request.isUserInRole("ADMIN")==false && request.isUserInRole("INSTALLATION")==false &&			
 				request.isUserInRole("PROVISION")==false && request.isUserInRole("SUPPORT")==false) {				
 				if(request.getParameter("services") == null){
 		        	request.setAttribute("message", "Choose at least one service");
 		        	return PAGES.MESSAGE_PAGE.getValue();
 		        }
         Integer productId = Integer.parseInt(request.getParameter("services"));
-        ArrayList<ProductCatalog> services = ( ArrayList<ProductCatalog>) session.getAttribute("products");
+        @SuppressWarnings("unchecked")
+		ArrayList<ProductCatalog> services = ( ArrayList<ProductCatalog>) session.getAttribute("products");
         ProductCatalog service = null;
-        for(ProductCatalog ser : services)	{														// REVIEW: single instructions also should be in braces
-        	if(ser.getId() == productId) {															// REVIEW: DAO method should be written to do this
+        for(ProductCatalog ser : services)	{														
+        	if(ser.getId() == productId) {															
         		service = ser;
         	}
         }

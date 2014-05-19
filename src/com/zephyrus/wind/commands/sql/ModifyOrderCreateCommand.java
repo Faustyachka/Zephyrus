@@ -2,6 +2,7 @@ package com.zephyrus.wind.commands.sql;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.util.concurrent.locks.Lock;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -17,13 +18,14 @@ import com.zephyrus.wind.enums.ORDER_STATUS;
 import com.zephyrus.wind.enums.ORDER_TYPE;
 import com.zephyrus.wind.enums.PAGES;
 import com.zephyrus.wind.enums.ROLE;
+import com.zephyrus.wind.enums.SERVICEINSTANCE_STATUS;
+import com.zephyrus.wind.managers.LockManager;
 import com.zephyrus.wind.model.OrderStatus;
 import com.zephyrus.wind.model.OrderType;
 import com.zephyrus.wind.model.ProductCatalog;
 import com.zephyrus.wind.model.ServiceInstance;
 import com.zephyrus.wind.model.ServiceOrder;
 import com.zephyrus.wind.model.User;
-import com.zephyrus.wind.workflow.DisconnectScenarioWorkflow;
 import com.zephyrus.wind.workflow.ModifyScenarioWorkflow;
 import com.zephyrus.wind.workflow.WorkflowException;
 
@@ -31,13 +33,11 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * This class contains the method, that is declared in 
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. 
  * Method realized SI modify
- * 
  * @see com.zephyrus.wind.model.ServiceOrder
  * @see com.zephyrus.wind.model.ServiceInstance
  * @see com.zephyrus.wind.enums.PAGES
  * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
  * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
- * 
  * @author Miroshnychenko Nataliya
  */
 
@@ -48,11 +48,9 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 	 * This method started modify scenario workflow
 	 * Method gets parameter of service instance ID that will be modify 
 	 * and product catalog ID, that user has been selected
-	 * 
 	 * @see com.zephyrus.wind.model.ServiceInstance
 	 * @see com.zephyrus.wind.enums.PAGES
 	 * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
-	 * 
 	 * @return page with confirmation of successful creation of modify order	
 	 * Also can return the error page if the received Service Instance ID or Product Catalog ID is not valid
 	 */
@@ -116,12 +114,16 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 			return PAGES.MESSAGE_PAGE.getValue();
 		}
 
-		modifyOrder = createModifyOrder(serviceInstance, productCatalog);							// REVIEW: you have modifyOrder variable with class scope. so why do you need to return it? either return nothing or make this variable local and delete class-scope variable (prefered)
-
-
+		Lock lock = LockManager.getLock(serviceInstanceID);
+		lock.lock();
 		ModifyScenarioWorkflow workflow = null;
 
 		try {
+			if (serviceInstance.getServInstanceStatus().getId() != SERVICEINSTANCE_STATUS.ACTIVE.getId()){
+				request.setAttribute("messageNumber", MessageNumber.SERVICE_STATUS_ERROR.getId());
+				return PAGES.MESSAGE_PAGE.getValue();
+			}
+			modifyOrder = createModifyOrder(serviceInstance, productCatalog);
 			workflow = new ModifyScenarioWorkflow(getOracleDaoFactory(), modifyOrder); 
 			workflow.proceedOrder();
 		} catch (WorkflowException ex) {
@@ -132,7 +134,10 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 			request.setAttribute("error", "Failed to modify Service Instance");
 			return "customerServices";
 		} finally {
-			workflow.close();
+			if(workflow != null){
+				workflow.close();
+			}
+			lock.unlock();
 		}
 
 		request.setAttribute("messageNumber", MessageNumber.SI_MODIFY_COMPLETED_MESSAGE.getId());
@@ -143,12 +148,9 @@ public class ModifyOrderCreateCommand extends SQLCommand {
 	 * This method create order for modify scenario workflow 
 	 * Method gets parameter of service instance that will be disconnect and new Product Catalog
 	 * In the processes of modify SI will be created Service Order with type MODIFY and status ENTERING
-	 * 
 	 * @param modifyable Service Instance and selected service from Product Catalog 
-	 * 																			
 	 * @see com.zephyrus.wind.model.ServiceOrder
 	 * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
-	 * 
 	 * @return modify service order												
 	 */
 

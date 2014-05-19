@@ -20,8 +20,6 @@ import com.zephyrus.wind.dao.interfaces.ITaskDAO;
 import com.zephyrus.wind.dao.interfaces.ITaskStatusDAO;
 import com.zephyrus.wind.dao.interfaces.IUserDAO;
 import com.zephyrus.wind.dao.interfaces.IUserRoleDAO;
-import com.zephyrus.wind.dao.interfaces.IVSupportInstanceDAO;
-import com.zephyrus.wind.dao.interfaces.IVSupportOrderDAO;
 
 /**
 * An abstract factory interface representing DAO factories. Implementations of this
@@ -137,18 +135,7 @@ public interface IDAOFactory {
      * Method gets OracleVSupportInstanceDAO instance
      * @return OracleVSupportInstanceDAO instance
      */
-	IVSupportInstanceDAO getVSupportInstanceDAO() throws Exception;
 	
-	/**
-     * Method gets OracleVSupportOrderDAO instance
-     * @return OracleVSupportOrderDAO instance
-     */
-	IVSupportOrderDAO getVSupportOrderDAO() throws Exception;
-	
-	/**
-     * Method gets OracleReportDAO instance
-     * @return OracleReportDAO instance
-     */
 	IPortStatusDAO getPortStatusDAO() throws Exception;
 	
 	/**

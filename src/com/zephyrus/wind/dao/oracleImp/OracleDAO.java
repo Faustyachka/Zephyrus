@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import com.zephyrus.wind.dao.factory.OracleDAOFactory;
 
@@ -31,8 +32,7 @@ public abstract class OracleDAO<T> {
      */
     public OracleDAO (Class<T> itemClass, Connection connection, OracleDAOFactory daoFactory) throws Exception{
         this.itemClass = itemClass;
-        if(connection == null) throw new Exception("No connection found!");
-        this.connection = connection;
+        this.connection = Objects.requireNonNull(connection, "No connection found!");
         this.daoFactory = daoFactory;
     }
     
@@ -124,8 +124,8 @@ public abstract class OracleDAO<T> {
 	 */
     public ArrayList<T> find(int firstItem, int count) throws Exception {
     	int lastItem = firstItem + count - 1;
-        stmt = connection.prepareStatement("SELECT * FROM ( " + getSelect()  + 
-        		") WHERE ROW_NUM BETWEEN ?  AND ?");
+        stmt = connection.prepareStatement("SELECT * FROM ( " + getSelect()  + 	")"
+        		+ " WHERE ROW_NUM BETWEEN ?  AND ?");
         stmt.setInt(1, firstItem);
 		stmt.setInt(2, lastItem);
         rs = stmt.executeQuery();

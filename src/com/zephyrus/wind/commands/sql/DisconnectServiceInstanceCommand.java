@@ -31,13 +31,11 @@ import com.zephyrus.wind.workflow.WorkflowException;
  * This class contains the method, that is declared in 
  * #com.zephyrus.wind.commands.interfaces.SQLCommand. 
  * Method realized SI disconnect
- * 
  * @see com.zephyrus.wind.model.ServiceOrder
  * @see com.zephyrus.wind.model.ServiceInstance
  * @see com.zephyrus.wind.enums.PAGES
  * @see com.zephyrus.wind.dao.interfaces.IServiceOrderDAO
  * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
- * 
  * @author Miroshnychenko Nataliya
  */
 
@@ -48,11 +46,9 @@ public class DisconnectServiceInstanceCommand extends SQLCommand {
 	/**
 	 * This method started disconnect scenario workflow
 	 * Method gets parameter of service instance ID that will be disconnect
-	 * 
 	 * @see com.zephyrus.wind.model.ServiceInstance
 	 * @see com.zephyrus.wind.enums.PAGES
 	 * @see com.zephyrus.wind.dao.interfaces.IServiceInstanceDAO
-	 * 
 	 * @return page with confirmation of successful creation of disconnect order 			
 	 * Also can return the error page if the received Service Instance ID is not valid
 	 */
