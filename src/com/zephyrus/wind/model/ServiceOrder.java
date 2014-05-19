@@ -1,38 +1,21 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-
 import java.util.Date;
-
 
 /**
  * The persistent class for the SERVICE_ORDERS database table.
- * 																								// REVIEW: author expected
  */
-
-public class ServiceOrder implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class ServiceOrder {
 
 	private Integer id;
-
 	private Date orderDate;
-
-
 	private OrderStatus orderStatus;
-
 	private OrderType orderType;
-
-	
 	private ProductCatalog productCatalog;
-
-
 	private ServiceInstance serviceInstance;
-
-	
 	private ServiceLocation serviceLocation;
 
-	public ServiceOrder() {
-	}
+	public ServiceOrder() { }
 
 	public Integer getId() {
 		return id;
@@ -89,8 +72,4 @@ public class ServiceOrder implements Serializable {
 	public void setServiceLocation(ServiceLocation serviceLocation) {
 		this.serviceLocation = serviceLocation;
 	}
-
-	
-	
-
 }

@@ -1,27 +1,14 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-
-
-
 /**
  * The persistent class for the CABLES database table.
- * 																						// REVIEW: author expected
  */
-
-public class Cable implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-
-	private Integer id;
-
-
-	private Port port;
-
-	private ServiceLocation serviceLocation;
+public class Cable {
 	
+	private Integer id;
+	private Port port;
+	private ServiceLocation serviceLocation;
 	private String cableType;
-
 
 	public Cable() {
 	}
@@ -57,5 +44,4 @@ public class Cable implements Serializable {
 	public void setCableType(String cableType) {
 		this.cableType = cableType;
 	}
-
 }

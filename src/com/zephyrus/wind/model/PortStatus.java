@@ -1,22 +1,14 @@
 package com.zephyrus.wind.model;
 
-
 /**
- * The persistent class for the PORT_STATUS database table.
- * 														
- * @author Miroshnychenko Nataliya											
+ * The persistent class for the PORT_STATUS database table.									
  */
-
 public class PortStatus {
-
-	private static final long serialVersionUID = 1L;
 	
 	private Integer id;
-
 	private String portStatusValue;
 
-	public PortStatus() {
-	}
+	public PortStatus() { }
 
 	public Integer getId() {
 		return id;
@@ -33,7 +25,4 @@ public class PortStatus {
 	public void setPortStatusValue(String portStatusValue) {
 		this.portStatusValue = portStatusValue;
 	}
-	
-	
-
 }

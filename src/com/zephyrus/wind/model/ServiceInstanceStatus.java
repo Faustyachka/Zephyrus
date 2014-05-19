@@ -1,23 +1,14 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-
-
 /**
  * The persistent class for the SERVICE_INSTANCE_STATUS database table.
- * 																							// REVIEW: author expected
  */
-
-public class ServiceInstanceStatus implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class ServiceInstanceStatus {
+	
 	private Integer id;
-
-
 	private String servInstanceStatusValue;
 
-	public ServiceInstanceStatus() {
-	}
+	public ServiceInstanceStatus() { }
 
 	public Integer getId() {
 		return this.id;
@@ -34,5 +25,4 @@ public class ServiceInstanceStatus implements Serializable {
 	public void setServInstanceStatusValue(String servInstanceStatusValue) {
 		this.servInstanceStatusValue = servInstanceStatusValue;
 	}
-
 }

@@ -1,32 +1,20 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
 import java.util.Date;
-
-
 
 /**
  * The persistent class for the SERVICE_INSTANCES database table.
- * 																							// REVIEW: author expected
  */
-
-public class ServiceInstance implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class ServiceInstance {
 
 	private Integer id;
-
 	private Circuit circuit;
-
 	private ProductCatalog productCatalog;
-	
 	private Date startDate;
-
 	private ServiceInstanceStatus servInstanceStatus;
-
 	private User user;
 
-	public ServiceInstance() {
-	}
+	public ServiceInstance() { }
 
 	public Integer getId() {
 		return id;
@@ -35,9 +23,7 @@ public class ServiceInstance implements Serializable {
 	public void setId(Integer id) {
 		this.id = id;
 	}
-
 	
-
 	public Circuit getCircuit() {
 		return circuit;
 	}
@@ -77,8 +63,4 @@ public class ServiceInstance implements Serializable {
 	public void setStartDate(Date startDate) {
 		this.startDate = startDate;
 	}
-
-
-
-	
 }

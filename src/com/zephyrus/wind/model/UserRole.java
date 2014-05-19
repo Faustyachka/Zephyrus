@@ -1,24 +1,14 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-
-
-
 /**
  * The persistent class for the USER_ROLES database table.
- * 																								// REVIEW: author expected
  */
-
-public class UserRole implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class UserRole {
 
 	private Integer id;
-
-
 	private String roleName;
 
-	public UserRole() {
-	}
+	public UserRole() { }
 
 	public Integer getId() {
 		return this.id;
@@ -35,5 +25,4 @@ public class UserRole implements Serializable {
 	public void setRoleName(String roleName) {
 		this.roleName = roleName;
 	}
-
 }

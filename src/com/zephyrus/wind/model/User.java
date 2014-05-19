@@ -1,39 +1,22 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-
 import java.sql.Date;
-
 
 /**
  * The persistent class for the USERS database table.
- * 																									// REVIEW: author expected
  */
-
-public class User implements Serializable {
-	private static final long serialVersionUID = 1L;
+public class User {
 
 	private Integer id;
-
 	private String email;
-
-
 	private String firstName;
-
 	private String lastName;
-
 	private String password;
-
-
 	private Date registrationData;
-
-
 	private UserRole role;
-
 	private Integer status;
 
-	public User() {
-	}
+	public User() { }
 
 	public Integer getId() {
 		return this.id;
@@ -83,8 +66,6 @@ public class User implements Serializable {
 		this.registrationData = registrationData;
 	}
 
-	
-
 	public UserRole getRole() {
 		return role;
 	}
@@ -100,5 +81,4 @@ public class User implements Serializable {
 	public void setStatus(Integer status) {
 		this.status = status;
 	}
-
 }

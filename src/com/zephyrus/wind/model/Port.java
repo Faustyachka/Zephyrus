@@ -1,33 +1,16 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-import java.util.ArrayList;
-
-import com.zephyrus.wind.dao.interfaces.ICableDAO;
-import com.zephyrus.wind.dao.interfaces.IPortDAO;
-
-
-
 /**
- * The persistent class for the PORTS database table.
- * 																								// REVIEW: author expected
+ * The persistent class for the PORTS database table.										
  */
-
-public class Port implements Serializable {
-	private static final long serialVersionUID = 1L;
-
-
-	private Integer id;
-
-	private Device device;
-
-	private Integer portNumber;
+public class Port {
 	
+	private Integer id;
+	private Device device;
+	private Integer portNumber;
 	private PortStatus portStatus;
 
-
-	public Port() {
-	}
+	public Port() { }
 
 	public Integer getId() {
 		return id;
@@ -60,8 +43,4 @@ public class Port implements Serializable {
 	public void setPortStatus(PortStatus portStatus) {
 		this.portStatus = portStatus;
 	}
-	
-
-	
-
 }

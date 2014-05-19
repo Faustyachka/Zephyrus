@@ -1,25 +1,14 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-
-
-
 /**
  * The persistent class for the DEVICES database table.
- * 																										// REVIEW: author expected
  */
-
-public class Device implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Device {
 
 	private Integer id;
-
-
 	private String serialNum;
 
-	public Device() {
-	}
+	public Device() { }
 
 	public Integer getId() {
 		return this.id;

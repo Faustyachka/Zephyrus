@@ -1,32 +1,17 @@
 package com.zephyrus.wind.model;
 
-import java.io.Serializable;
-
-
 /**
  * The persistent class for the TASKS database table.
- * 																									// REVIEW: author expected
  */
-
-public class Task implements Serializable {
-	private static final long serialVersionUID = 1L;
-
+public class Task {
 
 	private Integer id;
-
-	
 	private UserRole role;
-
-
 	private ServiceOrder serviceOrder;
-
-	
 	private TaskStatus taskStatus;
-
 	private User user;
 
-	public Task() {
-	}
+	public Task() { }
 
 	public Integer getId() {
 		return id;
@@ -67,9 +52,4 @@ public class Task implements Serializable {
 	public void setUser(User user) {
 		this.user = user;
 	}
-
-	
-
-	
-
 }
